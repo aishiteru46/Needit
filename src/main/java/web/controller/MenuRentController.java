@@ -20,7 +20,7 @@ public class MenuRentController {
 	@Autowired private MenuRentService menuRentService;
 	
 	//게시판 목록 띄우기
-	@GetMapping("/list")
+	@GetMapping("/product/list")
 	public String list( Paging param, Model model ) {
 		
 		//페이징 계산
@@ -83,5 +83,7 @@ public class MenuRentController {
 	//게시글 신고
 	@PostMapping("/report")
 	public void report() {}
+	
+	//------------------------------------------------------------------------------------------
 	
 }

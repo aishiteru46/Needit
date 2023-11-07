@@ -12,6 +12,12 @@
 <h1>대여게시판 목록</h1>
 <hr>
 
+<div>
+<table>
+
+</table>
+</div>
+
 <c:import url="/WEB-INF/views/layout/pagination.jsp" />
 
 </div> <!-- .container -->
