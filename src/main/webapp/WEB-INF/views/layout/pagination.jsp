@@ -8,7 +8,7 @@
 		<%-- 첫 페이지로 이동 --%>
 		<c:if test="${paging.curPage ne 1 }">
 		<li class="page-item">
-			<a class="page-link" href="/board/list">&larr; 처음</a>
+			<a class="page-link" href="./list">&larr; 처음</a>
 		</li>
 		</c:if>
 		
@@ -16,7 +16,7 @@
 		<c:choose>
 			<c:when test="${paging.startPage ne 1 }">
 			<li class="page-item">
-				<a class="page-link" href="/board/list?curPage=${paging.startPage - paging.pageCount }">&laquo;</a>
+				<a class="page-link" href="./list?curPage=${paging.startPage - paging.pageCount }">&laquo;</a>
 			</li>
 			</c:when>
 			<c:when test="${paging.startPage ne 1 }">
@@ -60,7 +60,7 @@
 		<c:choose>
 		   <c:when test="${paging.endPage ne paging.totalPage }">
 		   <li class="page-item">
-		      <a class="page-link" href="/board/list?curPage=${paging.endPage + paging.pageCount }">&raquo;</a>
+		      <a class="page-link" href="./list?curPage=${paging.endPage + paging.pageCount }">&raquo;</a>
 		   </li>
 		   </c:when>
 		   <c:when test="${paging.endPage eq paging.totalPage }">
@@ -73,7 +73,7 @@
 		<%-- 끝 페이지로 이동 --%>
 		<c:if test="${paging.curPage ne paging.totalPage }">
 		<li class="page-item">
-			<a class="page-link" href="/board/list?curPage=${paging.totalPage }">&rarr; 끝으로</a>
+			<a class="page-link" href="./list?curPage=${paging.totalPage }">&rarr; 끝으로</a>
 		</li>
 		</c:if>
 	</ul>
