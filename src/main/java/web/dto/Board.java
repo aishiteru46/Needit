@@ -6,6 +6,7 @@ public class Board {
 	
 	private int boardNo;
 	private String cateNo;
+	private String menu;
 	private String writerId;
 	private Date writeDate;
 	private int hit;
@@ -16,11 +17,12 @@ public class Board {
 
 	public Board() {}
 
-	public Board(int boardNo, String cateNo, String writerId, Date writeDate, int hit, String title, int price,
-			String content, String location) {
+	public Board(int boardNo, String cateNo, String menu, String writerId, Date writeDate, int hit, String title,
+			int price, String content, String location) {
 		super();
 		this.boardNo = boardNo;
 		this.cateNo = cateNo;
+		this.menu = menu;
 		this.writerId = writerId;
 		this.writeDate = writeDate;
 		this.hit = hit;
@@ -32,9 +34,9 @@ public class Board {
 
 	@Override
 	public String toString() {
-		return "Board [boardNo=" + boardNo + ", cateNo=" + cateNo + ", writerId=" + writerId + ", writeDate="
-				+ writeDate + ", hit=" + hit + ", title=" + title + ", price=" + price + ", content=" + content
-				+ ", location=" + location + "]";
+		return "Board [boardNo=" + boardNo + ", cateNo=" + cateNo + ", menu=" + menu + ", writerId=" + writerId
+				+ ", writeDate=" + writeDate + ", hit=" + hit + ", title=" + title + ", price=" + price + ", content="
+				+ content + ", location=" + location + "]";
 	}
 
 	public int getBoardNo() {
@@ -51,6 +53,14 @@ public class Board {
 
 	public void setCateNo(String cateNo) {
 		this.cateNo = cateNo;
+	}
+
+	public String getMenu() {
+		return menu;
+	}
+
+	public void setMenu(String menu) {
+		this.menu = menu;
 	}
 
 	public String getWriterId() {
@@ -109,5 +119,5 @@ public class Board {
 		this.location = location;
 	}
 	
-	
+
 }
