@@ -45,7 +45,7 @@
 <div class="text-center float-end ">
 	<%-- 비로그인 --%>
 	<c:if test="${empty isLogin }">
-		<a href="../user/login"><img src="../resources/img/mypageicon.png" style="height: 40px; width: 40px;"></a>
+		<a href="../user/login"><img src="/resources/img/mypageicon.png" style="height: 40px; width: 40px;"></a>
 	</c:if>
 	
 	<%-- 로그인 --%>
@@ -56,7 +56,7 @@
 </div>
 <div class="clearfix"></div>
 <header class="header text-center my-4">
-	<a href="/member/main"><img src="../resources/img/needit..png" width="500" height="100" ></a>
+	<a href="/member/main"><img src="/resources/img/needit..png" width="500" height="100" ></a>
 	<br><br>
 	<div class="fs-3" id="menu">
 	<nav>
