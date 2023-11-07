@@ -1,11 +1,14 @@
 package web.service.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.MenuRentDao;
+import web.dto.Board;
 import web.service.face.MenuRentService;
 import web.util.Paging;
 
@@ -19,7 +22,7 @@ public class MenuRentServiceImpl implements MenuRentService {
 	public Paging getPaging(Paging param) {
 		
 		//총 게시글 수 조회
-		int totalCount = menuRentDao.selectCntAll();
+		int totalCount = menuRentDao.selectCntAll(param);
 		
 		//페이징 객체 생성(페이징 계산)
 		Paging paging = new Paging( totalCount, param.getCurPage() );
@@ -28,8 +31,11 @@ public class MenuRentServiceImpl implements MenuRentService {
 	}
 
 	@Override
-	public void list(Paging param) {
+	public List<Board> list(Board board, Paging paging) {
 		
+		return menuRentDao.selectAll(board, paging);
 	}
+
+
 
 }

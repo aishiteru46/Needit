@@ -7,8 +7,25 @@
 <mapper namespace="web.dao.face.MenuRentDao">
 
 	<!-- 페이징 -->
-	<select id="selectCntAll" resultType="int">
-		SELECT count(*) FROM board
+	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
+		SELECT count(*) FROM (
+			SELECT 
+				board_no, writer_id, write_date, hit, menu
+				, title, price, content, location
+			FROM board
+		)
+	</select>
+	
+	<!-- 게시글 조회 -->
+	<select id="selectAll" resultType="Board" parameterType="Board">
+		SELECT 
+			board_no, writer_id, write_date, hit, menu
+			, title, price, content, location
+		FROM board
+		<where>
+			menu = 'm1c1'
+<!-- 			menu = #{menu } -->
+		</where>
 	</select>
 
 </mapper>
