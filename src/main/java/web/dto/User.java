@@ -13,12 +13,12 @@ public class User {
 	private String gender;
 	private String phone;
 	private String addr;
-	private Date join_date;
+	private Date joinDate;
 
 	public User() {}
 
 	public User(String id, String pw, String name, String nick, String birth, String email, String gender, String phone,
-			String addr, Date join_date) {
+			String addr, Date joinDate) {
 		super();
 		this.id = id;
 		this.pw = pw;
@@ -29,14 +29,13 @@ public class User {
 		this.gender = gender;
 		this.phone = phone;
 		this.addr = addr;
-		this.join_date = join_date;
+		this.joinDate = joinDate;
 	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", pw=" + pw + ", name=" + name + ", nick=" + nick + ", birth=" + birth + ", email="
-				+ email + ", gender=" + gender + ", phone=" + phone + ", addr=" + addr + ", join_date=" + join_date
-				+ "]";
+				+ email + ", gender=" + gender + ", phone=" + phone + ", addr=" + addr + ", joinDate=" + joinDate + "]";
 	}
 
 	public String getId() {
@@ -111,12 +110,12 @@ public class User {
 		this.addr = addr;
 	}
 
-	public Date getJoin_date() {
-		return join_date;
+	public Date getJoinDate() {
+		return joinDate;
 	}
 
-	public void setJoin_date(Date join_date) {
-		this.join_date = join_date;
+	public void setJoinDate(Date joinDate) {
+		this.joinDate = joinDate;
 	}
 	
 	
