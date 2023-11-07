@@ -5,7 +5,6 @@ import java.util.Date;
 public class Board {
 	
 	private int boardNo;
-	private String cateNo;
 	private String menu;
 	private String writerId;
 	private Date writeDate;
@@ -17,11 +16,10 @@ public class Board {
 
 	public Board() {}
 
-	public Board(int boardNo, String cateNo, String menu, String writerId, Date writeDate, int hit, String title,
-			int price, String content, String location) {
+	public Board(int boardNo, String menu, String writerId, Date writeDate, int hit, String title, int price,
+			String content, String location) {
 		super();
 		this.boardNo = boardNo;
-		this.cateNo = cateNo;
 		this.menu = menu;
 		this.writerId = writerId;
 		this.writeDate = writeDate;
@@ -34,9 +32,9 @@ public class Board {
 
 	@Override
 	public String toString() {
-		return "Board [boardNo=" + boardNo + ", cateNo=" + cateNo + ", menu=" + menu + ", writerId=" + writerId
-				+ ", writeDate=" + writeDate + ", hit=" + hit + ", title=" + title + ", price=" + price + ", content="
-				+ content + ", location=" + location + "]";
+		return "Board [boardNo=" + boardNo + ", menu=" + menu + ", writerId=" + writerId + ", writeDate=" + writeDate
+				+ ", hit=" + hit + ", title=" + title + ", price=" + price + ", content=" + content + ", location="
+				+ location + "]";
 	}
 
 	public int getBoardNo() {
@@ -45,14 +43,6 @@ public class Board {
 
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
-	}
-
-	public String getCateNo() {
-		return cateNo;
-	}
-
-	public void setCateNo(String cateNo) {
-		this.cateNo = cateNo;
 	}
 
 	public String getMenu() {
@@ -119,5 +109,4 @@ public class Board {
 		this.location = location;
 	}
 	
-
 }
