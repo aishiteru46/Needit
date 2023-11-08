@@ -2,6 +2,7 @@ package web.util;
 
 public class Paging {
 	
+	private String menu;	//조회할 메뉴
 	private int curPage;	//현재 페이지 번호
 	private int totalCount;	//총 게시글 수
 	private int listCount;	//한 페이지 당 보여질 게시글 수
@@ -138,5 +139,13 @@ public class Paging {
 	public void setEndNo(int endNo) {
 		this.endNo = endNo;
 	}
+	
+	public String getMenu() {
+		return menu;
+	}
+
+	public void setMenu(String menu) {
+		this.menu = menu;
+	}	
 	
 }

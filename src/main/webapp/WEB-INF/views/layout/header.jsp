@@ -56,30 +56,30 @@
 </div>
 <div class="clearfix"></div>
 <header class="header text-center my-4">
-	<a href="/member/main"><img src="/resources/img/needit..png" width="500" height="100" ></a>
+	<a href="/main"><img src="/resources/img/needit..png" width="500" height="100" ></a>
 	<br><br>
 	<div class="fs-3" id="menu">
 	<nav>
 		<ul class="nav nav-tabs justify-content-center">
 			<li class="nav-item active"><a class="nav-link active" aria-current="page" href="#">대여해요</a>
 				<ul>
-					<li><a href="menu/rent/list?menu=m1c1">물품</a>
-					<li><a>인력</a>
-					<li><a>공간</a>
+					<li><a href="/menu/rent/list?menu=m1c1">물품</a>
+					<li><a href="/menu/rent/list?menu=m1c2">인력</a>
+					<li><a href="/menu/rent/list?menu=m1c3">공간</a>
 				</ul>
 			</li>
 			<li class="nav-item active"><a class="nav-link" href="#">나눔해요</a>
 				<ul>
-					<li><a>물품</a>
-					<li><a>인력</a>
-					<li><a>공간</a>
+					<li><a href="/menu/share/list?menu=m2c1">물품</a>
+					<li><a href="/menu/share/list?menu=m2c2">인력</a>
+					<li><a href="/menu/share/list?menu=m2c3">공간</a>
 				</ul>
 			</li>
 			<li class="nav-item active"><a class="nav-link" href="#">해주세요</a>
 				<ul>
-					<li><a>물품</a>
-					<li><a>인력</a>
-					<li><a>공간</a>
+					<li><a href="/menu/please/list?menu=m3c1">물품</a>
+					<li><a href="/menu/please/list?menu=m3c2">인력</a>
+					<li><a href="/menu/please/list?menu=m3c3">공간</a>
 				</ul>
 			</li>
 			<li class="nav-item"><a class="nav-link" href="#">동네업체</a></li>

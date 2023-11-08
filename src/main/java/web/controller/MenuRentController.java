@@ -26,18 +26,18 @@ public class MenuRentController {
 	
 	//게시판 목록 띄우기
 	@GetMapping("/list")
-	public String list( Board board, Paging param, Model model ) {
-		logger.info("board : {}", board.getMenu());
+	public String list( Paging param, Model model ) {
+		logger.info("param : {}", param.getMenu());
+//		param.setMenu(param.getMenu().toString());
 		
 		//페이징 계산
 		Paging paging = menuRentService.getPaging(param);
 		
 		//게시글 목록 조회
-		List<Board> list = menuRentService.list(board);
-//		logger.info("list : {}", list);
+		List<Board> list = menuRentService.list(paging);
 		
-//		model.addAttribute("paging", paging);
-//		model.addAttribute("list", list);
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
 		
 		return "/menu/rent/list";
 	}

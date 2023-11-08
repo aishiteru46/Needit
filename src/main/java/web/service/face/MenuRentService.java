@@ -9,7 +9,7 @@ public interface MenuRentService {
 	
 	public Paging getPaging(Paging param);
 
-	public List<Board> list(Board board);
+	public List<Board> list(Paging paging);
 
 	public Board view(Board board);
 

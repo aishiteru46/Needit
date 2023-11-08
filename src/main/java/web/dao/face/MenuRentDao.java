@@ -9,7 +9,7 @@ public interface MenuRentDao {
 
 	public int selectCntAll(Paging param);
 
-	public List<Board> selectAll(Board board, Paging paging);
+	public List<Board> selectAll(Paging paging);
 
 	public void updateHit(Board board);
 
