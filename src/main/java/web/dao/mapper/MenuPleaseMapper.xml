@@ -4,7 +4,59 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  <mapper namespace="web.dao.face.MenuPleaseDao">
+ <mapper namespace="web.dao.face.MenuPleaseDao">
   
+	<sql id="selectBoard">
+		SELECT
+			board_no, title, content, writer_id
+			, writer_nick, hit, write_date
+		FROM board
+	</sql>
+
+	<select id="selectAll" resultType="Board" parameterType="web.util.Paging">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+				<include refid="selectBoard" />
+				ORDER BY board_no DESC
+		    ) B
+		) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+	
+	<select id="selectCntAll" parameterType="int">
+		SELECT count(*) FROM (
+			<include refid="selectBoard" />
+		)
+	</select>
+	
+	<update id="updateHit" parameterType="Board">
+		UPDATE board
+		<set>
+			hit = hit + 1,
+		</set>
+		<where>
+			AND board_no = #{boardNo}
+		</where>
+	</update>
+	
+	<select id="selectByBoardNo" resultType="Board" parameterType="Board">
+		<include refid="selectBoard" />
+		<where>
+			AND board_no = #{boardNo}
+		</where>
+	</select>
+	
+ 	<insert id="insert" parameterType="Board">
+		<selectKey order="BEFORE" resultType="int" keyProperty="boardNo">
+			SELECT board_seq.nextval FROM dual
+		</selectKey>
+	
+		INSERT INTO board ( board_no, title, content, writer_id, writer_nick )
+		VALUES ( #{boardNo}, #{title}, #{content}, #{writerId}, #{writerNick} )
+	</insert>
+
+	
+ 
+ 	
   
-  </mapper>
+ </mapper>
