@@ -19,6 +19,12 @@ public class MenuRentServiceImpl implements MenuRentService {
 	@Autowired private MenuRentDao menuRentDao;
 
 	@Override
+	public List<Board> list(Paging paging) {
+		logger.info("MenuRentServiceImpl list() 호출");
+		return menuRentDao.selectAll(paging);
+	}
+
+	@Override
 	public Paging getPaging(Paging param) {
 		
 		//총 게시글 수 조회
@@ -30,13 +36,6 @@ public class MenuRentServiceImpl implements MenuRentService {
 		return paging;
 	}
 
-	@Override
-	public List<Board> list(Board board) {
-		logger.info(board.getMenu());
-		
-//		return menuRentDao.selectAll(board, paging);
-		return null;
-	}
 
 	@Override
 	public Board view(Board board) {

@@ -12,6 +12,9 @@
 			board_no, writer_id, writer_nick, write_date, hit, menu
 			, title, price, content, location
 		FROM board
+		<where>
+			menu = #{menu }
+		</where>
 	</sql>
 
 	<!-- 게시글 수 조회하여 페이징 처리 -->
@@ -22,15 +25,13 @@
 	</select>
 	
 	<!-- 해당 메뉴 게시글 조회 -->
-	<select id="selectAll" resultType="Board" parameterType="Board">
-		SELECT 
-			board_no, writer_id, writer_nick, write_date, hit, menu
-			, title, price, content, location
-		FROM board
-		<where>
-<!-- 			menu = 'm1c1' -->
-		menu = #{menu }
-		</where>
+	<select id="selectAll" resultType="Board" parameterType="web.util.Paging">
+		SELECT * FROM (
+		    SELECT rownum rnum, B.* FROM (
+				<include refid="selectBoard" />
+				ORDER BY board_no DESC
+		    ) B
+		) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
 	
 	<!-- 게시글 조회수 증가 -->
