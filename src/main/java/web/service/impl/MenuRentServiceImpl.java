@@ -31,9 +31,23 @@ public class MenuRentServiceImpl implements MenuRentService {
 	}
 
 	@Override
-	public List<Board> list(Board board, Paging paging) {
+	public List<Board> list(Board board) {
+		logger.info(board.getMenu());
 		
-		return menuRentDao.selectAll(board, paging);
+//		return menuRentDao.selectAll(board, paging);
+		return null;
+	}
+
+	@Override
+	public Board view(Board board) {
+		
+		//update 일 때에는 조회수가 증가되지 않는다
+		if( board.getHit() != -1 ) {
+			//조회수 증가
+			menuRentDao.updateHit(board);
+		}
+		
+		return menuRentDao.selectByBoardNo(board);
 	}
 
 

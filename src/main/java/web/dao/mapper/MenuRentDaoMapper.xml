@@ -6,25 +6,49 @@
   
 <mapper namespace="web.dao.face.MenuRentDao">
 
-	<!-- 페이징 -->
+	<!-- 게시글 조회용 SQL -->
+	<sql id="selectBoard">
+		SELECT
+			board_no, writer_id, writer_nick, write_date, hit, menu
+			, title, price, content, location
+		FROM board
+	</sql>
+
+	<!-- 게시글 수 조회하여 페이징 처리 -->
 	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
 		SELECT count(*) FROM (
-			SELECT 
-				board_no, writer_id, write_date, hit, menu
-				, title, price, content, location
-			FROM board
+			<include refid="selectBoard" />
 		)
 	</select>
 	
-	<!-- 게시글 조회 -->
+	<!-- 해당 메뉴 게시글 조회 -->
 	<select id="selectAll" resultType="Board" parameterType="Board">
 		SELECT 
-			board_no, writer_id, write_date, hit, menu
+			board_no, writer_id, writer_nick, write_date, hit, menu
 			, title, price, content, location
 		FROM board
 		<where>
-			menu = 'm1c1'
-<!-- 			menu = #{menu } -->
+<!-- 			menu = 'm1c1' -->
+		menu = #{menu }
+		</where>
+	</select>
+	
+	<!-- 게시글 조회수 증가 -->
+	<update id="updateHit" parameterType="Board">
+		UPDATE board
+		<set>
+			hit = hit + 1,
+		</set>
+		<where>
+			AND board_no = #{boardNo }
+		</where>
+	</update>
+	
+	<!-- 게시글 상세 조회 -->
+	<select id="selectByBoardNo" resultType="Board" parameterType="Board">
+		<include refid="selectBoard" />
+		<where>
+			AND board_no = #{boardNo }
 		</where>
 	</select>
 

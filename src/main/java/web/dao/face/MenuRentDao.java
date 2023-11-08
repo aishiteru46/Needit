@@ -11,4 +11,8 @@ public interface MenuRentDao {
 
 	public List<Board> selectAll(Board board, Paging paging);
 
+	public void updateHit(Board board);
+
+	public Board selectByBoardNo(Board board);
+
 }

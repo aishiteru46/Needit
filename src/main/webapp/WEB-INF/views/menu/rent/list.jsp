@@ -9,7 +9,7 @@
 
 <div class="container">
 
-<h1>대여게시판 목록</h1>
+<h1>대여게시판 ${list.menu}</h1>
 <hr>
 
 <div>
@@ -19,10 +19,9 @@
 		<col style="width:7%;">
 		<col style="width:30%;">
 		<col style="width:10%;">
+		<col style="width:5%;">
 		<col style="width:10%;">
-		<col style="width:7%;">
-		<col style="width:10%;">
-		<col style="width:10%;">
+		<col style="width:5%;">
 		<col style="width:10%;">
 	</colgroup>
 	
@@ -30,7 +29,6 @@
 		<tr class="table-danger">
 			<th>글번호</th>
 			<th>제목</th>
-			<th>아이디</th>
 			<th>닉네임</th>
 			<th>조회</th>
 			<th>작성일</th>
@@ -46,8 +44,7 @@
 			<td>
 				<a href="./view?boardNo=${list.boardNo }">${list.title }</a>
 			</td>
-			<td>${list.writerId }</td>
-			<td></td>
+			<td>${list.writerNick }</td>
 			<td>${list.hit}</td>
 			<td>
 				<fmt:formatDate value="${list.writeDate}" pattern="yyyy-MM-dd" />
