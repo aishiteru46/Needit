@@ -36,7 +36,6 @@
 		<th>조회수</th>
 		<th>날짜</th>
 		<th>추천수</th>
-		<th>가격</th>
 		<th>지역</th>
 	</tr>
 </thead>
@@ -46,9 +45,9 @@
 <tr>
 	<td>${list.boardNo }</td>
 	<td>
-		<a href="./view?boardNo=${list.boardNo }">${list.title }</a>
+		<a href="/menu/share/view?boardNo=${list.boardNo }">${list.title }</a>
 	</td>
-	<td></td>
+	<td>${list.writerId }</td>
 	<td></td>
 	<td>${list.hit}</td>
 	<td>
@@ -56,11 +55,15 @@
 	</td>
 	<td></td>
 	<td></td>
-	<td></td>
 </tr>
 </c:forEach>
 </tbody>
 </table>
+
+<a href="/menu/share/write"><button>글쓰기</button></a>
+
+<small class="float-end mb-3">total : ${paging.totalCount }</small>
+
 
 
 <c:import url="/WEB-INF/views/layout/pagination.jsp"/>
