@@ -58,7 +58,6 @@ public class MenuShareServiceImpl implements MenuShareFace{
 	}
 
 	@Override
-	@Transactional
 	public void write(Board writerContent, List<MultipartFile> upFile) {
 		
 		if( writerContent.getTitle() == null || "".equals(writerContent.getTitle())) {
