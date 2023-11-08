@@ -63,7 +63,7 @@
 		<ul class="nav nav-tabs justify-content-center">
 			<li class="nav-item active"><a class="nav-link active" aria-current="page" href="#">대여해요</a>
 				<ul>
-					<li><a>물품</a>
+					<li><a href="menu/rent/list?menu=m1c1">물품</a>
 					<li><a>인력</a>
 					<li><a>공간</a>
 				</ul>

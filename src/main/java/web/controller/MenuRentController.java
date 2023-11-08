@@ -2,6 +2,8 @@ package web.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,23 +27,35 @@ public class MenuRentController {
 	//게시판 목록 띄우기
 	@GetMapping("/list")
 	public String list( Board board, Paging param, Model model ) {
+		logger.info("board : {}", board.getMenu());
 		
 		//페이징 계산
 		Paging paging = menuRentService.getPaging(param);
 		
 		//게시글 목록 조회
-		List<Board> list = menuRentService.list(board, paging);
-		logger.info("list : {}", list);
+		List<Board> list = menuRentService.list(board);
+//		logger.info("list : {}", list);
 		
-		model.addAttribute("paging", paging);
-		model.addAttribute("list", list);
+//		model.addAttribute("paging", paging);
+//		model.addAttribute("list", list);
 		
 		return "/menu/rent/list";
 	}
 	
 	//게시판 상세 조회
 	@RequestMapping("/view")
-	public void view() {}
+	public String view( Board board, Model model, HttpSession session ) {
+		
+		if( board.getBoardNo() < 1 ) {
+			return "redirect:/menu/rent/list";
+		}
+		
+		//게시글 상세 조회
+		board = menuRentService.view(board);
+		model.addAttribute("board", board);
+		
+		return "menu/rent/view";
+	}
 
 	//파일 다운로드
 	@RequestMapping("/download")
