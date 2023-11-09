@@ -42,7 +42,7 @@ public class MenuShareServiceImpl implements MenuShareFace{
 	@Override
 	public List<Board> selectBoardStatus(Paging paging, Board board) {
 		
-		return menuShareDao.selectAll(board);
+		return menuShareDao.selectAll(paging);
 	}
 
 	@Override

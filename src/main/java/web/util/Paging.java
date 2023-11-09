@@ -37,7 +37,7 @@ public class Paging {
 		if(totalCount == 0)		return;	//게시글이 없을 경우 중단한다
 		
 		if(curPage == 0)	setCurPage(1);		//1 페이지를 기본 페이지로 설정한다
-		if(listCount == 0)	setListCount(10);	//화면에 보일 게시글 수(10)의 기본값 설정
+		if(listCount == 0)	setListCount(12);	//화면에 보일 게시글 수(10)의 기본값 설정
 		if(pageCount == 0)	setPageCount(10);	//화면에 보일 페이징 수(10)의 기본값 설정
 		
 		//총 페이지 수 계산

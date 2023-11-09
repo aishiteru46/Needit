@@ -22,7 +22,7 @@ public interface MenuShareDao {
 	 * 
 	 * @return 나눔 게시판 전체 조회 결과
 	 */
-	public List<Board> selectAll(Board board);
+	public List<Board> selectAll(Paging paging);
 	
 	/**
 	 * 상세조회시 필요한 boardno 가져오기
