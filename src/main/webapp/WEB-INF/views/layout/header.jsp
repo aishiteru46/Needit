@@ -69,7 +69,9 @@ hr{
 margin: 0;
 }
 .wrap{  
-  	width: 1200px;  
+  	width: 1200px;
+  	margin: auto;
+  	  
 } 
 
 nav {
