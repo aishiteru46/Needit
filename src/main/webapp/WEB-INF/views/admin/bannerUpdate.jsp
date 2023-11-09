@@ -10,12 +10,27 @@
 	background-color: #ff8108;
 	width: 302px;
 }
+
+#BannerImgPre{
+	width: 900px;
+	height: 300px;
+	
+	border: 1px solid #ccc;
+	
+}
 </style>
+
+<script type="text/javascript">
+
+
+
+</script>
+
 
 <!-- 안쪽 내용 -->
 <div id="AdminContent">
 
-<form action="./write" method="post" enctype="multipart/form-data">
+<form action="./bannerUpdate" method="post" enctype="multipart/form-data">
 
 <div class="form-group mb-3">
 	<label class="form-label" for="file">첨부파일</label>
@@ -27,6 +42,13 @@
 	<button type="reset" class="btn btn-danger" id="btnCancel">취소</button>
 </div>
 </form>
+<br>
+
+<!-- 이미지 미리보기 -->
+<div id="BannerImgPre">
+	
+	
+</div><!-- .BannerImgPre -->
 
 </div><!-- .AdminContent -->
 
