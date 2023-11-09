@@ -36,7 +36,6 @@ public class MenuRentServiceImpl implements MenuRentService {
 		return paging;
 	}
 
-
 	@Override
 	public Board view(Board board) {
 		
