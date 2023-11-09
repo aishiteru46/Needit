@@ -11,6 +11,9 @@
         	board_no, writer_id, write_date, hit, menu
         	, title, price, content, location
         FROM board
+        <where>
+        	menu = #{menu}
+        </where>
      </sql>
      
     <select id="selectCntAll" resultType="int" parameterType="web.util.Paging">

@@ -34,7 +34,7 @@ public class MenuShareServiceImpl implements MenuShareFace{
 		
 		int totalCount = menuShareDao.selectCntAll(param);
 		
-		Paging paging = new Paging(totalCount, param.getCurPage());
+		Paging paging = new Paging(param.getMenu(),totalCount, param.getCurPage());
 		
 		return paging;
 	}
