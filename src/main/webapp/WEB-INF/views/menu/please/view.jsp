@@ -33,7 +33,7 @@
 </tr>
 <tr>
 	<td class="table-info">아이디</td><td>${viewBoard.writerId }</td>
-<%-- 	<td class="table-info">닉네임</td><td>${viewBoard.writerNick }</td> --%>
+	<td class="table-info">닉네임</td><td>${viewBoard.writerNick }</td>
 </tr>
 <tr>
 	<td class="table-info">조회수</td><td>${viewBoard.hit }</td>
@@ -49,18 +49,26 @@
 <tr>
 	<td colspan="4">
 		<div class="content">
+		
+			<%-- 이미지 표시 부분 --%>
+			<c:forEach var="filetb" items="${fileTb }">
+			  <c:if test="${not empty filetb.storedName }">
+			    <img src="<c:url value='/update/fileNo=${filetb.fileNo }' />" alt="${filetb.originName }" />
+			  </c:if>
+			</c:forEach>
+		
 		${viewBoard.content }
 		</div>
+		
+	
+		
 	</td>
 </tr>
 
 </table>
 
 
-<%-- 첨부파일 --%>
-<c:forEach var="filetb" items="${fileTb }">
-<a href="./download?fileNo=${fileTb.fileNo }">${fileTb.originName }</a><br>
-</c:forEach>
+
 
 <div class="text-center">
 	<a href="./list" class="btn btn-secondary">목록</a>

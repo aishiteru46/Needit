@@ -12,11 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.MenuPleaseDao;
 import web.dto.Board;
 import web.dto.FileTb;
+import web.dto.Like;
 import web.service.face.MenuPleaseService;
 import web.util.Paging;
 
@@ -45,7 +47,7 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 	   int totalCount = menuPleaseDao.selectCntAll();
 	   
 	   //페이징 객체 생성(페이징 계산)
-	   Paging paging = new Paging(totalCount, param.getCurPage());
+	   Paging paging = new Paging(param.getMenu(), param.getCurPage(), totalCount);
 	   
 	   return paging;
    }
@@ -182,7 +184,36 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
    public void updateFilesave(MultipartFile file, Board updateBoard) {
 	   
    }
+
+
+
+   @Override
+   @Transactional
+   public void delete(Board deleteParam) {
+	   menuPleaseDao.deleteFileByBoardNo(deleteParam); //첨부파일 삭제 먼저
+	   menuPleaseDao.deleteByBoardNo(deleteParam); // 게시글 삭제
+   }
+
+
+	@Override
+	public boolean isLike(Like like) {
+		return false;
+	}
 	
+	
+	
+	
+	
+	@Override
+	public Object getTotalCntLike(Like like) {
+		return null;
+	}
+
+
+
+
+
+		
 	
    
    
