@@ -127,7 +127,7 @@ li:hover{
 <li id="AdminReport"><a href="./reportList">신고접수 목록</a></li>
 <li id="AdminBusiness"><a href="./businessReq">업체요청 목록</a></li>
 
-<li id="AdminBanner"><a href="./bannerUpdate">메인배너 수정</a></li>
+<li id="AdminBanner"><a href="./bannerUpdate?boardNo=0">메인배너 수정</a></li>
 <li id="AdminNotice"><a href="./noticeUpdate">공지등록</a></li>
 <li id="AdminEmail"><a href="./emailSend">회원 이메일 발송</a></li>
 </ul>

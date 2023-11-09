@@ -1,14 +1,26 @@
 package web.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+
+import web.dto.Banner;
+import web.service.face.AdminService;
 
 @Controller
 public class AdminController {
+	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
+
+	@Autowired AdminService adminService;
 	
 	//소개 페이지(오프닝 페이지)
 	@GetMapping("/opening")
@@ -75,8 +87,17 @@ public class AdminController {
 	public void banner() {}
 	
 	//관리자 메인배너 수정
-	@PostMapping("/admin/businessReq")
-	public void bannerUpdate() {
+	@PostMapping("/admin/bannerUpdate")
+	public String bannerUpdate( 
+			Banner bannerParam, 
+			List<MultipartFile> file,
+			HttpSession session 
+			) {
+		logger.info("bannerParam : {}", bannerParam.getBannerNo());
+		
+		adminService.bannerUpdate(bannerParam, file);
+		
+		return "redirect:/admin/bannerUpdate";
 		
 	}
 	

@@ -12,37 +12,48 @@ crossorigin="anonymous"></script>
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <style>
+/* 썸네일 */
 #MainBannerimg{
 	margin: 0 auto;
 	border: 1px solid #ccc;
 	width: 500px;
 	height: 300px;
 }
+
+/* 검색 */
 #MainSearchDiv{
 	text-align: center;
 	margin-top: 1em;
 }
+/* 검색input */
 #MainSearch{
 	width: 1000px;
 	height: 30px;
 	border: 1px solid #ccc;
 	border-radius: 3px; 
 }
+/* 검색버튼 */
 #MainBtnSearch{
 	background-color: inherit;
 	border: 0;
 }
+
+/* 나눔,대여,업체 div */
 #MainRent, #MainShare, #MainBusiness{
 	border: 1px solid #ccc;
 	width: 1200px;
 	height: 300px
 }
+
+/* 추천게시글 */
 #MainLike{
 	border: 1px solid #ccc;
 	width: 700px;
 	height: 300px;
 	float: left;
 }
+
+/* 지도 */
 #MainMap{
 	border: 1px solid #ccc;
 	width: 500px;
@@ -61,17 +72,22 @@ crossorigin="anonymous"></script>
 <div id="container">
 
 <!-- 썸네일 -->
+<!-- 이미지 불러오기 -->
+<%-- <img alt="asd" src="/resources/banner/${모델값(컨트롤러가 보내줌) }"> --%>
+<img alt="1" src="/resources/banner/cat1.jpeg143f681e3fb5">
+<%-- <img alt="1" src="/resources/banner/${file.storedName }"> --%>
+
 <!-- 저장 경로를 img폴더로 지정, src에 storedname EL문으로 불러오기 -->
 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
   <div class="carousel-inner" id="MainBannerimg">
     <div class="carousel-item active">
-      <img src="/resources/img/cat1.jpeg" class="d-block w-500 h-300 m-auto" alt="...">
+      <img src="/resources/banner/cat1.jpeg143f681e3fb5 }" class="d-block w-500 h-300 m-auto" alt="썸네일1">
     </div>
     <div class="carousel-item">
-      <img src="/resources/img/cat2.jpeg" class="d-block w-500 h-300 m-auto" alt="...">
+      <img src="/resources/banner/cat2.jpeg" class="d-block w-500 h-300 m-auto" alt="썸네일2">
     </div>
     <div class="carousel-item">
-      <img src="/resources/img/cat3.jpeg" class="d-block w-500 h-300 m-auto" alt="...">
+      <img src="/resources/banner/cat3.jpeg" class="d-block w-500 h-300 m-auto" alt="썸네일3">
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">

@@ -8,7 +8,7 @@
 
 <style type="text/css">
 .policy-floating-button{
-	background-color:rgb(255,83,63);
+	background-color:black;
 	margin:-5px;
 	color:white;
 	border:0;

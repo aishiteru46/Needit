@@ -5,5 +5,12 @@
   
 <mapper namespace="web.dao.face.AdminDao">
 
+	<!-- 관리자 배너 파일 업로드 -->
+	<insert id="insertBanner" parameterType="Banner">
+		INSERT INTO banner ( banner_no, origin_name, stored_name, file_type )
+		VALUES ( banner_seq.nextval, #{originName}, #{storedName}, #{fileType} )
+	</insert>
+
+	
 
 </mapper>
