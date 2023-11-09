@@ -27,7 +27,6 @@
 <div>
 <hr style="margin-bottom: 1em;">
 
-
 <span style="font-size: 20px; margin-left: 55px; margin-right: 90px;"><strong>고객센터 1111-2222</strong></span>
 
 <span style="margin-left: 100px;">
