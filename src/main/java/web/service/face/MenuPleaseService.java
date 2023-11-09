@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Board;
 import web.dto.FileTb;
+import web.dto.Like;
 import web.util.Paging;
 
 public interface MenuPleaseService {
@@ -102,6 +103,33 @@ public interface MenuPleaseService {
 	 * @param updateBoard
 	 */
 	public void updateFilesave(MultipartFile file, Board updateBoard);
+
+	/**
+	 * 글삭제하기
+	 * 
+	 * @param deleteParam
+	 */
+	public void delete(Board deleteParam);
+
+	/**
+	 * 따봉했는지 안했는지
+	 * 
+	 * @param like
+	 * @return
+	 */
+	public boolean isLike(Like like);
+
+
+	/**
+	 * 따봉 갯수
+	 * 
+	 * @param like
+	 * @return
+	 */
+	public Object getTotalCntLike(Like like);
+
+
+
 
 
 }

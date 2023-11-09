@@ -73,6 +73,22 @@ public interface MenuPleaseDao {
 	public FileTb selectFileByFileNo(FileTb fileTb);
 
 
+	/**
+	 * 게시글 번호를 이용하여 첨부파일 삭제
+	 * 
+	 * @param deleteParam - 삭제하려는 게시글 번호
+	 */
+	public void deleteFileByBoardNo(Board deleteParam);
+
+
+	/**
+	 * 리스트에서 게시글의 게시글 삭제
+	 * 
+	 * @param deleteParam - 삭제하려는 게시글 번호
+	 */
+	public void deleteByBoardNo(Board deleteParam);
+
+
 	
 	
 	

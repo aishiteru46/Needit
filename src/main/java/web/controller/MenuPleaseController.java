@@ -61,11 +61,16 @@ public class MenuPleaseController {
       logger.info("fileTb : {}", fileTb);
       
       
-	  //추천 상태 전달
+	  //추천 상태 조회
       Like like = new Like();
       like.setBoardNo(viewBoard.getBoardNo()); //게시글 번호
       like.setLikeId((String)session.getAttribute("id")); //로그인한 아이디
       
+      
+      //추천 상태 전달
+      boolean isLike = menuPleaseService.isLike(like);
+      model.addAttribute("isLike", isLike);
+      model.addAttribute("cntLike", menuPleaseService.getTotalCntLike(like));
       
       return"menu/please/view";
       
@@ -81,6 +86,8 @@ public class MenuPleaseController {
       logger.info("writeParam : {}", writeParam);
       
       writeParam.setWriterId((String) session.getAttribute("id"));
+      writeParam.setWriterNick((String) session.getAttribute("nick"));
+
       
       menuPleaseService.write(writeParam,file);
       logger.info("writeParam : {}", writeParam);
@@ -134,7 +141,17 @@ public class MenuPleaseController {
 	   return "redirect:./list";
    }
    
-   
+   @RequestMapping("/delete")
+   public String delete(Board deleteParam, Model model ) {
+	   
+	   if( deleteParam.getBoardNo() < 1 ) {
+			return "redirect:./list";
+		}
+	   
+	   menuPleaseService.delete(deleteParam);
+	   
+	   return "redirect:./list";
+   }
    
    
 }

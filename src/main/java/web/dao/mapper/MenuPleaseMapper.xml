@@ -8,9 +8,12 @@
   
 	<sql id="selectBoard">
 		SELECT
-			board_no, title, content, writer_id
-			, writer_nick, hit, write_date
+			board_no, writer_id, writer_nick, write_date, hit, menu
+			, title, price, content, location
 		FROM board
+		<where>
+			menu = #{menu }
+		</where>
 	</sql>
 
 	<select id="selectAll" resultType="Board" parameterType="web.util.Paging">
@@ -34,14 +37,14 @@
 		<set>
 			hit = hit + 1,
 		</set>
-		<where>
+		<where> 
 			AND board_no = #{boardNo}
 		</where>
 	</update>
 	
 	<select id="selectByBoardNo" resultType="Board" parameterType="Board">
 		<include refid="selectBoard" />
-		<where>
+		<where> 
 			AND board_no = #{boardNo}
 		</where>
 	</select>
@@ -51,12 +54,51 @@
 			SELECT board_seq.nextval FROM dual
 		</selectKey>
 	
-		INSERT INTO board ( board_no, title, content, writer_id, writer_nick )
-		VALUES ( #{boardNo}, #{title}, #{content}, #{writerId}, #{writerNick} )
+		INSERT INTO board ( board_no, title, content, writer_id, writer_nick, menu )
+		VALUES ( #{boardNo}, #{title}, #{content}, 'joohyunlove', '주현조아', 'm3c1' )
 	</insert>
 
+	<insert id="insertFile" parameterType="FileTb">
+		<selectKey order="BEFORE" resultType="int" keyProperty="fileNo">
+			SELECT filetb_seq.nextval FROM dual
+		</selectKey>
+		
+		INSERT INTO filetb ( file_no, board_no, origin_name, stored_name, file_type )
+		VALUES ( #{fileNo}, #{boardNo}, #{originName}, #{storedName}, 'joohyun' )
+	</insert>
 	
- 
+	<select id="selectFileByBoardNo" resultType="FileTb" parameterType="Board">
+		SELECT
+			file_no, board_no, origin_name, stored_name, file_type
+		FROM filetb
+		<where> 
+			board_no = #{boardNo}
+		</where>
+	</select>
+	
+	<select id="selectFileByFileNo" resultType="FileTb" parameterType="FileTb">
+		SELECT
+			file_no, board_no, origin_name, stored_name, file_type
+		FROM filetb
+		<where> 
+			file_no = #{fileNo}
+		</where>
+	</select>
+	
+ 	<delete id="deleteFileByBoardNo" parameterType="Board">
+		DELETE boardfile
+		<where>
+			board_no = #{boardNo}
+		</where>
+	</delete>
+	
+	<delete id="deleteByBoardNo" parameterType="Board">
+		DELETE board
+		<where>
+			board_no = #{boardNo}
+		</where>
+	</delete>
+	
  	
   
  </mapper>
