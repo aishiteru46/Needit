@@ -47,10 +47,15 @@
 	
 	<!-- 게시글 상세 조회 -->
 	<select id="selectByBoardNo" resultType="Board" parameterType="Board">
-		<include refid="selectBoard" />
+		SELECT
+			board_no, writer_id, writer_nick, write_date, hit, menu
+			, title, price, content, location
+		FROM board
 		<where>
-			AND board_no = #{boardNo }
+			board_no = #{boardNo }
 		</where>
 	</select>
 
 </mapper>
+
+

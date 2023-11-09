@@ -7,10 +7,28 @@ import web.util.Paging;
 
 public interface MenuRentService {
 	
+	/**
+	 * 
+	 * 
+	 * @param param
+	 * @return
+	 */
 	public Paging getPaging(Paging param);
 
+	/**
+	 * 
+	 * 
+	 * @param paging
+	 * @return
+	 */
 	public List<Board> list(Paging paging);
 
+	/**
+	 * 
+	 * 
+	 * @param board
+	 * @return
+	 */
 	public Board view(Board board);
 
 }

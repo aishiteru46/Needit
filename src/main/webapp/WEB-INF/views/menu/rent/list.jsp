@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
@@ -13,11 +14,9 @@
 	<c:if test="${list.menu eq 'm1c1' }">
 		<h1>대여게시판 물품</h1>	
 	</c:if>
-	
 	<c:if test="${list.menu eq 'm1c2' }">
 		<h1>대여게시판 인력</h1>	
 	</c:if>
-	
 	<c:if test="${list.menu eq 'm1c3' }">
 		<h1>대여게시판 주현</h1>	
 	</c:if>
@@ -59,7 +58,16 @@
 			<td>${list.writerNick }</td>
 			<td>${list.hit}</td>
 			<td>
-				<fmt:formatDate value="${list.writeDate}" pattern="yyyy-MM-dd" />
+			<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
+			<fmt:formatDate var="writeDate" value="${list.writeDate }" pattern="yyyyMMdd" />
+			<c:choose>
+				<c:when test="${writeDate lt curDate }">
+					<fmt:formatDate value="${list.writeDate }" pattern="yyyy-MM-dd" />
+				</c:when>
+				<c:otherwise>
+					<fmt:formatDate value="${list.writeDate }" pattern="HH:mm" />
+				</c:otherwise>
+			</c:choose>				
 			</td>
 			<td>${list.price }</td>
 			<td>${list.location }</td>
