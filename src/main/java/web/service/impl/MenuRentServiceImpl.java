@@ -31,7 +31,7 @@ public class MenuRentServiceImpl implements MenuRentService {
 		int totalCount = menuRentDao.selectCntAll(param);
 		
 		//페이징 객체 생성(페이징 계산)
-		Paging paging = new Paging( totalCount, param.getCurPage() );
+		Paging paging = new Paging( param.getMenu(), totalCount, param.getCurPage() );
 		
 		return paging;
 	}
