@@ -77,7 +77,17 @@ $(() => {
 
 </table>
 
-<button id="btnWrite" class="btn btn-primary float-start">글쓰기</button>
+
+
+
+    <c:set var="menu" value="${item}" />
+    <a href="./write?menu=${item.menu}">
+        <button id="btnWrite" class="btn btn-primary float-start">글쓰기</button>
+    </a>
+
+
+
+
 <small class="float-end mb-3">total : ${paging.totalCount }</small>
 <div class="clearfix"></div>
 

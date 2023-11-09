@@ -31,6 +31,11 @@ $(() => {
 <form action="./write" method="post" enctype="multipart/form-data">
 
 <div class="form-group mb-3">
+	<label class="form-label">게시판</label>
+	<input type="text" class="form-control" readonly="readonly" value="${menu }">
+</div>
+
+<div class="form-group mb-3">
 	<label class="form-label">작성자</label>
 	<input type="text" class="form-control" readonly="readonly" value="${nick }">
 </div>

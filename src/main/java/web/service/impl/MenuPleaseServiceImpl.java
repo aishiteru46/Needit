@@ -44,10 +44,10 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
    public Paging getPaging(Paging param) {
 	   
 	   //총 게시글 수 조회
-	   int totalCount = menuPleaseDao.selectCntAll();
+	   int totalCount = menuPleaseDao.selectCntAll(param);
 	   
 	   //페이징 객체 생성(페이징 계산)
-	   Paging paging = new Paging(param.getMenu(), param.getCurPage(), totalCount);
+	   Paging paging = new Paging(param.getMenu(), totalCount, param.getCurPage());
 	   
 	   return paging;
    }
@@ -116,6 +116,7 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 		//저장될 파일 이름
 		String originName = file.getOriginalFilename();
 		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
+		String fileType = originName.substring(originName.lastIndexOf(".")+ 1);
 		
 		
 		//저장할 파일 객체
@@ -137,6 +138,7 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 		fileTb.setBoardNo(boardNo);
 		fileTb.setOriginName(originName);
 		fileTb.setStoredName(storedName);
+		fileTb.setFileType(fileType);
 		
 		menuPleaseDao.insertFile(fileTb);
 		
@@ -207,6 +209,15 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 	@Override
 	public Object getTotalCntLike(Like like) {
 		return null;
+	}
+
+
+
+
+
+	@Override
+	public List<Board> getMenu(Board writeParam) {
+		return menuPleaseDao.selectByMenu(writeParam);
 	}
 
 

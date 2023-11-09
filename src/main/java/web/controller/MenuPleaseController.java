@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -82,12 +83,17 @@ public class MenuPleaseController {
    
    
    @PostMapping("/write")
-   public String writeProc(Board writeParam, List<MultipartFile> file, HttpSession session) {
+   public String writeProc(Board writeParam, List<MultipartFile> file, HttpSession session, Model model) {
       logger.info("writeParam : {}", writeParam);
       
       writeParam.setWriterId((String) session.getAttribute("id"));
       writeParam.setWriterNick((String) session.getAttribute("nick"));
+      
 
+      List<Board> menu = menuPleaseService.getMenu(writeParam);
+      logger.info("menu : {}", menu);
+      
+      model.addAttribute("menu", menu);
       
       menuPleaseService.write(writeParam,file);
       logger.info("writeParam : {}", writeParam);
