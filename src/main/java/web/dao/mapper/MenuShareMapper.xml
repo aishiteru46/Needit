@@ -11,7 +11,6 @@
         	board_no, writer_id, write_date, hit, menu
         	, title, price, content, location
         FROM board
-        ORDER BY board_no DESC
      </sql>
      
     <select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
@@ -20,8 +19,14 @@
 	)
     </select>
     
-    <select id="selectAll" resultType="Board" parameterType="Board">
-    	<include refid="selectBoard"/>
+    <select id="selectAll" resultType="Board" parameterType="web.util.Paging">
+    	SELECT * FROM (
+             SELECT rownum rnum, B.* FROM(
+                <include refid="selectBoard"/>
+                 ORDER BY board_no DESC
+          ) B
+          
+      ) WHERE rnum BETWEEN #{startNo} AND #{endNo} 
     </select>
     
     <select id="selectByBoardNo" resultType="Board" parameterType="Board">

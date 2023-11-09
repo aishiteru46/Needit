@@ -35,6 +35,7 @@
 <span style=" margin-right: 90px;"><a href="/terms/term" id="footer-text">이용 약관</a></span>
 <span style=" margin-right: 90px;"><a href="/terms/privacyPolicy" id="footer-text">개인정보처리방침</a></span>
 <span style=" margin-right: 90px;"><a href="/terms/locationPolicy" id="footer-text">위치기반서비스 이용약관</a></span>
+
 <span><a href="../admin/customerService" id="footer-text">고객센터</a></span><br><br>
 </span>
 
