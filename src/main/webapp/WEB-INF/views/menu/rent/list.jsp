@@ -9,7 +9,19 @@
 
 <div class="container">
 
-<h1>대여게시판 ${list.menu}</h1>
+<c:forEach  var="list" items="${list }" begin="0" end="0">
+	<c:if test="${list.menu eq 'm1c1' }">
+		<h1>대여게시판 물품</h1>	
+	</c:if>
+	
+	<c:if test="${list.menu eq 'm1c2' }">
+		<h1>대여게시판 인력</h1>	
+	</c:if>
+	
+	<c:if test="${list.menu eq 'm1c3' }">
+		<h1>대여게시판 주현</h1>	
+	</c:if>
+</c:forEach>
 <hr>
 
 <div>
