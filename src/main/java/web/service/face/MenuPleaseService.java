@@ -130,6 +130,16 @@ public interface MenuPleaseService {
 
 
 
+	/** 
+	 * 메뉴목록
+	 * 
+	 * @param writeParam
+	 * @return
+	 */
+	public List<Board> getMenu(Board writeParam);
+
+
+
 
 
 }

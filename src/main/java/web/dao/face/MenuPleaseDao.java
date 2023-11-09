@@ -20,10 +20,11 @@ public interface MenuPleaseDao {
 	
 	/**
 	 * 전체 게시글 수를 조회한다
+	 * @param param 
 	 * 
 	 * @return 총 게시글 수
 	 */
-	public int selectCntAll();
+	public int selectCntAll(Paging param);
 
 	
 	/**
@@ -87,6 +88,15 @@ public interface MenuPleaseDao {
 	 * @param deleteParam - 삭제하려는 게시글 번호
 	 */
 	public void deleteByBoardNo(Board deleteParam);
+
+
+	/**
+	 * 메뉴찾기
+	 * 
+	 * @param writeParam
+	 * @return
+	 */
+	public List<Board> selectByMenu(Board writeParam);
 
 
 	

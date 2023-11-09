@@ -11,7 +11,7 @@
 			board_no, writer_id, writer_nick, write_date, hit, menu
 			, title, price, content, location
 		FROM board
-		<where>
+		<where> 
 			menu = #{menu }
 		</where>
 	</sql>
@@ -26,11 +26,12 @@
 	</select>
 	
 	
-	<select id="selectCntAll" parameterType="int">
+	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
 		SELECT count(*) FROM (
 			<include refid="selectBoard" />
 		)
 	</select>
+	
 	
 	<update id="updateHit" parameterType="Board">
 		UPDATE board
@@ -43,11 +44,9 @@
 	</update>
 	
 	<select id="selectByBoardNo" resultType="Board" parameterType="Board">
-		<include refid="selectBoard" />
-		<where> 
-			AND board_no = #{boardNo}
-		</where>
-	</select>
+    	SELECT * FROM board
+    	WHERE board_no = #{boardNo}
+    </select>
 	
  	<insert id="insert" parameterType="Board">
 		<selectKey order="BEFORE" resultType="int" keyProperty="boardNo">
@@ -55,7 +54,7 @@
 		</selectKey>
 	
 		INSERT INTO board ( board_no, title, content, writer_id, writer_nick, menu )
-		VALUES ( #{boardNo}, #{title}, #{content}, 'joohyunlove', '주현조아', 'm3c1' )
+		VALUES ( #{boardNo}, #{title}, #{content}, #{writerId}, '닉수정필요', '메뉴수정필요' )
 	</insert>
 
 	<insert id="insertFile" parameterType="FileTb">
@@ -64,7 +63,7 @@
 		</selectKey>
 		
 		INSERT INTO filetb ( file_no, board_no, origin_name, stored_name, file_type )
-		VALUES ( #{fileNo}, #{boardNo}, #{originName}, #{storedName}, 'joohyun' )
+		VALUES ( #{fileNo}, #{boardNo}, #{originName}, #{storedName}, #{fileType} )
 	</insert>
 	
 	<select id="selectFileByBoardNo" resultType="FileTb" parameterType="Board">
@@ -98,6 +97,13 @@
 			board_no = #{boardNo}
 		</where>
 	</delete>
+	
+	
+	<select id="selectByMenu" resultType="Board" parameterType="Board">
+		SELECT menu
+		FROM board
+		WHERE menu = #{menu}
+	</select>
 	
  	
   
