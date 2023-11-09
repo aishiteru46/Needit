@@ -16,7 +16,8 @@ public class Paging {
 	public Paging() {}
 
 	//총 게시글 수, 현재 페이지 번호를 입력하는 생성자
-	public Paging(int totalCount, int curPage) {
+	public Paging(String menu, int totalCount, int curPage) {
+		setMenu(menu);
 		setTotalCount(totalCount);
 		setCurPage(curPage);
 		

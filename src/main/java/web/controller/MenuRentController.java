@@ -32,9 +32,11 @@ public class MenuRentController {
 		
 		//페이징 계산
 		Paging paging = menuRentService.getPaging(param);
+		logger.info("paging : {}" , paging);
 		
 		//게시글 목록 조회
-		List<Board> list = menuRentService.list(paging);
+		List<Board> list = menuRentService.list(paging); 
+		logger.info("list : {}", list);
 		
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
