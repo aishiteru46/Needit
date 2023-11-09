@@ -25,7 +25,8 @@ public class Paging {
 	}
 	
 	//총 게시글수, 현재 페이지 번호, 보여질 게시글수, 보여질 페이지 수 를 입력하는 생성자
-	public Paging(int totalCount, int curPage, int listCount, int pageCount) {
+	public Paging(String menu, int totalCount, int curPage, int listCount, int pageCount) {
+		setMenu(menu);
 		setTotalCount(totalCount);
 		setCurPage(curPage);
 		setListCount(listCount);
@@ -39,7 +40,7 @@ public class Paging {
 		if(totalCount == 0)		return;	//게시글이 없을 경우 중단한다
 		
 		if(curPage == 0)	setCurPage(1);		//1 페이지를 기본 페이지로 설정한다
-		if(listCount == 0)	setListCount(12);	//화면에 보일 게시글 수(10)의 기본값 설정
+		if(listCount == 0)	setListCount(10);	//화면에 보일 게시글 수(10)의 기본값 설정
 		if(pageCount == 0)	setPageCount(10);	//화면에 보일 페이징 수(10)의 기본값 설정
 		
 		//총 페이지 수 계산
