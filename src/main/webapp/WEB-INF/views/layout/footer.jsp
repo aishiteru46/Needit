@@ -28,13 +28,13 @@
 <hr style="margin-bottom: 1em;">
 
 
-<span style="font-size: 20px; margin-left: 55px; margin-right: 110px;"><strong>고객센터 1111-2222</strong></span>
+<span style="font-size: 20px; margin-left: 55px; margin-right: 90px;"><strong>고객센터 1111-2222</strong></span>
 
 <span style="margin-left: 100px;">
-<span style=" margin-right: 110px;;"><a href="/opening" id="footer-text">소개 페이지</a></span>
-<span style=" margin-right: 110px;"><a href="/terms/term" id="footer-text">이용 약관</a></span>
-<span style=" margin-right: 110px;"><a href="/terms/privacyPolicy" id="footer-text">개인정보처리방침</a></span>
-<span style=" margin-right: 110px;"><a href="/terms/locationPolicy" id="footer-text">위치기반서비스 이용약관</a></span>
+<span style=" margin-right: 90px;"><a href="/opening" id="footer-text">소개 페이지</a></span>
+<span style=" margin-right: 90px;"><a href="/terms/term" id="footer-text">이용 약관</a></span>
+<span style=" margin-right: 90px;"><a href="/terms/privacyPolicy" id="footer-text">개인정보처리방침</a></span>
+<span style=" margin-right: 90px;"><a href="/terms/locationPolicy" id="footer-text">위치기반서비스 이용약관</a></span>
 <span><a href="../admin/customerService" id="footer-text">고객센터</a></span><br><br>
 </span>
 
