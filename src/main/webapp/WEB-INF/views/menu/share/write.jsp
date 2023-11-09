@@ -21,19 +21,19 @@ $(() => {
 </head>
 <body>
 
-<h1>작성자</h1>
+<h1>글쓰기</h1>
 <hr>
 
 <form action="/menu/share/write" method="post" enctype="multipart/form-data">
+	
+	<label>작성자<input type="hidden" name="writerId" id="writerId" value="">${id}</label><br>
+    <label>제목<input type="text" name="title" id="title"></label><br>
+    <label>가격<input type="text" name="price" id="price"></label><br>
+    <label>파일 첨부<input type="file" name="file" id="file" multiple="multiple"></label><br>
+    <label>내용<textarea name="content" id="content"></textarea></label><br><br>
+    <input type="hidden" name="menu" id="menu" value="${param.menu }">
 
-<label>제목<input type="text" name="title" id="title"></label><br>
-<label>가격<input type="text" name="price" id="price"></label><br>
-<label>파일 첨부<input type="file" name="file" id="file" multiple="multiple"></label><br>
-<label>내용<textarea name="content" id="content"></textarea></label><br><br>
-<input type="hidden" name="price" id="price">
-<input type="hidden" name="price" id="price">
-
-<button>글작성</button>
+    <button type="submit">글 작성</button>
 </form>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp"/>
