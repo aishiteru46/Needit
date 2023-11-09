@@ -121,12 +121,29 @@ public class MenuShareServiceImpl implements MenuShareFace{
 		menuShareDao.insertFile( fileTb );
 
 	}
+	
+	@Override
+	public List<Board> menu(Board writerContent) {
+		
+		return menuShareDao.selectByMenu(writerContent);
+		
+	}
+	
+	@Override
+	public List<FileTb> getImg(FileTb file) {
+		
+		return menuShareDao.selectFileImg(file);
+	}
+	
 
 	@Override
 	public List<FileTb> getAttachFile(Board updateParam) {
 		
 		return null;
 	}
+
+	
+
 	
 
 	

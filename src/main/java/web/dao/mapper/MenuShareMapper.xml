@@ -46,12 +46,20 @@
     
     </update>
     
+    <select id="selectByMenu" resultType="Board" parameterType="Board">
+    	SELECT menu FROM board
+    	<where>
+    		menu = #{menu}
+    	</where>
+    
+    </select>
+    
     <insert id="insertBoard" parameterType="Board">
     	<selectKey resultType="int" order="BEFORE" keyProperty="boardNo">
     		SELECT board_seq.nextval FROM dual
     	</selectKey>
     	INSERT INTO board(board_no, menu, writer_id, writer_nick, title, price, content,location)
-    	VALUES ( #{boardNo}, '테스트임', '6', '두둠칫', #{title}, #{price},#{content},'서울')
+    	VALUES ( #{boardNo}, #{menu}, #{writerId}, '두둠칫' , #{title}, #{price},#{content},'서울')
     </insert>
     
     <insert id="insertFile" parameterType="FileTb">
@@ -61,5 +69,12 @@
     	INSERT INTO fileTb( file_no, origin_name, stored_name, file_type, board_no)
     	VALUES( #{fileNo}, #{originName}, #{storedName}, #{fileType}, #{boardNo})
     </insert>
+    
+    <select id="selectFileImg" resultType="FileTb" parameterType="FileTb">
+    	SELECT stored_name FROM fileTb
+    	<where>
+    		board_no = #{boardNo}
+    	</where>
+    </select>
 	
 </mapper>

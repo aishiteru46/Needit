@@ -53,5 +53,21 @@ public interface MenuShareDao {
 	 */
 	public void insertFile(FileTb fileTb);
 	
+	/**
+	 * 메뉴 번호
+	 * 
+	 * @param writerContent 메뉴번호
+	 * @return 메뉴번호
+	 */
+	public List<Board> selectByMenu(Board writerContent);
+	
+	/**
+	 * 사용자가 업로드한 이미지
+	 * 
+	 * @param file 이미지
+	 * @return file 이미지
+	 */
+	public List<FileTb> selectFileImg(FileTb file);
+	
 
 }

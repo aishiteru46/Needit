@@ -43,7 +43,22 @@ public class MenuShareController {
 		model.addAttribute("list",list);
 		model.addAttribute("paging",paging);
 		
+		
 		return "menu/share/list";
+	}
+	
+	@GetMapping("/thumbnail")
+	public String thumbNail(Board board, FileTb file,Model model) {
+		
+		file.setBoardNo(board.getBoardNo());	
+		
+		List<FileTb> fileData = menuShareFace.getImg(file);
+		logger.info("{}", fileData);
+		
+		model.addAttribute("fileData",fileData);
+		
+		
+		return "jsonView";
 	}
 	@RequestMapping("/view")
 	public String view(
@@ -61,21 +76,28 @@ public class MenuShareController {
 	}
 	
 	@GetMapping("/write")
-	public void write() {
+	public void write( Board board ) {
 	}
 	
 	@PostMapping("/write")
 	public String writeProc(
 		Board writerContent,
 		HttpSession session,
+		Model model,
 		@RequestParam("file") List<MultipartFile> upFile
 			) {
+		writerContent.setWriterId((String)session.getAttribute("id"));
+		logger.info("sdgsgd{}",writerContent);
+		//메뉴
+//		List<Board> menuData = menuShareFace.menu(writerContent);
+//		logger.info("menuData{}",menuData);
+		logger.info("writerContent{}",writerContent);
 		
-		logger.info("upfile{}", upFile);
+		//글작성
 		menuShareFace.write(writerContent,upFile);
 		logger.info("writerContent{}",writerContent);
 		
-		return "redirect:./list";
+		return "menu/share/list";
 	}
 	
 	@GetMapping("/update")

@@ -50,6 +50,22 @@ public interface MenuShareFace {
 	 */
 	public List<FileTb> getAttachFile(Board updateParam);
 	
+	/**
+	 * 메뉴 번호 가져오기 
+	 * 
+	 * @param writerContent 메뉴 번호
+	 * @return 메뉴 번호
+	 */
+	public List<Board> menu(Board writerContent);
+	
+	/**
+	 * 사용자가 업로드한 파일 가져오기
+	 * 
+	 * @param file 파일 정보
+	 * @return 
+	 */
+	public List<FileTb> getImg(FileTb file);
+	
 	
 
 

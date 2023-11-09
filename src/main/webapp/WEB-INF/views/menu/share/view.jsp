@@ -57,6 +57,6 @@
 </tr>
 </table>
 <a href="/menu/share/update"><button class="btn btn-success mt-2" id="btnUpdate">글 수정</button></a>
-
+<a href="./list" class="btn btn-secondary">목록으로</a>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp"/>
