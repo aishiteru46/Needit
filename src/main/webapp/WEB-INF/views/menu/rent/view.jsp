@@ -19,6 +19,8 @@ ${board }
 
 </div> <!-- .container -->
 
+<a class="btn btn-success" href="/menu/rent/list?menu=m1c1">목록</a>
+
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
 
