@@ -1,5 +1,6 @@
 package web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,14 +93,21 @@ public class AdminController {
 	public String bannerUpdate( 
 			Banner bannerParam, 
 			List<MultipartFile> file,
-			HttpSession session 
+			HttpSession session,
+			Model model
 			) {
 		logger.info("bannerParam : {}", bannerParam.getBannerNo());
 		
 		adminService.bannerUpdate(bannerParam, file);
+		//--------------------------------------
 		
-		return "redirect:/admin/bannerUpdate";
+		List<Banner> bannerNames = new ArrayList<Banner>();
+		bannerNames = adminService.getBannerNo();
+		logger.info(bannerNames.toString());
 		
+		model.addAttribute("file", bannerNames);
+		session.setAttribute("file", bannerNames);
+		return "admin/bannerUpdate";
 	}
 	
 	

@@ -2,6 +2,8 @@ package web.service.face;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import web.dto.Board;
 import web.util.Paging;
 
@@ -30,5 +32,13 @@ public interface MenuRentService {
 	 * @return
 	 */
 	public Board view(Board board);
+
+	/**
+	 * 
+	 * 
+	 * @param writeParam
+	 * @param file
+	 */
+	public void write(Board writeParam, List<MultipartFile> file);
 
 }

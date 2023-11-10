@@ -3,6 +3,7 @@ package web.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
@@ -41,7 +42,7 @@ public class MenuShareServiceImpl implements MenuShareFace{
 	}
 	
 	@Override
-	public List<Board> selectBoardStatus(Paging paging, Board board) {
+	public List<Map<String, Object>> selectBoardStatus(Paging paging, Board board) {
 		
 		return menuShareDao.selectAll(paging);
 	}
@@ -87,7 +88,9 @@ public class MenuShareServiceImpl implements MenuShareFace{
 		logger.info("boardNo{}",boardNo);
 		
 		//파일이 저장될 경로
+		
 		String storedPath = context.getRealPath("upload");
+		logger.info(storedPath);
 		
 		//upload 폴더 생성
 		File storedFolder = new File(storedPath);
@@ -136,16 +139,47 @@ public class MenuShareServiceImpl implements MenuShareFace{
 		return menuShareDao.selectFileImg(file);
 	}
 	
-
 	@Override
 	public List<FileTb> getAttachFile(Board updateParam) {
+		return menuShareDao.selectBoardfileByBoardNo( updateParam );
+	}
+	
+
+	@Override
+	public void updateBoard(Board updateParam, List<MultipartFile> file, int[] delFileno) {
+	
+		if( updateParam.getTitle() == null || "".equals(updateParam.getTitle()) ) {
+			updateParam.setTitle("(제목없음)");
+		}
 		
-		return null;
+		menuShareDao.updateBoard( updateParam );
+
+		//---------------------------------------------------------------------------
+		
+		//첨부파일이 없을 경우 처리
+		if( file.size() == 0 ) {
+			return;
+		}
+
+		for(MultipartFile f : file) {
+			this.fileinsert( f, updateParam.getBoardNo() );
+		}
+
+		//---------------------------------------------------------------------------
+
+		//삭제할 첨부 파일 처리
+		if( delFileno != null ) {
+			menuShareDao.deleteFiles( delFileno );
+		}
+	
 	}
 
+	@Override
+	public void delete(Board deleteParam) {
+		menuShareDao.deleteFileByBoardNo( deleteParam );	//첨부파일 삭제
+		menuShareDao.deleteByBoardNo( deleteParam );	//게시글 삭제
+	}
 	
-
-	
-
 	
 }
+

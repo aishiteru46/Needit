@@ -1,6 +1,7 @@
 package web.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import web.dto.Board;
 import web.dto.FileTb;
@@ -22,7 +23,7 @@ public interface MenuShareDao {
 	 * 
 	 * @return 나눔 게시판 전체 조회 결과
 	 */
-	public List<Board> selectAll(Paging paging);
+	public List<Map<String, Object>> selectAll(Paging paging);
 	
 	/**
 	 * 상세조회시 필요한 boardno 가져오기
@@ -68,6 +69,31 @@ public interface MenuShareDao {
 	 * @return file 이미지
 	 */
 	public List<FileTb> selectFileImg(FileTb file);
+	
+	/**
+	 * 게시판에 새로운 정보 삽입
+	 * 
+	 * @param updateParam 사용자가 입력한 정보
+	 */
+	public void updateBoard(Board updateParam);
+
+	public List<FileTb> selectBoardfileByBoardNo(Board updateParam);
+
+	public void deleteFiles(int[] delFileno);
+	
+	/**
+	 * 첨부파일 삭제
+	 * 
+	 * @param deleteParam 파일 삭제
+	 */
+	public void deleteFileByBoardNo(Board deleteParam);
+	
+	/**
+	 * 게시글 삭제
+	 * 
+	 * @param deleteParam 게시글 삭제
+	 */
+	public void deleteByBoardNo(Board deleteParam);
 	
 
 }

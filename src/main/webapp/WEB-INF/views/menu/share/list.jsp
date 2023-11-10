@@ -31,49 +31,55 @@
 .col-md-4 {
     margin-right: 30px;
 }
+.preview {
+	margin: 15px auto 15px auto;
+	width: 300px;
+	height: 200px;
+	object-fit: cover;
+}
 
 </style>
 
-<script type="text/javascript">
-$(function(){
-  $.ajax({
-        type: "get"
-        , url: "/menu/share/thumbnail"
-        , data: {
+<!-- <script type="text/javascript"> -->
+<!-- // $(function(){ -->
+<!-- //   $.ajax({ -->
+<!-- //         type: "get" -->
+<!-- //         , url: "/menu/share/thumbnail" -->
+<!-- //         , data: { -->
 		
-        }
-        , dataType: "json"
-        , success: function( res ) {
-           console.log("AJAX 성공")
-           if (res.fileData.length > 0) {
-                var imagePath = res.fileData[0].storedName;
-                $("#preview").attr("src", "../upload/" + imagePath);
-            }
+<!-- //         } -->
+<!-- //         , dataType: "json" -->
+<!-- //         , success: function( res ) { -->
+<!-- //            console.log("AJAX 성공") -->
+<!-- //            if (res.fileData.length > 0) { -->
+<!-- //                 var imagePath = res.fileData[0].storedName; -->
+<!-- //                 $("#preview").attr("src", "../upload/" + imagePath); -->
+<!-- //             } -->
 		
-        }
-        , error: function() {
-           console.log("AJAX 실패")
+<!-- //         } -->
+<!-- //         , error: function() { -->
+<!-- //            console.log("AJAX 실패") -->
 
-        }
-     })
+<!-- //         } -->
+<!-- //      }) -->
 	
-})
-</script>
+<!-- // }) -->
+<!-- </script> -->
 
 
 </head>
 <body>
 
 <c:forEach items="${list }" var="list" begin="0" end="0">
-<c:if test="${ list.menu eq 'm2c1' }">
+<c:if test="${ list.MENU eq 'm2c1' }">
 <h1>나눔 게시판 물품</h1>
 </c:if>
 
-<c:if test="${ list.menu eq 'm2c2' }">
+<c:if test="${ list.MENU eq 'm2c2' }">
 <h1>나눔 게시판 인력</h1>
 </c:if>
 
-<c:if test="${ list.menu eq 'm2c3' }">
+<c:if test="${ list.MENU eq 'm2c3' }">
 <h1>나눔 게시판 공간</h1>
 </c:if>
 </c:forEach>
@@ -84,18 +90,26 @@ $(function(){
   <c:if test="${loop.index % 3 == 0}">
     <div class="row">
   </c:if>
- 	 <div class="write-container col-md-4" >
-  		<select>
-  			<option value="1">1</option>
-  			<option value="2">2</option>
-  			<option value="3">3</option>
-  		</select>
-  		<div id="preview">
-			<img src="../upload/${fileData.storedName }"/>
+ 	 <div class="write-container">
+<!--   		<select> -->
+<!--   			<option value="1">1</option> -->
+<!--   			<option value="2">2</option> -->
+<!--   			<option value="3">3</option> -->
+<!--   		</select> -->
+  		<br>
+  		<c:if test="${ not empty list.STORED_NAME  }">
+  		<div >
+			<a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/upload/${list.STORED_NAME}"/></a>
   		</div>
-   		 <a href="/menu/share/view?boardNo=${list.boardNo }">${list.title }</a>
-    	<p>${list.writerId }</p>
-    	<p>${list.price} ${list.hit}</p>
+  		</c:if>
+  		<c:if test="${ empty list.STORED_NAME  }">
+  		<div>
+			<a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/resources/img/noimg.png"/></a>
+  		</div>
+  		</c:if>
+   		 <a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}">${list.TITLE }</a>
+    	<p>${list.WRITER_ID }</p>
+    	<p>${list.PRICE} ${list.HIT}</p>
   </div>
   <c:if test="${loop.index % 3 == 2 || loop.index + 1 == yourList.size()}">
   </div>
@@ -106,7 +120,7 @@ $(function(){
 
 
 <c:forEach var="menuData" items="${list}" begin="0" end="0">
-<a href="/menu/share/write?menu=${menuData.menu}"><button>글쓰기</button></a>
+<a href="/menu/share/write?menu=${menuData.MENU}"><button>글쓰기</button></a>
 </c:forEach>
 
 <small class="float-end mb-3">total : ${paging.totalCount }</small>

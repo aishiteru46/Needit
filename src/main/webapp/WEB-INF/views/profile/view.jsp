@@ -12,7 +12,7 @@
 <h3>프로필사진</h3>
   <div class="panel panel-default">
     <div class="panel-body">
-      <form action="${contextPath}/view.user?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
+      <form action="${contextPath}/view.user?${User.id}" method="post" enctype="multipart/form-data">
          <input type="hidden" name="id" value="${User.id}"/>
          <table class="table table-bordered" style="text-align: center; border: 1px solid #dddddd;">
            <tr>
