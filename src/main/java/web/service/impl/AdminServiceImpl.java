@@ -2,6 +2,7 @@ package web.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +25,7 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired AdminDao adminDao;
 	@Autowired ServletContext context;
 	
+	//관리자 메인배너 수정 및 업로드
 	@Override
 	public void bannerUpdate(Banner bannerParam, List<MultipartFile> file) {
 
@@ -45,7 +47,7 @@ public class AdminServiceImpl implements AdminService {
 		}
 		
 		//파일이 저장될 경로
-		String storedPath = context.getRealPath("resources/banner");
+		String storedPath = context.getRealPath("/resources/banner");
 		logger.info(storedPath);
 		//upload 폴더 생성
 		File storedFolder = new File(storedPath);
@@ -79,6 +81,15 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.insertBanner(banner);
 				
 	} //fileinsert end
+
+	//썸네일 미리보기
+	@Override
+	public List<Banner> getBannerNo() {
+		
+		List<Banner> banner = new ArrayList<Banner>();
+		banner = adminDao.getStoredName();
+		return banner;
+	}
 
 	
 	

@@ -65,7 +65,7 @@ li:hover{
 	position: absolute;
 	border: 0px solid rgb(255,83,63);
 	width: 300px;
-	height: 923px;
+	height: 910px;
 	background: rgb(255,83,63);
 }
 
@@ -81,7 +81,7 @@ li:hover{
 /* 안쪽 내용 중간 배치 */
 #AdminContent {
     float: left;
-    position: fixed;
+    position: absolute;
 	width: 1620px;
     margin-left: 300px;
     margin-top: 128px;

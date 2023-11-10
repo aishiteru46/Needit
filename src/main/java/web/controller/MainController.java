@@ -24,7 +24,8 @@ public class MainController {
 		logger.info("메인화면 진입");
 		List<Banner> bannerNames = new ArrayList<Banner>();
 
-		mainService.getBannerNo(bannerNames);
+		bannerNames = mainService.getBannerNo();
+		logger.info(bannerNames.toString());
 		
 		model.addAttribute("file", bannerNames);
 		return "main/main";

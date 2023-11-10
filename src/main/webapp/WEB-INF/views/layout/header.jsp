@@ -116,7 +116,7 @@ li{list-style: none; }
 <div class="wrap">
 
 	<div class=" text-center mx-auto p-4" style="width: 1200px;" >
-		<a href="/"><img src="/resources/img/needit..png" width="500" height="100" ></a>
+		<a href="/main"><img src="/resources/img/needit..png" width="500" height="100" ></a>
 		<div class="float-end">
 				<%-- 비로그인 --%>
 			<c:if test="${empty isLogin }">

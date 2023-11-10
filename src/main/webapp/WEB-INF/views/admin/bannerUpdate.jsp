@@ -12,10 +12,8 @@
 }
 
 #BannerImgPre{
-	width: 900px;
-	height: 300px;
+	width: 1000px;
 	
-	border: 1px solid #ccc;
 	
 }
 </style>
@@ -46,8 +44,9 @@
 
 <!-- 이미지 미리보기 -->
 <div id="BannerImgPre">
-	
-	
+	<c:forEach items="${file }" var="bannerNames">
+		<img alt="썸네일" src="/resources/banner/${bannerNames.storedName }">
+	</c:forEach>
 </div><!-- .BannerImgPre -->
 
 </div><!-- .AdminContent -->
