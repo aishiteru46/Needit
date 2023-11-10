@@ -172,7 +172,7 @@ nav li {width: 150px; margin-right: 20px;}
 				<a href="/user/login"><img src="/resources/img/mypageicon.png" style="height: 40px; width: 40px; left:  40px;"></a>
 			</c:if>
 			<c:if test="${not empty isLogin and isLogin }">
-				<a href="/"><img src="/resources/img/jong.png" style="height: 40px; width: 40px;"></a>
+				<a href="/main"><img src="/resources/img/jong.png" style="height: 40px; width: 40px;"></a>
 				    <div class="image-container">
 				        <img src="/resources/img/mypageicon.png" id="popover-trigger" style="height: 40px; width: 40px;">
 				        <div class="popover-content" id="popover-content" style="right:350; top: 80;">
@@ -192,7 +192,7 @@ nav li {width: 150px; margin-right: 20px;}
 		</div>
 	<div class=" text-center mx-auto p-4  " style="width: 1200px;" >
 		<div class="mx-auto p-2">
-		<a href="/"><img src="/resources/img/needit..png" width="500" height="100"></a>
+		<a href="/main"><img src="/resources/img/needit..png" width="500" height="100"></a>
 		</div>
 	</div>
 	
