@@ -1,6 +1,7 @@
 package web.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,7 +25,7 @@ public interface MenuShareFace {
 	 * @param paging 페이지수로 리스트 조회
 	 * @return 나눔게시판 조회
 	 */
-	public List<Board> selectBoardStatus(Paging paging,Board board);
+	public List<Map<String, Object>> selectBoardStatus(Paging paging,Board board);
 	
 	/**
 	 * 나눔 게시판 상세조회
@@ -65,6 +66,23 @@ public interface MenuShareFace {
 	 * @return 
 	 */
 	public List<FileTb> getImg(FileTb file);
+	
+	
+	/**
+	 * 사용자가 새로 작성한 정보
+	 * 
+	 * @param updateParam 파일을 제외한 정보
+	 * @param file 파일
+	 * @param delFileno 
+	 */
+	public void updateBoard(Board updateParam, List<MultipartFile> file, int[] delFileno);
+	
+	/**
+	 * 사용자가 작성 한 글 삭제
+	 * 
+	 * @param deleteParam 삭제
+	 */
+	public void delete(Board deleteParam);
 	
 	
 

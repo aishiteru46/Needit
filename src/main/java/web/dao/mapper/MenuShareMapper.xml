@@ -22,14 +22,19 @@
 	)
     </select>
     
-    <select id="selectAll" resultType="Board" parameterType="web.util.Paging">
-    	SELECT * FROM (
-             SELECT rownum rnum, B.* FROM(
-                <include refid="selectBoard"/>
-                 ORDER BY board_no DESC
-          ) B
-          
-      ) WHERE rnum BETWEEN #{startNo} AND #{endNo} 
+    <select id="selectAll" resultType="Map" parameterType="web.util.Paging">
+    		SELECT * FROM (
+    SELECT rownum rnum, B.* FROM (
+        SELECT 
+            board_no, writer_id, write_date, hit, menu,
+            title, price, content, location,
+            (SELECT stored_name FROM fileTB WHERE fileTB.board_no = board.board_no AND rownum = 1) AS stored_name
+        FROM board
+        WHERE menu = #{menu}
+        ORDER BY board_no DESC
+    ) B
+) 
+WHERE rnum BETWEEN #{startNo} AND #{endNo}
     </select>
     
     <select id="selectByBoardNo" resultType="Board" parameterType="Board">
@@ -76,5 +81,44 @@
     		board_no = #{boardNo}
     	</where>
     </select>
+    
+    <select id="selectBoardfileByBoardNo" resultType="FileTb" parameterType="Board">
+		SELECT file_no, board_no, origin_name, stored_name FROM fileTb
+		<where> 
+			board_no = #{boardNo}
+		</where>
+	</select>
+	
+	<update id="updateBoard" parameterType="Board">
+		UPDATE board
+		<set>
+			, title = #{title } , content = #{content } 
+		</set>
+		<where> 
+			board_no = #{boardNo }
+		</where>
+	</update>
+	
+	<delete id="deleteFiles" parameterType="int[]">
+		DELETE fileTb
+		<where>
+		file_no IN
+		<foreach collection="array" item="no" open="(" close=")" separator=","> #{no } </foreach>
+		</where>
+	</delete>
+	
+	<delete id="deleteByBoardNo" parameterType="Board">
+		DELETE board
+		<where>
+		board_no = #{boardNo}
+		</where>
+	</delete>
+	
+	<delete id="deleteFileByBoardNo" parameterType="Board">
+		DELETE fileTb
+		<where>
+		board_no = #{boardNo}
+		</where>
+	</delete>
 	
 </mapper>

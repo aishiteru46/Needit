@@ -1,6 +1,9 @@
 package web.controller;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -31,47 +34,42 @@ public class MenuShareController {
 	@Autowired MenuShareFace menuShareFace;
 	
 	@GetMapping("/list")
-	public String list(Board board, Paging param, Model model) {
+	public String list(Board board, Paging param, Model model,FileTb file) {
 		logger.info("list get");
 		
 		//페이징 계산
 		Paging paging = menuShareFace.getPaging(param);
 		
 		//나눔 게시판 조회
-		List<Board> list = menuShareFace.selectBoardStatus(paging, board);
-		logger.info("{}",list);
+		List<Map<String, Object>> list = menuShareFace.selectBoardStatus(paging, board);
+		
+		logger.info("리스또{}",list);
 		model.addAttribute("list",list);
 		model.addAttribute("paging",paging);
-		
-		
-		return "menu/share/list";
-	}
-	
-	@GetMapping("/thumbnail")
-	public String thumbNail(Board board, FileTb file,Model model) {
 		
 		file.setBoardNo(board.getBoardNo());	
 		
 		List<FileTb> fileData = menuShareFace.getImg(file);
 		logger.info("{}", fileData);
 		
-		model.addAttribute("fileData",fileData);
-		
-		
-		return "jsonView";
+		return "menu/share/list";
 	}
+	
 	@RequestMapping("/view")
-	public String view(
+	public void view(
 			Board board, HttpSession session
 			, Model model
 			) {
 		
 		Board view = menuShareFace.view(board);
 		
+		//첨부파일 정보 전달
+		List<FileTb> boardfile = menuShareFace.getAttachFile( board );
+		model.addAttribute("boardfile", boardfile);
+		
+		
 		logger.info("보드넘버{}",view);
 		model.addAttribute("view", view);
-		
-		return "menu/share/view";
 		
 	}
 	
@@ -97,18 +95,15 @@ public class MenuShareController {
 		menuShareFace.write(writerContent,upFile);
 		logger.info("writerContent{}",writerContent);
 		
-		return "menu/share/list";
+		return "redirect:./view?boardNo=" + writerContent.getBoardNo();
 	}
 	
 	@GetMapping("/update")
 	public String update(Board updateParam, Model model) {
 		
-		if( updateParam.getBoardNo() < 1 ) {
+		if( updateParam.getBoardNo() > 1 ) {
 			return "redirect:./list";
 		}
-
-		
-		
 		//상세보기 페이지 아님 표시
 		updateParam.setHit(-1);
 		
@@ -116,18 +111,52 @@ public class MenuShareController {
 		//상세보기 게시글 조회
 		updateParam = menuShareFace.view(updateParam);
 		model.addAttribute("updateBoard", updateParam);
-
+		
 		//첨부파일 정보 전달
 		List<FileTb> boardfile = menuShareFace.getAttachFile( updateParam );
 		model.addAttribute("boardfile", boardfile);
+
 		
-		return "board/update";
+		
+		return "menu/share/update";
 		
 	}
 	
 	@PostMapping("/update")
-	public void updateProc() {
+	public String updateProc(
+			Board updateParam
+			, List<MultipartFile> file
+			, int[] delFileno
+			
+			, HttpSession session
+			
+			, Model model) {
 		
+		logger.info("updateParam {}", updateParam);
+		logger.info("file {}", file);
+		logger.info("delFileno {}", Arrays.toString(delFileno));
+
+
+		updateParam.setWriterId((String) session.getAttribute("id"));
+		updateParam.setWriterNick((String) session.getAttribute("nick"));
+
+		
+		menuShareFace.updateBoard(updateParam, file, delFileno);
+		
+		return "redirect:./view?boardNo=" + updateParam.getBoardNo();
+	}
+	
+	@RequestMapping("/delete")
+	public String delete(Board deleteParam, Model model) {
+		
+		if( deleteParam.getBoardNo() < 1 ) {
+			return "redirect:/menu/share/list";
+		}
+
+		menuShareFace.delete( deleteParam );
+		
+		return "redirect:./list?menu=" + deleteParam.getMenu();
+	
 	}
 	
 	

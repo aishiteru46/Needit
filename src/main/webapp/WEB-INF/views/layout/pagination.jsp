@@ -38,13 +38,13 @@
 		<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
 			<c:if test="${paging.curPage eq i }">
 			<li class="page-item">
-				<a class="page-link active" href="./list?curPage=${i } ">${i }</a>
+				<a class="page-link active" href="./list?curPage=${i }&menu=${param.menu } ">${i }</a>
 			</li>
 			</c:if>
 
 			<c:if test="${paging.curPage ne i }">
 			<li class="page-item">
-				<a class="page-link" href="./list?curPage=${i } ">${i }</a>
+				<a class="page-link" href="./list?curPage=${i }&menu=${param.menu } ">${i }</a>
 			</li>
 			</c:if>
 		</c:forEach>
