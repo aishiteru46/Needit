@@ -23,8 +23,8 @@
 	</select>
 
 	<select id="selectByNick" resultType="User" parameterType="User">
-		SELECT id, pw, nick
-		FROM User
+		SELECT *
+		FROM usertb
 		<where>
 			AND id = #{id}
 		</where>

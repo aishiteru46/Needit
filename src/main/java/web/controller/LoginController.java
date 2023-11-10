@@ -42,12 +42,14 @@ public class LoginController {
 	public String loginProc( User user, HttpSession session) {
 		
 		boolean islogin = userService.login(user);
+		user = userService.infoNick(user);
 		session.setAttribute("isLogin", islogin);
 		
 		if(islogin) {
 			logger.info("로그인 성공 {}",user);
 			session.setAttribute("id", user.getId());
-			return"redirect:../main";
+			session.setAttribute("nick", user.getNick());
+			return"redirect:/main";
 		} else {
 			logger.info("로그인 실패");
 			return"redirect:./login";
@@ -58,7 +60,7 @@ public class LoginController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		
-		return "redirect:../";
+		return "redirect:/main";
 		
 	}
 }
