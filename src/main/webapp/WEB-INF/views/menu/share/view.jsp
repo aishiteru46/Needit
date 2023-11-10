@@ -5,8 +5,17 @@
 
 <c:import url="/WEB-INF/views/layout/header.jsp"/>
 
-</head>
-<body>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script type="text/javascript">
+$(() => {
+	
+	$(".content").summernote({
+		height: 300
+	})
+})
+
+</script>
 
 <table class="table table-boardered">
 
@@ -33,12 +42,13 @@
 	<td class="table-info">제목</td><td>${view.title }</td>
 	<td class="table-info">파일</td>
 <tr>
-	<td class="table-info">가격</td><td>${view.price}</td>
+	<c:forEach var="file" items="${boardfile }">
+	
+	<td><a href="/menu/share/upload/${file.storedName}" download="${file.originName }">${file.originName }</a></td>
+	</c:forEach>
 </tr>
 <tr>
-	<c:forEach var="file" items="${file }">
-	<td><a href="../upload/${file.storedName}" download="${file.originName }">${file.originName }</a></td>
-	</c:forEach>
+	<td class="table-info">가격</td><td>${view.price}</td>
 </tr>
 <tr>
 	<td class="table-info">추천수</td><td id="recommendCount">${recommend}</td>
@@ -56,7 +66,14 @@
 	</td>
 </tr>
 </table>
-<a href="/menu/share/update"><button class="btn btn-success mt-2" id="btnUpdate">글 수정</button></a>
-<a href="./list" class="btn btn-secondary">목록으로</a>
+<div class="text-center">
+		<a href="/menu/share/list?menu=${view.menu}" class="btn btn-secondary">목록으로</a>
+	
+	<c:if test="${id eq view.writerId }">
+		<a href="/menu/share/update?=${view.boardNo }&menu=${view.menu}"><button class="btn btn-success mt-2" id="btnUpdate">글 수정</button></a>
+		<a href="./delete?boardNo=${view.boardNo }&menu=${view.menu}" class="btn btn-danger">삭제</a>
+		
+	</c:if>
+</div>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp"/>
