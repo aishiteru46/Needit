@@ -7,4 +7,10 @@ import web.service.face.UserProfileService;
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
 
+	
+	
+	
+	
+	
+	
 }
