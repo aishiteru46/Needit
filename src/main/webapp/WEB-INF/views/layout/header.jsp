@@ -59,38 +59,36 @@ $(document).ready(function(){
  
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    var trigger = document.getElementById('popover-trigger');
+    var popover = document.getElementById('popover-content');
+
+    trigger.addEventListener('click', function () {
+        if (popover.style.display === 'block') {
+            popover.style.display = 'none';
+        } else {
+            popover.style.display = 'block';
+        }
+    });
+
+    // 이미지 외의 영역을 클릭하면 팝오버가 닫히도록 설정
+    document.addEventListener('click', function (event) {
+        if (!trigger.contains(event.target) && !popover.contains(event.target)) {
+            popover.style.display = 'none';
+        }
+    });
+});
+
 </script>
 <style type="text/css">
-#needitFont{
-	color: #ff533f;
-}
 
-hr{
-margin: 0;
-}
-.wrap{  
-  	width: 1200px;
-  	margin: auto;
-  	  
-} 
+#needitFont{color: #ff533f;}
+a {text-decoration: none; color: #333;}
+li {list-style: none; }
+nav {list-style: none; padding: 0; display: flex;}
+nav li {width: 150px; margin-right: 20px;}
+.wrap {width: 1200px; margin: auto;} 
 
-nav {
-    list-style: none;
-    padding: 0;
-    display: flex;
-}
-
-nav li {
-    width: 150px; /* 고정된 너비 설정 */
-    margin-right: 20px;
-}
-
-a {
-    text-decoration: none;
-    color: #333;
-}
-
-li{list-style: none; }
 .container{max-width: 1200px;margin: auto; font-size: 20px; font-weight: bold;}
 #header {background: #fff;margin: 0; position: relative; text-align: center;}
 #header .container{justify-content: center;align-items: center; }
@@ -103,10 +101,63 @@ li{list-style: none; }
 #header .nav ul.gnb li ul.sub li a{padding:10px;}
 #header .nav ul.gnb:hover li ul.sub{visibility:visible;opacity:1;transform:translateY(0px);} 
 #header .nav ul.gnb li:hover{display:inline-block;margin-bottom:0px;}
-#header.open .hd_bg{position: absolute;width: 100%;background: #fff;z-index: 1;transition: all .3s;border-top: 1px solid #dcdcdc; opacity: 70%;}
+#header.open .hd_bg{position: absolute;width: 100%;background: #fff;z-index: 1;transition: all .3s;border-top: 1px solid #dcdcdc; opacity: 95%;}
 #header .nav ul.gnb li ul.sub li a{text-align: center}
 #header .nav .active  {position: relative}
 #header .nav .active:hover:after{content: '';display: block;width: 100%;height: 2px;background: #000;position: absolute;left: 0;bottom: 0}
+
+
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
+
+#popover-content {
+    display: none;
+    position: fixed;
+    background-color: #ff533f;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    z-index: 2;
+    border-radius: 10px;
+}
+}
+
+#popover-content ul {
+	text-align: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+}
+
+#popover-content ul li {
+    margin-bottom: 5px;
+    
+}
+
+#popover-content a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 5px;
+    border-radius: 10px;
+    
+}
+
+#popover-content a:hover {
+    background-color: #f0f0f0;
+}
+
+
+
+
+
+
+
+
+
 
 </style>
 
@@ -115,13 +166,33 @@ li{list-style: none; }
 
 <div class="wrap">
 
-	<div class=" text-center mx-auto p-4" style="width: 1200px;" >
-		<a href="/main"><img src="/resources/img/needit..png" width="500" height="100" ></a>
-		<div class="float-end">
+		<div class="float-end" style="margin-top: 30px; width: 90px; height: 40px; text-align: right; ">
 				<%-- 비로그인 --%>
 			<c:if test="${empty isLogin }">
-				<a href="/user/login"><img src="/resources/img/mypageicon.png" style="height: 40px; width: 40px;"></a>
+				<a href="/user/login"><img src="/resources/img/mypageicon.png" style="height: 40px; width: 40px; left:  40px;"></a>
 			</c:if>
+			<c:if test="${not empty isLogin and isLogin }">
+				<a href="/"><img src="/resources/img/jong.png" style="height: 40px; width: 40px;"></a>
+				    <div class="image-container">
+				        <img src="/resources/img/mypageicon.png" id="popover-trigger" style="height: 40px; width: 40px;">
+				        <div class="popover-content" id="popover-content" style="right:350; top: 80;">
+				            <!-- 팝오버 내용 -->
+				            <ul style="padding-left: 0px; text-align: center;">
+				                <li><img src="/resources/img/profile.png" width="30px" height="30px" style="text-align: left;"><label style="color: white;">${nick } </label></li>
+				                <li><a href="#">마이페이지</a></li>
+				                <li><a href="#">내 채팅</a></li>
+				                <li><a href="#">빌린거/빌려준거</a></li>
+				                <li><a href="#">장바구니</a></li>
+				                <li><a href="#">고객센터</a></li>
+				                <li><a href="/user/logout">로그아웃</a>
+				            </ul>
+				        </div>
+				    </div>
+			</c:if>
+		</div>
+	<div class=" text-center mx-auto p-4  " style="width: 1200px;" >
+		<div class="mx-auto p-2">
+		<a href="/"><img src="/resources/img/needit..png" width="500" height="100"></a>
 		</div>
 	</div>
 	

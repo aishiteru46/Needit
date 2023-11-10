@@ -13,6 +13,25 @@
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#login').click(function() {
+        var username = $('#id').val();
+        var password = $('#pw').val();
+
+        // 여기서는 예시로 username이 'user'이고 password가 'password'일 때 성공한다고 가정
+        if (username === 'user' && password === 'password') {
+            // 로그인 성공 시 다른 작업을 수행할 수 있습니다.
+            // 여기에 성공 시 동작 추가
+        	  alert('로그인 실패. 올바른 정보를 입력해주세요.');
+        } else {
+            // 로그인 실패 시 경고 메시지 표시
+            $('.login_warn').show();
+          
+        }
+    });
+});
+</script>
 <style type="text/css">
 html {
 /* 	background-color: #ff533f; */
@@ -37,7 +56,11 @@ form {
 	background-color: #ff533f;
 	border-color: #ff533f;
 }
-
+.login_warn{
+    margin-top: 30px;
+    text-align: center;
+    color : red;
+}
 </style>
 </head>
 <body>
