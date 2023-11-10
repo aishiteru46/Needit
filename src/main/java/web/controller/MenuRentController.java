@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Board;
 import web.service.face.MenuRentService;
@@ -44,7 +45,7 @@ public class MenuRentController {
 	//게시판 상세 조회
 	@RequestMapping("/view")
 	public String view( Board board, Model model, HttpSession session ) {
-		
+
 		//게시글 번호를 전달받지 못하면 목록으로 이동
 		if( board.getBoardNo() < 1 ) {
 			return "redirect:/menu/rent/list";
@@ -79,11 +80,21 @@ public class MenuRentController {
 	
 	//게시글 작성 폼
 	@GetMapping("/write")
-	public void write() {} 
+	public void write( Board writeParam ) {}
 	
 	//게시글 작성 처리
 	@PostMapping("/write")
-	public void writeProc() {}
+	public String writeProc( Board writeParam, List<MultipartFile> file, HttpSession session ) {
+		logger.info("writeParam : {}", writeParam );
+		
+		writeParam.setWriterId((String) session.getAttribute("id"));
+		writeParam.setWriterNick("대충닉");
+		
+		//게시글 저장
+		menuRentService.write( writeParam, file );
+		
+		return "redirect:/menu/rent/view?boardNo=" + writeParam.getBoardNo();
+	}
 
 	//게시글 수정 폼
 	@GetMapping("/update")
