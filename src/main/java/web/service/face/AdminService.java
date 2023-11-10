@@ -16,4 +16,10 @@ public interface AdminService {
 	 */
 	public void bannerUpdate(Banner bannerParam, List<MultipartFile> file);
 
+	/**
+	 * 관리자에서 썸네일 미리보기를 위한 메소드
+	 * @return 사진 저장 배열
+	 */
+	public List<Banner> getBannerNo();
+
 }

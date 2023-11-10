@@ -6,15 +6,43 @@
 
 <html>
 <head>
-	<title>Needit</title>
+<title>Needit</title>
+
+<style type="text/css">
+/* 사진 전체 화면 */
+.logo{
+	width: 100%;
+	height: 100%;
+}
+
+
+</style>
+
+<script type="text/javascript">
+
+
+</script>
+
+
 </head>
 <body>
-<h1>Needit Project 시작!</h1>
+<div id="logoStart">
+	<div class="logo">
+	<a href="/main"><img id="one" class="logo fade-in1 fade-out1" alt="logo1" src="/resources/img/opening1.png"></a>
+	</div>
+	
+	<div class="logo">
+	<a href="/main"><img id="two" class="logo fade-in2 fade-out2" alt="logo2" src="/resources/img/opening2.png"></a>
+	</div>
+	
+	<div class="logo">
+	<a href="/main"><img id="three" class="logo fade-in3 fade-out3" alt="logo3" src="/resources/img/opening3.png"></a>
+	</div>
+</div>
 
-<P>  The time on the server is ${serverTime}. </P>
-<br>
 
-<a class="btn btn-primary" href="/main">메인으로</button>
+
 
 </body>
 </html>
+

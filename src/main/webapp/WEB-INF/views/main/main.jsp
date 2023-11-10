@@ -12,12 +12,24 @@ crossorigin="anonymous"></script>
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <style>
+/* 썸네일 div */
+#Thumbnail{
+	border:1px solid #ccc;
+	width: 1000px;
+	height: 400px;
+	margin: 50px auto 10px auto;
+	overflow: hidden;
+}
 /* 썸네일 */
-#MainBannerimg{
-	margin: 0 auto;
-	border: 1px solid #ccc;
-	width: 500px;
-	height: 300px;
+.carousel-inner {
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-inner img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
 }
 
 /* 검색 */
@@ -61,6 +73,13 @@ crossorigin="anonymous"></script>
 	float: right;
 }
 
+/* hr 위아래 조절 */
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #black;
+  }
+
 </style>
 
 <script type="text/javascript">
@@ -74,31 +93,42 @@ crossorigin="anonymous"></script>
 <!-- 썸네일 -->
 <!-- 이미지 불러오기 -->
 <%-- <img alt="asd" src="/resources/banner/${모델값(컨트롤러가 보내줌) }"> --%>
-<img alt="1" src="/resources/banner/cat1.jpeg143f681e3fb5">
-<%-- <img alt="1" src="/resources/banner/${file.storedName }"> --%>
+<!-- <img alt="1" src="/resources/banner/cat1.jpeg143f681e3fb5"> --><!-- TEST -->
+<!-- <div id="Thumbnail"> -->
+<%-- 	<c:forEach items="${file }" var="bannerNames"> --%>
+<%-- 		<img alt="썸네일" src="/resources/banner/${bannerNames.storedName }"> --%>
+<%-- 	</c:forEach> --%>
+<!-- </div> -->
 
 <!-- 저장 경로를 img폴더로 지정, src에 storedname EL문으로 불러오기 -->
-<div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-  <div class="carousel-inner" id="MainBannerimg">
-    <div class="carousel-item active">
-      <img src="/resources/banner/cat1.jpeg143f681e3fb5 }" class="d-block w-500 h-300 m-auto" alt="썸네일1">
-    </div>
-    <div class="carousel-item">
-      <img src="/resources/banner/cat2.jpeg" class="d-block w-500 h-300 m-auto" alt="썸네일2">
-    </div>
-    <div class="carousel-item">
-      <img src="/resources/banner/cat3.jpeg" class="d-block w-500 h-300 m-auto" alt="썸네일3">
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+<div id="Thumbnail">
+<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-interval = "false">
+	<!-- 사진 밑에 대시 3개 -->
+	<div class="carousel-indicators">
+	    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+	    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+	    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  	</div>
+  
+	<div class="carousel-inner">
+		<c:forEach items="${file }" var="bannerNames" varStatus="status">
+		<div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+			<img src="/resources/banner/${bannerNames.storedName }" class="d-block w-100 h-300 m-auto" alt="썸네일1">
+		</div>
+  		</c:forEach>
+	</div><!-- .carousel-inner -->
+	
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
   </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
+</div>
 </div><!-- 썸네일 끝 -->
+<hr>
 
 <!-- 검색 -->
 <div id="MainSearchDiv">

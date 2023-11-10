@@ -11,6 +11,16 @@
 		VALUES ( banner_seq.nextval, #{originName}, #{storedName}, #{fileType} )
 	</insert>
 
-	
+ 	<select id="getStoredName" resultType="Banner" >
+		SELECT
+			banner_no, origin_name, stored_name, file_type
+		FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT * FROM banner
+				ORDER BY banner_no DESC
+			) B
+		)
+		WHERE rnum &lt;= 3
+ 	</select>
 
 </mapper>
