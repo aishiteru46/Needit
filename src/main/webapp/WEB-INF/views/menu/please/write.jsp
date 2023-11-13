@@ -20,10 +20,43 @@ $(() => {
 		height: 300
 	})
 })
+
+function setThumbnail(event) {
+    var reader = new FileReader();
+
+    reader.onload = function (event) {
+        var thumbnailContainer = document.querySelector("#thumnail_container");
+        thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+
+
 </script>
+
+<style type="text/css">
+	
+#thumnail_container{
+    border: 1px solid #ccc;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+</style>
 
 
 <div class="container">
+
+
+
 <h1>글 작성</h1>
 <hr>
 
@@ -32,7 +65,7 @@ $(() => {
 
 <div class="form-group mb-3">
 	<label class="form-label">게시판</label>
-	<input type="text" class="form-control" readonly="readonly" value="${menu }">
+	<input type="text" class="form-control" name="menu" id="menu" readonly="readonly" value="${param.menu }">
 </div>
 
 <div class="form-group mb-3">
@@ -49,6 +82,14 @@ $(() => {
 	<label class="form-label" for="content">본문</label>
 	<textarea class="form-control" name="content" id="content"></textarea>
 </div>
+
+
+<div class="form-group mb-3">
+   <label class="form-label" for="thumnail">썸네일</label>
+   <input class="form-control form-control-user" type="file" name="file" id="thumnail" onchange="setThumbnail(event);"><br>
+   <div id="thumnail_container"></div>
+</div>
+
 
 <div class="form-group mb-3">
 	<label class="form-label" for="file">첨부파일</label>

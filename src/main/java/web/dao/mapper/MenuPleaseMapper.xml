@@ -53,8 +53,8 @@
 			SELECT board_seq.nextval FROM dual
 		</selectKey>
 	
-		INSERT INTO board ( board_no, title, content, writer_id, writer_nick, menu )
-		VALUES ( #{boardNo}, #{title}, #{content}, #{writerId}, '닉수정필요', '메뉴수정필요' )
+		INSERT INTO board(board_no, menu, writer_id, writer_nick, title, price, content, location)
+    	VALUES ( #{boardNo}, #{menu}, #{writerId}, #{writerNick}, #{title}, #{price}, #{content},'서울')
 	</insert>
 
 	<insert id="insertFile" parameterType="FileTb">
@@ -84,10 +84,26 @@
 		</where>
 	</select>
 	
- 	<delete id="deleteFileByBoardNo" parameterType="Board">
-		DELETE boardfile
+	
+	<update id="update" parameterType="Board">
+		UPDATE board
+		<set>
+			, title = #{title }
+			, content = #{content }
+		</set>
 		<where>
-			board_no = #{boardNo}
+			board_no = #{boardNo }
+		</where>
+	</update>
+	
+	
+	<delete id="deleteFiles" parameterType="int[]">
+		DELETE filetb
+		<where>
+			file_no IN
+			<foreach collection="array" item="no" open="(" close=")" separator=",">
+				#{no }
+			</foreach>
 		</where>
 	</delete>
 	
@@ -98,6 +114,46 @@
 		</where>
 	</delete>
 	
+ 	<delete id="deleteFileByBoardNo" parameterType="Board">
+		DELETE filetb
+		<where>
+			board_no = #{boardNo}
+		</where>
+	</delete>
+	
+	
+	
+	
+	<select id="selectCntLike" resultType="int" parameterType="Like">
+		SELECT count(*) FROM like
+		<where>
+			AND id = #{id}
+			AND board_no = #{boardNo}
+		</where>
+	</select>
+	
+	<insert id="insertLike" parameterType="Like">
+		INSERT INTO like
+		VALUES ( #{id}, #{boardNo} )
+	</insert>
+	
+	<delete id="deleteLike" parameterType="Like">
+		DELETE like
+		<where>
+			AND id = #{id}
+			AND board_no = #{boardNo}
+		</where>
+	</delete>
+	
+	<select id="selectTotalCntLike" resultType="int" parameterType="Like">
+		SELECT COUNT(*) FROM like
+		<where>
+			AND board_no = #{boardNo}
+		</where>
+	</select>
+	
+	
+	
 	
 	<select id="selectByMenu" resultType="Board" parameterType="Board">
 		SELECT menu
@@ -105,6 +161,12 @@
 		WHERE menu = #{menu}
 	</select>
 	
+ 	
+ 	<insert id="insertComment" parameterType="Comment">
+ 		INSERT INTO commentTB (cmt_no, board_no, writer_id, content)
+ 		VALUES (commentTb_seq.nextval, #{boardNo}, #{writerId}, #{content} )
+ 		
+ 	</insert>
  	
   
  </mapper>
