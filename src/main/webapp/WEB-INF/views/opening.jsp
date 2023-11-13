@@ -14,35 +14,49 @@
 	width: 100%;
 	height: 100%;
 }
+.logo1, .logo2, .logo3{
+	width: 100%;
+	height: 100%;
+}
+
+/* 슬라이드시 fade-in, fade-out */
+.logo1, .logo2, .logo3{
+	opacity: 0;
+	transition: 1s ease-out;
+}
+.logo2:hover, .logo3:hover{
+	opacity: 1;
+	transition: 1s ease-out;
+}
+.logo1:not(:hover), .logo2:not(:hover), .logo3:not(:hover) {
+    transition: 0.5s ease-out;
+}
 
 
 </style>
 
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script type="text/javascript">
-
-
+$(document).ready(function() {
+	setTimeout(function() {
+		$('.logo1').css('opacity', '1');
+	}, 1000);
+});
 </script>
-
-
 </head>
 <body>
 <div id="logoStart">
-	<div class="logo">
-	<a href="/main"><img id="one" class="logo fade-in1 fade-out1" alt="logo1" src="/resources/img/opening1.png"></a>
+	<div class="logo" id="div1">
+	<a href="/main"><img id="one" class="logo1" alt="logo1" src="/resources/img/opening1.png"></a>
+	</div>
+	<div class="logo" id="div2">
+	<a href="/main"><img id="two" class="logo2" alt="logo2" src="/resources/img/opening2.png"></a>
 	</div>
 	
-	<div class="logo">
-	<a href="/main"><img id="two" class="logo fade-in2 fade-out2" alt="logo2" src="/resources/img/opening2.png"></a>
-	</div>
-	
-	<div class="logo">
-	<a href="/main"><img id="three" class="logo fade-in3 fade-out3" alt="logo3" src="/resources/img/opening3.png"></a>
+	<div class="logo" id="div3">
+	<a href="/main"><img id="three" class="logo3" alt="logo3" src="/resources/img/opening3.png"></a>
 	</div>
 </div>
 
-
-
-
 </body>
 </html>
-

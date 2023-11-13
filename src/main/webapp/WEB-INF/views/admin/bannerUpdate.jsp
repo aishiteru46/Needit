@@ -10,12 +10,23 @@
 	background-color: #ff8108;
 	width: 302px;
 }
-
 #BannerImgPre{
-	width: 1000px;
-	
-	
+	width: 500px;
+	height: 250px;
 }
+
+#BannerImg{
+	border: 1px solid #ccc;
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+    justify-content: center;
+    align-items: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -45,9 +56,10 @@
 <!-- 이미지 미리보기 -->
 <div id="BannerImgPre">
 	<c:forEach items="${file }" var="bannerNames">
-		<img alt="썸네일" src="/resources/banner/${bannerNames.storedName }">
+		<img id="BannerImg" alt="썸네일" src="/resources/banner/${bannerNames.storedName }">
 	</c:forEach>
 </div><!-- .BannerImgPre -->
+
 
 </div><!-- .AdminContent -->
 

@@ -102,15 +102,17 @@ li:hover{
 
 </head>
 <body>
-	
+
 
 <!-- 니딧 로고 -->
-<a href="./admin"><img alt="니딧로고" src="/resources/img/needitAdmin_white.png" id="AdminImg"></a>
+<a href="/admin">
+	<img alt="니딧로고" src="/resources/img/needitAdmin_white.png" id="AdminImg">
+</a>
 
 <!-- 위쪽 배경 -->
 <div id="AdminTop">
 <!-- 로그아웃 버튼 -->
-<form action="/main/main" method="post">
+<form action="/main" method="post">
 <button id="AdminBtn">로그아웃</button>
 </form>
 </div>
@@ -118,21 +120,19 @@ li:hover{
 <!-- 왼쪽 배경 -->
 <div id="AdminLeft"></div>
 
-
 <!-- 목록 -->
 <div id="AdminList">
 <ul id="AdminUl">
-<li id="AdminDayVisit"><a href="./dayVisit">방문자수 조회</a></li>
-<li id="AdminChat"><a href="./chat">1:1 채팅문의 목록</a></li>
-<li id="AdminReport"><a href="./reportList">신고접수 목록</a></li>
-<li id="AdminBusiness"><a href="./businessReq">업체요청 목록</a></li>
+<li id="AdminDayVisit"><a href="/admin/dayVisit">방문자수 조회</a></li>
+<li id="AdminChat"><a href="/admin/chat">1:1 채팅문의 목록</a></li>
+<li id="AdminReport"><a href="/admin/reportList">신고접수 목록</a></li>
+<li id="AdminBusiness"><a href="/admin/businessReq">업체요청 목록</a></li>
 
-<li id="AdminBanner"><a href="./bannerUpdate?boardNo=0">메인배너 수정</a></li>
-<li id="AdminNotice"><a href="./noticeUpdate">공지등록</a></li>
-<li id="AdminEmail"><a href="./emailSend">회원 이메일 발송</a></li>
+<li id="AdminBanner"><a href="/admin/bannerUpdate">메인배너 수정</a></li>
+<li id="AdminNotice"><a href="/admin/noticeUpdate">공지등록</a></li>
+<li id="AdminEmail"><a href="/admin/emailSend">회원 이메일 발송</a></li>
 </ul>
 </div>
-
 
 
 </body>

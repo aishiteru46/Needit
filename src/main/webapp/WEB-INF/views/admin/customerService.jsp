@@ -29,9 +29,9 @@
 
 <br><br><br>
 <div id="customerServie-button-div">
-<a href="../admin/notice"><button id="customerServie-button">⭐NOTICE.공지사항</button></a><br><br>
-<a href="../admin/faq"><button id="customerServie-button">❔FAQ.자주 묻는 질문</button></a><br><br>
-<a href="../admin/chat"><button id="customerServie-button">🎧1대1 채팅문의</button></a>
+<a href="/admin/notice"><button id="customerServie-button">⭐NOTICE.공지사항</button></a><br><br>
+<a href="/admin/faq"><button id="customerServie-button">❔FAQ.자주 묻는 질문</button></a><br><br>
+<a href="/admin/chat"><button id="customerServie-button">🎧1대1 채팅문의</button></a>
 </div>
 
 
