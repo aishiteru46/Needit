@@ -5,24 +5,27 @@ public class FileTb {
 	private int fileNo;
 	private String originName;
 	private String storedName;
+	private String thumbnailName;
 	private String fileType;
 	private int boardNo;
 
 	public FileTb() {}
 
-	public FileTb(int fileNo, String originName, String storedName, String fileType, int boardNo) {
+	public FileTb(int fileNo, String originName, String storedName, String thumbnailName, String fileType,
+			int boardNo) {
 		super();
 		this.fileNo = fileNo;
 		this.originName = originName;
 		this.storedName = storedName;
+		this.thumbnailName = thumbnailName;
 		this.fileType = fileType;
 		this.boardNo = boardNo;
 	}
 
 	@Override
 	public String toString() {
-		return "File [fileNo=" + fileNo + ", originName=" + originName + ", storedName=" + storedName + ", fileType="
-				+ fileType + ", boardNo=" + boardNo + "]";
+		return "FileTb [fileNo=" + fileNo + ", originName=" + originName + ", storedName=" + storedName
+				+ ", thumbnailName=" + thumbnailName + ", fileType=" + fileType + ", boardNo=" + boardNo + "]";
 	}
 
 	public int getFileNo() {
@@ -49,6 +52,14 @@ public class FileTb {
 		this.storedName = storedName;
 	}
 
+	public String getThumbnailName() {
+		return thumbnailName;
+	}
+
+	public void setThumbnailName(String thumbnailName) {
+		this.thumbnailName = thumbnailName;
+	}
+
 	public String getFileType() {
 		return fileType;
 	}
@@ -64,6 +75,5 @@ public class FileTb {
 	public void setBoardNo(int boardNo) {
 		this.boardNo = boardNo;
 	}
-
 	
 }

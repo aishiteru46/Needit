@@ -17,24 +17,11 @@ $(() => {
 </script>
 
 <script type="text/javascript">
-// function setThumbnail(event){
-// 	var reader = new FileReader();
-	
-// 	reader.onload = function(event){
-// 		var img = document.createElement("img");
-// 		img.setAttribute("src", event.target.result);
-// 		img.setAttribute("class", "col-lg-6");
-// 		document.querySelector("div#thumnail_container").appendChild(img);
-// 	};
-	
-// 	reader.readAsDataURL(event.target.files[0]);
-// }
-
 function setThumbnail(event) {
     var reader = new FileReader();
 
     reader.onload = function (event) {
-        var thumbnailContainer = document.querySelector("#thumnail_container");
+        var thumbnailContainer = document.querySelector("#thumbnail_container");
         thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
     };
 
@@ -44,7 +31,7 @@ function setThumbnail(event) {
 
 <style type="text/css">
 	
-#thumnail_container{
+#thumbnail_container{
     border: 1px solid #ccc;
     width: 200px;
     height: 200px;
@@ -68,7 +55,7 @@ function setThumbnail(event) {
 
 <div class="form-group mb-3">
 	<label class="form-label">작성자</label>
-	<input type="text" class="form-control" readonly="readonly" name="writerId" value="${id }">
+	<input type="text" class="form-control" readonly="readonly" name="writerId" value="${nick }">
 </div>
 
 <div class="form-group mb-3">
@@ -87,9 +74,9 @@ function setThumbnail(event) {
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="thumnail">썸네일</label>
-	<input class="form-control form-control-user" type="file" name="file" id="thumnail" onchange="setThumbnail(event);"><br>
-	<div id="thumnail_container"></div>
+   <label class="form-label" for="thumbnailFile">썸네일</label>
+   <input type="file" class="form-control form-control-user" name="file" id="thumbnailFile" onchange="setThumbnail(event);"><br>
+   <div id="thumbnail_container"></div>
 </div>
 
 <div class="form-group mb-3">
