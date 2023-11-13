@@ -11,6 +11,38 @@ table, th {
    text-align: center;
 }
 
+ .write-container {
+    border: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.write-container select {
+    width: 320px;
+    height: 30px;
+}
+
+.row {
+	text-align: center;
+}
+
+.write-container {
+    height: 380px;
+    width: 350px;
+    margin: 1em auto; 
+    text-align: center; 
+}
+
+.col-md-4 {
+    margin-right: 30px;
+}
+.preview {
+	margin: 15px auto 15px auto;
+	width: 300px;
+	height: 200px;
+	object-fit: cover;
+}
+
+
 /* 게시글 제목 */
 td:nth-child(2) {
    text-align: left;
@@ -29,11 +61,23 @@ $(() => {
 })
 </script>
 
+<c:forEach items="${list }" var="list" begin="0" end="0">
+<c:if test="${ list.menu eq 'm3c1' }">
+<h1>해주세요</h1><hr><h1>물품</h1>
+</c:if>
 
-<div class="container">
-<h1>해주세요</h1>
-<h1>JOOHYUNLOVE</h1>
+<c:if test="${ list.menu eq 'm3c2' }">
+<h1>해주세요</h1><hr><h1>인력</h1>
+</c:if>
+
+<c:if test="${ list.menu eq 'm3c3' }">
+<h1>해주세요</h1><hr><h1>공간</h1>
+</c:if>
+</c:forEach>
 <hr>
+
+
+
 
 <table class="table table-striped table-hover table-sm">
 
@@ -62,7 +106,7 @@ $(() => {
    <tr>
       <td>${board.boardNo }</td>
       <td>
-         <a href="./view?boardNo=${board.boardNo }">${board.title }</a>
+         <a href="./view?boardNo=${board.boardNo }&menu=${board.menu}">${board.title }</a>
       </td>
       <td>${board.writerId }</td>
       <td>${board.hit }</td>
@@ -80,10 +124,11 @@ $(() => {
 
 
 
-    <c:set var="menu" value="${item}" />
-    <a href="./write?menu=${item.menu}">
+    <c:forEach var="menuData" items="${list}" begin="0" end="0">
+    <a href="/menu/please/write?menu=${menuData.menu}">
         <button id="btnWrite" class="btn btn-primary float-start">글쓰기</button>
     </a>
+    </c:forEach>
 
 
 

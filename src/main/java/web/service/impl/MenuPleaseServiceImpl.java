@@ -1,11 +1,14 @@
 package web.service.impl;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
@@ -15,8 +18,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import oracle.net.aso.f;
 import web.dao.face.MenuPleaseDao;
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
 import web.service.face.MenuPleaseService;
@@ -125,6 +130,28 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 		
 		try {
 			file.transferTo(dest);
+			
+	         //--- 이미지 파일 압축하여 저장하기 ---
+	         
+	         //압축 이미지용 파일명 설정
+	         File thumbnailFile = new File(storedPath, "s_" + storedName);
+	         
+	         //원본 파일을 압축할 파일명 변수에 대입
+	         BufferedImage bufOriginImage = ImageIO.read(dest);
+	         //압축될 파일의 ('넓이', '높이', '생성될 이미지의 타입') 지정->원하는 크기로 지정가능
+	         BufferedImage bufPressImage = new BufferedImage(500, 500, BufferedImage.TYPE_3BYTE_BGR);
+	         
+	         //BufferedImage 객체에 Grahpic2D객체를 이용해 그리기
+	         Graphics2D graphic = bufPressImage.createGraphics();
+	         
+	         // drawImage 메서드를 호출하여 원본 이미지(원본 BuffedImage)를 
+	         //썸네일 BufferedImage에 지정한 크기로 변경하여 왼쪽 상단 "0, 0" 좌표부터 그리기
+	         graphic.drawImage(bufOriginImage, 0, 0,300,500, null);
+	         
+	         // ImageIO의 write 메서드를 호출하여 그려진 객체를 파일로 저장
+	         //write() -> 매개변수( 파일로 저장할 이미지, (String)이미지 형식, 저장될 경로 )
+	         ImageIO.write(bufPressImage, "jpg", thumbnailFile);
+	         
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -134,13 +161,13 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 		//---------------------------------------------------------------------------
 	   
 		
-		FileTb fileTb = new FileTb();
-		fileTb.setBoardNo(boardNo);
-		fileTb.setOriginName(originName);
-		fileTb.setStoredName(storedName);
-		fileTb.setFileType(fileType);
+		FileTb boardfile = new FileTb();
+		boardfile.setBoardNo(boardNo);
+		boardfile.setOriginName(originName);
+		boardfile.setStoredName(storedName);
+		boardfile.setFileType(fileType);
 		
-		menuPleaseDao.insertFile(fileTb);
+		menuPleaseDao.insertFile(boardfile);
 		
 }
 
@@ -154,43 +181,48 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 	
 	
 	@Override
-	public FileTb getFile(FileTb fileTb) {
-		return menuPleaseDao.selectFileByFileNo(fileTb);
+	public FileTb getFile(FileTb boardfile) {
+		return menuPleaseDao.selectFileByFileNo(boardfile);
 	}
 
 	
 	
 	
 	
-   @Override
-   public Board updateSelect(Board updateBoard) {
-	   return null;
-   }
 	
-	
-	
-	
+	@Override
+	public void update(Board updateParam, List<MultipartFile> file, int[] delFileno) {
+		
+		if ( updateParam.getTitle() == null || "".equals(updateParam.getTitle()) ) {
+			updateParam.setTitle("(제목없음)");
+		}
+		menuPleaseDao.update(updateParam);
+		
+		//---------------------------------------------------------------------------
+
+		//첨부파일이 없을 경우 처리
+		if( file.size() == 0 ) {
+			return;
+		}
+		
+		for(MultipartFile f : file) {
+			this.fileinsert(f, updateParam.getBoardNo() );
+		}
+		
+		//----------------------------------------------------------------------------
+		
+		//삭제할 첨부 파일 처리
+		if (delFileno != null) {
+			menuPleaseDao.deleteFiles(delFileno);
+			
+		}
+		
+		
+	}
    
-	
-   @Override
-   public void updateBoard(Board updateBoard) {
-	   
-   }
-	
-	
-	
-   
-	
-	
-   @Override
-   public void updateFilesave(MultipartFile file, Board updateBoard) {
-	   
-   }
-
 
 
    @Override
-   @Transactional
    public void delete(Board deleteParam) {
 	   menuPleaseDao.deleteFileByBoardNo(deleteParam); //첨부파일 삭제 먼저
 	   menuPleaseDao.deleteByBoardNo(deleteParam); // 게시글 삭제
@@ -199,7 +231,34 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 
 	@Override
 	public boolean isLike(Like like) {
-		return false;
+		
+		int cnt = menuPleaseDao.selectCntLike(like);
+		
+		if (cnt > 0) { //추천했음
+			return true;
+		} else {
+			return false;
+			
+		}
+		
+	}
+	
+	
+	
+	@Override
+	public boolean like(Like like) {
+		
+		if ( isLike(like) ) { //추천한 상태
+			menuPleaseDao.deleteLike(like);
+			
+			return false;
+			
+		} else { //추천하지 않은 상태
+			menuPleaseDao.insertLike(like);
+			
+			return true;
+		}
+		
 	}
 	
 	
@@ -207,9 +266,13 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 	
 	
 	@Override
-	public Object getTotalCntLike(Like like) {
-		return null;
+	public int getTotalCntLike(Like like) {
+		
+		return menuPleaseDao.selectTotalCntLike(like);
 	}
+	
+	
+	
 
 
 
@@ -219,6 +282,25 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 	public List<Board> getMenu(Board writeParam) {
 		return menuPleaseDao.selectByMenu(writeParam);
 	}
+
+
+
+
+
+	@Override
+	public void insertComment(Comment comment) {
+
+		menuPleaseDao.insertComment(comment);
+	}
+
+
+
+
+
+
+
+
+
 
 
 

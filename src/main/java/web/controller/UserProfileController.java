@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,14 +54,16 @@ public class UserProfileController {
 		}
 		
 		//회원 수정
+//		userProfileService.updateInfo(user);
 		
 		
 		
-		
-		return null;
+		return "redirect:/infoupdate";
 				
 		
 	}
+	
+	
 	
 	
 	
@@ -70,16 +73,20 @@ public class UserProfileController {
 			HttpServletRequest req
 			, HttpSession session
 			, RedirectAttributes rttr
-			
+			, Model model
 			) {
 		
 		
+		String id = (String) session.getAttribute("id");
+		model.addAttribute("id", id);
 		
 		
 		
 		
 		
-	return null;
+		
+		
+	return "/profile/view";
 		
 		
 		

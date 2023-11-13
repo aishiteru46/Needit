@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
 import web.util.Paging;
@@ -74,43 +75,36 @@ public interface MenuPleaseService {
     * @param fileTb - 조회할 파일 번호를 가진 객체
     * @return 파일 정보
     */
-   public FileTb getFile(FileTb fileTb);
+   public FileTb getFile(FileTb boardfile);
+   
+
+	
+   
+   /**
+    * 게시글 수정 처리
+    * + 첨부파일을 처리한다
+    *  (첨부파일은 여러 개 가능)
+    *  + 삭제할 첨부 파일을 처리한다
+    *  
+    * @param updateParam - 게시글 정보 객체
+    * @param file - 첨부 파일 리스트
+    * @param delFileno - 삭제할 첨부파일 번호
+    */
+   public void update(Board updateParam, List<MultipartFile> file, int[] delFileno);
+   
+   
    
 
 	/**
-	 * 업데이트할 파일번호 조회
+	 * 게시글을 삭제한다
+	 * +첨부파일을 먼저 삭제해준다
 	 * 
-	 * @param updateBoard
-	 * @return
-	 */
-	public Board updateSelect(Board updateBoard);
-
-
-
-	/**
-	 * 업데이트
-	 * 
-	 * @param updateBoard
-	 */
-	public void updateBoard(Board updateBoard);
-
-
-
-	/**
-	 * 파일업데이트
-	 * 
-	 * @param file
-	 * @param updateBoard
-	 */
-	public void updateFilesave(MultipartFile file, Board updateBoard);
-
-	/**
-	 * 글삭제하기
-	 * 
-	 * @param deleteParam
+	 * @param deleteParam - 삭제하려는 게시글 번호 객체
 	 */
 	public void delete(Board deleteParam);
 
+	
+	
 	/**
 	 * 따봉했는지 안했는지
 	 * 
@@ -120,13 +114,7 @@ public interface MenuPleaseService {
 	public boolean isLike(Like like);
 
 
-	/**
-	 * 따봉 갯수
-	 * 
-	 * @param like
-	 * @return
-	 */
-	public Object getTotalCntLike(Like like);
+	
 
 
 
@@ -137,6 +125,38 @@ public interface MenuPleaseService {
 	 * @return
 	 */
 	public List<Board> getMenu(Board writeParam);
+
+
+
+	/**
+	 * 새로운 댓글을 삽입한다
+	 * 
+	 * @param comment - 입력된 댓글 정보
+	 */
+	public void insertComment(Comment comment);
+
+
+
+	/**
+	 * 추천 상태를 확인하고 추천을 토글(넣고뺴기) 작업
+	 * 
+	 * @param like - 추천 대상 정보
+	 * @return true - 추천함, false - 추천 취소함
+	 */
+	public boolean like(Like like);
+
+
+
+	/**
+	 * 총 추천 수를 구한다
+	 * 
+	 * @param like - 추천수를 파악할 게시글 정보
+	 * @return 총 추천 수
+	 */
+	public int getTotalCntLike(Like like);
+
+
+
 
 
 

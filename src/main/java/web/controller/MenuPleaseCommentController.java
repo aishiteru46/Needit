@@ -25,10 +25,13 @@ public class MenuPleaseCommentController {
 	public String insert(Comment comment, Model model, HttpSession session) {
 		
 		comment.setWriterId((String) session.getAttribute("id"));
-//		menuPleaseService.insertComment(comment);
+		menuPleaseService.insertComment(comment);
 		
 		
 		return "redirect:/board/view?boardNo="+comment.getBoardNo();
 	}
+	
+	
+
 	
 }
