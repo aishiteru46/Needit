@@ -63,14 +63,18 @@ public class AdminController {
 	//-------------------------------------
 	
 	//관리자 로그아웃
-	@RequestMapping("/main/main")
-	public void logout(HttpSession session) {
+	@RequestMapping("/main")
+	public String logout(HttpSession session) {
 		session.invalidate();
+		
+		return "/main/main";
 	}
 	
 	//관리자 메인페이지
-	@GetMapping("/admin/admin")
-	public void admin() {}
+	@GetMapping("/admin")
+	public String admin() {
+		return "/admin/admin";
+	}
 	
 	//관리자 일일 방문자수 조회
 	@GetMapping("/admin/dayVisit")
@@ -118,6 +122,14 @@ public class AdminController {
 	//관리자 회원이메일 발송 
 	@GetMapping("/admin/emailSend")
 	public void emailSend() {}
+	
+	//신고버튼 클릭시
+	@GetMapping("/admin/report")
+	public void report() {}
+	
+	//신고 접수
+	@PostMapping("/admin/report")
+	public void reportUpdate() {}
 	
 	//-------------------------------------
 

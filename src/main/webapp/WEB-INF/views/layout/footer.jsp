@@ -22,12 +22,13 @@
 </style>
 
 
-<div style="margin-top: 5%;"></div>
+<div style="margin-top: 20px;"></div>
 <!-- <div style="margin-left: 15%; margin-right: 15%;"> -->
+
 <div id="fooeterStart">
 <hr style="margin-bottom: 1em;">
 
-<span style="font-size: 20px; margin-left: 40px; margin-right: 70px;"><strong>고객센터 1111-2222</strong></span>
+<span style="font-size: 20px; margin-left: 40px;"><strong>고객센터 1111-2222</strong></span>
 
 <span style="margin-left: 100px;">
 <span style=" margin-right: 90px;"><a href="/opening" id="footer-text">소개 페이지</a></span>
@@ -45,8 +46,26 @@
 <div style="clear: both;"><form action="/admin/chat" method="get"><button id="footer-report-button">1:1 문의</button></form></div>
 </div>
 
-<span style="float: right; font-size: 10px; color: #ccc; margin-top: -20px; margin-right: 660px;">Copyright ⓒNeedit</span>
+<span style="float: right; font-size: 10px; color: #ccc; margin-top: -28px;">Copyright ⓒNeedit</span>
 </div><!-- .fooeterStart -->
+<div style="margin-bottom: 20px;"></div>
+
+
+
+<!-- 모달 -->
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="reportModalLabel">신고하기</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+	    <%@ include file="/WEB-INF/views/admin/report.jsp" %>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 </body>
