@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.FileTb;
+import web.dto.Like;
 import web.util.Paging;
 
 public interface MenuShareDao {
@@ -95,5 +97,49 @@ public interface MenuShareDao {
 	 */
 	public void deleteByBoardNo(Board deleteParam);
 	
+	/**
+	 * 추천수가 있는지 없는지 확인
+	 * 
+	 * @param like 추천수
+	 * @return 추천수가 있으면 1 없으면 0 
+	 */
+	public int selectByLike(Like like);
+	
+	/**
+	 * 총 추천수 조회
+	 * 
+	 * @param like 조회된 추천수
+	 * @return 추천수
+	 */
+	public int selectLikeByBoardNo(Like like);
+	
+	/**
+	 * 추천이있으면 삭제
+	 * 
+	 * @param like 추천
+	 */
+	public void deleteLike(Like like);
+	
+	/**
+	 * 추천이 있으면 insert
+	 * 
+	 * @param like 추천
+	 */
+	public void insertLike(Like like);
+	
+	/**
+	 * 댓글 입력
+	 * 
+	 * @param comment 사용자가 입력한 댓글
+	 */
+	public void cmtWrite(Comment comment);
+
+	/**
+	 * 댓글 목록
+	 * 
+	 * @param comment 댓글 리스트
+	 * @return 댓글 리스트
+	 */
+	public List<Comment> cmtList(Comment comment);
 
 }
