@@ -18,6 +18,20 @@
 		WHERE rnum &lt;= 3
  	</select>
  
+ 	<select id="selectAll" resultType="Map" parameterType="Board">
+ 		SELECT * FROM 
+		    (SELECT rownum rnum, B.* FROM(
+			    SELECT * FROM board
+			    ORDER BY board_no DESC
+		    )B
+		)
+		WHERE rnum &lt;=4; 
+ 	</select>
+ 
+ 	<select id="selectFileImg" resultType="FileTb" parameterType="FileTb">
+    	SELECT stored_name FROM fileTb
+    	WHERE board_no = #{boardNo}
+ 	</select>
  
  </mapper>
   

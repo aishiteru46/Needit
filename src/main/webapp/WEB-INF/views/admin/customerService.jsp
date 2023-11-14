@@ -24,6 +24,11 @@
 	background-color: white;
 	color: rgb(255,83,63);
 }
+
+.floating{
+	display: none;
+}
+
 </style>
 
 

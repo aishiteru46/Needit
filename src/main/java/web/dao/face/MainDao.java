@@ -1,8 +1,11 @@
 package web.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import web.dto.Banner;
+import web.dto.Board;
+import web.dto.FileTb;
 
 public interface MainDao {
 
@@ -12,5 +15,21 @@ public interface MainDao {
 	 * @return 사진 저장 배열
 	 */
 	public List<Banner> getStoredName();
+
+	/**
+	 * 나눔해요 게시판 조회
+	 * 
+	 * @param board - 게시글 번호
+	 * @return - 나눔게시판 게시글 배열
+	 */
+	public List<Map<String, Object>> selectAll(Board board);
+
+	/**
+	 * 사용자가 업로드한 이미지
+	 * 
+	 * @param file - 이미지
+	 * @return - 이미지 배열
+	 */
+	public List<FileTb> selectFileImg(FileTb file);
 
 }
