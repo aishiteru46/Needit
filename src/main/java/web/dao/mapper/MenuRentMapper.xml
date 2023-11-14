@@ -50,13 +50,23 @@
 	
 	<!-- 게시글 상세 조회 -->
 	<select id="selectByBoardNo" resultType="Board" parameterType="Board">
-		SELECT
-			board_no, writer_id, writer_nick, write_date, hit, menu
-			, title, price, content, location
-		FROM board
-		<where>
-			board_no = #{boardNo }
-		</where>
+	    SELECT
+	        board_no, writer_id, writer_nick, write_date, hit, menu,
+	        title, price, content, U.addr1 as location
+	    FROM
+	        board B
+	    JOIN
+	        usertb U ON B.writer_id = U.id
+	    <where>
+	        board_no = #{boardNo }
+	    </where>
+<!-- 		SELECT -->
+<!-- 			board_no, writer_id, writer_nick, write_date, hit, menu -->
+<!-- 			, title, price, content, location -->
+<!-- 		FROM board -->
+<!-- 		<where> -->
+<!-- 			board_no = #{boardNo } -->
+<!-- 		</where>	     -->
 	</select>
 	
 	<!-- 게시글 삽입 -->
@@ -97,18 +107,6 @@
 		</where>
 	</select>
 	
-	<!-- 게시글별 추천수 조회 -->
-	<select id="getCntLikeByBoardNo" resultType="int" parameterType="web.util.Paging">
-	    SELECT count(like_id) AS like_count
-	    FROM liketb
-	    WHERE board_no IN (
-	        SELECT board_no
-	        FROM board
-	        WHERE menu = #{menu}
-	    )
-	    GROUP BY board_no
-	</select>
-	
 	<!-- 사용자 추천수 유무 조회 -->
 	<select id="selectCntLike" resultType="int" parameterType="Like">
 		SELECT count(*) FROM liketb
@@ -140,5 +138,38 @@
 			AND board_no = #{boardNo}
 		</where>
 	</select>    
-</mapper>
 
+	<!-- 댓글 삽입 -->
+	<insert id="insertComment" parameterType="Comment">
+		INSERT INTO commentTB ( CMT_NO, BOARD_NO, WRITER_ID, WRITER_NICK, CONTENT)
+		VALUES ( commentTB_seq.nextval, #{boardNo }, #{writerId }, #{writerNick }, #{content } )
+	</insert>
+	
+	<!-- 댓글 조회 -->
+	<select id="selectAllComment" resultType="Comment" parameterType="Comment">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT
+					CMT_NO, board_no, writer_id, 
+					writer_nick, content,
+					CAST(write_date AS DATE) AS "writeDate"
+				FROM commentTb
+				<where>
+					board_no = #{boardNo}
+				</where>
+				ORDER BY write_date DESC
+			) B
+		)
+		ORDER BY rnum
+	</select>	
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="Comment">
+		DELETE FROM commentTB
+		<where>
+			AND	cmt_no = #{cmtNo }
+			AND board_no = #{boardNo }
+		</where>
+	</delete>	
+	
+</mapper>

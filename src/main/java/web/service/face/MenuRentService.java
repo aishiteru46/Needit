@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
 import web.util.Paging;
@@ -33,14 +34,6 @@ public interface MenuRentService {
 	 */
 	public List<Map<String, Object>> list(Paging paging);
 
-	/**
-	 * 게시글 별 추천수 조회
-	 * 
-	 * @param paging - 페이징 정보 객체
-	 * @return 게시글 별 추천수
-	 */
-	public int getCntLike(Paging paging);
-	
 	/**
 	 * 게시글 상세보기
 	 * 
@@ -98,6 +91,29 @@ public interface MenuRentService {
 	 * @return 총 추천 수
 	 */
 	public int getTotalCntLike(Like like);
+
+	/**
+	 * 입력받은 댓글 저장
+	 * 
+	 * 
+	 * @param commentParam - userId(댓글 작성자 id), content(댓글)
+	 */	
+	public void commentInsert(Comment commentParam);
+
+	/**
+	 * 댓글 조회
+	 * 
+	 * @param commentParam - id, content, boardno
+	 * @return - 조회된 댓글 목록
+	 */
+	public List<Comment> viewComment(Comment commentParam);
+
+	/**
+	 * 
+	 * 
+	 * @param commentDelete
+	 */
+	public void delete(Comment commentDelete);
 
 
 

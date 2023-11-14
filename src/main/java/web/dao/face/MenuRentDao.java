@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
 import web.util.Paging;
@@ -27,14 +28,6 @@ public interface MenuRentDao {
 	 */
 	public List<Map<String, Object>> selectAll(Paging paging);
 
-	/**
-	 * 
-	 * 
-	 * @param paging
-	 * @return
-	 */
-	public int getCntLikeByBoardNo(Paging paging);
-	
 	/**
 	 * 
 	 * 
@@ -109,6 +102,28 @@ public interface MenuRentDao {
 	 * @return 전체 추천 수
 	 */
 	public int selectTotalCntLike(Like like);
+
+	/**
+	 * 
+	 * 
+	 * @param commentParam
+	 */
+	public void insertComment(Comment commentParam);
+
+	/**
+	 * 
+	 * 
+	 * @param commentParam
+	 * @return
+	 */
+	public List<Comment> selectAllComment(Comment commentParam);
+
+	/**
+	 * 
+	 * 
+	 * @param commentDelete
+	 */
+	public void deleteComment(Comment commentDelete);
 
 
 

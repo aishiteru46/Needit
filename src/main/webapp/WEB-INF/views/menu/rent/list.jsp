@@ -61,13 +61,13 @@
 
 <c:forEach  var="list" items="${list }" begin="0" end="0">
 	<c:if test="${list.MENU eq 'm1c1' }">
-		<h1>대여해요 물품</h1>	
+		<h5>대여해요 / 물품</h5>	
 	</c:if>
 	<c:if test="${list.MENU eq 'm1c2' }">
-		<h1>대여해요 인력</h1>	
+		<h5>대여해요 / 인력</h5>	
 	</c:if>
 	<c:if test="${list.MENU eq 'm1c3' }">
-		<h1>대여해요 공간</h1>	
+		<h5>대여해요 / 공간</h5>	
 	</c:if>
 </c:forEach>
 

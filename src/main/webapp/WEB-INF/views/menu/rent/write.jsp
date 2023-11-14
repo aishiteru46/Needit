@@ -46,8 +46,7 @@ function setThumbnail(event) {
 </style>
 
 <div class="container">
-
-<hr><br><br>
+<br><br>
 
 <div class="col-10 mx-auto">
 <form action="./write" method="post" enctype="multipart/form-data">
@@ -65,7 +64,7 @@ function setThumbnail(event) {
 
 <div class="form-group mb-3">
 	<label class="form-label" for="location">지역</label>
-	<input type="text" class="form-control" name="location" id="location">
+	<input type="text" class="form-control" readonly="readonly" name="location" value="" id="location">
 </div>
 
 <div class="form-group mb-3">
