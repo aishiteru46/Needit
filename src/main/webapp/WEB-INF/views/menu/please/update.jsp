@@ -14,22 +14,44 @@
 $(() => {
 	$("#title").focus()
 	
-	$(".del").click(e => {
-		$(e.target).prev().toggleClass("text-decoration-line-through")
-		
-		$(e.target).next().prop("checked", ()=>{return !$(e.target).next().prop("checked");})
-	})
-	
 	$("#content").summernote({
 		height: 300
 	})
 })
+
+function setThumbnail(event) {
+    var reader = new FileReader();
+
+    reader.onload = function (event) {
+        var thumbnailContainer = document.querySelector("#thumnail_container");
+        thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+}
+
 </script>
 
-<div class="container">
-<h1>글 수정</h1>
-<hr>
+<style type="text/css">
 
+#thumnail_container{
+    border: 1px solid #ccc;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+</style>
+
+<div class="container">
+
+<h1>글 작성</h1>
+<hr>
 
 
 <div class="col-10 mx-auto">
@@ -45,6 +67,22 @@ $(() => {
 <div class="form-group mb-3">
 	<label class="form-label" for="title">제목</label>
 	<input type="text" class="form-control" name="title" id="title" value="${updateBoard.title }">
+</div>
+
+<div class="form-group mb-3">
+	<label class="form-label" for="location">지역</label>
+	<input type="text" class="form-control" name="location" id="location" value="${updateBoard.location }">
+</div>
+
+<div class="form-group mb-3">
+	<label class="form-label" for="price">가격</label>
+	<input type="text" class="form-control" name="price" id="price" value="${updateBoard.price }">
+</div>
+
+<div class="form-group mb-3">
+   <label class="form-label" for="thumbnailFile">썸네일</label>
+   <input type="file" class="form-control form-control-user" name="file" id="thumbnailFile" onchange="setThumbnail(event);"><br>
+   <div id="thumbnail_container"></div>
 </div>
 
 <div class="form-group mb-3">

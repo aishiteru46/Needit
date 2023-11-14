@@ -158,28 +158,39 @@ public interface MenuPleaseDao {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	/**
-	 * 메뉴찾기
+	 * 댓글 작성
 	 * 
-	 * @param writeParam
+	 * @param commentParam
+	 */
+	public void insertComment(Comment commentParam);
+
+
+	/**
+	 * 댓글 목록 조회
+	 * 
+	 * @param commentParam
 	 * @return
 	 */
-	public List<Board> selectByMenu(Board writeParam);
+	public List<Comment> selectAllComment(Comment commentParam);
 
 
 	/**
-	 * 댓글 삽입
+	 * 댓글 삭제
 	 * 
-	 * @param comment
+	 * @param commnetDelete
 	 */
-	public void insertComment(Comment comment);
+	public void deleteComment(Comment commnetDelete);
+
+	
+	
+	
+	
+	
+	
+	
+	
+
 
 
 	
