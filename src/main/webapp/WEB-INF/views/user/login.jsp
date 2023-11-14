@@ -65,8 +65,6 @@ form {
 </head>
 <body>
 
-
-
 <div class="container position-relativ ">
 <div class="form col-7 mx-auto my-5 ">
 <form action="./login" method="post"  class="card shadow-lg position-absolute top-50 start-50 translate-middle form-signin" >
@@ -77,7 +75,7 @@ form {
 			<input type="text" class="form-control mb-3" name="id" id="id" placeholder="아이디를 입력해주세요" required="required">
 			<input type="password" class="form-control" name="pw" id="pw" placeholder="비밀번호를 입력해주세요" required="required">
 		</div>
-			<input type="hidden" name="boardNo" value="${param.boardNo }">
+			<input type="hidden" name="boardNo" value="${not empty param.boardNo ?param.boardNo :'0' }">
 			<input type="hidden" name="menu" value="${param.menu }">
 			<input type="hidden" name="type" value="${param.type }">
 			<button class="col-3 mr-2 btn btn-danger float-end" id="login" >로그인</button>
