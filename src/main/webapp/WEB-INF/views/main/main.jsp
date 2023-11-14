@@ -33,14 +33,15 @@
 /* 검색input */
 #MainSearch{
 	width: 1000px;
-	height: 30px;
+	height: 35px;
 	border: 1px solid #ccc;
-	border-radius: 3px; 
+	border-radius: 5px;
 }
 /* 검색버튼 */
 #MainBtnSearch{
 	background-color: inherit;
 	border: 0;
+	margin-left: -5px;
 }
 
 /* 나눔,대여,업체 div */
@@ -163,7 +164,6 @@ function downFunction(){
 <!-- </div> -->
 
 <!-- 신고버튼 테스트 나중에 삭제좀 -->
-
 <!-- 버튼 트리거 모달 -->
 <button type="button" style="width: 30px; height: 30px;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">
 <div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div>
@@ -218,10 +218,9 @@ function downFunction(){
 <!-- 나눔해요 게시글 -->
 <div id="MainShare">
 <div id="mainTitle">최신 나눔해요 게시글</div>
-
 <c:forEach items="${list }" var="list">
-	<div><img alt="썸네일" src="/resources/banner/${bannerNames.storedName }"></div>
-	<div>제목</div>
+	<div><img alt="썸네일" src="/resources/banner/${file.storedName }"></div>
+	<div>${list.title }</div>
 </c:forEach>
 
 </div><!-- #MainShare -->
@@ -244,7 +243,6 @@ function downFunction(){
 </div>
 
 </div><!-- #container -->
-</div><!-- .wrap -->
 
 <div style="clear: both;"></div>
 

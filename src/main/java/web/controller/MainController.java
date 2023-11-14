@@ -2,7 +2,8 @@ package web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import web.dto.Banner;
 import web.dto.Board;
 import web.dto.FileTb;
 import web.service.face.MainService;
-import web.util.Paging;
 
 @Controller
 public class MainController {
@@ -41,22 +42,37 @@ public class MainController {
 	
 	
 	
-	//최신 나눔해요 게시글 
+	//최신 나눔해요 게시글 메인에서 조회
 	@GetMapping("/list")
-	public void list(Board board, Model model, FileTb file) {
+	public void list(
+			Board board,
+			FileTb file,
+			Model model,
+			HttpSession session
+			) {
 		logger.info("main list");
 		
-		List<Map<String, Object>> list = mainService.selectBoardStatus(board);
+		List<Board> list = new ArrayList<Board>(); 
+		list = mainService.selectBoardStatus(board);
 		
-		model.addAttribute("list",list);
+		model.addAttribute("list", list);
 		logger.info("{}", "list");
 		
-		file.setBoardNo(board.getBoardNo());
+		board.setBoardNo(board.getBoardNo());
 		
-		List<FileTb> fileData = mainService.getImg(file);
+		List<FileTb> fileData = new ArrayList<FileTb>();  
+		fileData = mainService.getImg(file);
+		
+		model.addAttribute("file", file);
 		logger.info("{}", fileData);
 		
 	}
 	
+	//최신 나눔해요 게시글 클릭시 조회
+	@PostMapping("/menu/share")
+	public void listProc() {
+		logger.info("main listProc [POST]");
+		
+	}
 	
 }

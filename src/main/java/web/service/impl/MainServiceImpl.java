@@ -36,8 +36,9 @@ public class MainServiceImpl implements MainService {
 	
 	//최신 나눔해요 게시글
 	@Override
-	public List<Map<String, Object>> selectBoardStatus(Board board) {
+	public List<Board> selectBoardStatus(Board board) {
 		logger.info("{}",board);
+		board.getBoardNo();
 		board.getTitle();
 		return mainDao.selectAll(board);
 	}
@@ -46,6 +47,7 @@ public class MainServiceImpl implements MainService {
 	public List<FileTb> getImg(FileTb file) {
 		logger.info("{}",file);
 		file.getFileNo();
+		file.getStoredName();
 		return mainDao.selectFileImg(file);
 	}
 
