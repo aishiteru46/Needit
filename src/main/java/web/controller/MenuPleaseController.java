@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
 import web.service.face.MenuPleaseService;
@@ -210,10 +211,43 @@ public class MenuPleaseController {
  		return mav;
  	}
    
+ 	
+ 	//댓글 목록
+ 	@GetMapping("/comment/list")
+ 	public String viewComment(Comment commentParam, Model model) {
+ 		logger.info("commentParam: {}", commentParam);
+ 		
+ 		List<Comment> commentList = menuPleaseService.viewComment(commentParam);
+ 		
+ 		model.addAttribute("commentList", commentList);
+ 		
+ 		return "jsonView";
+ 	}
+ 	
+ 	
+   //댓글 작성
+ 	@PostMapping("/comment")
+ 	public String insert(Comment commentParam, Board board) {
+ 		
+ 		menuPleaseService.commentInsert(commentParam);
+ 		
+ 		return "redirect: /menu/please/view?boardNo=" + commentParam.getBoardNo();
+	   
+ 		
+ 	}
    
    
-   
-   
+ 	
+ 	
+ 	//댓글 삭제
+ 	@GetMapping("/comment/delete")
+ 	public String delete(Comment commnetDelete) {
+ 		logger.info("commentDelete", commnetDelete);
+ 		
+ 		menuPleaseService.delete(commnetDelete);
+ 		
+ 		return "jsonView";
+ 	}
    
    
    

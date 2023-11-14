@@ -268,30 +268,34 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 	   menuPleaseDao.deleteByBoardNo(deleteParam); // 게시글 삭제
    }
 
-
-	
-	
-	
-	
-
-
-
-
+   
+   
+   
+   
+	@Override
+	public void commentInsert(Comment commentParam) {
+		menuPleaseDao.insertComment(commentParam);
+		
+	}
 
 	@Override
-	public List<Board> getMenu(Board writeParam) {
-		return menuPleaseDao.selectByMenu(writeParam);
+	public List<Comment> viewComment(Comment commentParam) {
+		
+		
+		return menuPleaseDao.selectAllComment(commentParam);
+	}
+
+	@Override
+	public void delete(Comment commnetDelete) {
+		menuPleaseDao.deleteComment(commnetDelete);
+		
 	}
 
 
+	
+	
+	
 
-
-
-	@Override
-	public void insertComment(Comment comment) {
-
-		menuPleaseDao.insertComment(comment);
-	}
 
 
 

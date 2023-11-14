@@ -146,26 +146,31 @@ public interface MenuPleaseService {
 	
 
 
-	
-
-
-
-	/** 
-	 * 메뉴목록
+	/**
+	 * 댓글 삽입
 	 * 
-	 * @param writeParam
-	 * @return
+	 * @param commentParam
 	 */
-	public List<Board> getMenu(Board writeParam);
+	public void commentInsert(Comment commentParam);
 
 
 
 	/**
-	 * 새로운 댓글을 삽입한다
+	 * 댓글 목록 조회
 	 * 
-	 * @param comment - 입력된 댓글 정보
+	 * @param commentParam
+	 * @return
 	 */
-	public void insertComment(Comment comment);
+	public List<Comment> viewComment(Comment commentParam);
+
+
+
+	/**
+	 * 댓글 삭제
+	 * 
+	 * @param commnetDelete
+	 */
+	public void delete(Comment commnetDelete);
 
 
 

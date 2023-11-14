@@ -160,6 +160,9 @@
 		<set>
 			, title = #{title }
 			, content = #{content }
+			, location = #{location }
+			, price = #{price }
+			
 		</set>
 		<where>
 			board_no = #{boardNo }
@@ -191,25 +194,26 @@
 		</where>
 	</delete>
 	
-	
-	
-	
-	
-	
-	
-	
-	<select id="selectByMenu" resultType="Board" parameterType="Board">
-		SELECT menu
-		FROM board
-		WHERE menu = #{menu}
-	</select>
-	
  	
  	<insert id="insertComment" parameterType="Comment">
- 		INSERT INTO commentTB (cmt_no, board_no, writer_id, content)
- 		VALUES (commentTb_seq.nextval, #{boardNo}, #{writerId}, #{content} )
- 		
+ 		INSERT INTO commentTB (cmt_no, board_no, writer_id, writer_nick, content)
+ 		VALUES (commentTb_seq.nextval, #{boardNo}, #{writerId}, #{writerNick}, #{content} )
  	</insert>
  	
+ 	
+ 	<select id="selectAllComment" resultType="Comment" parameterType="Comment">
+ 		SELECT cmt_no, content, board_no, writer_id, writer_nick, write_date
+ 		FROM commentTb
+ 		<where>
+ 			board_no = #{boardNo}
+ 		</where>
+ 	</select>
+ 	
+ 	<delete id="deleteComment" parameterType="Comment">
+ 		DELETE commentTb
+ 		<where>
+ 			cmt_no = #{cmtNo}
+ 		</where>
+ 	</delete>
   
  </mapper>
