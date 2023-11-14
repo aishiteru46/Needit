@@ -1,6 +1,7 @@
 package web.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import web.dto.Board;
 import web.dto.Comment;
@@ -17,7 +18,7 @@ public interface MenuPleaseDao {
 	 * @param paging - 페이징 정보 객체
 	 * @return 게시글 목록
 	 */
-	public List<Board> selectAll(Paging paging);
+	public List<Map<String, Object>> selectAll(Paging paging);
 
 	
 	/**
@@ -30,52 +31,97 @@ public interface MenuPleaseDao {
 
 	
 	/**
+	 * 
+	 * @param paging
+	 * @return
+	 */
+	public int getCntLikeByBoardNo(Paging paging);
+	
+	
+	
+	
+	/**
 	 * 조회하려는 게시글의 조회수를 1증가 시킨다
 	 * 
-	 * @param viewBoard - 게시글 번호 객체
+	 * @param board - 게시글 번호 객체
 	 */
-	public void updateHit(Board viewBoard);
+	public void updateHit(Board board);
 
 	
 	/**
 	 * 게시글 번호를 이용하여 게시글을 조회한다 
 	 * 
-	 * @param viewBoard - 조회하려는 게시글 번호 객체
+	 * @param board - 조회하려는 게시글 번호 객체
 	 * @return 조회된 게시글 정보
 	 */
-	public Board selectByBoardNo(Board viewBoard);
+	public Board selectByBoardNo(Board board);
 
 
 	/**
 	 * 
 	 * @param writeParam
 	 */
-	public void insert(Board writeParam);
+	public void insertBoard(Board writeParam);
 
 
 	/**
 	 * 파일 업로드
 	 * 
-	 * @param boardfile
+	 * @param fileTb
 	 */
-	public void insertFile(FileTb boardfile);
+	public void insertFile(FileTb fileTb);
 
 	
 	/**
 	 * 
-	 * @param viewBoard
+	 * @param board
 	 * @return
 	 */
-	public List<FileTb> selectFileByBoardNo(Board viewBoard);
+	public List<FileTb> selectFileByBoardNo(Board board);
 
 
 	/**
 	 * 
-	 * @param boardfile
+	 * @param fileTb
 	 * @return
 	 */
-	public FileTb selectFileByFileNo(FileTb boardfile);
+	public FileTb selectFileByFileNo(FileTb fileTb);
 
+	
+	
+	/**
+	 * 사용자가 해당 게시글을 추천한 적이 있는지 조회
+	 * 
+	 * @param like - 사용자와 게시글 정보를 가지고 있는 객체
+	 * @return 1 - 추천한 적 있음, 0 - 추천한 적 없음
+	 */
+	public int selectCntLike(Like like);
+	
+	/**
+	 * 추천상태 넣기
+	 * 
+	 * @param like - 추천 정보 객체
+	 */
+	public void insertLike(Like like);
+	
+	/**
+	 * 추천상태 지우기
+	 * 
+	 * @param like - 추천 정보 객체
+	 */
+	public void deleteLike(Like like);
+	
+	
+	/**
+	 * 게시글의 전체 추천 수 조회
+	 * 
+	 * @param like - 추천 수를 조회할 게시글 정보
+	 * @return 전체 추천 수
+	 */
+	public int selectTotalCntLike(Like like);
+	
+	
+	
 	/**
 	 * 게시글 내용을 수정한다
 	 * 제목, 본문을 주어진 게시글 번호를 이용하여 수정한다
@@ -114,36 +160,7 @@ public interface MenuPleaseDao {
 	
 	
 	
-	/**
-	 * 사용자가 해당 게시글을 추천한 적이 있는지 조회
-	 * 
-	 * @param like - 사용자와 게시글 정보를 가지고 있는 객체
-	 * @return 1 - 추천한 적 있음, 0 - 추천한 적 없음
-	 */
-	public int selectCntLike(Like like);
 	
-	/**
-	 * 추천상태 넣기
-	 * 
-	 * @param like - 추천 정보 객체
-	 */
-	public void insertLike(Like like);
-	
-	/**
-	 * 추천상태 지우기
-	 * 
-	 * @param like - 추천 정보 객체
-	 */
-	public void deleteLike(Like like);
-	
-	
-	/**
-	 * 게시글의 전체 추천 수 조회
-	 * 
-	 * @param like - 추천 수를 조회할 게시글 정보
-	 * @return 전체 추천 수
-	 */
-	public int selectTotalCntLike(Like like);
 	
 	
 	
@@ -163,6 +180,11 @@ public interface MenuPleaseDao {
 	 * @param comment
 	 */
 	public void insertComment(Comment comment);
+
+
+	
+
+
 
 
 

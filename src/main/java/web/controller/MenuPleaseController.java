@@ -2,6 +2,7 @@ package web.controller;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -29,93 +30,93 @@ public class MenuPleaseController {
    
    @Autowired private MenuPleaseService menuPleaseService;
    
-   @GetMapping("/list")
-   public void list(Paging param, Model model) {
-      
-      //페이징 계산
-      Paging paging = menuPleaseService.getPaging(param);
-      logger.info("{}", paging);
-      
-      
-      //게시글 목록 조회
-      List<Board> list = menuPleaseService.list( paging );
-      
-      model.addAttribute("paging", paging);
-      model.addAttribute("list", list);
-    
-      
-      
-   }
+ //게시판 목록 띄우기
+ 	@GetMapping("/list")
+ 	public String list( Paging param, Model model ) {
+ 		logger.info("param : {}", param);
+ 		
+ 		//페이징 계산
+ 		Paging paging = menuPleaseService.getPaging(param);
+ 		
+ 		//게시글 목록 조회
+ 		List<Map<String, Object>> list = menuPleaseService.list(paging); 
+ 		model.addAttribute("paging", paging);
+ 		logger.info("list: {}", list);
+ 		model.addAttribute("list", list);
+ 		
+ 		//게시글 추천수 조회
+// 		int cntLike = menuPleaseService.getCntLike(paging);
+// 		model.addAttribute("cntLike", cntLike);
+ 		
+ 		return "/menu/please/list";
+ 	}
    
-   @GetMapping("/view")
-   public String view(Board viewBoard, Model model, HttpSession session) {
-      
-      if( viewBoard.getBoardNo() < 1 ) {
-         return "redirect:./list";
-      }
-      
-      
-      //상세보기 게시글 조회
-      viewBoard = menuPleaseService.view(viewBoard);
-      model.addAttribute("viewBoard", viewBoard);
-      
-      
-      //첨부파일 정보 전달 
-      List<FileTb> boardfile = menuPleaseService.getAttachFile(viewBoard);
-      model.addAttribute("boardfile", boardfile);
-      logger.info("boardfile : {}", boardfile);
-      
-      
-//	  //추천 상태 조회
-//      Like like = new Like();
-//      like.setBoardNo(viewBoard.getBoardNo()); //게시글 번호
-//      like.setLikeId((String)session.getAttribute("id")); //로그인한 아이디
-//      
-//      
-//      //추천 상태 전달
-//      boolean isLike = menuPleaseService.isLike(like);
-//      model.addAttribute("isLike", isLike);
-//      model.addAttribute("cntLike", menuPleaseService.getTotalCntLike(like));
-      
-      return"menu/please/view";
-      
-   }
-   
-   
-   @GetMapping("/write")
-   public void write() {}
-   
-   
-   @PostMapping("/write")
-   public String writeProc(Board writeParam, List<MultipartFile> file, HttpSession session, Model model) {
-      logger.info("writeParam : {}", writeParam);
-      
-      writeParam.setWriterId((String) session.getAttribute("id"));
-      writeParam.setWriterNick((String) session.getAttribute("nick"));
-      
+ 	
+ 	
+ 	//게시판 상세 조회
+	@RequestMapping("/view")
+	public String view( Board board, Model model, HttpSession session ) {
 
-      List<Board> menu = menuPleaseService.getMenu(writeParam);
-      logger.info("menu : {}", menu);
-      
-      model.addAttribute("menu", menu);
-      
-      menuPleaseService.write(writeParam,file);
-      logger.info("writeParam : {}", writeParam);
-      
-      
-      return "redirect:./view?boardNo=" + writeParam.getBoardNo();
-   }
-   
-   
-   @RequestMapping("/download")
-	public String down(FileTb fileTb, Model model) {
+		//게시글 번호를 전달받지 못하면 목록으로 이동
+		if( board.getBoardNo() < 1 ) {
+			return "redirect:/menu/please/list";
+		}
 		
-		//첨부파일 정보 조회
-		fileTb = menuPleaseService.getFile(fileTb);
+		//게시글 상세 조회
+		board = menuPleaseService.view(board);
+		model.addAttribute("board", board);
+		
+		//첨부파일 정보 전달
+		List<FileTb> fileTb = menuPleaseService.getAttachFile( board );
 		model.addAttribute("fileTb", fileTb);
 		
-		return "down";
+		//추천 상태 조회
+		Like like = new Like();
+		like.setBoardNo(board.getBoardNo()); //게시글 번호
+		like.setLikeId((String)session.getAttribute("id")); //로그인한 아이디
+
+		//추천 상태 전달
+		boolean isLike = menuPleaseService.isLike(like);
+		model.addAttribute("isLike", isLike);
+		model.addAttribute("cntLike", menuPleaseService.getTotalCntLike(like));		
+		
+		return "menu/please/view";
 	}
+
+   
+   
+   
+   
+   //게시글 작성 폼
+ 	@GetMapping("/write")
+ 	public void write() {}
+ 	
+ 	//게시글 작성 처리
+ 	@PostMapping("/write")
+ 	public String writeProc( Board writeParam, List<MultipartFile> file, HttpSession session ) {
+ 		logger.info("writeParam : {}", writeParam );
+ 		
+ 		//작성자 id, nick 세팅
+ 		writeParam.setWriterId((String) session.getAttribute("id"));
+ 		writeParam.setWriterNick((String) session.getAttribute("nick"));
+ 		
+ 		//게시글 저장
+ 		menuPleaseService.write( writeParam, file );
+ 		
+ 		return "redirect:/menu/please/view?boardNo=" + writeParam.getBoardNo();
+ 	}
+   
+   
+   	//파일 다운로드
+ 	@RequestMapping("/download")
+ 	public String down( FileTb fileTb, Model model ) {
+ 		
+ 		//첨부파일 정보 조회
+ 		fileTb = menuPleaseService.getFile( fileTb );
+ 		model.addAttribute("downFile", fileTb);
+ 		
+ 		return "down";
+ 	}
    
    
    
@@ -139,8 +140,8 @@ public class MenuPleaseController {
 	   	
 	   	
 	   	//첨부파일 정보 전달
-	   	List<FileTb> boardfile = menuPleaseService.getAttachFile(updateParam);
-	   	model.addAttribute("boardfile", boardfile);
+	   	List<FileTb> fileTb = menuPleaseService.getAttachFile(updateParam);
+	   	model.addAttribute("fileTb", fileTb);
 	   	
 	   	
 		return "menu/please/update";
@@ -190,22 +191,24 @@ public class MenuPleaseController {
    }
    
    
-//   @RequestMapping(value = "/comment/like")
-//   public ModelAndView like(Like like, ModelAndView mav, HttpSession session) {
-//	   
-//	   //추천 정보 토글 
-//	   like.setLikeId((String) session.getAttribute("id"));
-//	   boolean result = menuPleaseService.like(like);
-//	   mav.addObject("result", result);
-//	   
-//	   //추천 수 조회
-//	   int cnt = menuPleaseService.getTotalCntLike(like);
-//	   mav.addObject("cnt", cnt);
-//	   
-//	   
-//	   mav.setViewName("jsonView");
-//	   return mav;
-//   }
+   	//추천 적용
+ 	@RequestMapping("/like")
+ 	public ModelAndView like( Like like, ModelAndView mav, HttpSession session  ) {
+ 		logger.info("like : {}", like);
+ 		
+ 		//추천 정보 토글
+ 		like.setLikeId((String) session.getAttribute("id"));
+ 		boolean result = menuPleaseService.like(like);
+ 		mav.addObject("result", result);
+ 		
+ 		//추천 수 조회
+ 		int cnt = menuPleaseService.getTotalCntLike(like);
+ 		mav.addObject("cnt", cnt);
+
+ 		mav.setViewName("jsonView");
+ 		
+ 		return mav;
+ 	}
    
    
    

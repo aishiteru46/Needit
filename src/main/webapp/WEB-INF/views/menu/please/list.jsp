@@ -1,143 +1,129 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    
+<%@page import="java.util.Date"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<!-- HEADER -->
 <c:import url="/WEB-INF/views/layout/header.jsp" />
-    
+
 <style type="text/css">
-table, th {
-   text-align: center;
-}
-
- .write-container {
-    border: 1px solid #ccc;
-    border-right: 1px solid #ccc;
-}
-
-.write-container select {
-    width: 320px;
-    height: 30px;
-}
 
 .row {
-	text-align: center;
+    text-align: center;
 }
 
 .write-container {
-    height: 380px;
-    width: 350px;
+    height: 600px;
+    width: 380px;
     margin: 1em auto; 
     text-align: center; 
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #D3D3D3;
+    border-right: 1px solid #D3D3D3;
+}
+
+.write-container:hover {
+    border-color: #ff533f;
 }
 
 .col-md-4 {
     margin-right: 30px;
 }
+
 .preview {
 	margin: 15px auto 15px auto;
-	width: 300px;
-	height: 200px;
+ 	width: 350px;
+ 	height: 300px;
+	display: flex;
 	object-fit: cover;
+    justify-content: center;
+	align-items: center;
+    background-size: cover; 
+    background-repeat: no-repeat;
+	background-position: center center;
 }
 
-
-/* 게시글 제목 */
-td:nth-child(2) {
-   text-align: left;
+.no {
+	margin-top: 10px;
 }
+
+.title {
+	margin-top: 10px;
+	color: black;
+	font-weight: bold;
+}
+
 </style>
 
-<script type="text/javascript">
-$(() => {
-   $("#btnWrite").click(() => {
-      
-      location.href = "./write"
-      
-//       $(location).attr("href", "./write")
-      
-   })
-})
-</script>
+<div class="container">
 
-<c:forEach items="${list }" var="list" begin="0" end="0">
-<c:if test="${ list.menu eq 'm3c1' }">
-<h1>해주세요</h1><hr><h1>물품</h1>
-</c:if>
-
-<c:if test="${ list.menu eq 'm3c2' }">
-<h1>해주세요</h1><hr><h1>인력</h1>
-</c:if>
-
-<c:if test="${ list.menu eq 'm3c3' }">
-<h1>해주세요</h1><hr><h1>공간</h1>
-</c:if>
+<c:forEach  var="list" items="${list }" begin="0" end="0">
+	<c:if test="${list.MENU eq 'm3c1' }">
+		<h1>해주세요 물품</h1>	
+	</c:if>
+	<c:if test="${list.MENU eq 'm3c2' }">
+		<h1>해주세요 인력</h1>	
+	</c:if>
+	<c:if test="${list.MENU eq 'm3c3' }">
+		<h1>해주세요 공간</h1>	
+	</c:if>
 </c:forEach>
-<hr>
 
-
-
-
-<table class="table table-striped table-hover table-sm">
-
-<colgroup>
-   <col style="width: 10%;">
-   <col style="width: 45%;">
-   <col style="width: 15%;">
-   <col style="width: 10%;">
-   <col style="width: 20%;">
-</colgroup>
-
-
-<thead>
-   <tr class="table-danger">
-      <th>번호</th>
-      <th>제목</th>
-      <th>작성자</th>
-      <th>조회수</th>
-      <th>작성일</th>
-   </tr>
-</thead>
-
-
-<tbody>
-<c:forEach var="board" items="${list }">
-   <tr>
-      <td>${board.boardNo }</td>
-      <td>
-         <a href="./view?boardNo=${board.boardNo }&menu=${board.menu}">${board.title }</a>
-      </td>
-      <td>${board.writerId }</td>
-      <td>${board.hit }</td>
-      <td>
-         <fmt:formatDate value="${board.writeDate }" pattern="yyyy-MM-dd HH:mm:ss"/>      
-      </td>
-   </tr>
+<c:forEach items="${list}" var="list" varStatus="loop">
+  <c:if test="${loop.index % 3 == 0}">
+  <div class="row">
+  </c:if>
+  	
+    <div class="write-container">
+        <h6 class="no">no. ${list.BOARD_NO}</h6>
+        <a href="/menu/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><h6 class="title">제목 : ${list.TITLE }</h6></a>
+        <c:if test="${ not empty list.THUMBNAIL_NAME  }">
+	        <div>
+	        	<a href="/menu/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
+	        </div>
+        </c:if>
+        <c:if test="${ empty list.THUMBNAIL_NAME  }">
+	        <div>
+	        	<a href="/menu/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/resources/img/noimg.png"/></a>
+	        </div>
+        </c:if>
+        <h6>작성자 : ${list.WRITER_ID }</h6>
+        <h6>닉네임 : ${list.WRITER_NICK }</h6>
+        <h6>가격 : <fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</h6>
+        <h6>👀  ${list.HIT}</h6>
+        <h6>✍️  
+            <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" /> 
+            <fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" /> 
+            <c:choose> 
+                <c:when test="${writeDate lt curDate }"> 
+                    <fmt:formatDate value="${list.WRITE_DATE }" pattern="yyyy-MM-dd" /> 
+                </c:when> 
+                <c:otherwise> 
+                    <fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" /> 
+                </c:otherwise> 
+            </c:choose>                    
+        </h6>
+        <h6>❤️  ${list.LIKE_CNT }</h6>
+        <h6>🚩  ${list.LOCATION }</h6>
+    </div><!-- .write-container -->
+    
+  <c:if test="${loop.index % 3 == 2 || loop.index + 1 == yourList.size()}">
+  </div>
+  </c:if>
 </c:forEach>
-</tbody>
 
+<div class="write">
+	<c:if test="${not empty isLogin and isLogin }">
+		<a class="btn btn-secondary" href="./write?menu=${param.menu }">글쓰기</a>
+	</c:if>
+</div>
 
+<small class="float-end mb-3">total : ${paging.totalCount }</small><br>
 
-</table>
+</div> <!-- .container -->
+<br>
 
-
-
-
-    <c:forEach var="menuData" items="${list}" begin="0" end="0">
-    <a href="/menu/please/write?menu=${menuData.menu}">
-        <button id="btnWrite" class="btn btn-primary float-start">글쓰기</button>
-    </a>
-    </c:forEach>
-
-
-
-
-<small class="float-end mb-3">total : ${paging.totalCount }</small>
-<div class="clearfix"></div>
-
-</div><!-- .container -->
 
 <c:import url="/WEB-INF/views/layout/pagination.jsp" />
-
-<c:import url="/WEB-INF/views/layout/footer.jsp" />

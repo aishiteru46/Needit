@@ -79,15 +79,24 @@ function setThumbnail(event) {
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="content">본문</label>
-	<textarea class="form-control" name="content" id="content"></textarea>
+	<label class="form-label" for="location">지역</label>
+	<input type="text" class="form-control" name="location" id="location">
 </div>
 
+<div class="form-group mb-3">
+	<label class="form-label" for="price">가격</label>
+	<input type="text" class="form-control" name="price" id="price">
+</div>
 
 <div class="form-group mb-3">
-   <label class="form-label" for="thumnail">썸네일</label>
-   <input class="form-control form-control-user" type="file" name="file" id="thumnail" onchange="setThumbnail(event);"><br>
-   <div id="thumnail_container"></div>
+   <label class="form-label" for="thumbnailFile">썸네일</label>
+   <input type="file" class="form-control form-control-user" name="file" id="thumbnailFile" onchange="setThumbnail(event);"><br>
+   <div id="thumbnail_container"></div>
+</div>
+
+<div class="form-group mb-3">
+	<label class="form-label" for="content">본문</label>
+	<textarea class="form-control" name="content" id="content"></textarea>
 </div>
 
 
