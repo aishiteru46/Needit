@@ -7,9 +7,15 @@
 
 <style type="text/css">
 
- .write-container {
-    border: 1px solid #ccc;
-    border-right: 1px solid #ccc;
+.write-container {
+    height: 600px;
+    width: 380px;
+    margin: 1em auto; 
+    text-align: center; 
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid #D3D3D3;
+    border-right: 1px solid #D3D3D3;
 }
 
 .write-container select {
@@ -33,9 +39,15 @@
 }
 .preview {
 	margin: 15px auto 15px auto;
-	width: 300px;
-	height: 200px;
+ 	width: 350px;
+ 	height: 300px;
+	display: flex;
 	object-fit: cover;
+    justify-content: center;
+	align-items: center;
+    background-size: cover; 
+    background-repeat: no-repeat;
+	background-position: center center;
 }
 
 </style>
@@ -91,19 +103,14 @@
     <div class="row">
   </c:if>
  	 <div class="write-container">
-<!--   		<select> -->
-<!--   			<option value="1">1</option> -->
-<!--   			<option value="2">2</option> -->
-<!--   			<option value="3">3</option> -->
-<!--   		</select> -->
-  		<br>
-   		 <a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}">${list.TITLE }</a>
-  		<c:if test="${ not empty list.STORED_NAME  }">
+ 	 	 <h6 class="no">no. ${list.BOARD_NO}</h6>
+   		 <a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><h6 class="title">제목 : ${list.TITLE }</h6></a>
+  		<c:if test="${ not empty list.THUMBNAIL_NAME  }">
   		<div >
-			<a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/upload/${list.STORED_NAME}"/></a>
+			<a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
   		</div>
   		</c:if>
-  		<c:if test="${ empty list.STORED_NAME  }">
+  		<c:if test="${ empty list.THUMBNAIL_NAME  }">
   		<div>
 			<a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/resources/img/noimg.png"/></a>
   		</div>

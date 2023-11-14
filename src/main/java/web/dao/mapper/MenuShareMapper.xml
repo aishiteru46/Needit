@@ -9,12 +9,15 @@
 	<!-- 카테고리에 맞는 게시판 조회 -->
 	<sql id="selectBoard">
         SELECT 
-        	board_no, writer_id, write_date, hit, menu
-        	, title, price, content, location
-        FROM board
-        <where>
-        	menu = #{menu}
-        </where>
+		    board_no, writer_id, writer_nick, 
+		    hit, menu, title, price, content, location,
+		    CAST(write_date AS DATE) AS write_date, 
+		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
+		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
+		FROM board B
+		<where>
+			menu = #{menu }
+		</where>
      </sql>
      
      <!--  총 페이지수 조회 -->
@@ -25,26 +28,29 @@
     </select>
     
     <!-- 게시글 카테고리에 맞는 게시글 조회 -->
-    <select id="selectAll" resultType="Map" parameterType="web.util.Paging">
-    		SELECT * FROM (
-    SELECT rownum rnum, B.* FROM (
-        SELECT 
-            board_no, writer_id, write_date, hit, menu,
-            title, price, content, location,
-            (SELECT stored_name FROM fileTB WHERE fileTB.board_no = board.board_no AND rownum = 1) AS stored_name
-        FROM board
-        WHERE menu = #{menu}
-        ORDER BY board_no DESC
-    ) B
-) 
-WHERE rnum BETWEEN #{startNo} AND #{endNo}
-    </select>
+	<select id="selectAll" resultType="Map" parameterType="web.util.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				<include refid="selectBoard"/>
+				ORDER BY board_no DESC
+          	) B
+      	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
     
     <!-- 보드넘버에 맞는 컬럼 전체 조회 -->
     <select id="selectByBoardNo" resultType="Board" parameterType="Board">
-    	SELECT * FROM board
-    	WHERE board_no = #{boardNo}
-    </select>
+	    SELECT
+	        board_no, writer_id, writer_nick, write_date, hit, menu,
+	        title, price, content, U.addr1 as location
+	    FROM
+	        board B
+	    JOIN
+	        usertb U ON B.writer_id = U.id
+	    <where>
+	        board_no = #{boardNo }
+	    </where>
+	</select>
     
     <!-- 조회수 증가 -->
     <update id="updateHit" parameterType="int">
@@ -70,8 +76,8 @@ WHERE rnum BETWEEN #{startNo} AND #{endNo}
     	<selectKey resultType="int" order="BEFORE" keyProperty="boardNo">
     		SELECT board_seq.nextval FROM dual
     	</selectKey>
-    	INSERT INTO board(board_no, menu, writer_id, writer_nick, title, price, content,location)
-    	VALUES ( #{boardNo}, #{menu}, #{writerId}, '두둠칫' , #{title}, #{price},#{content},'서울')
+    		INSERT INTO board(board_no, menu, writer_id, writer_nick, title, price, content, location)
+    		VALUES ( #{boardNo}, #{menu}, #{writerId}, #{writerNick}, #{title}, #{price}, #{content}, #{location} )
     </insert>
     
     <!-- 게시글 파일 삽입 -->
@@ -79,8 +85,8 @@ WHERE rnum BETWEEN #{startNo} AND #{endNo}
     	<selectKey resultType="int" order="BEFORE" keyProperty="fileNo">
     		SELECT fileTb_seq.nextval FROM dual
     	</selectKey>
-    	INSERT INTO fileTb( file_no, origin_name, stored_name, file_type, board_no)
-    	VALUES( #{fileNo}, #{originName}, #{storedName}, #{fileType}, #{boardNo})
+    	INSERT INTO fileTb( file_no, origin_name, stored_name, thumbnail_name, file_type, board_no)
+    	VALUES( #{fileNo}, #{originName}, #{storedName}, #{thumbnailName}, #{fileType}, #{boardNo} )
     </insert>
     
     <!-- StoredName 조회 -->
@@ -173,6 +179,15 @@ WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	WHERE board_no = #{boardNo}
 	ORDER BY cmt_no DESC
 	</select>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="Comment">
+		DELETE FROM commentTB
+		<where>
+			AND	cmt_no = #{cmtNo }
+			AND board_no = #{boardNo }
+		</where>
+	</delete>
 	
 	
 	

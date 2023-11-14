@@ -93,21 +93,15 @@ public class MenuShareController {
 	public String writeProc(
 		Board writerContent,
 		HttpSession session,
-		Model model,
 		List<MultipartFile> upFile
 			) {
 		writerContent.setWriterId((String)session.getAttribute("id"));
-		logger.info("sdgsgd{}",writerContent);
-		//메뉴
-//		List<Board> menuData = menuShareFace.menu(writerContent);
-//		logger.info("menuData{}",menuData);
-		logger.info("writerContent{}",writerContent);
-		
+		writerContent.setWriterNick((String)session.getAttribute("nick"));
 		//글작성
 		menuShareFace.write(writerContent,upFile);
 		logger.info("writerContent{}",writerContent);
 		
-		return "redirect:./view?boardNo=" + writerContent.getBoardNo();
+		return "redirect:/menu/share/view?boardNo=" + writerContent.getBoardNo();
 	}
 	
 	@GetMapping("/update")
@@ -139,9 +133,7 @@ public class MenuShareController {
 			Board updateParam
 			, List<MultipartFile> file
 			, int[] delFileno
-			
 			, HttpSession session
-			
 			, Model model) {
 		
 		logger.info("updateParam {}", updateParam);
@@ -151,7 +143,6 @@ public class MenuShareController {
 
 		updateParam.setWriterId((String) session.getAttribute("id"));
 		updateParam.setWriterNick((String) session.getAttribute("nick"));
-
 		
 		menuShareFace.updateBoard(updateParam, file, delFileno);
 		
@@ -195,7 +186,7 @@ public class MenuShareController {
 	}
 	
 	//댓글입력
-	@PostMapping("/commentinsert")
+	@PostMapping("/comment/insert")
 	public String commentinsert(
 			Comment comment, HttpSession session
 			, Model model) {
@@ -207,12 +198,12 @@ public class MenuShareController {
 		//댓글 입력
 		menuShareFace.commentinsert(comment);
 		
-		return "redirect:/menu/share/list?boardNo=" + comment.getBoardNo();
+		return "redirect:/menu/share/comment/list?boardNo=" + comment.getBoardNo();
 	}
 	
 	//댓글 리스트
-	@RequestMapping("/commentlist")
-	public void list(
+	@GetMapping("/comment/list")
+	public String list(
 			Comment comment
 			, HttpSession session
 			, Model model) {
@@ -221,6 +212,23 @@ public class MenuShareController {
 		//댓글 리스트 전달
 		List<Comment> commentList = menuShareFace.list(comment);
 		model.addAttribute("commentList", commentList);
+		
+		return "jsonView";
+		
+	}
+	
+	//댓글 삭제
+	@RequestMapping("/comment/delete")
+	public String delete(Comment commentDelete) {
+		logger.info("commentDelete : {}", commentDelete);
+		
+		menuShareFace.commentdelete(commentDelete);
+		
+		return "jsonView";
+	}
+	
+	@GetMapping("/calendar")
+	public void calendar() {
 		
 	}
 	

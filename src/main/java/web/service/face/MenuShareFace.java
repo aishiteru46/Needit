@@ -117,6 +117,13 @@ public interface MenuShareFace {
 	 */
 	public List<Comment> list(Comment comment);
 	
+	/**
+	 * 댓글 삭제
+	 * 
+	 * @param commentDelete
+	 */
+	public void commentdelete(Comment commentDelete);
+	
 	
 
 
