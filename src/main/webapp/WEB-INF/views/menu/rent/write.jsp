@@ -59,17 +59,17 @@ function setThumbnail(event) {
 
 <div class="form-group mb-3">
 	<label class="form-label" for="title">제목</label>
-	<input type="text" class="form-control" name="title" id="title">
+	<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해주세요" required>
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="location">지역</label>
-	<input type="text" class="form-control" readonly="readonly" name="location" value="" id="location">
+	<label class="form-label" for="location">위치</label>
+	<input type="text" class="form-control" readonly="readonly" name="location" value="${addr1 }" id="location">
 </div>
 
 <div class="form-group mb-3">
 	<label class="form-label" for="price">가격</label>
-	<input type="text" class="form-control" name="price" id="price">
+	<input type="text" class="form-control" name="price" id="price" required>
 </div>
 
 <div class="form-group mb-3">
