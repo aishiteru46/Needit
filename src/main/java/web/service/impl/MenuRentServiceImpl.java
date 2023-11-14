@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.MenuRentDao;
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
 import web.service.face.MenuRentService;
@@ -58,12 +59,6 @@ public class MenuRentServiceImpl implements MenuRentService {
 		}
 		
 		return menuRentDao.selectByBoardNo(board);
-	}
-	
-	@Override
-	public int getCntLike(Paging paging) {
-		
-		return menuRentDao.getCntLikeByBoardNo(paging);
 	}
 
 	@Override
@@ -200,6 +195,21 @@ public class MenuRentServiceImpl implements MenuRentService {
 	@Override
 	public int getTotalCntLike(Like like) {
 		return menuRentDao.selectTotalCntLike(like);
+	}
+
+	@Override
+	public void commentInsert(Comment commentParam) {
+		menuRentDao.insertComment(commentParam);
+	}
+
+	@Override
+	public List<Comment> viewComment(Comment commentParam) {
+		return menuRentDao.selectAllComment(commentParam);
+	}
+
+	@Override
+	public void delete(Comment commentDelete) {
+		menuRentDao.deleteComment(commentDelete);
 	}
 
 }

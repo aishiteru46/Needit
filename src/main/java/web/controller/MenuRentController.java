@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
 import web.service.face.MenuRentService;
@@ -40,12 +41,7 @@ public class MenuRentController {
 		//게시글 목록 조회
 		List<Map<String, Object>> list = menuRentService.list(paging); 
 		model.addAttribute("paging", paging);
-		logger.info("list 제발요: {}", list);
 		model.addAttribute("list", list);
-		
-		//게시글 추천수 조회
-//		int cntLike = menuRentService.getCntLike(paging);
-//		model.addAttribute("cntLike", cntLike);
 		
 		return "/menu/rent/list";
 	}
@@ -62,6 +58,7 @@ public class MenuRentController {
 		//게시글 상세 조회
 		board = menuRentService.view(board);
 		model.addAttribute("board", board);
+		logger.info(board.toString());
 		
 		//첨부파일 정보 전달
 		List<FileTb> fileTb = menuRentService.getAttachFile( board );
@@ -155,6 +152,40 @@ public class MenuRentController {
 		mav.setViewName("jsonView");
 		
 		return mav;
+	}
+	
+	//댓글 입력하기
+	@PostMapping("/comment")
+	public String insert(Comment commentParam, Board board) {
+		logger.info("댓글 전달인자 commentParam: {}", commentParam);
+		logger.info("댓글 전달인자 board: {}", board);
+		
+		menuRentService.commentInsert(commentParam);
+		
+		return "redirect: /menu/rent/view?boardNo=" + commentParam.getBoardNo();
+	}
+	
+	//댓글 불러오기
+	@GetMapping("/comment/list")
+	public String viewComment(Comment commentParam, Model model) {
+		logger.info("commentParam: {}", commentParam);
+		
+		List<Comment> commentList = menuRentService.viewComment(commentParam);
+		logger.info("저장된 댓글:" + commentList.toString());
+		
+		model.addAttribute("commentList", commentList);
+		
+		return "jsonView";
+	}
+	
+	//댓글 삭제
+	@RequestMapping("/comment/delete")
+	public String delete(Comment commentDelete) {
+		logger.info("commentDelete : {}", commentDelete);
+		
+		menuRentService.delete(commentDelete);
+		
+		return "jsonView";
 	}
 	
 	//게시글 신고
