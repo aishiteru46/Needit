@@ -97,6 +97,7 @@
 <!--   			<option value="3">3</option> -->
 <!--   		</select> -->
   		<br>
+   		 <a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}">${list.TITLE }</a>
   		<c:if test="${ not empty list.STORED_NAME  }">
   		<div >
 			<a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/upload/${list.STORED_NAME}"/></a>
@@ -107,9 +108,8 @@
 			<a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/resources/img/noimg.png"/></a>
   		</div>
   		</c:if>
-   		 <a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}">${list.TITLE }</a>
-    	<p>${list.WRITER_ID }</p>
-    	<p>${list.PRICE} ${list.HIT}</p>
+    	<h4 class="col-md-4">${list.WRITER_ID }</h4>
+    	<h5 class="col-md-4">${list.PRICE}</h5> <h6>${list.HIT}</h6>
   </div>
   <c:if test="${loop.index % 3 == 2 || loop.index + 1 == yourList.size()}">
   </div>

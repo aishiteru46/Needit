@@ -7,7 +7,6 @@
 
 <style type="text/css">
 #thumnail_container{
-    border: 1px solid #ccc;
     width: 200px;
     height: 200px;
     display: flex;
@@ -20,7 +19,6 @@
 
 </style>
 
-</style>
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
@@ -45,9 +43,6 @@ function setThumbnail(event) {
 }
 </script>
 
-
-</head>
-<body>
 
 <h1>글쓰기</h1>
 <hr>

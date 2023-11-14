@@ -1,7 +1,6 @@
 package web.controller;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.FileTb;
+import web.dto.Like;
 import web.service.face.MenuShareFace;
 import web.util.Paging;
 
@@ -34,7 +35,10 @@ public class MenuShareController {
 	@Autowired MenuShareFace menuShareFace;
 	
 	@GetMapping("/list")
-	public String list(Board board, Paging param, Model model,FileTb file) {
+	public String list(
+			Board board, Paging param
+			, Model model,FileTb file
+			, Like like) {
 		logger.info("list get");
 		
 		//페이징 계산
@@ -51,6 +55,7 @@ public class MenuShareController {
 		
 		List<FileTb> fileData = menuShareFace.getImg(file);
 		logger.info("{}", fileData);
+		model.addAttribute("fileData",fileData);
 		
 		return "menu/share/list";
 	}
@@ -58,18 +63,25 @@ public class MenuShareController {
 	@RequestMapping("/view")
 	public void view(
 			Board board, HttpSession session
-			, Model model
+			, Model model, Like like
 			) {
-		
+		like.setLikeId((String)session.getAttribute("id"));
 		Board view = menuShareFace.view(board);
 		
 		//첨부파일 정보 전달
 		List<FileTb> boardfile = menuShareFace.getAttachFile( board );
 		model.addAttribute("boardfile", boardfile);
 		
-		
 		logger.info("보드넘버{}",view);
 		model.addAttribute("view", view);
+		
+		//총 추천수 조회
+		int likeCount = menuShareFace.selectLikeCnt(like);
+		model.addAttribute("likeCount",likeCount);
+		
+		//추천이 되있는지 안되있는지 확인
+		boolean isLike = menuShareFace.checkLike(like);
+		model.addAttribute("isLike",isLike);
 		
 	}
 	
@@ -82,7 +94,7 @@ public class MenuShareController {
 		Board writerContent,
 		HttpSession session,
 		Model model,
-		@RequestParam("file") List<MultipartFile> upFile
+		List<MultipartFile> upFile
 			) {
 		writerContent.setWriterId((String)session.getAttribute("id"));
 		logger.info("sdgsgd{}",writerContent);
@@ -158,6 +170,60 @@ public class MenuShareController {
 		return "redirect:./list?menu=" + deleteParam.getMenu();
 	
 	}
+	
+	@RequestMapping("/like")
+	public String list(
+			Board board
+			, HttpSession session
+			,Model model, Like like ) {
+		
+		
+		like.setBoardNo(board.getBoardNo());
+		like.setLikeId((String)session.getAttribute("id"));
+		
+		//총 추천수 조회
+		int likeCount = menuShareFace.selectLikeCnt(like);
+		
+		//추천이 되있는지 안되있는지 확인
+		boolean isLike = menuShareFace.checkLike(like);
+		logger.info("isLike", isLike);
+		model.addAttribute("isLike",isLike);
+		model.addAttribute("likeCount",likeCount);
+		
+		
+		return "jsonView";
+	}
+	
+	//댓글입력
+	@PostMapping("/commentinsert")
+	public String commentinsert(
+			Comment comment, HttpSession session
+			, Model model) {
+		comment.setWriterId((String)session.getAttribute("id"));
+		comment.setWriterNick((String)session.getAttribute("nick"));
+		
+		logger.info("코멘트나와야함{}",comment);
+		
+		//댓글 입력
+		menuShareFace.commentinsert(comment);
+		
+		return "redirect:/menu/share/list?boardNo=" + comment.getBoardNo();
+	}
+	
+	//댓글 리스트
+	@RequestMapping("/commentlist")
+	public void list(
+			Comment comment
+			, HttpSession session
+			, Model model) {
+		comment.setWriterId((String)session.getAttribute("id"));
+		comment.setWriterNick((String)session.getAttribute("nick"));
+		//댓글 리스트 전달
+		List<Comment> commentList = menuShareFace.list(comment);
+		model.addAttribute("commentList", commentList);
+		
+	}
+	
 	
 	
 	

@@ -6,7 +6,9 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.FileTb;
+import web.dto.Like;
 import web.util.Paging;
 
 public interface MenuShareFace {
@@ -83,6 +85,37 @@ public interface MenuShareFace {
 	 * @param deleteParam 삭제
 	 */
 	public void delete(Board deleteParam);
+	
+	/**
+	 * 추천이 있는지 없는 지 조회
+	 * 
+	 * @param like 추천수
+	 * @return 추천이 있으면 true 없으면 false
+	 */
+	public boolean checkLike(Like like);
+	
+	/**
+	 * 추천수 조회
+	 * 
+	 * @param like 추천수
+	 * @return 추천수
+	 */
+	public int selectLikeCnt(Like like);
+	
+	/**
+	 * 댓글 작성
+	 * 
+	 * @param comment 사용자가 입력한 댓글
+	 */
+	public void commentinsert(Comment comment);
+
+	/**
+	 * 댓글 리스트 
+	 * 
+	 * @param comment 모든 댓글 보여줌
+	 * @return 댓글 리스트
+	 */
+	public List<Comment> list(Comment comment);
 	
 	
 
