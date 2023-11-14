@@ -1,16 +1,19 @@
 package web.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import web.dto.Board;
 import web.dto.User;
 import web.service.face.UserService;
 
@@ -60,7 +63,10 @@ public class LoginController {
 	public void login() {}
 	
 	@PostMapping("/login")
-	public String loginProc( User user, HttpSession session) {
+	public String loginProc( User user, HttpSession session, Board boardParam, String type) {
+		logger.info("boardParam : {}", boardParam.getBoardNo());
+		logger.info("boardParam : {}", boardParam.getMenu());
+		logger.info("type : {}", type);
 		
 		boolean islogin = userService.login(user);
 		user = userService.infoNick(user);
@@ -71,7 +77,12 @@ public class LoginController {
 			session.setAttribute("id", user.getId());
 			session.setAttribute("nick", user.getNick());
 			session.setAttribute("addr1", user.getAddr1());
+			
+			if( boardParam.getBoardNo() > 0 ) {
+				return"redirect:/menu/" + type + "/view?boardNo="+boardParam.getBoardNo()+"&menu="+boardParam.getMenu();
+			}
 			return"redirect:/main";
+			
 		} else {
 			logger.info("로그인 실패");
 			return"redirect:./login";

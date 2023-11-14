@@ -238,6 +238,7 @@ $(()=>{
 	var geocoder = new kakao.maps.services.Geocoder();
 	
 	var location = '${board.location}';
+	console.log("게시글 위치", location);
 	
 	//주소로 좌표를 검색합니다
 	geocoder.addressSearch( location, function(result, status) {
@@ -348,44 +349,60 @@ $(()=>{
 
 </div> <!-- .container -->
 
-<%-- 댓글 작성 --%>
-<c:if test="${isLogin }">
-	<div class="row text-center justify-content-around align-items-center">
-		<div class="col col-2">
-			<input type="text" class="form-control" id="commentWriter" value="${nick }" readonly="readonly"/>
-		</div>
-		<div class="col col-9">
-			<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;"></textarea>
-		</div>
-		<button id="btnCommInsert" class="btn btn-primary col-1">작성</button>
-	</div>	<!-- 댓글 조회, 작성 End. -->
-</c:if><br>
-
-<%-- 댓글 목록 --%>
-<div id="commentList">
-
-	<!-- 댓글 리스트 -->
-	<table class="table table-condensed text-center">
-	<colgroup>
-		<col style="width: 10%;">
-		<col style="width: 10%;">
-		<col style="width: 50%;">
-		<col style="width: 20%;">
-		<col style="width: 10%;">
-	</colgroup>
-	<thead>
-	<tr>
-		<th>번호</th>
-		<th>닉네임</th>
-		<th>댓글</th>
-		<th>작성일</th>
-		<th></th>
-	</tr>
-	</thead>
-	<tbody id="commentBody">
-	</table>
+<div>
 	
-</div>
+	<%-- 로그인 상태 --%>
+	<c:if test="${isLogin }">
+		<div class="row text-center justify-content-around align-items-center">
+			<div class="col col-2">
+				<input type="text" class="form-control" id="commentWriter" value="${nick }" readonly="readonly"/>
+			</div>
+			<div class="col col-9">
+				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;"></textarea>
+			</div>
+			<button id="btnCommInsert" class="btn btn-primary col-1">작성</button>
+		</div>	<!-- 댓글 조회, 작성 End. -->
+	</c:if><br>
+
+	<%-- 비로그인 상태 --%>
+	<c:if test="${not isLogin }">
+		<div class="row text-center justify-content-around align-items-center">
+			<div class="col col-2">
+				<input type="text" class="form-control" id="commentWriter" value="unknown" readonly="readonly"/>
+			</div>
+			<div class="col col-9">
+				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;" readonly="readonly" placeholder="로그인 후 댓글 작성 가능"></textarea>
+			</div>
+				<a class="btn btn-danger col-1" href="/user/login?boardNo=${board.boardNo }&menu=${board.menu}&type=rent">로그인</a>
+		</div>
+	</c:if><br>
+
+	<%-- 댓글 목록 --%>
+	<div id="commentList">
+
+		<!-- 댓글 리스트 -->
+		<table class="table table-condensed text-center">
+		<colgroup>
+			<col style="width: 10%;">
+			<col style="width: 10%;">
+			<col style="width: 50%;">
+			<col style="width: 20%;">
+			<col style="width: 10%;">
+		</colgroup>
+		<thead>
+		<tr>
+			<th>번호</th>
+			<th>닉네임</th>
+			<th>댓글</th>
+			<th>작성일</th>
+			<th></th>
+		</tr>
+		</thead>
+		<tbody id="commentBody">
+		</table>
+	</div><!-- 댓글 목록 End. -->
+	
+</div><!-- 댓글 End. -->
 
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

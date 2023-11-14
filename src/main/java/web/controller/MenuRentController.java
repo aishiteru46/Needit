@@ -87,11 +87,7 @@ public class MenuRentController {
 		
 		return "down";
 	}
-	
-	//게시글 위치
-	@GetMapping("/loc")
-	public void loc() {}
-	
+
 	//대여 처리
 	@PostMapping("/rent")
 	public void rent() {}

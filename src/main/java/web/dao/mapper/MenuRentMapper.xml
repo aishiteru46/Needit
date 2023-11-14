@@ -50,23 +50,23 @@
 	
 	<!-- 게시글 상세 조회 -->
 	<select id="selectByBoardNo" resultType="Board" parameterType="Board">
-	    SELECT
-	        board_no, writer_id, writer_nick, write_date, hit, menu,
-	        title, price, content, U.addr1 as location
-	    FROM
-	        board B
-	    JOIN
-	        usertb U ON B.writer_id = U.id
-	    <where>
-	        board_no = #{boardNo }
-	    </where>
-<!-- 		SELECT -->
-<!-- 			board_no, writer_id, writer_nick, write_date, hit, menu -->
-<!-- 			, title, price, content, location -->
-<!-- 		FROM board -->
-<!-- 		<where> -->
-<!-- 			board_no = #{boardNo } -->
-<!-- 		</where>	     -->
+<!-- 	    SELECT -->
+<!-- 	        board_no, writer_id, writer_nick, write_date, hit, menu, -->
+<!-- 	        title, price, content, U.addr1 as location -->
+<!-- 	    FROM -->
+<!-- 	        board B -->
+<!-- 	    JOIN -->
+<!-- 	        usertb U ON B.writer_id = U.id -->
+<!-- 	    <where> -->
+<!-- 	        board_no = #{boardNo } -->
+<!-- 	    </where> -->
+		SELECT
+			board_no, writer_id, writer_nick, write_date, hit, menu
+			, title, price, content, location
+		FROM board
+		<where>
+			board_no = #{boardNo }
+		</where>	    
 	</select>
 	
 	<!-- 게시글 삽입 -->
