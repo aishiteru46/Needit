@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.User;
 import web.service.face.UserService;
@@ -26,13 +27,33 @@ public class LoginController {
 	@GetMapping("/signup")
 	public void signUp() {}
 	
-	@PostMapping("/join")
+	@PostMapping("/signup")
 	public String signUpProc( User user) {
 		logger.info("회원가입 : {}",user);
 		
 		userService.join(user);
 		
 		return "redirect:./login";
+	}
+	
+	@RequestMapping("/idCheck")
+	public @ResponseBody boolean idCheck(User user) {
+		boolean result = userService.idCheck(user);
+		
+		logger.info("{}",result);
+		
+		return result;
+		
+	}
+	
+	@RequestMapping("/nickCheck")
+	public @ResponseBody boolean ncikCheck(User user) {
+		boolean result = userService.ncikCheck(user);
+		
+		logger.info("{}",result);
+		
+		return result;
+		
 	}
 	
 	@GetMapping("/login")
@@ -49,6 +70,7 @@ public class LoginController {
 			logger.info("로그인 성공 {}",user);
 			session.setAttribute("id", user.getId());
 			session.setAttribute("nick", user.getNick());
+			session.setAttribute("addr1", user.getAddr1());
 			return"redirect:/main";
 		} else {
 			logger.info("로그인 실패");

@@ -39,4 +39,28 @@ public class UserServiceImpl implements UserService {
 		return userDao.selectByNick(user);
 	}
 
+	@Override
+	public boolean idCheck(User user) {
+		int result = userDao.selectCntById(user);
+		
+		if( result > 0) {
+			return true;
+		}
+		
+		
+		return false;
+	}
+
+	@Override
+	public boolean ncikCheck(User user) {
+		int result = userDao.selectCntByNick(user);
+		
+		if( result > 0) {
+			return true;
+		}
+		
+		return false;
+	}
+
+
 }
