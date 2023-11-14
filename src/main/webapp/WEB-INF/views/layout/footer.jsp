@@ -19,7 +19,53 @@
 	border: 0;
 	color: white;
 }
+
+/* 플로팅 버튼 */
+.policy-floating-button{
+	background-color:white;
+	margin:-5px 250px 5px 0px;
+	color: black;
+	border:1px solid #ccc;
+	box-shadow: 2px 2px 2px #ccc;
+	width:45px;
+	height:45px;
+  	border-radius:20px;
+  	margin-bottom: 9px;
+	position: sticky;
+	bottom: 50%;
+	cursor: pointer;
+}
+
+.floating { 
+	position:fixed; 
+	top: 316px; 
+	right: 8px; 
+} 
+
+
 </style>
+
+<script type="text/javascript">
+var mybutton = document.getElementById("scrollTop")
+window.onscroll = function(){scrollFunction()};
+function topFunction(){
+	document.body.scrollTop = 0;
+	document.documentElement.scrollTop = 0;
+}
+var mybutton = document.getElementById("scrollDown")
+window.onscroll = function(){scrollFunction()};
+function downFunction(){
+	document.body.scrollTop = 5000;
+	document.documentElement.scrollTop = 5000;
+}
+</script>
+
+<!-- 플로팅 버튼 -->
+<div class="floating">
+<button onclick="topFunction()" class="policy-floating-button" id="scrollTop">▲</button><br>
+<a href="/admin/chat"><button class="policy-floating-button">FAQ</button></a><br>
+<button onclick="downFunction()" class="policy-floating-button" id="scrollDown">▼</button>
+</div>
 
 
 <div style="margin-top: 20px;"></div>
@@ -47,10 +93,10 @@
 </div>
 
 <span style="float: right; font-size: 10px; color: #ccc; margin-top: -28px;">Copyright ⓒNeedit</span>
-</div><!-- .fooeterStart -->
+</div><!-- #fooeterStart -->
 <div style="margin-bottom: 20px;"></div>
 
-
+</div><!-- .wrap -->
 
 <!-- 모달 -->
 <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">

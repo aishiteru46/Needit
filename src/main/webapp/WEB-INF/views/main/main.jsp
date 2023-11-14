@@ -8,21 +8,21 @@
 /* 썸네일 div */
 #Thumbnail{
 	border:1px solid #ccc;
-	width: 1000px;
-	height: 400px;
+	width: 1200px;
+	height: 500px;
 	margin: 50px auto 10px auto;
 	overflow: hidden;
 }
 /* 썸네일 */
 .carousel-inner {
-    width: 100%;
-    height: 100%;
+    width: 1200px;
+    height: 500px;
 }
 
 .carousel-inner img {
     object-fit: cover;
-    width: 100%;
-    height: 100%;
+    width: 1200px;
+    height: 500px;
 }
 
 /* 검색 */
@@ -73,13 +73,85 @@ hr{
 	border: 1px solid #black;
 }
 
+/* 게시글 제목 */
+#mainTitle{
+	border-bottom: 1px solid #ccc;
+	width: 1199px;
+	height: 63px;
+	font-size: 30px;
+	text-align: center;
+	font-weight: bold;
+	line-height: 60px;
+}
+#mainTitleLike{
+	border-bottom: 1px solid #ccc;
+	font-size: 30px;
+	text-align: center;
+	font-weight: bold;
+	width: 700px;
+	height: 63px;
+	line-height: 60px;
+}
+#mainTitleMap{
+	border-bottom: 1px solid #ccc;
+	font-size: 30px;
+	text-align: center;
+	font-weight: bold;
+	width: 499px;
+	height: 63px;
+	line-height: 60px;
+}
+
+/* 플로팅 버튼 */
+.policy-floating-button{
+	background-color:white;
+	margin:-5px 250px 5px 0px;
+	color: black;
+	border:1px solid #ccc;
+	box-shadow: 2px 2px 2px #ccc;
+	width:45px;
+	height:45px;
+  	border-radius:20px;
+  	margin-bottom: 9px;
+	position: sticky;
+	bottom: 50%;
+	cursor: pointer;
+}
+
+.floating { 
+	position:fixed; 
+	top: 316px; 
+	right: 8px; 
+} 
+
 
 </style>
 
+<script type="text/javascript">
+var mybutton = document.getElementById("scrollTop")
+window.onscroll = function(){scrollFunction()};
+function topFunction(){
+	document.body.scrollTop = 0;
+	document.documentElement.scrollTop = 0;
+}
+var mybutton = document.getElementById("scrollDown")
+window.onscroll = function(){scrollFunction()};
+function downFunction(){
+	document.body.scrollTop = 5000;
+	document.documentElement.scrollTop = 5000;
+}
+</script>
 
 
 
 <div id="container">
+
+<!-- 플로팅 버튼 -->
+<div class="floating">
+<button onclick="topFunction()" class="policy-floating-button" id="scrollTop">▲</button><br>
+<a href="/admin/chat"><button class="policy-floating-button">FAQ</button></a><br>
+<button onclick="downFunction()" class="policy-floating-button" id="scrollDown">▼</button>
+</div>
 
 <!-- 이미지 불러오기 -->
 <%-- <img alt="asd" src="/resources/banner/${모델값(컨트롤러가 보내줌) }"> --%>
@@ -131,40 +203,49 @@ hr{
 
 <!-- 검색 -->
 <div id="MainSearchDiv">
-	<input type="text" id="MainSearch" value="${param.search }" />
+	<input type="text" id="MainSearch" value="${param.search }" placeholder="필요한 것을 검색해보세요." />
 	<button id="MainBtnSearch">🔍</button>
 </div><!-- 검색끝 -->
 <hr>
 
 <!-- 대여해요 게시글 -->
 <div id="MainRent" >
-대여해요
+<div id="mainTitle">최신 대여해요 게시글</div>
+<div style="border: 1px solid black; width: 200px; height: 235px; margin-right: 1px;"></div>
 </div>
 <hr>
 
 <!-- 나눔해요 게시글 -->
 <div id="MainShare">
-나눔해요
-</div>
+<div id="mainTitle">최신 나눔해요 게시글</div>
+
+<c:forEach items="${list }" var="list">
+	<div><img alt="썸네일" src="/resources/banner/${bannerNames.storedName }"></div>
+	<div>제목</div>
+</c:forEach>
+
+</div><!-- #MainShare -->
 <hr>
 
 <!-- 니딧 인증 업체 -->
 <div id="MainBusiness">
-업체
+<div id="mainTitle">니딧 인증 업체</div>
 </div>
 <hr>
 
 <!-- 인기 게시글(추천수) -->
 <div id="MainLike">
-게시글
+<div id="mainTitleLike">오늘의 인기 게시글</div>
 </div>
 
 <!-- 주변 지도 -->
 <div id="MainMap">
-주변지도
+<div id="mainTitleMap">내 주변 주변지도</div>
 </div>
 
-</div><!-- .container -->
+</div><!-- #container -->
+</div><!-- .wrap -->
+
 <div style="clear: both;"></div>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
