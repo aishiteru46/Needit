@@ -22,7 +22,7 @@ public interface MainService {
 	 * @param board - 게시글 번호
 	 * @return - 나눔게시판 배열
 	 */
-	public List<Map<String, Object>> selectBoardStatus(Board board);
+	public List<Board> selectBoardStatus(Board board);
 
 	/**
 	 * 메인화면에 사진 썸네일 불러오기  

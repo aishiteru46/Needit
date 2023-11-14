@@ -22,7 +22,7 @@ public interface MainDao {
 	 * @param board - 게시글 번호
 	 * @return - 나눔게시판 게시글 배열
 	 */
-	public List<Map<String, Object>> selectAll(Board board);
+	public List<Board> selectAll(Board board);
 
 	/**
 	 * 사용자가 업로드한 이미지

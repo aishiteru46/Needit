@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Banner;
+import web.dto.Report;
 import web.service.face.AdminService;
 
 @Controller
@@ -110,6 +111,8 @@ public class AdminController {
 		logger.info(bannerNames.toString());
 		
 		model.addAttribute("file", bannerNames);
+		
+		//배너사진 관리자 페이지 세션에 저장
 		session.setAttribute("file", bannerNames);
 		return "admin/bannerUpdate";
 	}
@@ -128,8 +131,16 @@ public class AdminController {
 	public void report() {}
 	
 	//신고 접수
+	//추후 수정
 	@PostMapping("/admin/report")
-	public void reportUpdate() {}
+	public String reportUpdate(Report reportNo, HttpSession session) {
+		logger.info("report [POST]");
+		logger.info("{}", reportNo);
+		
+		reportNo.setReportId(session.getId());
+		
+		return "redirect:/main";
+	}
 	
 	//-------------------------------------
 

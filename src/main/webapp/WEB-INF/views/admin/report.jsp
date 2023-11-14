@@ -53,23 +53,23 @@
 <div id="reportIn">
 <form action="/admin/report" method="post">
 	<div>
-	<input class="reportBtn" id="reportBtn1" type="button" value="광고성" name="adver" >
+	<input class="reportBtn" id="reportBtn1" type="submit" value="광고성" name="reportType" >
 	</div>
 	
 	<div>
-	<input class="reportBtn" id="reportBtn2" type="button" value="음란물" name="adult" >
+	<input class="reportBtn" id="reportBtn2" type="submit" value="음란물" name="reportType" >
 	</div>
 	
 	<div>
-	<input class="reportBtn" id="reportBtn1" type="button" value="욕설" name="abuse" >
+	<input class="reportBtn" id="reportBtn1" type="submit" value="욕설" name="reportType" >
 	</div>
 	
 	<div>
-	<input class="reportBtn" id="reportBtn2" type="button" value="불법 정보" name="illegal">
+	<input class="reportBtn" id="reportBtn2" type="submit" value="불법 정보" name="reportType">
 	</div>
 	
 	<div>
-	<input class="reportBtn" id="reportBtn1" type="button" value="개인정보 노출" name="privacy" >
+	<input class="reportBtn" id="reportBtn1" type="submit" value="개인정보 노출" name="reportType" >
 	</div>
 </form>
 </div><!-- .reportIn -->

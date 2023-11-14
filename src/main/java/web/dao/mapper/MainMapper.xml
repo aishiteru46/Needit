@@ -18,7 +18,7 @@
 		WHERE rnum &lt;= 3
  	</select>
  
- 	<select id="selectAll" resultType="Map" parameterType="Board">
+ 	<select id="selectAll" resultType="Board" parameterType="Board">
  		SELECT * FROM 
 		    (SELECT rownum rnum, B.* FROM(
 			    SELECT * FROM board
