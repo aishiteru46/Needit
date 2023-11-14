@@ -2,13 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" 
-rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" 
-crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" 
-integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" 
-crossorigin="anonymous"></script>
-
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <style>
@@ -74,23 +67,20 @@ crossorigin="anonymous"></script>
 }
 
 /* hr 위아래 조절 */
-hr {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border: 1px solid #black;
-  }
+hr{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 1px solid #black;
+}
+
 
 </style>
 
-<script type="text/javascript">
 
-
-</script>
 
 
 <div id="container">
 
-<!-- 썸네일 -->
 <!-- 이미지 불러오기 -->
 <%-- <img alt="asd" src="/resources/banner/${모델값(컨트롤러가 보내줌) }"> --%>
 <!-- <img alt="1" src="/resources/banner/cat1.jpeg143f681e3fb5"> --><!-- TEST -->
@@ -100,6 +90,15 @@ hr {
 <%-- 	</c:forEach> --%>
 <!-- </div> -->
 
+<!-- 신고버튼 테스트 나중에 삭제좀 -->
+
+<!-- 버튼 트리거 모달 -->
+<button type="button" style="width: 30px; height: 30px;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">
+<div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div>
+</button>
+
+
+<!-- 썸네일 -->
 <!-- 저장 경로를 img폴더로 지정, src에 storedname EL문으로 불러오기 -->
 <div id="Thumbnail">
 <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-interval = "false">
@@ -167,6 +166,5 @@ hr {
 
 </div><!-- .container -->
 <div style="clear: both;"></div>
-
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
