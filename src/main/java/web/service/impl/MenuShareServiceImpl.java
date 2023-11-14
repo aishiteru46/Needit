@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.MenuShareDao;
@@ -62,61 +63,62 @@ public class MenuShareServiceImpl implements MenuShareFace{
 		}
 		return menuShareDao.selectByBoardNo(board);
 	}
+	
 
 	@Override
-	public void write(Board writerContent, List<MultipartFile> upFile) {
+	public void write(Board writerContent, List<MultipartFile> file) {
 		
 		if( writerContent.getTitle() == null || "".equals(writerContent.getTitle())) {
 			writerContent.setTitle("(제목없음)");
 		}
-		
 		//글작성 
 		menuShareDao.insertBoard(writerContent);
 		
 		//첨부파일이 없을 경우 처리
-		if( upFile.size() == 0 ) {
+		if( file.size() == 0 ) {
 			return;
 		}
 
-		for(MultipartFile f : upFile) {
+		for(MultipartFile f : file) {
 			this.fileinsert( f, writerContent.getBoardNo() );
 		}
-
+		
 	}
 	
 	private void fileinsert( MultipartFile file, int boardNo ) {
+		
 		//빈 파일 처리
 		if( file.getSize() <= 0 ) {
 			return;
 		}
-		logger.info("boardNo{}",boardNo);
 		
 		//파일이 저장될 경로
-		
 		String storedPath = context.getRealPath("upload");
-		logger.info(storedPath);
 		
 		//upload 폴더 생성
 		File storedFolder = new File(storedPath);
 		storedFolder.mkdir();
 		
-		
 		//저장될 파일 이름
 		String originName = file.getOriginalFilename();
 		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
 		String fileType = originName.substring(originName.lastIndexOf(".")+ 1);
-		
+
+		//압축 이미지용 저장될 파일 이름
+		String thumbnailName = "t_" + storedName;
+		logger.info("thumbnailName  : " + thumbnailName );
+
 		//저장할 파일 객체
 		File dest = new File(storedFolder, storedName);
-	
 		
 		try {
+			
 			file.transferTo(dest);
 			
 	         //--- 이미지 파일 압축하여 저장하기 ---
-	         
-	         //압축 이미지용 파일명 설정
-	         File thumbnailFile = new File(storedPath, "s_" + storedName);
+			
+			 //썸네일 파일생성 객체
+			 File thumbnailFile = new File(storedPath, "t_" + storedName);
 	         
 	         //원본 파일을 압축할 파일명 변수에 대입
 	         BufferedImage bufOriginImage = ImageIO.read(dest);
@@ -128,13 +130,11 @@ public class MenuShareServiceImpl implements MenuShareFace{
 	         
 	         // drawImage 메서드를 호출하여 원본 이미지(원본 BuffedImage)를 
 	         //썸네일 BufferedImage에 지정한 크기로 변경하여 왼쪽 상단 "0, 0" 좌표부터 그리기
-	         graphic.drawImage(bufOriginImage, 0, 0,300,500, null);
+	         graphic.drawImage(bufOriginImage, 0, 0, 500, 500, null);
 	         
 	         // ImageIO의 write 메서드를 호출하여 그려진 객체를 파일로 저장
 	         //write() -> 매개변수( 파일로 저장할 이미지, (String)이미지 형식, 저장될 경로 )
 	         ImageIO.write(bufPressImage, "jpg", thumbnailFile);
-
-			
 			
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
@@ -145,10 +145,14 @@ public class MenuShareServiceImpl implements MenuShareFace{
 		//---------------------------------------------------------------------------
 
 		FileTb fileTb = new FileTb();
+
 		fileTb.setBoardNo( boardNo );
 		fileTb.setOriginName( originName );
 		fileTb.setStoredName( storedName );
-		fileTb.setFileType(fileType);
+		fileTb.setThumbnailName( thumbnailName );
+		fileTb.setFileType( fileType );
+		
+		logger.info("fileTb : {}", fileTb);
 		
 		menuShareDao.insertFile( fileTb );
 
@@ -237,6 +241,12 @@ public class MenuShareServiceImpl implements MenuShareFace{
 	@Override
 	public List<Comment> list(Comment comment) {
 		return menuShareDao.cmtList(comment);
+	}
+
+	@Override
+	public void commentdelete(Comment commentDelete) {
+		menuShareDao.deleteComment(commentDelete);
+
 	}
 
 	

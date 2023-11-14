@@ -141,5 +141,12 @@ public interface MenuShareDao {
 	 * @return 댓글 리스트
 	 */
 	public List<Comment> cmtList(Comment comment);
+	
+	/**
+	 * 댓글 삭제
+	 * 
+	 * @param commentDelete
+	 */
+	public void deleteComment(Comment commentDelete);
 
 }
