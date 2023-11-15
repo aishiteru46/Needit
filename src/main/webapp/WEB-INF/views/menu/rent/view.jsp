@@ -7,6 +7,7 @@
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1b5f231240cb73d46a6f0aa5b0d4c5e1&libraries=services"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+
 <!-- HEADER -->
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <style type="text/css">
@@ -287,8 +288,8 @@ $(()=>{
 	<td class="table-info">추천수</td><td id="like">${cntLike }</td>
 </tr>
 <tr>
-	<td class="table-info">아이디</td><td>${board.writerId }</td>
 	<td class="table-info">닉네임</td><td>${board.writerNick }</td>
+	<td class="table-info">가격</td><td><fmt:formatNumber value="${board.price }" pattern="#,###" />원</td>
 </tr>
 <tr>
 	<td class="table-info">조회수</td><td>${board.hit }</td>
@@ -333,9 +334,11 @@ $(()=>{
 <div id="map" style="width:350px; height:350px;"></div><br>
 
 <%-- 추천버튼 --%>
+<c:if test="${isLogin }">
 <div style="text-align: center;">
-		<button class="btn" id="btnLike"></button>
+	<button class="btn" id="btnLike"></button>
 </div><br>
+</c:if>
 
 <%-- 목록,수정,삭제 --%>
 <div class="text-center">
@@ -349,7 +352,8 @@ $(()=>{
 
 </div> <!-- .container -->
 
-<div>
+<%-- 댓글 처리 --%>
+<div class="comment_container">
 	
 	<%-- 로그인 상태 --%>
 	<c:if test="${isLogin }">
@@ -402,7 +406,7 @@ $(()=>{
 		</table>
 	</div><!-- 댓글 목록 End. -->
 	
-</div><!-- 댓글 End. -->
+</div><!-- .comment_container End. -->
 
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

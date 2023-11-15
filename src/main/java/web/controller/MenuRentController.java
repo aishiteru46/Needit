@@ -34,7 +34,6 @@ public class MenuRentController {
 	@GetMapping("/list")
 	public String list( Paging param, Model model ) {
 		logger.info("param : {}", param);
-		
 		//페이징 계산
 		Paging paging = menuRentService.getPaging(param);
 		
@@ -52,7 +51,7 @@ public class MenuRentController {
 
 		//게시글 번호를 전달받지 못하면 목록으로 이동
 		if( board.getBoardNo() < 1 ) {
-			return "redirect:/menu/rent/list";
+			return "redirect:/rent/list";
 		}
 		
 		//게시글 상세 조회

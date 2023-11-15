@@ -16,6 +16,14 @@
 	
 	<dependencies>
 	
+		<!-- Lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.30</version>
+		    <scope>provided</scope>
+		</dependency>
+	
 		<!-- Oracle Cloud DB Wallet security  -->
 		<dependency>
 			<groupId>com.oracle.database.security</groupId>
