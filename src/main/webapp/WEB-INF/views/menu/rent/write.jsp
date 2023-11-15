@@ -17,6 +17,8 @@ $(() => {
 </script>
 
 <script type="text/javascript">
+
+//썸네일 미리보기
 function setThumbnail(event) {
     var reader = new FileReader();
 
@@ -26,7 +28,21 @@ function setThumbnail(event) {
     };
 
     reader.readAsDataURL(event.target.files[0]);
-}
+}// .setThumbnail() End
+
+//가격란에 문자입력 방지
+$(document).ready(function() {
+    $("#price").on("keyup", function() {
+        var checkType = $("#price").val();
+
+        if (isNaN(checkType)) {
+            alert("숫자만 입력 가능합니다");
+            $("#price").val("");
+            $("#price").focus();
+        }
+    
+    });
+});
 </script>
 
 <style type="text/css">

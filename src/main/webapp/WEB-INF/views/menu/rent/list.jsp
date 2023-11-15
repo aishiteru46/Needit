@@ -71,6 +71,10 @@
 	</c:if>
 </c:forEach>
 
+<button class="gridType">그리드</button>
+<button class="listType">리스트</button>
+
+<div class="gridContainer">
 <c:forEach items="${list}" var="list" varStatus="loop">
   <c:if test="${loop.index % 3 == 0}">
   <div class="row">
@@ -124,7 +128,94 @@
 
 </div> <!-- .container -->
 <br>
+</div><!-- .gridContainer -->
 
+<div class="listContainer">
+	<div class="row">
+	<c:forEach items="${list}" var="list" varStatus="loop">
+	 	 <div class="write-container">
+	  		<br>
+	   		<a href="/menu/rent/view?boardNo=${list.boardNo }&menu=${list.menu}">제목 : ${list.title }</a><br><br>
+	<%--    		<img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/> --%>
+	    	<h6>글번호 : ${list.boardNo}</h6>
+	    	<h6>작성자 : ${list.writerId }</h6>
+	    	<h6>닉네임 : ${list.writerNick }</h6>
+	    	<h6>가격 : ${list.price}</h6>
+	    	<h6>조회수 :  ${list.hit}</h6>
+	    	<h6>작성일 :  
+				<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" /> 
+				<fmt:formatDate var="writeDate" value="${list.writeDate }" pattern="yyyyMMdd" /> 
+				<c:choose> 
+				<c:when test="${writeDate lt curDate }"> 
+						<fmt:formatDate value="${list.writeDate }" pattern="yyyy-MM-dd" /> 
+					</c:when> 
+					<c:otherwise> 
+						<fmt:formatDate value="${list.writeDate }" pattern="HH:mm" /> 
+					</c:otherwise> 
+				</c:choose>		    	
+	    	</h6>
+	    	<h6>위치 : ${list.location }</h6>
+	  	</div>
+	<%--   <c:if test="${loop.index % 3 == 2 || loop.index + 1 == yourList.size()}"> --%>
+	<!--   </div>.row -->
+	<%--   </c:if> --%>
+	</c:forEach>
+	
+	<div>
+		<table class="table table-striped table-hover table-sm">
+		
+		<colgroup>
+			<col style="width:7%;">
+			<col style="width:30%;">
+			<col style="width:10%;">
+			<col style="width:5%;">
+			<col style="width:10%;">
+			<col style="width:5%;">
+			<col style="width:10%;">
+		</colgroup>
+		
+		<thead>
+			<tr class="table-danger">
+				<th>글번호</th>
+				<th>제목</th>
+				<th>닉네임</th>
+				<th>조회</th>
+				<th>작성일</th>
+				<th>가격</th>
+				<th>지역</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+		<c:forEach var="list" items="${list }">
+			<tr>
+				<td>${list.boardNo }</td>
+				<td>
+					<a href="./view?boardNo=${list.boardNo }">${list.title }</a>
+				</td>
+				<td>${list.writerNick }</td>
+				<td>${list.hit}</td>
+				<td>
+					<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
+					<fmt:formatDate var="writeDate" value="${list.writeDate }" pattern="yyyyMMdd" />
+					<c:choose>
+						<c:when test="${writeDate lt curDate }">
+							<fmt:formatDate value="${list.writeDate }" pattern="yyyy-MM-dd" />
+						</c:when>
+						<c:otherwise>
+							<fmt:formatDate value="${list.writeDate }" pattern="HH:mm" />
+						</c:otherwise>
+					</c:choose>				
+				</td>
+				<td>${list.price }</td>
+				<td>${list.location }</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+		
+		</table>
+	</div>
+</div><!-- .listContainer -->
 
 <c:import url="/WEB-INF/views/layout/pagination.jsp" />
 
