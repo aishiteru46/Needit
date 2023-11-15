@@ -48,15 +48,17 @@
 #MainRent, #MainShare, #MainBusiness{
 	border: 1px solid #ccc;
 	width: 1200px;
-	height: 300px
+	height: 300px;
+	border-radius: 10px;
 }
 
-/* 추천게시글 */
+/* 오늘의 인기 게시글 */
 #MainLike{
 	border: 1px solid #ccc;
 	width: 700px;
 	height: 300px;
 	float: left;
+	border-radius: 10px;
 }
 
 /* 지도 */
@@ -65,6 +67,7 @@
 	width: 500px;
 	height: 300px;
 	float: right;
+	border-radius: 10px;
 }
 
 /* hr 위아래 조절 */
@@ -103,56 +106,36 @@ hr{
 	line-height: 60px;
 }
 
-/* 플로팅 버튼 */
-.policy-floating-button{
-	background-color:white;
-	margin:-5px 250px 5px 0px;
-	color: black;
-	border:1px solid #ccc;
-	box-shadow: 2px 2px 2px #ccc;
-	width:45px;
-	height:45px;
-  	border-radius:20px;
-  	margin-bottom: 9px;
-	position: sticky;
-	bottom: 50%;
-	cursor: pointer;
+/* 대여, 나눔해요 썸네일 바깥 div */ 
+#MainTumbnailDiv{
+	display: inline-block;
+	margin-left: 5px;
 }
 
-.floating { 
-	position:fixed; 
-	top: 316px; 
-	right: 8px; 
-} 
-
+/* 대여, 나눔해요 썸네일 이미지 */
+#MainThumbnailImg{
+	width: 290px;
+	height: 200px;
+	margin-top: 3px;
+}
+/* 대여, 나눔해요 썸네일 제목 */
+#MainThumbnailTitle{
+	text-align: center;
+	font-size: 17px;
+	font-weight: bold;
+	margin-top: 5px;
+}
+#MainNoITumbnail{
+	width: 286px;
+	height: 200px;
+	border: 1px solid #ccc;
+}
 
 </style>
-
-<script type="text/javascript">
-var mybutton = document.getElementById("scrollTop")
-window.onscroll = function(){scrollFunction()};
-function topFunction(){
-	document.body.scrollTop = 0;
-	document.documentElement.scrollTop = 0;
-}
-var mybutton = document.getElementById("scrollDown")
-window.onscroll = function(){scrollFunction()};
-function downFunction(){
-	document.body.scrollTop = 5000;
-	document.documentElement.scrollTop = 5000;
-}
-</script>
 
 
 
 <div id="container">
-
-<!-- 플로팅 버튼 -->
-<div class="floating">
-<button onclick="topFunction()" class="policy-floating-button" id="scrollTop">▲</button><br>
-<a href="/admin/chat"><button class="policy-floating-button">FAQ</button></a><br>
-<button onclick="downFunction()" class="policy-floating-button" id="scrollDown">▼</button>
-</div>
 
 <!-- 이미지 불러오기 -->
 <%-- <img alt="asd" src="/resources/banner/${모델값(컨트롤러가 보내줌) }"> --%>
@@ -203,26 +186,39 @@ function downFunction(){
 
 <!-- 검색 -->
 <div id="MainSearchDiv">
-	<input type="text" id="MainSearch" value="${param.search }" placeholder="필요한 것을 검색해보세요." />
-	<button id="MainBtnSearch">🔍</button>
+	<form action="/main" method="get">
+		<input type="text" id="MainSearch" value="${param.search }" placeholder="필요한 것을 검색해보세요." />
+		<button id="MainBtnSearch" type="submit">🔍</button>
+	</form>
 </div><!-- 검색끝 -->
 <hr>
 
 <!-- 대여해요 게시글 -->
 <div id="MainRent" >
-<div id="mainTitle">최신 대여해요 게시글</div>
-<div style="border: 1px solid black; width: 200px; height: 235px; margin-right: 1px;"></div>
+	<div id="mainTitle">최신 대여해요 게시글</div>
+	<c:forEach var="boardRentInfo" items="${boardRentInfo}">
+		<div id="MainTumbnailDiv">
+			<div><a href="/menu/rent/list?menu=m1c1"><img src="/upload/${boardRentInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></a></div>
+			<div id="MainThumbnailTitle">${boardRentInfo.TITLE}</div>
+		</div><!-- #MainTumbnailDiv -->
+	</c:forEach>
 </div>
 <hr>
 
 <!-- 나눔해요 게시글 -->
 <div id="MainShare">
 <div id="mainTitle">최신 나눔해요 게시글</div>
-<c:forEach items="${list }" var="list">
-	<div><img alt="썸네일" src="/resources/banner/${file.storedName }"></div>
-	<div>${list.title }</div>
-</c:forEach>
-
+	<c:forEach var="boardShareInfo" items="${boardShareInfo}">
+		<div id="MainTumbnailDiv">
+			<c:if test="${not empty boardShareInfo.THUMBNAIL_NAME }">
+			<div><a href="/menu/rent/list?menu=m2c1"><img src="/upload/${boardShareInfo.THUMBNAIL_NAME }" id="MainThumbnailImg" ></a></div>
+			</c:if>
+			<c:if test="${empty boardShareInfo.THUMBNAIL_NAME }">
+				<img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png">
+			</c:if>
+			<div id="MainThumbnailTitle">${boardShareInfo.TITLE}</div>
+		</div><!-- #MainTumbnailDiv -->
+	</c:forEach>
 </div><!-- #MainShare -->
 <hr>
 
@@ -239,7 +235,7 @@ function downFunction(){
 
 <!-- 주변 지도 -->
 <div id="MainMap">
-<div id="mainTitleMap">내 주변 주변지도</div>
+<div id="mainTitleMap">내 주변 지도</div>
 </div>
 
 </div><!-- #container -->

@@ -6,6 +6,20 @@
   
  <mapper namespace="web.dao.face.MainDao">
 
+	<!-- 카테고리에 맞는 게시판 조회 -->
+	<sql id="selectBoard">
+        SELECT 
+		    board_no, writer_id, writer_nick, 
+		    hit, menu, title, price, content, location,
+		    CAST(write_date AS DATE) AS write_date, 
+		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
+		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
+		FROM board B
+		<where>
+			menu = #{menu }
+		</where>
+     </sql>
+
  	<select id="getStoredName" resultType="Banner" >
 		SELECT
 			banner_no, origin_name, stored_name, file_type
@@ -18,20 +32,43 @@
 		WHERE rnum &lt;= 3
  	</select>
  
- 	<select id="selectAll" resultType="Board" parameterType="Board">
- 		SELECT * FROM 
-		    (SELECT rownum rnum, B.* FROM(
-			    SELECT * FROM board
-			    ORDER BY board_no DESC
-		    )B
+	<select id="selectRecentRentBoard" resultType="Map">
+		SELECT *
+		FROM (
+		    SELECT
+		        B.board_no, B.title, F.thumbnail_name, B.menu
+		    FROM
+		        board B
+		    LEFT JOIN
+		        filetb F ON B.board_no = F.board_no
+		    ORDER BY
+		        B.board_no DESC
 		)
-		WHERE rnum &lt;=4; 
- 	</select>
- 
- 	<select id="selectFileImg" resultType="FileTb" parameterType="FileTb">
-    	SELECT stored_name FROM fileTb
-    	WHERE board_no = #{boardNo}
- 	</select>
+		WHERE
+		    menu IN ('m1c1', 'm1c2', 'm1c3') AND ROWNUM &lt;= 4
+	</select> 	
+ 	
+ 	<select id="selectRecentShareBoard" resultType="Map">
+		SELECT *
+		FROM (
+		    SELECT
+		        B.board_no, B.title, F.thumbnail_name, B.menu
+		    FROM
+		        board B
+		    LEFT JOIN
+		        filetb F ON B.board_no = F.board_no
+		    ORDER BY
+		        B.board_no DESC
+		)
+		WHERE
+		    menu IN ('m2c1', 'm2c2', 'm2c3') AND ROWNUM &lt;= 4
+	</select>
+	
+    <select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
+	SELECT count(*) FROM (
+		<include refid="selectBoard"/>
+	)
+    </select>
  
  </mapper>
   
