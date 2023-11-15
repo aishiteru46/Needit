@@ -10,13 +10,14 @@
 	<sql id="selectBoard">
         SELECT 
 		    board_no, writer_id, writer_nick, 
-		    hit, menu, title, price, content, location,
+		    hit, menu, title, price, content, location,cate
 		    CAST(write_date AS DATE) AS write_date, 
 		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
 		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
 		FROM board B
 		<where>
-			menu = #{menu }
+			AND menu = #{menu }
+			AND cate = #{cate}
 		</where>
      </sql>
      
@@ -188,6 +189,21 @@
 			AND board_no = #{boardNo }
 		</where>
 	</delete>
+	
+	<!-- 예약 정보 -->
+	<insert id="makeBook" parameterType="Booking">
+	INSERT INTO booking( book_no, book_status, book_date, board_no, booker_id , book_time)
+	VALUES ( booking_seq.nextval, '1' , #{bookDate}, '5', 'user3', #{bookTime})
+	</insert>
+	
+	<select id="checkBook" resultType="int" parameterType="Booking">
+		SELECT count(*) FROM booking
+		<where>
+			book_date = #{bookDate}
+		</where>
+	
+	</select>
+	
 	
 	
 	

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Board;
+import web.dto.Booking;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
@@ -25,7 +28,7 @@ import web.service.face.MenuShareFace;
 import web.util.Paging;
 
 @Controller
-@RequestMapping("/menu/share")
+@RequestMapping("/share")
 public class MenuShareController {
 	
 	//로그 객체 
@@ -226,12 +229,33 @@ public class MenuShareController {
 		
 		return "jsonView";
 	}
-	
-	@GetMapping("/calendar")
-	public void calendar() {
+	@GetMapping("/book")
+	public String book() {
+		
+		return "menu/share/book";
 		
 	}
 	
+	@PostMapping("/book")
+	public String book(
+			Booking book, HttpSession session
+			) {
+		book.setBookerId((String)session.getAttribute("id"));
+		logger.info("예약정보{}", book);
+		
+		//예약
+		menuShareFace.book(book);
+		
+		//예약 확인
+		boolean check = menuShareFace.checkBook(book);
+		logger.info("예약 확인{}",check);
+		
+		
+		return "menu/share/book";
+		
+		
+		
+	}
 	
 	
 	

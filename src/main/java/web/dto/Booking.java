@@ -2,6 +2,7 @@ package web.dto;
 
 import java.util.Date;
 
+
 public class Booking {
 	
 	private int bookNo;
@@ -9,22 +10,24 @@ public class Booking {
 	private Date bookDate;
 	private int boardNo;
 	private String bookerId;
-
+	private int bookTime;
+	
 	public Booking() {}
 
-	public Booking(int bookNo, int bookStatus, Date bookDate, int boardNo, String bookerId) {
+	public Booking(int bookNo, int bookStatus, Date bookDate, int boardNo, String bookerId, int bookTime) {
 		super();
 		this.bookNo = bookNo;
 		this.bookStatus = bookStatus;
 		this.bookDate = bookDate;
 		this.boardNo = boardNo;
 		this.bookerId = bookerId;
+		this.bookTime = bookTime;
 	}
 
 	@Override
 	public String toString() {
 		return "Booking [bookNo=" + bookNo + ", bookStatus=" + bookStatus + ", bookDate=" + bookDate + ", boardNo="
-				+ boardNo + ", bookerId=" + bookerId + "]";
+				+ boardNo + ", bookerId=" + bookerId + ", bookTime=" + bookTime + "]";
 	}
 
 	public int getBookNo() {
@@ -65,6 +68,14 @@ public class Booking {
 
 	public void setBookerId(String bookerId) {
 		this.bookerId = bookerId;
+	}
+
+	public int getBookTime() {
+		return bookTime;
+	}
+
+	public void setBookTime(int bookTime) {
+		this.bookTime = bookTime;
 	}
 	
 	
