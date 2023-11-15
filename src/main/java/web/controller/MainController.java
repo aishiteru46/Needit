@@ -47,15 +47,15 @@ public class MainController {
 		//검색
 		
 		
-		//최신 게시글 조회 출력_대여게시판
-		List<Map<String, Object>> listRent = mainService.getBoardRentInfo();
-		logger.info("메인에 출력할 대여 list : {}", listRent);
-		model.addAttribute("boardRentInfo", listRent);
-		
-		//최신 게시글 조회 출력_나눔게시판
-		List<Map<String, Object>> listShare = mainService.getBoardShareInfo();
-		logger.info("메인에 출력할 나눔 list : {}", listShare);
-		model.addAttribute("boardShareInfo", listShare);
+//		//최신 게시글 조회 출력_대여게시판
+//		List<Map<String, Object>> listRent = mainService.getBoardRentInfo();
+//		logger.info("메인에 출력할 대여 list : {}", listRent);
+//		model.addAttribute("boardRentInfo", listRent);
+//		
+//		//최신 게시글 조회 출력_나눔게시판
+//		List<Map<String, Object>> listShare = mainService.getBoardShareInfo();
+//		logger.info("메인에 출력할 나눔 list : {}", listShare);
+//		model.addAttribute("boardShareInfo", listShare);
 		
 		//니딧 인증 업체
 		
