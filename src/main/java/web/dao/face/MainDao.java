@@ -6,6 +6,7 @@ import java.util.Map;
 import web.dto.Banner;
 import web.dto.Board;
 import web.dto.FileTb;
+import web.util.Paging;
 
 public interface MainDao {
 
@@ -17,19 +18,23 @@ public interface MainDao {
 	public List<Banner> getStoredName();
 
 	/**
-	 * 나눔해요 게시판 조회
-	 * 
-	 * @param board - 게시글 번호
-	 * @return - 나눔게시판 게시글 배열
+	 * 메인화면 최신 대여해요 게시글 
+	 * @return 사진, 글 제목
 	 */
-	public List<Board> selectAll(Board board);
+	public List<Map<String, Object>> selectRecentRentBoard();
 
 	/**
-	 * 사용자가 업로드한 이미지
-	 * 
-	 * @param file - 이미지
-	 * @return - 이미지 배열
+	 * 메인화면 최신 나눔해요 게시글 
+	 * @return 사진, 글 제목
 	 */
-	public List<FileTb> selectFileImg(FileTb file);
+	public List<Map<String, Object>> selectRecentShareBoard();
+
+	/**
+	 * 페이지수 계산
+	 * 
+	 * @param - param 페이지수 
+	 * @return 계산된 페이지 수 
+	 */
+	public int selectCntAll(Paging param);
 
 }

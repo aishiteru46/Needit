@@ -22,48 +22,52 @@
 
 /* 플로팅 버튼 */
 .policy-floating-button{
-	background-color:white;
-	margin:-5px 250px 5px 0px;
-	color: black;
-	border:1px solid #ccc;
-	box-shadow: 2px 2px 2px #ccc;
-	width:45px;
-	height:45px;
-  	border-radius:20px;
-  	margin-bottom: 9px;
-	position: sticky;
-	bottom: 50%;
-	cursor: pointer;
+    background-color:white;
+    color: black;
+    border: 0;
+    margin: 0;
+    width: 45px;
+    height: 45px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 2px #ccc;
 }
 
-.floating { 
-	position:fixed; 
-	top: 316px; 
-	right: 8px; 
-} 
+#FloatMain{
+	margin: 5px 0px;
+}
 
+.floating {
+    position: fixed;
+    bottom: 20px;
+    right: 3px;
+    flex-direction: column;
+    align-items: flex-end;
+}
 
 </style>
 
 <script type="text/javascript">
-var mybutton = document.getElementById("scrollTop")
-window.onscroll = function(){scrollFunction()};
-function topFunction(){
-	document.body.scrollTop = 0;
-	document.documentElement.scrollTop = 0;
+function topFunction() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
-var mybutton = document.getElementById("scrollDown")
-window.onscroll = function(){scrollFunction()};
-function downFunction(){
-	document.body.scrollTop = 5000;
-	document.documentElement.scrollTop = 5000;
+
+function downFunction() {
+    window.scrollTo({
+        top: 5000,
+        behavior: "smooth"
+    });
 }
 </script>
 
 <!-- 플로팅 버튼 -->
 <div class="floating">
 <button onclick="topFunction()" class="policy-floating-button" id="scrollTop">▲</button><br>
-<a href="/admin/chat"><button class="policy-floating-button">FAQ</button></a><br>
+<a href="/admin/chat"><button class="policy-floating-button" id="FloatMain">FAQ</button></a><br>
 <button onclick="downFunction()" class="policy-floating-button" id="scrollDown">▼</button>
 </div>
 

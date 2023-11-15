@@ -14,6 +14,7 @@ import web.dto.Banner;
 import web.dto.Board;
 import web.dto.FileTb;
 import web.service.face.MainService;
+import web.util.Paging;
 
 @Service
 public class MainServiceImpl implements MainService {
@@ -31,24 +32,27 @@ public class MainServiceImpl implements MainService {
 	}
 
 	//최신 대여해요 게시글
-	
-	
+	@Override
+	public List<Map<String, Object>> getBoardShareInfo() {
+		return mainDao.selectRecentShareBoard();
+	}
 	
 	//최신 나눔해요 게시글
 	@Override
-	public List<Board> selectBoardStatus(Board board) {
-		logger.info("{}",board);
-		board.getBoardNo();
-		board.getTitle();
-		return mainDao.selectAll(board);
+	public List<Map<String, Object>> getBoardRentInfo() {
+		
+		return mainDao.selectRecentRentBoard();
 	}
-
+	
+	//메인 검색
 	@Override
-	public List<FileTb> getImg(FileTb file) {
-		logger.info("{}",file);
-		file.getFileNo();
-		file.getStoredName();
-		return mainDao.selectFileImg(file);
+	public Paging getPaging(Paging param) {
+		
+		int totalCount = mainDao.selectCntAll(param);
+		
+		Paging paging = new Paging(param.getMenu(),totalCount, param.getCurPage(),10,10);
+		
+		return paging;
 	}
 
 }
