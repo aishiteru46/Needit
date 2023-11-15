@@ -6,22 +6,189 @@
 
 
 <mapper namespace="web.dao.face.MenuShareDao">
+	<!-- 카테고리에 맞는 게시판 조회 -->
 	<sql id="selectBoard">
         SELECT 
-        	board_no, writer_id, write_date, hit, menu
-        	, title, price, content, location
-        FROM board
+		    board_no, writer_id, writer_nick, 
+		    hit, menu, title, price, content, location,
+		    CAST(write_date AS DATE) AS write_date, 
+		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
+		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
+		FROM board B
+		<where>
+			menu = #{menu }
+		</where>
      </sql>
      
+     <!--  총 페이지수 조회 -->
     <select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
 	SELECT count(*) FROM (
 		<include refid="selectBoard"/>
 	)
     </select>
     
-    <select id="selectShareList" resultType="Board" parameterType="Board">
-    	<include refid="selectBoard"/>
-    	WHERE menu = 'm1c1'
+    <!-- 게시글 카테고리에 맞는 게시글 조회 -->
+	<select id="selectAll" resultType="Map" parameterType="web.util.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				<include refid="selectBoard"/>
+				ORDER BY board_no DESC
+          	) B
+      	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+    
+    <!-- 보드넘버에 맞는 컬럼 전체 조회 -->
+    <select id="selectByBoardNo" resultType="Board" parameterType="Board">
+	    SELECT
+	        board_no, writer_id, writer_nick, write_date, hit, menu,
+	        title, price, content, U.addr1 as location
+	    FROM
+	        board B
+	    JOIN
+	        usertb U ON B.writer_id = U.id
+	    <where>
+	        board_no = #{boardNo }
+	    </where>
+	</select>
+    
+    <!-- 조회수 증가 -->
+    <update id="updateHit" parameterType="int">
+    	UPDATE board
+    	SET hit = hit + 1
+    	<where>
+    		board_no = #{boardNo}
+    	</where>
+    
+    </update>
+    
+    <!-- 메뉴 번호 조회 -->
+    <select id="selectByMenu" resultType="Board" parameterType="Board">
+    	SELECT menu FROM board
+    	<where>
+    		menu = #{menu}
+    	</where>
+    
     </select>
+    
+    <!-- 게시글 삽입 -->
+    <insert id="insertBoard" parameterType="Board">
+    	<selectKey resultType="int" order="BEFORE" keyProperty="boardNo">
+    		SELECT board_seq.nextval FROM dual
+    	</selectKey>
+    		INSERT INTO board(board_no, menu, writer_id, writer_nick, title, price, content, location)
+    		VALUES ( #{boardNo}, #{menu}, #{writerId}, #{writerNick}, #{title}, #{price}, #{content}, #{location} )
+    </insert>
+    
+    <!-- 게시글 파일 삽입 -->
+    <insert id="insertFile" parameterType="FileTb">
+    	<selectKey resultType="int" order="BEFORE" keyProperty="fileNo">
+    		SELECT fileTb_seq.nextval FROM dual
+    	</selectKey>
+    	INSERT INTO fileTb( file_no, origin_name, stored_name, thumbnail_name, file_type, board_no)
+    	VALUES( #{fileNo}, #{originName}, #{storedName}, #{thumbnailName}, #{fileType}, #{boardNo} )
+    </insert>
+    
+    <!-- StoredName 조회 -->
+    <select id="selectFileImg" resultType="FileTb" parameterType="FileTb">
+    	SELECT stored_name FROM fileTb
+    	<where>
+    		board_no = #{boardNo}
+    	</where>
+    </select>
+    
+    <!-- 보드 넘버에 맞는 fileTb 조회 -->
+    <select id="selectBoardfileByBoardNo" resultType="FileTb" parameterType="Board">
+		SELECT file_no, board_no, origin_name, stored_name FROM fileTb
+		<where> 
+			board_no = #{boardNo}
+		</where>
+	</select>
+	
+	<!-- 게시판 수정 -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE board
+		<set>
+			, title = #{title } , content = #{content } 
+		</set>
+		<where> 
+			board_no = #{boardNo }
+		</where>
+	</update>
+	
+	<!-- 여러개 파일 삭제 -->
+	<delete id="deleteFiles" parameterType="int[]">
+		DELETE fileTb
+		<where>
+		file_no IN
+		<foreach collection="array" item="no" open="(" close=")" separator=","> #{no } </foreach>
+		</where>
+	</delete>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteByBoardNo" parameterType="Board">
+		DELETE board
+		<where>
+		board_no = #{boardNo}
+		</where>
+	</delete>
+	
+	<!-- 파일 삭제 -->
+	<delete id="deleteFileByBoardNo" parameterType="Board">
+		DELETE fileTb
+		<where>
+		board_no = #{boardNo}
+		</where>
+	</delete>
+	
+	<!-- 총 추천수 조회 -->
+	<select id="selectLikeByBoardNo" resultType="int" parameterType="Like">
+		SELECT count(*) FROM likeTb
+		WHERE board_no = #{boardNo}
+	</select>
+	
+	<!-- 추천 개수 -->
+	<select id="selectByLike" resultType="int" parameterType="Like">
+		SELECT count(*) FROM likeTb
+		WHERE board_no = #{boardNo}
+		AND like_id = #{likeId}
+	</select>
+	
+	<!-- 추천이 있으면 삭제 -->
+	<delete id="deleteLike" parameterType="Like">
+		DELETE likeTb
+		WHERE board_no = ${boardNo}
+		AND like_id = #{likeId}
+	</delete>
+	
+	<!-- 추천이 없으면 삽입 -->
+	<insert id="insertLike" parameterType="Like">
+	INSERT INTO likeTb( like_no,board_no, like_id )
+	VALUES ( likeTb_seq.nextval, #{boardNo}, #{likeId} ) 
+	</insert>
+	
+	<!-- 댓글 입력 -->
+	<insert id="cmtWrite" parameterType="Comment">
+	INSERT INTO commentTB( cmt_no, content, board_no, writer_id , writer_nick)
+	VALUES ( commentTb_seq.nextval, #{content},#{boardNo}, #{writerId}, #{writerNick})	
+	</insert>
+
+	<!-- 댓글 리스트 -->
+	<select id="cmtList" resultType="Comment" parameterType="Comment">
+	SELECT * FROM commentTB
+	WHERE board_no = #{boardNo}
+	ORDER BY cmt_no DESC
+	</select>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="Comment">
+		DELETE FROM commentTB
+		<where>
+			AND	cmt_no = #{cmtNo }
+			AND board_no = #{boardNo }
+		</where>
+	</delete>
+	
+	
 	
 </mapper>

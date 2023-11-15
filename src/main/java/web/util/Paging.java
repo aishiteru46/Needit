@@ -2,6 +2,7 @@ package web.util;
 
 public class Paging {
 	
+	private String menu;	//조회할 메뉴
 	private int curPage;	//현재 페이지 번호
 	private int totalCount;	//총 게시글 수
 	private int listCount;	//한 페이지 당 보여질 게시글 수
@@ -15,7 +16,8 @@ public class Paging {
 	public Paging() {}
 
 	//총 게시글 수, 현재 페이지 번호를 입력하는 생성자
-	public Paging(int totalCount, int curPage) {
+	public Paging(String menu, int totalCount, int curPage) {
+		setMenu(menu);
 		setTotalCount(totalCount);
 		setCurPage(curPage);
 		
@@ -23,7 +25,8 @@ public class Paging {
 	}
 	
 	//총 게시글수, 현재 페이지 번호, 보여질 게시글수, 보여질 페이지 수 를 입력하는 생성자
-	public Paging(int totalCount, int curPage, int listCount, int pageCount) {
+	public Paging(String menu, int totalCount, int curPage, int listCount, int pageCount) {
+		setMenu(menu);
 		setTotalCount(totalCount);
 		setCurPage(curPage);
 		setListCount(listCount);
@@ -58,13 +61,12 @@ public class Paging {
 		startNo = (curPage-1) * listCount + 1;
 		endNo = curPage * listCount;
 	}
-	
 
 	@Override
 	public String toString() {
-		return "Paging [curPage=" + curPage + ", totalCount=" + totalCount + ", listCount=" + listCount + ", totalPage="
-				+ totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage + ", endPage=" + endPage
-				+ ", startNo=" + startNo + ", endNo=" + endNo + "]";
+		return "Paging [menu=" + menu + ", curPage=" + curPage + ", totalCount=" + totalCount + ", listCount="
+				+ listCount + ", totalPage=" + totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage
+				+ ", endPage=" + endPage + ", startNo=" + startNo + ", endNo=" + endNo + "]";
 	}
 
 	public int getCurPage() {
@@ -138,5 +140,13 @@ public class Paging {
 	public void setEndNo(int endNo) {
 		this.endNo = endNo;
 	}
+	
+	public String getMenu() {
+		return menu;
+	}
+
+	public void setMenu(String menu) {
+		this.menu = menu;
+	}	
 	
 }

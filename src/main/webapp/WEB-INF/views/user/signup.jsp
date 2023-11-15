@@ -13,6 +13,105 @@
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+
+
+function sample5_execDaumPostcode() {
+new daum.Postcode({
+    oncomplete: function(data) {
+        var addr = data.address; // 최종 주소 변수
+
+        // 주소 정보를 해당 필드에 넣는다.
+        document.getElementById("sample5_address").value = addr;
+        // 주소로 상세 정보를 검색
+        geocoder.addressSearch(data.address, function(results, status) {
+        });
+    }
+}).open();
+}
+
+$(document).ready(function() {
+	//ID 중복 확인
+	//id를 입력할 수 있는 input text 영역을 벗어나면 동작한다.
+	$("#id").on("focusout focusin", function() {
+		
+		var id = $("#id").val();
+		
+		if(id == '' || id.length == 0) {
+			
+			$("#label1").css("color", "red").css("display", "block").text("공백은 ID로 사용할 수 없습니다.");
+			return false;
+		}
+		
+    	//Ajax로 전송
+    	$.ajax({
+    		url : '/user/idCheck',
+    		data : {
+    			id : id
+    		},
+    		type : 'POST',
+    		dataType : 'json',
+    		success : function(result) {
+    			if (result != true) {
+    				$("#label1").css("display", "block")
+    				$("#label1").css("color", "green").text("사용 가능한 ID 입니다.");
+    			} else{
+    				$("#label1").css("display", "block")
+    				$("#label1").css("color", "red").text("사용 불가능한 ID 입니다.");
+    			}
+    		}
+    	}); //End Ajax
+	});
+})
+
+$(document).ready(function() {
+	//닉네임 중복확인
+	$("#nick").on("focusout focusin", function() {
+		
+		var nick = $("#nick").val();
+		
+		if(nick == '' || nick.length == 0) {
+			
+			$("#label3").css("color", "red").css("display", "block").text("공백은 사용할 수 없습니다.");
+			return false;
+		}
+		
+    	//Ajax로 전송
+    	$.ajax({
+    		url : '/user/nickCheck',
+    		data : {
+    			nick : nick
+    		},
+    		type : 'POST',
+    		dataType : 'json',
+    		success : function(result) {
+    			if (result != true) {
+    				$("#label3").css("display", "block")
+    				$("#label3").css("color", "green").text("사용 가능한 닉네임 입니다.");
+    			} else{
+    				$("#label3").css("display", "block")
+    				$("#label3").css("color", "red").text("사용 불가능한 닉네임 입니다.");
+    			}
+    		}
+    	}); //End Ajax
+	});
+})
+
+$(document).ready(function() {
+    // 비밀번호 일치 여부 확인
+    $("#pw2").on("keyup", function() {
+        var password1 = $("#pw1").val();
+        var password2 = $(this).val();
+
+        if (password1 === password2) {
+            $("#label2").css("display", "block").css("color", "green").text("비밀번호가 일치합니다!");
+        } else {
+            $("#label2").css("display", "block").css("color", "red").text("비밀번호가 일치하지 않습니다.");
+        }
+    });
+});
+</script>
 <style type="text/css">
 
 html {
@@ -29,6 +128,9 @@ form {
 	background-color: #ff533f;
 	border-color: #ff533f;
 }
+#label1{
+	display: none;
+}
 </style>
 </head>
 <body>
@@ -43,13 +145,15 @@ form {
 	<div class="row">
   		<div class="col">
   			<label class="fs-3 fw-bold">아이디</label>
-   	 		<input type="text" class="form-control form-control-lg mb-3" name="id" placeholder="아이디를 입력해주세요" >
+   	 		<input type="text" class="form-control form-control-lg mb-3" name="id" id="id"placeholder="아이디를 입력해주세요" required="required">
+   	 		<span id="label1"></span>
   			<label class="fs-3 fw-bold">비밀번호</label>
-    		<input type="password" class="form-control form-control-lg mb-3" name="pw" placeholder="비밀번호를 입력해주세요" >
+    		<input type="password" class="form-control form-control-lg mb-3" id="pw1" name="pw" placeholder="비밀번호를 입력해주세요" required="required">
   			<label class="fs-3 fw-bold">비밀번호 확인</label>
-    		<input type="password" class="form-control form-control-lg mb-3" placeholder="비밀번호를 입력해주세요" >
+    		<input type="password" class="form-control form-control-lg mb-3" id="pw2" placeholder="비밀번호를 입력해주세요" required="required">
+    		<span id="label2"></span>
   			<label class="fs-3 fw-bold">생년월일</label>
-    		<input type="date" class="form-control form-control-lg mb-3" name="birth">
+    		<input type="date" class="form-control form-control-lg mb-3" name="birth" required="required">
     
   		</div>
   		<div class="col">
@@ -60,24 +164,29 @@ form {
 			   	<option value="F">여자</option>
 			</select>
   			<label class="fs-3 fw-bold">이름</label>
-    		<input type="text" class="form-control form-control-lg mb-3" name="name" placeholder="이름을 입력해주세요" >
+    		<input type="text" class="form-control form-control-lg mb-3" name="name" placeholder="이름을 입력해주세요" required="required">
   			<label class="fs-3 fw-bold">닉네임</label>
-    		<input type="text" class="form-control form-control-lg mb-3" name="nick" placeholder="닉네임을 입력해주세요" >
+    		<input type="text" class="form-control form-control-lg mb-3" id="nick" name="nick" placeholder="닉네임을 입력해주세요"  required="required">
+  			<span id="label3"></span>
   			<label class="fs-3 fw-bold">전화번호</label>
     		<input type="text" class="form-control form-control-lg mb-3" name="phone" placeholder="전화번호를 입력해주세요" >
   		</div>
   		<div>
   			<label class="fs-3 fw-bold">이메일</label>
-   	 		<input type="email" class="form-control form-control-lg mb-3" name="email" placeholder="이메일을 입력해주세요" >
-  			<label class="fs-3 fw-bold">주소</label>
-    		<input type="text" class="form-control form-control-lg mb-3" name="addr" placeholder="주소을 입력해주세요" >
+  			<span id="guide" style="color:#999;display:none"></span>
+   	 		<input type="email" class="form-control form-control-lg mb-2" name="email" placeholder="이메일을 입력해주세요" required="required">
+  			<label class="fs-3 fw-bold">주소  <input class="btn mb-2 " id="needit"type="button" onclick="sample5_execDaumPostcode()" value="우편번호 찾기"></label>
+    		<input type="text" class="form-control form-control-lg mb-3" name="addr1" placeholder="주소을 입력해주세요" id="sample5_address" required="required">
+    		<input type="text" class="form-control form-control-lg mb-3" name="addr2" placeholder="상세주소 입력">
+    		
   		</div>
 	</div>
 </div>
 
 
 	<div>
-		<a id="needit"class=" col-12 btn btn-danger btn-lg"href="./join">회원가입</a>
+	<button id="needit"class=" col-12 btn btn-danger btn-lg">회원가입</button>
+	
 	</div>
 </form>
 </div>
