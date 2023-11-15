@@ -213,7 +213,11 @@ $(()=>{
 	</c:forEach>
 <tr>
 	<td class="table-info">가격</td><td>${view.price}</td>
-	<td class="table-info">예약하기</td>
+	<td class="table-info">예약하기</td><td><a href="/menu/share/book?boardNo=${view.boardNo }"><button>예약하기</button></a></td>
+	<td>
+		<input type="hidden" name="boardNo" value="${view.boardNo }">
+	</td>
+	
 </tr>
 <tr>
 	<td class="table-info">추천수</td><td id="likeCount">${likeCount}</td>

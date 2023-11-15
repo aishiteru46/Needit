@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.MenuShareDao;
 import web.dto.Board;
+import web.dto.Booking;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
@@ -248,6 +249,27 @@ public class MenuShareServiceImpl implements MenuShareFace{
 		menuShareDao.deleteComment(commentDelete);
 
 	}
+
+	@Override
+	public void book(Booking book) {
+		menuShareDao.makeBook(book);
+		
+	}
+
+	@Override
+	public boolean checkBook(Booking book) {
+		
+		
+		if( menuShareDao.checkBook(book) > 0) {
+			logger.info("예약 불가");
+			return true;
+		}
+		
+		logger.info("예약 가능");
+		return false;
+	}
+
+		
 
 	
 	

@@ -13,5 +13,5 @@ public class Booking {
 	private int bookStatus;
 	private Date bookDate;
 	private int bookTime;
-
+  
 }

@@ -2,8 +2,7 @@ package web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import web.dto.Banner;
 import web.dto.Board;
 import web.dto.FileTb;
 import web.service.face.MainService;
+import web.util.Paging;
 
 @Controller
 public class MainController {
@@ -26,53 +25,46 @@ public class MainController {
 	
 	//메인배너 불러오기
 	@GetMapping("/main")
-	public String main(Model model) {
-		logger.info("메인화면 진입");
-		List<Banner> bannerNames = new ArrayList<Banner>();
-
-		bannerNames = mainService.getBannerNo();
-		logger.info(bannerNames.toString());
-		
-		model.addAttribute("file", bannerNames);
-		return "main/main";
-	}//메인배너 불러오기 끝
-	
-	
-	//최신 대여해요 게시글 
-	
-	
-	
-	//최신 나눔해요 게시글 메인에서 조회
-	@GetMapping("/list")
-	public void list(
+	public String main(
+			Model model,
 			Board board,
 			FileTb file,
-			Model model,
-			HttpSession session
+			Paging param
 			) {
-		logger.info("main list");
+		logger.info("메인화면 진입");
 		
-		List<Board> list = new ArrayList<Board>(); 
-		list = mainService.selectBoardStatus(board);
+		//페이징 계산
+		Paging paging = mainService.getPaging(param);
+		logger.info("{}", paging);
+
 		
-		model.addAttribute("list", list);
-		logger.info("{}", "list");
+		//배너 조회,출력
+		List<Banner> bannerNames = new ArrayList<Banner>();
+		bannerNames = mainService.getBannerNo();
+		logger.info(bannerNames.toString());
+		model.addAttribute("file", bannerNames);
 		
-		board.setBoardNo(board.getBoardNo());
+		//검색
 		
-		List<FileTb> fileData = new ArrayList<FileTb>();  
-		fileData = mainService.getImg(file);
 		
-		model.addAttribute("file", file);
-		logger.info("{}", fileData);
+		//최신 게시글 조회 출력_대여게시판
+		List<Map<String, Object>> listRent = mainService.getBoardRentInfo();
+		logger.info("메인에 출력할 대여 list : {}", listRent);
+		model.addAttribute("boardRentInfo", listRent);
 		
-	}
-	
-	//최신 나눔해요 게시글 클릭시 조회
-	@PostMapping("/menu/share")
-	public void listProc() {
-		logger.info("main listProc [POST]");
+		//최신 게시글 조회 출력_나눔게시판
+		List<Map<String, Object>> listShare = mainService.getBoardShareInfo();
+		logger.info("메인에 출력할 나눔 list : {}", listShare);
+		model.addAttribute("boardShareInfo", listShare);
 		
-	}
+		//니딧 인증 업체
+		
+		//오늘의 인기 게시글
+		
+		//내 주변지도
+		
+		
+		return "main/main";
+	}//@Get main() End.
 	
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import web.dto.Board;
+import web.dto.Booking;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
@@ -148,5 +149,23 @@ public interface MenuShareDao {
 	 * @param commentDelete
 	 */
 	public void deleteComment(Comment commentDelete);
+	
+	
+	
+	/**
+	 * 예약 DB에 넣기
+	 * 
+	 * @param book 예약 정보
+	 */
+	public void makeBook(Booking book);
+	
+	/**
+	 * 예약 정보 확인
+	 * 
+	 * @param book 예약 정보
+	 * @return false 예약 가능 true 예약 불가능
+	 */
+	public int checkBook(Booking book);
+	
 
 }

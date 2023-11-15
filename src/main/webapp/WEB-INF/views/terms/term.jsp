@@ -8,39 +8,42 @@
 
 <style type="text/css">
 .policy-floating-button{
-	background-color:black;
-	margin:-5px;
-	color:white;
-	border:0;
-	margin-bottom: 5px;
-	width:45px;
-	height:45px;
- 	border-radius:20px;
- 	margin-bottom: 9px;
-	position: sticky;
-	bottom: 50%;
-	cursor: pointer;
+    background-color:black;
+    color: white;
+    border: 0;
+    margin: 0;
+    width: 45px;
+    height: 45px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+#FloatMain{
+	margin: 5px 0px;
 }
 
 .floating {
-	position:fixed;
-	top: 200px;
-	right:8px;
+    position: fixed;
+    bottom: 20px;
+    right: 3px;
+    flex-direction: column;
+    align-items: flex-end;
 }
 </style>
 
 <script type="text/javascript">
-var mybutton = document.getElementById("scrollTop")
-window.onscroll = function(){scrollFunction()};
-function topFunction(){
-	document.body.scrollTop = 0;
-	document.documentElement.scrollTop = 0;
+function topFunction() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
-var mybutton = document.getElementById("scrollDown")
-window.onscroll = function(){scrollFunction()};
-function downFunction(){
-	document.body.scrollTop = 5000;
-	document.documentElement.scrollTop = 5000;
+
+function downFunction() {
+    window.scrollTo({
+        top: 5000,
+        behavior: "smooth"
+    });
 }
 </script>
 
@@ -52,7 +55,7 @@ function downFunction(){
 
 <div class="floating">
 <button onclick="topFunction()" class="policy-floating-button" id="scrollTop">▲</button><br>
-<a href="/main"><button class="policy-floating-button">메인</button></a><br>
+<a href="/main"><button class="policy-floating-button" id="FloatMain">메인</button></a><br>
 <button onclick="downFunction()" class="policy-floating-button" id="scrollDown">▼</button>
 </div>
 

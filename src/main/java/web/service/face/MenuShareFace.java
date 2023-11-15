@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Board;
+import web.dto.Booking;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
@@ -123,6 +124,22 @@ public interface MenuShareFace {
 	 * @param commentDelete
 	 */
 	public void commentdelete(Comment commentDelete);
+	
+	/**
+	 * 예약 하기
+	 * 
+	 * @param book 예약 정보
+	 */
+	public void book(Booking book);
+	
+	/**
+	 * 예약 정보 확인
+	 * 
+	 * @param book 예약 정보
+	 * @return false 예약 가능 true 예약 불가
+	 */
+	public boolean checkBook(Booking book);
+	
 	
 	
 
