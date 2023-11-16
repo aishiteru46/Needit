@@ -190,7 +190,7 @@ nav li {width: 150px; margin-right: 20px;}
 				    </div>
 			</c:if>
 		</div>
-	<div class=" text-center mx-auto p-4  " style="width: 1200px;" >
+	<div class=" text-center mx-auto p-4" style="width: 1200px;" >
 		<div class="mx-auto p-2">
 		<a href="/main"><img src="/resources/img/needit..png" width="500" height="100"></a>
 		</div>
