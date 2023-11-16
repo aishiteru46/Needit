@@ -78,7 +78,7 @@ public class LoginController {
 			
 			if( boardParam.getBoardNo() > 0 ) {
 
-				return"redirect:/menu/" + type + "/view?boardNo="+boardParam.getBoardNo()+"&menu="+boardParam.getMenu();
+				return"redirect:" + "/" + type + "/view?boardNo="+boardParam.getBoardNo()+"&menu="+boardParam.getMenu()+"&cate="+ boardParam.getCate();
 			} else {
 				
 				return"redirect:/main";
@@ -95,6 +95,5 @@ public class LoginController {
 		session.invalidate();
 		
 		return "redirect:/main";
-		
 	}
 }

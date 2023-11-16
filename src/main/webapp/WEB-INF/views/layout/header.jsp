@@ -179,7 +179,7 @@ nav li {width: 150px; margin-right: 20px;}
 				            <!-- 팝오버 내용 -->
 				            <ul style="padding-left: 0px; text-align: center;">
 				                <li><img src="/resources/img/profile.png" width="30px" height="30px" style="text-align: left;"><label style="color: white;">${nick } </label></li>
-				                <li><a href="#">마이페이지</a></li>
+				                <li><a href="/profile">마이페이지</a></li>
 				                <li><a href="#">내 채팅</a></li>
 				                <li><a href="#">빌린거/빌려준거</a></li>
 				                <li><a href="#">장바구니</a></li>
@@ -190,7 +190,7 @@ nav li {width: 150px; margin-right: 20px;}
 				    </div>
 			</c:if>
 		</div>
-	<div class=" text-center mx-auto p-4  " style="width: 1200px;" >
+	<div class=" text-center mx-auto p-4" style="width: 1200px;" >
 		<div class="mx-auto p-2">
 		<a href="/main"><img src="/resources/img/needit..png" width="500" height="100"></a>
 		</div>
@@ -204,46 +204,46 @@ nav li {width: 150px; margin-right: 20px;}
             <ul class="gnb">
                 <li><a id="needitFont" style="font-size: 30px;">대여해요</a>
                     <ul class="sub">
-                        <li><a href="/menu/rent/list?menu=m1c1">물품</a></li>
-                        <li><a href="/menu/rent/list?menu=m1c2">인력</a></li>
-                        <li><a href="/menu/rent/list?menu=m1c3">공간</a></li>
+                        <li><a href="/rent/list?menu=1&cate=1">물품</a></li>
+                        <li><a href="/rent/list?menu=1&cate=2">인력</a></li>
+                        <li><a href="/rent/list?menu=1&cate=3">공간</a></li>
                     </ul>
                 </li>
                 
                 <li><a id="needitFont" style="font-size: 30px;">나눔해요</a>
                      <ul class="sub">
-                        <li><a href="/menu/share/list?menu=m2c1">물품</a></li>
-                        <li><a href="/menu/share/list?menu=m2c2">인력</a></li>
-                        <li><a href="/menu/share/list?menu=m2c3">공간</a></li>
+                        <li><a href="/share/list?menu=2&cate=1">물품</a></li>
+                        <li><a href="/share/list?menu=2&cate=2">인력</a></li>
+                        <li><a href="/share/list?menu=2&cate=3">공간</a></li>
                     </ul>
                 </li>
                 
                 <li><a id="needitFont" style="font-size: 30px;">해주세요</a>
                      <ul class="sub">
-                    	<li><a href="/menu/please/list?menu=m3c1">물품</a>
-						<li><a href="/menu/please/list?menu=m3c2">인력</a>
-						<li><a href="/menu/please/list?menu=m3c3">공간</a>
+                    	<li><a href="/please/list?menu=3&cate=1">물품</a>
+						<li><a href="/please/list?menu=3&cate=2">인력</a>
+						<li><a href="/please/list?menu=3&cate=3">공간</a>
                     </ul>
                 </li>
                 
                 <li><a id="needitFont" style="font-size: 30px;">커뮤니티</a>
                      <ul class="sub">
-               			<li><a href="#">공지사항</a>
-						<li><a href="#">우리동네 소식</a>
-						<li><a href="#">자유 게시판</a>
-						<li><a href="#">팁 게시판</a>
+               			<li><a href="/community/list?menu=4&cate=1">공지사항</a>
+						<li><a href="/community/list?menu=4&cate=2">우리동네 소식</a>
+						<li><a href="/community/list?menu=4&cate=3">자유 게시판</a>
+						<li><a href="/community/list?menu=4&cate=4">팁 게시판</a>
                     </ul>
                 </li>
                 
                 <li><a id="needitFont" style="font-size: 30px;">동네업체</a>
                 	<ul class="sub">
-                		<li><a href="/menu/business/list?menu=m5c1">물품</a></li>
-						<li><a href="/menu/business/list?menu=m5c2">인력</a></li>
-						<li><a href="/menu/business/list?menu=m5c3">공간</a></li>
+                		<li><a href="/menu/business/list?menu=5&cate=1">물품</a></li>
+						<li><a href="/menu/business/list?menu=5&cate=2">인력</a></li>
+						<li><a href="/menu/business/list?menu=5&cate=3">공간</a></li>
 					</ul>
                 </li>
                 
-                <li><a id="needitFont" style="font-size: 30px;">주변지도</a></li>
+                <li><a id="needitFont" hred="/map" style="font-size: 30px;">주변지도</a></li>
             </ul>
 		</nav>
 	</div>
