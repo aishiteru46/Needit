@@ -62,8 +62,9 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	public String loginProc( User user, HttpSession session, Board boardParam, String type) {
-		logger.info("boardParam : {}", boardParam.getBoardNo());
-		logger.info("boardParam : {}", boardParam.getMenu());
+		logger.info("boardParam.getBoardNo() : {}", boardParam.getBoardNo());
+		logger.info("boardParam.getMenu() : {}", boardParam.getMenu());
+		logger.info("boardParam.getCate() : {}", boardParam.getCate());
 		logger.info("type : {}", type);
 		
 		boolean islogin = userService.login(user);

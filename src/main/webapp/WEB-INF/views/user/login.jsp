@@ -76,8 +76,9 @@ form {
 			<input type="password" class="form-control" name="pw" id="pw" placeholder="비밀번호를 입력해주세요" required="required">
 		</div>
 			<input type="hidden" name="boardNo" value="${not empty param.boardNo ?param.boardNo :'0' }">
-			<input type="hidden" name="menu" value="${param.menu }">
-			<input type="hidden" name="type" value="${param.type }">
+			<input type="hidden" name="menu" value="${not empty param.menu ?param.menu :'0' }">
+			<input type="hidden" name="cate" value="${not empty param.cate ?param.cate :'0' }">
+			<input type="hidden" name="type" value="${not empty param.type ?param.type :'null' }">
 			<button class="col-3 mr-2 btn btn-danger float-end" id="login" >로그인</button>
 	</div>
 
