@@ -37,7 +37,7 @@
 function loadComments() {
 	$.ajax({
 			type: "GET"
-         	, url: "/menu/rent/comment/list"
+         	, url: "/rent/comment/list"
          	, data: { 
          		boardNo : ${board.boardNo }
          	}
@@ -103,7 +103,7 @@ function deleteComment( cmtNo ) {
 	
 		$.ajax({
 			type: "GET"
-	     	, url: "/menu/rent/comment/delete"
+	     	, url: "/rent/comment/delete"
 	     	, data: { 
 	     		boardNo : ${board.boardNo },
 	     		cmtNo : cmtNo
@@ -132,12 +132,13 @@ $(()=>{
 		
 		$.ajax({
 			type: "POST"
-         	, url: "/menu/rent/comment"
+         	, url: "/rent/comment"
          	, data: { 
          		boardNo : ${board.boardNo },
          		writerId : "${id }",
          		writerNick : "${nick }",
          		menu : "${param.menu }",
+         		cate : "${param.cate }",
          		content : $("#commentContent").val()
          	}
          	, success: function( res ) {
@@ -174,7 +175,7 @@ $(()=>{
 	$("#btnLike").click(()=>{
 		$.ajax({
 			type: "GET"
-			, url: "/menu/rent/like"
+			, url: "/rent/like"
 			, data: {  
 				boardNo : ${board.boardNo }
 			}
@@ -342,11 +343,11 @@ $(()=>{
 
 <%-- 목록,수정,삭제 --%>
 <div class="text-center">
-	<a class="btn btn-success" href="/menu/rent/list?menu=m1c1">목록</a>
+	<a class="btn btn-success" href="/rent/list?menu=m1c1">목록</a>
 	
 	<c:if test="${id eq board.writerId }">
-		<a href="./update?boardNo=${board.boardNo }" class="btn btn-primary">수정</a>
-		<a href="./delete?boardNo=${board.boardNo }" class="btn btn-danger">삭제</a>
+		<a href="/rent/update?boardNo=${board.boardNo }" class="btn btn-primary">수정</a>
+		<a href="/rent/delete?boardNo=${board.boardNo }" class="btn btn-danger">삭제</a>
 	</c:if>
 </div><br>
 
@@ -377,7 +378,7 @@ $(()=>{
 			<div class="col col-9">
 				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;" readonly="readonly" placeholder="로그인 후 댓글 작성 가능"></textarea>
 			</div>
-				<a class="btn btn-danger col-1" href="/user/login?boardNo=${board.boardNo }&menu=${board.menu}&type=rent">로그인</a>
+				<a class="btn btn-danger col-1" href="/user/login?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate }&type=rent">로그인</a>
 		</div>
 	</c:if><br>
 
