@@ -8,8 +8,8 @@ import lombok.Data;
 public class Board {
 	
 	private int boardNo;
-	private int menu;
-	private int cate;
+	private String menu;
+	private String cate;
 	private String writerId;
 	private String writerNick;
 	private Date writeDate;
