@@ -50,9 +50,10 @@ public class MainServiceImpl implements MainService {
 		
 		int totalCount = mainDao.selectCntAll(param);
 		
-		Paging paging = new Paging(param.getMenu(),totalCount, param.getCurPage(),10,10);
+//		Paging paging = new Paging(param.getMenu(),totalCount, param.getCurPage(),10,10);
 		
-		return paging;
+//		return paging;
+		return null;
 	}
 
 }

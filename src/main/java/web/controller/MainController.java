@@ -34,8 +34,8 @@ public class MainController {
 		logger.info("메인화면 진입");
 		
 		//페이징 계산
-		Paging paging = mainService.getPaging(param);
-		logger.info("{}", paging);
+//		Paging paging = mainService.getPaging(param);
+//		logger.info("{}", paging);
 
 		
 		//배너 조회,출력
