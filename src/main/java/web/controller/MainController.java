@@ -61,8 +61,6 @@ public class MainController {
 		
 		//오늘의 인기 게시글
 		
-		//내 주변지도
-		
 		
 		return "main/main";
 	}//@Get main() End.

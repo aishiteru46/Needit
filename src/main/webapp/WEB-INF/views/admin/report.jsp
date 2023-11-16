@@ -45,13 +45,18 @@
 
 </style>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+</script>
 
 </head>
 <body>
 
 <div id="report">
 <div id="reportIn">
-<form action="/admin/report" method="post">
+<!-- <form action="/admin/report" method="post"> -->
 	<div>
 	<input class="reportBtn" id="reportBtn1" type="submit" value="광고성" name="reportType" >
 	</div>
@@ -71,7 +76,7 @@
 	<div>
 	<input class="reportBtn" id="reportBtn1" type="submit" value="개인정보 노출" name="reportType" >
 	</div>
-</form>
+<!-- </form> -->
 </div><!-- .reportIn -->
 
 </div><!-- .report -->

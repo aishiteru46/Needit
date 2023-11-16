@@ -1,10 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <style>
+/* 최신 사진 간격 */
+:root{
+	--imgMargin : 3px 1px -2px 1px;
+}
 /* 썸네일 div */
 #Thumbnail{
 	border:1px solid #ccc;
@@ -109,29 +114,33 @@ hr{
 /* 대여, 나눔해요 썸네일 바깥 div */ 
 #MainTumbnailDiv{
 	display: inline-block;
-	margin: 3px 1px -2px 1px; 
+	margin: var(--imgMargin);
 }
 
 /* 대여, 나눔해요 썸네일 이미지 */
 #MainThumbnailImg{
-	width: 290px;
+	width: 291px;
 	height: 200px;
-	margin: 3px 0px -2px 0px; 
+	margin: var(--imgMargin);
 }
 /* 썸네일 사진 없을 때 */
 #MainNoITumbnail{
-	width: 290px;
+	width: 291px;
 	height: 200px;
-	margin: 3px 0px -2px 0px; 
+ 	margin: var(--imgMargin);
 	border: 1px solid #ccc;
 }
-
 /* 대여, 나눔해요 썸네일 제목 */
 #MainThumbnailTitle{
+	width: 291px;
+	height: 25px;
 	text-align: center;
 	font-size: 17px;
 	font-weight: bold;
 	margin-top: 5px;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 </style>
@@ -243,6 +252,7 @@ hr{
 <!-- 주변 지도 -->
 <div id="MainMap">
 <div id="mainTitleMap">내 주변 지도</div>
+<%-- <div style="width: 499px; height: 63px;"><%@ include file="/WEB-INF/views/map/map.jsp" %></div> --%>
 </div>
 
 </div><!-- #container -->

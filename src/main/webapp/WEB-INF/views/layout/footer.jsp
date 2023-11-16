@@ -41,11 +41,18 @@
 .floating {
     position: fixed;
     bottom: 20px;
-    right: 3px;
+    right: 12px;
     flex-direction: column;
     align-items: flex-end;
 }
 
+/* 신고 확인 버튼 */
+#footerReportOkBtn{
+	background-color: rgb(255,83,63);
+    color: white;
+    margin-top: 3px;
+    margin-right: 202px;
+}
 </style>
 
 <script type="text/javascript">
@@ -66,10 +73,18 @@ function downFunction() {
 
 <!-- 플로팅 버튼 -->
 <div class="floating">
-<button onclick="topFunction()" class="policy-floating-button" id="scrollTop">▲</button><br>
+<button onclick="topFunction()" class="policy-floating-button" id="scrollTop">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+</svg>
+</button><br>
 <a href="/admin/chat"><button class="policy-floating-button" id="FloatMain">FAQ</button></a><br>
-<button onclick="downFunction()" class="policy-floating-button" id="scrollDown">▼</button>
-</div>
+<button onclick="downFunction()" class="policy-floating-button" id="scrollDown">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+</svg>
+</button>
+</div><!-- .floating -->
 
 
 <div style="margin-top: 20px;"></div>
@@ -103,15 +118,29 @@ function downFunction() {
 </div><!-- .wrap -->
 
 <!-- 모달 -->
-<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+<div class="modal fade" id="reportModal" aria-hidden="true" aria-labelledby="reportModalLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="reportModalLabel">신고하기</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-	    <%@ include file="/WEB-INF/views/admin/report.jsp" %>
+		<%@ include file="/WEB-INF/views/admin/report.jsp" %>
+        <button id="footerReportOkBtn" class="btn float-end" data-bs-target="#reportOkModal" data-bs-toggle="modal">전송</button>
+	  </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id=reportOkModal aria-hidden="true" aria-labelledby="reportOkModalLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+		<%@ include file="/WEB-INF/views/admin/reportOk.jsp" %>
+		<button id="footerReportOkBtn" type="button" class="btn float-end" data-bs-dismiss="modal">확인</button>
       </div>
     </div>
   </div>
