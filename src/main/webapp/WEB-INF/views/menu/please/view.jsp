@@ -36,7 +36,7 @@
 function loadComments() {
 	$.ajax({
 			type: "GET"
-         	, url: "/menu/please/comment/list"
+         	, url: "/please/comment/list"
          	, data: { 
          		boardNo : ${board.boardNo }
          	}
@@ -102,7 +102,7 @@ function deleteComment( cmtNo ) {
 	
 		$.ajax({
 			type: "GET"
-	     	, url: "/menu/please/comment/delete"
+	     	, url: "/please/comment/delete"
 	     	, data: { 
 	     		boardNo : ${board.boardNo },
 	     		cmtNo : cmtNo
@@ -133,7 +133,7 @@ $(()=>{
 		
 		$.ajax({
 			type: "POST"
-         	, url: "/menu/please/comment"
+         	, url: "/please/comment"
          	, data: { 
          		boardNo : ${board.boardNo },
          		writerId : "${id }",
@@ -175,7 +175,7 @@ $(()=>{
 	$("#btnLike").click(()=>{
 		$.ajax({
 			type: "GET"
-			, url: "/menu/please/like"
+			, url: "/please/like"
 			, data: {  
 				boardNo : ${board.boardNo }
 			}
@@ -353,11 +353,11 @@ $(()=>{
 
 
 <div class="text-center">
-	<a href="/menu/please/list?menu=${board.menu}" class="btn btn-secondary">목록</a>
+	<a href="/please/list?menu=${board.menu}&cate=${board.cate}" class="btn btn-secondary">목록</a>
 	
 	<c:if test="${id eq board.writerId }">
-		<a href="/menu/please/update?boardNo=${board.boardNo }&menu=${board.menu}" class="btn btn-primary">수정</a>
-		<a href="./delete?boardNo=${board.boardNo }&menu=${board.menu}" class="btn btn-danger">삭제</a>
+		<a href="/please/update?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate}" class="btn btn-primary">수정</a>
+		<a href="./delete?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate}" class="btn btn-danger">삭제</a>
 	</c:if>
 </div>
 
