@@ -14,7 +14,7 @@
 
 <a href="javascript:void(0);" class="btn btn-danger" onclick="confirmAndSubmit('${id}')">회원탈퇴</a><br>
 
-지금 usertb테이블의 id를 board테이블 에서 wirte_id로 사용하고 있어서 회원삭제가 안됨<br>
+지금 usertb테이블의 id를 board테이블 에서 write_id로 사용하고 있어서 회원삭제가 안됨<br>
 회원탈퇴시 글까지 삭제 되는 경우 - > DB에 cascade구문 추가 <br>
 회원탈퇴시 글은 살리는 경우 -> DB에 usertb에 is_deleted컬럼 추가해서 탈퇴시 delete로 지우지말고 update로 is_daleted true해주고 이후에 회원조회할때마다 is_deleted 상태인애들은 빼고 조회해서 탈퇴한애들 숨겨두면 됨
 둘중하나 선택해야함
