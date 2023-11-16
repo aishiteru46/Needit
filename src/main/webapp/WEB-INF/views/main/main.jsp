@@ -109,7 +109,7 @@ hr{
 /* 대여, 나눔해요 썸네일 바깥 div */ 
 #MainTumbnailDiv{
 	display: inline-block;
-	margin-left: 5px;
+	margin: 3px 1px -2px 1px; 
 }
 
 /* 대여, 나눔해요 썸네일 이미지 */
@@ -158,7 +158,7 @@ hr{
 <!-- 썸네일 -->
 <!-- 저장 경로를 img폴더로 지정, src에 storedname EL문으로 불러오기 -->
 <div id="Thumbnail">
-<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-interval = "false">
+<div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500" data-bs-interval = "false">
 	<!-- 사진 밑에 대시 3개 -->
 	<div class="carousel-indicators">
 	    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
