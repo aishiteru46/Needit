@@ -243,7 +243,7 @@ nav li {width: 150px; margin-right: 20px;}
 					</ul>
                 </li>
                 
-                <li><a id="needitFont" hred="/map" style="font-size: 30px;">주변지도</a></li>
+                <li><a id="needitFont" href="/map" style="font-size: 30px;">주변지도</a></li>
             </ul>
 		</nav>
 	</div>
