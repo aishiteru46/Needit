@@ -60,13 +60,13 @@
 <div class="container">
 
 <c:forEach  var="list" items="${list }" begin="0" end="0">
-	<c:if test="${list.MENU eq 1 and list.CATE eq 1 }">
+	<c:if test="${list.MENU eq 1 and list.CATE eq '1' }">
 		<h5>대여해요 / 물품</h5>	
 	</c:if>
-	<c:if test="${list.MENU eq 1 and list.CATE eq 2 }">
+	<c:if test="${list.MENU eq 1 and list.CATE eq '2' }">
 		<h5>대여해요 / 인력</h5>	
 	</c:if>
-	<c:if test="${list.MENU eq 1 and list.CATE eq 3 }">
+	<c:if test="${list.MENU eq 1 and list.CATE eq '3' }">
 		<h5>대여해요 / 공간</h5>	
 	</c:if>
 </c:forEach>

@@ -59,6 +59,8 @@ public class MenuShareController {
 		List<FileTb> fileData = menuShareFace.getImg(file);
 		logger.info("{}", fileData);
 		model.addAttribute("fileData",fileData);
+		logger.info("메뉴{}",paging);
+		logger.info("카테고리 들어오나?{}",param.getCate());
 		
 		return "menu/share/list";
 	}
