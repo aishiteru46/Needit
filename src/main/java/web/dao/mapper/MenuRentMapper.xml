@@ -172,6 +172,17 @@
 			AND	cmt_no = #{cmtNo }
 			AND board_no = #{boardNo }
 		</where>
-	</delete>	
+	</delete>
 	
+	<!-- 대여 처리 -->
+	<insert id="makeRent" parameterType="Rent">
+		INSERT INTO rent ( rent_no, board_no, renter_id, rent_status, rent_date, rent_time )
+		VALUES ( rent_seq.nextval, #{boardNo }, #{renterId }, #{rentStatus }, #{rentDate }, #{rentTime } )
+	</insert>
+	
+	<!-- 대여 상태 확인 -->
+	<select id="chkRent" parameterType="Rent">
+		
+	</select>
+
 </mapper>

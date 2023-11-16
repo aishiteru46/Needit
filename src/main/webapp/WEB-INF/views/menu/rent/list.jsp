@@ -53,6 +53,9 @@
 	margin-top: 10px;
 	color: black;
 	font-weight: bold;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 </style>
@@ -71,8 +74,8 @@
 	</c:if>
 </c:forEach>
 
-<button class="gridType">그리드</button>
-<button class="listType">리스트</button>
+<!-- <button class="gridType">그리드</button> -->
+<!-- <button class="listType">리스트</button> -->
 
 <div class="gridContainer">
 <c:forEach items="${list}" var="list" varStatus="loop">
@@ -130,88 +133,88 @@
 <br>
 </div><!-- .gridContainer -->
 
-<div class="listContainer">
-	<div class="row">
-	<c:forEach items="${list}" var="list" varStatus="loop">
-	 	 <div class="write-container">
-	  		<br>
-	   		<a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}">제목 : ${list.TITLE }</a><br><br>
-	    	<h6>글번호 : ${list.BOARD_NO}</h6>
-	    	<h6>작성자 : ${list.WRITER_ID }</h6>
-	    	<h6>닉네임 : ${list.WRITER_NICK }</h6>
-	    	<h6>가격 : ${list.PRICE}</h6>
-	    	<h6>조회수 :  ${list.HIT}</h6>
-	    	<h6>작성일 :  
-				<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" /> 
-				<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" /> 
-				<c:choose> 
-				<c:when test="${writeDate lt curDate }"> 
-						<fmt:formatDate value="${list.WRITE_DATE }" pattern="yyyy-MM-dd" /> 
-					</c:when> 
-					<c:otherwise> 
-						<fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" /> 
-					</c:otherwise> 
-				</c:choose>		    	
-	    	</h6>
-	    	<h6>위치 : ${list.LOCATION }</h6>
-	  	</div>
-	</c:forEach>
+<!-- <div class="listContainer"> -->
+<!-- 	<div class="row"> -->
+<%-- 	<c:forEach items="${list}" var="list" varStatus="loop"> --%>
+<!-- 	 	 <div class="write-container"> -->
+<!-- 	  		<br> -->
+<%-- 	   		<a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}">제목 : ${list.TITLE }</a><br><br> --%>
+<%-- 	    	<h6>글번호 : ${list.BOARD_NO}</h6> --%>
+<%-- 	    	<h6>작성자 : ${list.WRITER_ID }</h6> --%>
+<%-- 	    	<h6>닉네임 : ${list.WRITER_NICK }</h6> --%>
+<%-- 	    	<h6>가격 : ${list.PRICE}</h6> --%>
+<%-- 	    	<h6>조회수 :  ${list.HIT}</h6> --%>
+<!-- 	    	<h6>작성일 :   -->
+<%-- 				<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />  --%>
+<%-- 				<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" />  --%>
+<%-- 				<c:choose>  --%>
+<%-- 				<c:when test="${writeDate lt curDate }">  --%>
+<%-- 						<fmt:formatDate value="${list.WRITE_DATE }" pattern="yyyy-MM-dd" />  --%>
+<%-- 					</c:when>  --%>
+<%-- 					<c:otherwise>  --%>
+<%-- 						<fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" />  --%>
+<%-- 					</c:otherwise>  --%>
+<%-- 				</c:choose>		    	 --%>
+<!-- 	    	</h6> -->
+<%-- 	    	<h6>위치 : ${list.LOCATION }</h6> --%>
+<!-- 	  	</div> -->
+<%-- 	</c:forEach> --%>
 	
-	<div>
-		<table class="table table-striped table-hover table-sm">
+<!-- 	<div> -->
+<!-- 		<table class="table table-striped table-hover table-sm"> -->
 		
-		<colgroup>
-			<col style="width:7%;">
-			<col style="width:30%;">
-			<col style="width:10%;">
-			<col style="width:5%;">
-			<col style="width:10%;">
-			<col style="width:5%;">
-			<col style="width:10%;">
-		</colgroup>
+<%-- 		<colgroup> --%>
+<%-- 			<col style="width:7%;"> --%>
+<%-- 			<col style="width:30%;"> --%>
+<%-- 			<col style="width:10%;"> --%>
+<%-- 			<col style="width:5%;"> --%>
+<%-- 			<col style="width:10%;"> --%>
+<%-- 			<col style="width:5%;"> --%>
+<%-- 			<col style="width:10%;"> --%>
+<%-- 		</colgroup> --%>
 		
-		<thead>
-			<tr class="table-danger">
-				<th>글번호</th>
-				<th>제목</th>
-				<th>닉네임</th>
-				<th>조회</th>
-				<th>작성일</th>
-				<th>가격</th>
-				<th>지역</th>
-			</tr>
-		</thead>
+<!-- 		<thead> -->
+<!-- 			<tr class="table-danger"> -->
+<!-- 				<th>글번호</th> -->
+<!-- 				<th>제목</th> -->
+<!-- 				<th>닉네임</th> -->
+<!-- 				<th>조회</th> -->
+<!-- 				<th>작성일</th> -->
+<!-- 				<th>가격</th> -->
+<!-- 				<th>지역</th> -->
+<!-- 			</tr> -->
+<!-- 		</thead> -->
 		
-		<tbody>
-		<c:forEach var="list" items="${list }">
-			<tr>
-				<td>${list.BOARD_NO }</td>
-				<td>
-					<a href="/rent/view?boardNo=${list.BOARD_NO }">${list.TITLE }</a>
-				</td>
-				<td>${list.WRITER_NICK }</td>
-				<td>${list.HIT}</td>
-				<td>
-					<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
-					<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" />
-					<c:choose>
-						<c:when test="${writeDate lt curDate }">
-							<fmt:formatDate value="${list.WRITE_DATE }" pattern="yyyy-MM-dd" />
-						</c:when>
-						<c:otherwise>
-							<fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" />
-						</c:otherwise>
-					</c:choose>				
-				</td>
-				<td>${list.PRICE }</td>
-				<td>${list.LOCATION }</td>
-			</tr>
-		</c:forEach>
-		</tbody>
+<!-- 		<tbody> -->
+<%-- 		<c:forEach var="list" items="${list }"> --%>
+<!-- 			<tr> -->
+<%-- 				<td>${list.BOARD_NO }</td> --%>
+<!-- 				<td> -->
+<%-- 					<a href="/rent/view?boardNo=${list.BOARD_NO }">${list.TITLE }</a> --%>
+<!-- 				</td> -->
+<%-- 				<td>${list.WRITER_NICK }</td> --%>
+<%-- 				<td>${list.HIT}</td> --%>
+<!-- 				<td> -->
+<%-- 					<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" /> --%>
+<%-- 					<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" /> --%>
+<%-- 					<c:choose> --%>
+<%-- 						<c:when test="${writeDate lt curDate }"> --%>
+<%-- 							<fmt:formatDate value="${list.WRITE_DATE }" pattern="yyyy-MM-dd" /> --%>
+<%-- 						</c:when> --%>
+<%-- 						<c:otherwise> --%>
+<%-- 							<fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" /> --%>
+<%-- 						</c:otherwise> --%>
+<%-- 					</c:choose>				 --%>
+<!-- 				</td> -->
+<%-- 				<td>${list.PRICE }</td> --%>
+<%-- 				<td>${list.LOCATION }</td> --%>
+<!-- 			</tr> -->
+<%-- 		</c:forEach> --%>
+<!-- 		</tbody> -->
 		
-		</table>
-	</div>
-</div><!-- .listContainer -->
+<!-- 		</table> -->
+<!-- 	</div> -->
+<!-- </div>.listContainer -->
 
 <c:import url="/WEB-INF/views/layout/pagination.jsp" />
 

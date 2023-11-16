@@ -9,6 +9,7 @@ import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
+import web.dto.Rent;
 import web.util.Paging;
 
 public interface MenuRentService {
@@ -103,17 +104,24 @@ public interface MenuRentService {
 	/**
 	 * 댓글 조회
 	 * 
-	 * @param commentParam - id, content, boardno
+	 * @param commentParam - id, content, boardNo
 	 * @return - 조회된 댓글 목록
 	 */
 	public List<Comment> viewComment(Comment commentParam);
 
 	/**
+	 * 댓글 삭제
 	 * 
-	 * 
-	 * @param commentDelete
+	 * @param commentDelete - boardNo, cmtNo
 	 */
 	public void delete(Comment commentDelete);
+
+	/**
+	 * 대여 하기
+	 * 
+	 * @param rentParam
+	 */
+	public void rent(Rent rentParam);
 
 
 
