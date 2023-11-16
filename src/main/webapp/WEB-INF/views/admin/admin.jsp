@@ -46,6 +46,7 @@
 li:hover{
 	background-color: #ff8200;
 	cursor: pointer;
+	width: 302px;
 }
 
 /* 위쪽 배경 */

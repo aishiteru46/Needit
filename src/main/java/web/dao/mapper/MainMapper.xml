@@ -45,7 +45,7 @@
 		        B.board_no DESC
 		)
 		WHERE
-		    menu IN (1, 2, 3) AND ROWNUM &lt;= 4
+		    menu = 1 AND ROWNUM &lt;= 4
 	</select> 	
  	
  	<select id="selectRecentShareBoard" resultType="Map">
@@ -61,7 +61,7 @@
 		        B.board_no DESC
 		)
 		WHERE
-		    menu IN (1, 2, 3) AND ROWNUM &lt;= 4
+		    menu = 2 AND ROWNUM &lt;= 4
 	</select>
 	
     <select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
