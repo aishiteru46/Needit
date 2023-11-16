@@ -82,15 +82,15 @@
   	
     <div class="write-container">
         <h6 class="no">no. ${list.BOARD_NO}</h6>
-        <a href="/menu/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><h6 class="title">제목 : ${list.TITLE }</h6></a>
+        <a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">제목 : ${list.TITLE }</h6></a>
         <c:if test="${ not empty list.THUMBNAIL_NAME  }">
 	        <div>
-	        	<a href="/menu/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
+	        	<a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
 	        </div>
         </c:if>
         <c:if test="${ empty list.THUMBNAIL_NAME  }">
 	        <div>
-	        	<a href="/menu/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/resources/img/noimg.png"/></a>
+	        	<a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/resources/img/noimg.png"/></a>
 	        </div>
         </c:if>
         <h6>작성자 : ${list.WRITER_ID }</h6>
@@ -120,7 +120,7 @@
 
 <div class="write">
 	<c:if test="${not empty isLogin and isLogin }">
-		<a class="btn btn-secondary" href="./write?menu=${param.menu }">글쓰기</a>
+		<a class="btn btn-secondary" href="/rent/write?menu=${param.menu }&cate=${param.cate }">글쓰기</a>
 	</c:if>
 </div>
 
@@ -135,30 +135,26 @@
 	<c:forEach items="${list}" var="list" varStatus="loop">
 	 	 <div class="write-container">
 	  		<br>
-	   		<a href="/menu/rent/view?boardNo=${list.boardNo }&menu=${list.menu}">제목 : ${list.title }</a><br><br>
-	<%--    		<img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/> --%>
-	    	<h6>글번호 : ${list.boardNo}</h6>
-	    	<h6>작성자 : ${list.writerId }</h6>
-	    	<h6>닉네임 : ${list.writerNick }</h6>
-	    	<h6>가격 : ${list.price}</h6>
-	    	<h6>조회수 :  ${list.hit}</h6>
+	   		<a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}">제목 : ${list.TITLE }</a><br><br>
+	    	<h6>글번호 : ${list.BOARD_NO}</h6>
+	    	<h6>작성자 : ${list.WRITER_ID }</h6>
+	    	<h6>닉네임 : ${list.WRITER_NICK }</h6>
+	    	<h6>가격 : ${list.PRICE}</h6>
+	    	<h6>조회수 :  ${list.HIT}</h6>
 	    	<h6>작성일 :  
 				<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" /> 
-				<fmt:formatDate var="writeDate" value="${list.writeDate }" pattern="yyyyMMdd" /> 
+				<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" /> 
 				<c:choose> 
 				<c:when test="${writeDate lt curDate }"> 
-						<fmt:formatDate value="${list.writeDate }" pattern="yyyy-MM-dd" /> 
+						<fmt:formatDate value="${list.WRITE_DATE }" pattern="yyyy-MM-dd" /> 
 					</c:when> 
 					<c:otherwise> 
-						<fmt:formatDate value="${list.writeDate }" pattern="HH:mm" /> 
+						<fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" /> 
 					</c:otherwise> 
 				</c:choose>		    	
 	    	</h6>
-	    	<h6>위치 : ${list.location }</h6>
+	    	<h6>위치 : ${list.LOCATION }</h6>
 	  	</div>
-	<%--   <c:if test="${loop.index % 3 == 2 || loop.index + 1 == yourList.size()}"> --%>
-	<!--   </div>.row -->
-	<%--   </c:if> --%>
 	</c:forEach>
 	
 	<div>
@@ -189,26 +185,26 @@
 		<tbody>
 		<c:forEach var="list" items="${list }">
 			<tr>
-				<td>${list.boardNo }</td>
+				<td>${list.BOARD_NO }</td>
 				<td>
-					<a href="./view?boardNo=${list.boardNo }">${list.title }</a>
+					<a href="/rent/view?boardNo=${list.BOARD_NO }">${list.TITLE }</a>
 				</td>
-				<td>${list.writerNick }</td>
-				<td>${list.hit}</td>
+				<td>${list.WRITER_NICK }</td>
+				<td>${list.HIT}</td>
 				<td>
 					<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
-					<fmt:formatDate var="writeDate" value="${list.writeDate }" pattern="yyyyMMdd" />
+					<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" />
 					<c:choose>
 						<c:when test="${writeDate lt curDate }">
-							<fmt:formatDate value="${list.writeDate }" pattern="yyyy-MM-dd" />
+							<fmt:formatDate value="${list.WRITE_DATE }" pattern="yyyy-MM-dd" />
 						</c:when>
 						<c:otherwise>
-							<fmt:formatDate value="${list.writeDate }" pattern="HH:mm" />
+							<fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" />
 						</c:otherwise>
 					</c:choose>				
 				</td>
-				<td>${list.price }</td>
-				<td>${list.location }</td>
+				<td>${list.PRICE }</td>
+				<td>${list.LOCATION }</td>
 			</tr>
 		</c:forEach>
 		</tbody>
