@@ -8,25 +8,25 @@
 <mapper namespace="web.dao.face.MenuShareDao">
 	<!-- 카테고리에 맞는 게시판 조회 -->
 	<sql id="selectBoard">
-        SELECT 
+		SELECT 
 		    board_no, writer_id, writer_nick, 
-		    hit, menu,cate, title, price, content, location
+		    hit, menu, cate, title, price, content, location,
 		    CAST(write_date AS DATE) AS write_date, 
 		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
 		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
 		FROM board B
 		<where>
-			AND menu = #{menu }
+			AND menu = #{menu}
 			AND cate = #{cate}
 		</where>
-     </sql>
+	</sql>
      
      <!--  총 페이지수 조회 -->
     <select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
-	SELECT count(*) FROM (
-		<include refid="selectBoard"/>
-	)
-    </select>
+		SELECT count(*) FROM (
+			<include refid="selectBoard" />
+		)
+	</select>
     
     <!-- 게시글 카테고리에 맞는 게시글 조회 -->
 	<select id="selectAll" resultType="Map" parameterType="web.util.Paging">
@@ -67,8 +67,8 @@
     <select id="selectByMenu" resultType="Board" parameterType="Board">
     	SELECT menu FROM board
     	<where>
-    		menu = #{menu}
-    		cate = #{cate}
+    		AND menu = #{menu}
+    		AND cate = #{cate}
     	</where>
     
     </select>
@@ -186,7 +186,7 @@
 	<delete id="deleteComment" parameterType="Comment">
 		DELETE FROM commentTB
 		<where>
-			AND	cmt_no = #{cmtNo }
+			cmt_no = #{cmtNo }
 			AND board_no = #{boardNo }
 		</where>
 	</delete>
