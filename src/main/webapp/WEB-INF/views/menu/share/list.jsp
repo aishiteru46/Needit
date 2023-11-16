@@ -60,14 +60,14 @@
 <div class="container">
 
 <c:forEach  var="list" items="${list }" begin="0" end="0">
-	<c:if test="${list.MENU eq 1 and list.CATE eq '1' }">
-		<h5>대여해요 / 물품</h5>	
+	<c:if test="${list.MENU == 1 or list.CATE == 1 }">
+		<h3>대여해요 / 물품</h3>	
 	</c:if>
-	<c:if test="${list.MENU eq 1 and list.CATE eq '2' }">
-		<h5>대여해요 / 인력</h5>	
+	<c:if test="${list.MENU == 1 or list.CATE == 2 }">
+		<h3>대여해요 / 인력</h3>	
 	</c:if>
-	<c:if test="${list.MENU eq 1 and list.CATE eq '3' }">
-		<h5>대여해요 / 공간</h5>	
+	<c:if test="${list.MENU == 1 or list.CATE == 3 }">
+		<h3>대여해요 / 공간</h3>	
 	</c:if>
 </c:forEach>
 
@@ -116,7 +116,7 @@
 
 <div class="write">
 	<c:if test="${not empty isLogin and isLogin }">
-		<a class="btn btn-secondary" href="./write?menu=${param.menu }&cate=${param.cate}">글쓰기</a>
+		<a class="btn btn-secondary" href="/share/write?menu=${param.menu }&cate=${param.cate}">글쓰기</a>
 	</c:if>
 </div>
 

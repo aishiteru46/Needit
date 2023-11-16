@@ -185,34 +185,78 @@ $(function(){
         }
         return value;
     }
+$(function(){
+	
+    $("selectedTime").click(function(){
+    	$("input[name='bookTime']:checked").val();
+    })
+})
+    
+    
 </script>
 
-<!-- 예약 시간 -->
+ <!-- 예약하기 버튼 -->
 <script type="text/javascript">
 $(function(){
-    // 예약하기 버튼 클릭 시 서버로 전송
-    $("#submit").click(function () {
-        let selectedDate = $("#selectedDate").val();
-        let selectedTime = $("input[name='time']:checked").val();
+	 $.ajax({
+         type: "get",
+         url: "/share/book",
+         data: {},
+         success: function (res) {
+             console.log("서버 응답:", res);
+             if(res){
+             	var target = $("input[name='bookTime']").val();
+             	$("input[id='" + target + "']").prop("disabled", true);
+             }else{
+             	var target = $("input[name='bookTime']").val();
+             	$("input[id='" + target + "']").prop("disabled", false);
+             }
+             
+ 			
+             $("#bookTime").val("");
+         },
+         error: function (error) {
+             console.error("에러 발생:", error);
+         }
+     });
 
-        // 예약 정보를 서버로 전송
-        $.ajax({
-            type: "POST",
-            url: "/share/book"
-            , data: {
-                bookDate: new Date(parseInt(selectedDate)),
-                bookTime: selectedTime
-            }
-            // 예약 성공 시 추가 작업 수행
-            , success: function (res) {
-                console.log("서버 응답:", res);
-            }
-            , error: function (error) {
-                console.error("에러 발생:", error);
-            }
-        });
+});
+
+$(function() {
+    // 예약하기 버튼 클릭 시
+    $("#submitBtn").click(function () {
+        let selectedDate = $("#selectedDate").val();
+        let selectedTime = $("input[name='bookTime']:checked").val();
+        var boardNo = ${param.boardNo};
+
+        	
+            $.ajax({
+                type: "post",
+                url: "/share/book",
+                data: {
+                    bookDate: new Date(parseInt(selectedDate)),
+                    bookTime: selectedTime,
+                    boardNo: boardNo
+                },
+                success: function (res) {
+                    console.log("서버 응답:", res);
+                    if(res){
+                    	alert("예약 불가")
+                    }else{
+                    	alert("예약 성공")
+                    }
+                    
+        			
+                    $("#bookTime").val("");
+                },
+                error: function (error) {
+                    console.error("에러 발생:", error);
+                }
+            });
+
     });
 });
+
 </script>
 </head>
 
@@ -248,14 +292,15 @@ $(function(){
     <form action="/share/book" method="post">
         <div style="display: none;" id="time">
             <span>예약 시간</span>
-            <p><input type="checkbox" name="time" value="1">8 : 00 ~ 10: 00 </p>
-            <p><input type="checkbox" name="time" value="2">10 : 00 ~ 12: 00 </p>
-            <p><input type="checkbox" name="time" value="3">12 : 00 ~ 02: 00 </p>
-            <p><input type="checkbox" name="time" value="4">02 : 00 ~ 04: 00 </p>
-            <p><input type="checkbox" name="time" value="5">04 : 00 ~ 06: 00 </p>
-            <p><input type="checkbox" name="time" value="6">08 : 00 ~ 10: 00 </p>
-            <p><input type="checkbox" name="time" value="7">10 : 00 ~ 12: 00 </p>
-		    <button type="button" name="submit" id="submit">예약하기</button>
+            <p>${check }</p>
+            <p><input type="checkbox" name="bookTime" id="1" value="1">8 : 00 ~ 10: 00 </p>
+            <p><input type="checkbox" name="bookTime" id="2" value="2">10 : 00 ~ 12: 00 </p>
+            <p><input type="checkbox" name="bookTime" id="3" value="3">12 : 00 ~ 02: 00 </p>
+            <p><input type="checkbox" name="bookTime" id="4" value="4">02 : 00 ~ 04: 00 </p>
+            <p><input type="checkbox" name="bookTime" id="5" value="5">04 : 00 ~ 06: 00 </p>
+            <p><input type="checkbox" name="bookTime" id="6" value="6">08 : 00 ~ 10: 00 </p>
+            <p><input type="checkbox" name="bookTime" id="7"value="7">10 : 00 ~ 12: 00 </p>
+		    <button type="button" name="submitBtn" id="submitBtn">예약하기</button>
         </div>
         
         <!-- 선택한 날짜를 저장할 hidden input -->

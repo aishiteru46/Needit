@@ -49,8 +49,9 @@ function setThumbnail(event) {
 <br><br>
 
 <div class="col-10 mx-auto">
-<form action="./write" method="post" enctype="multipart/form-data">
-<input type="hidden" name="menu" id="menu" name="menu" value="${param.menu }" />
+<form action="/share/write" method="post" enctype="multipart/form-data">
+<input type="hidden" name="menu" id="menu" value="${param.menu }" />
+<input type="hidden" name="cate" id="cate" value="${param.cate }" />
 
 <div class="form-group mb-3">
 	<label class="form-label">작성자</label>
@@ -63,8 +64,8 @@ function setThumbnail(event) {
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="location">지역</label>
-	<input type="text" class="form-control" readonly="readonly" name="location" value="" id="location">
+	<label class="form-label" for="location">위치</label>
+	<input type="text" class="form-control" readonly="readonly" name="location" value="${addr1 }" id="location">
 </div>
 
 <div class="form-group mb-3">

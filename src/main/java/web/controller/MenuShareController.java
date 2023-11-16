@@ -66,7 +66,7 @@ public class MenuShareController {
 	}
 	
 	@RequestMapping("/view")
-	public void view(
+	public String view(
 			Board board, HttpSession session
 			, Model model, Like like
 			) {
@@ -88,6 +88,7 @@ public class MenuShareController {
 		boolean isLike = menuShareFace.checkLike(like);
 		model.addAttribute("isLike",isLike);
 		
+		return "menu/share/view";
 	}
 	
 	@GetMapping("/write")
@@ -108,13 +109,13 @@ public class MenuShareController {
 		menuShareFace.write(writerContent,upFile);
 		logger.info("writerContent{}",writerContent);
 		
-		return "redirect:/share/view?boardNo=" + writerContent.getBoardNo();
+		return "redirect:/share/view?boardNo=" + writerContent.getBoardNo() + "&menu=" + writerContent.getMenu() + "&cate=" + writerContent.getCate();
 	}
 	
 	@GetMapping("/update")
 	public String update(Board updateParam, Model model) {
 		
-		if( updateParam.getBoardNo() > 1 ) {
+		if( updateParam.getBoardNo() < 1 ) {
 			return "redirect:./list";
 		}
 		//상세보기 페이지 아님 표시
@@ -131,7 +132,7 @@ public class MenuShareController {
 
 		
 		
-		return "menu/share/view";
+		return "menu/share/update";
 		
 	}
 	
@@ -165,7 +166,7 @@ public class MenuShareController {
 
 		menuShareFace.delete( deleteParam );
 		
-		return "redirect:./list?menu=" + deleteParam.getMenu();
+		return "redirect:./list?menu=" + deleteParam.getMenu() + "&cate=" + deleteParam.getCate();
 	
 	}
 	
@@ -234,7 +235,12 @@ public class MenuShareController {
 		return "jsonView";
 	}
 	@GetMapping("/book")
-	public String book() {
+	public String book(Booking book, HttpSession session
+			, Model model) {
+		
+		boolean check = menuShareFace.checkBooking(book);
+		logger.info("예약 확인{}",check);
+		model.addAttribute("check",check);
 		
 		return "menu/share/book";
 		
@@ -242,21 +248,22 @@ public class MenuShareController {
 	
 	@PostMapping("/book")
 	@ResponseBody
-	public String book(
+	public boolean bookProc(
 			Booking book, HttpSession session
 			, Model model) {
 		book.setBookerId((String)session.getAttribute("id"));
 		logger.info("예약정보{}", book.toString());
 		
-		model.addAttribute("currentDate", new Date());
-		model.addAttribute("today", new Date());
+//		model.addAttribute("currentDate", new Date());
+//		model.addAttribute("today", new Date());
+		logger.info("예약 시간{}", book.getBookTime());
 		
 		//예약 확인
 		boolean check = menuShareFace.checkBook(book);
 		logger.info("예약 확인{}",check);
 		
 		
-		return "menu/share/book";
+		return check;
 		
 		
 		
