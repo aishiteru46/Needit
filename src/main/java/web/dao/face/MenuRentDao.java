@@ -7,6 +7,7 @@ import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
+import web.dto.Rent;
 import web.util.Paging;
 
 public interface MenuRentDao {
@@ -124,6 +125,14 @@ public interface MenuRentDao {
 	 * @param commentDelete
 	 */
 	public void deleteComment(Comment commentDelete);
+
+	/**
+	 * 
+	 * 
+	 * @param rentParam
+	 * @return - 1-대여, 0-대여실패
+	 */
+	public void makeRent(Rent rentParam);
 
 
 

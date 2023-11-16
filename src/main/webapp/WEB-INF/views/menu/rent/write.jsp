@@ -30,7 +30,7 @@ function setThumbnail(event) {
     reader.readAsDataURL(event.target.files[0]);
 }// .setThumbnail() End
 
-//가격란에 문자입력 방지
+//가격란에 문자,높은 금액, 0원 입력 방지
 $(document).ready(function() {
     $("#price").on("keyup", function() {
         var checkType = $("#price").val();
@@ -40,7 +40,19 @@ $(document).ready(function() {
             $("#price").val("");
             $("#price").focus();
         }
+
+        if ( checkType > 999999999) {
+            alert("가격은 999,999,999원 보다 높을 수 없습니다.");
+            $("#price").val("");
+            $("#price").focus();
+        }
     
+        if ( checkType == 0 ) {
+            alert("가격은 0원 보다 높아야 합니다.");
+            $("#price").val("");
+            $("#price").focus();
+        }
+
     });
 });
 </script>
@@ -65,13 +77,14 @@ $(document).ready(function() {
 <br><br>
 
 <div class="col-10 mx-auto">
-<form action="./write" method="post" enctype="multipart/form-data">
-<input type="hidden" name="menu" id="menu" name="menu" value="${param.menu }" />
-<input type="hidden" name="menu" id="cate" name="cate" value="${param.cate }" />
+<form action="/rent/write" method="post" enctype="multipart/form-data">
+
+<input type="hidden" id="menu" name="menu" value="${param.menu }" />
+<input type="hidden" id="cate" name="cate" value="${param.cate }" />
 
 <div class="form-group mb-3">
 	<label class="form-label">작성자</label>
-	<input type="text" class="form-control" readonly="readonly" name="writerId" value="${nick }">
+	<input type="text" class="form-control" readonly="readonly" name="writerNick" value="${nick }">
 </div>
 
 <div class="form-group mb-3">

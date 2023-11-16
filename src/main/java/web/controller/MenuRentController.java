@@ -20,6 +20,7 @@ import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
+import web.dto.Rent;
 import web.service.face.MenuRentService;
 import web.util.Paging;
 
@@ -89,7 +90,14 @@ public class MenuRentController {
 
 	//대여 처리
 	@PostMapping("/rent")
-	public void rent() {}
+	public String rent( Rent rentParam ) {
+		logger.info("rentParam {}", rentParam);
+		
+		
+		menuRentService.rent(rentParam);
+	
+		return "jsonView";
+	}
 	
 	//예약 처리
 	@PostMapping("/book")
@@ -159,7 +167,7 @@ public class MenuRentController {
 		
 		menuRentService.commentInsert(commentParam);
 		
-		return "redirect: /menu/rent/view?boardNo=" + commentParam.getBoardNo();
+		return "redirect: /rent/view?boardNo=" + board.getBoardNo();
 	}
 	
 	//댓글 불러오기

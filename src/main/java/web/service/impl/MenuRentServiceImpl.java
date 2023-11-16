@@ -22,6 +22,7 @@ import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
+import web.dto.Rent;
 import web.service.face.MenuRentService;
 import web.util.Paging;
 
@@ -210,6 +211,11 @@ public class MenuRentServiceImpl implements MenuRentService {
 	@Override
 	public void delete(Comment commentDelete) {
 		menuRentDao.deleteComment(commentDelete);
+	}
+
+	@Override
+	public void rent(Rent rentParam) {
+		menuRentDao.makeRent(rentParam);
 	}
 
 }

@@ -142,7 +142,7 @@ $(()=>{
          		content : $("#commentContent").val()
          	}
          	, success: function( res ) {
-         		console.log("AJAX 성공")
+         		console.log("댓글입력 AJAX성공")
          		
                	// 댓글 입력 성공 시, 댓글 창 비우고 포커스를 주기
                	$("#commentContent").val(""); // 댓글 창 비우기
@@ -151,7 +151,7 @@ $(()=>{
 	         	loadComments() // 페이지 로딩 시 댓글 목록 불러오기
 	         }
 	         , error: function() {
-    	        console.log("AJAX 실패")
+    	        console.log("댓글입력 AJAX실패")
 	         }
 	
 		})
@@ -293,6 +293,19 @@ $(()=>{
 	<td class="table-info">가격</td><td><fmt:formatNumber value="${board.price }" pattern="#,###" />원</td>
 </tr>
 <tr>
+	<td class="table-info">대여하기</td>
+	<td>
+		<!-- Button trigger modal -대여 -->
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rentModal" >대여하고싶어요</button>
+		<%-- Modal.대여 --%>
+		<c:import url="./rent.jsp"/>
+	</td>
+	<td class="table-info">예약하기</td>
+	<td>
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookModal" >예약하고싶어요</button>
+	</td>
+</tr>
+<tr>
 	<td class="table-info">조회수</td><td>${board.hit }</td>
 	<td class="table-info">작성일</td>
 	<td>
@@ -343,7 +356,7 @@ $(()=>{
 
 <%-- 목록,수정,삭제 --%>
 <div class="text-center">
-	<a class="btn btn-success" href="/rent/list?menu=m1c1">목록</a>
+	<a class="btn btn-success" href="/rent/list?menu=1&cate=1">목록</a>
 	
 	<c:if test="${id eq board.writerId }">
 		<a href="/rent/update?boardNo=${board.boardNo }" class="btn btn-primary">수정</a>
@@ -409,6 +422,7 @@ $(()=>{
 	
 </div><!-- .comment_container End. -->
 
+
+	
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
-

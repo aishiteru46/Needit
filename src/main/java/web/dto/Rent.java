@@ -12,5 +12,6 @@ public class Rent {
 	private String renterId;
 	private int rentStatus;
 	private Date rentDate;
+	private int rentTime;
 
 }
