@@ -133,6 +133,8 @@ public interface MenuShareFace {
 	 * @return false 예약 가능 true 예약 불가
 	 */
 	public boolean checkBook(Booking book);
+
+	public boolean checkBooking(Booking book);
 	
 	
 	

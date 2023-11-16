@@ -8,7 +8,7 @@
 		<%-- 첫 페이지로 이동 --%>
 		<c:if test="${paging.curPage ne 1 }">
 		<li class="page-item">
-			<a class="page-link" href="./list?menu=${param.menu }">&larr; 처음</a>
+			<a class="page-link" href="./list?menu=${param.menu }&cate=${param.cate}">&larr; 처음</a>
 		</li>
 		</c:if>
 		
@@ -16,7 +16,7 @@
 		<c:choose>
 			<c:when test="${paging.startPage ne 1 }">
 			<li class="page-item">
-				<a class="page-link" href="./list?curPage=${paging.startPage - paging.pageCount }&menu=${param.menu }">&laquo;</a>
+				<a class="page-link" href="./list?curPage=${paging.startPage - paging.pageCount }&menu=${param.menu }&cate=${param.cate}">&laquo;</a>
 			</li>
 			</c:when>
 			<c:when test="${paging.startPage ne 1 }">
@@ -29,7 +29,7 @@
 		<%-- 이전 페이지로 이동 --%> 
 		<c:if test="${paging.curPage > 1 }">
 			<li class="page-item">
-				<a class="page-link" href="./list?curPage=${paging.curPage -1 }&menu=${param.menu }">&lt;</a>
+				<a class="page-link" href="./list?curPage=${paging.curPage -1 }&menu=${param.menu }&cate=${param.cate}">&lt;</a>
 			</li>
 		</c:if>
 		
@@ -38,13 +38,13 @@
 		<c:forEach var="i" begin="${paging.startPage }" end="${paging.endPage }">
 			<c:if test="${paging.curPage eq i }">
 			<li class="page-item">
-				<a class="page-link active" href="./list?curPage=${i }&menu=${param.menu } ">${i }</a>
+				<a class="page-link active" href="./list?curPage=${i }&menu=${param.menu }&cate=${param.cate}">${i }</a>
 			</li>
 			</c:if>
 
 			<c:if test="${paging.curPage ne i }">
 			<li class="page-item">
-				<a class="page-link" href="./list?curPage=${i }&menu=${param.menu } ">${i }</a>
+				<a class="page-link" href="./list?curPage=${i }&menu=${param.menu }&cate=${param.cate}">${i }</a>
 			</li>
 			</c:if>
 		</c:forEach>
@@ -52,7 +52,7 @@
 		<%-- 다음 페이지로 이동 --%>
 		<c:if test="${paging.curPage < paging.totalPage }">
 		   <li class="page-item">
-		      <a class="page-link" href="./list?curPage=${paging.curPage + 1 }&menu=${param.menu }">&gt;</a>
+		      <a class="page-link" href="./list?curPage=${paging.curPage + 1 }&menu=${param.menu }&cate=${param.cate}">&gt;</a>
 		   </li>
 		</c:if>
       
@@ -60,7 +60,7 @@
 		<c:choose>
 		   <c:when test="${paging.endPage ne paging.totalPage }">
 		   <li class="page-item">
-		      <a class="page-link" href="./list?curPage=${paging.endPage + paging.pageCount }&menu=${param.menu }">&raquo;</a>
+		      <a class="page-link" href="./list?curPage=${paging.endPage + paging.pageCount }&menu=${param.menu }&cate=${param.cate}">&raquo;</a>
 		   </li>
 		   </c:when>
 		   <c:when test="${paging.endPage eq paging.totalPage }">
@@ -73,7 +73,7 @@
 		<%-- 끝 페이지로 이동 --%>
 		<c:if test="${paging.curPage ne paging.totalPage }">
 		<li class="page-item">
-			<a class="page-link" href="./list?curPage=${paging.totalPage }&menu=${param.menu }">&rarr; 끝으로</a>
+			<a class="page-link" href="./list?curPage=${paging.totalPage }&menu=${param.menu }&cate=${param.cate}">&rarr; 끝으로</a>
 		</li>
 		</c:if>
 	</ul>

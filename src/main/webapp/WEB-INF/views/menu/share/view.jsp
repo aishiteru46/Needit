@@ -236,11 +236,11 @@ $(()=>{
 </tr>
 </table>
 <div class="text-center">
-		<a href="/share/list?menu=${view.menu}&cate=${view.menu}" class="btn btn-secondary">목록으로</a>
+		<a href="/share/list?menu=${view.menu}&cate=${param.cate}" class="btn btn-secondary">목록으로</a>
 	
 	<c:if test="${id eq view.writerId }">
-		<a href="/share/update?=${view.boardNo }&menu=${view.menu}&cate=${list.cate}"><button class="btn btn-success mt-2" id="btnUpdate">글 수정</button></a>
-		<a href="./delete?boardNo=${view.boardNo }&menu=${view.menu}&cate=${list.cate}" class="btn btn-danger">삭제</a>
+		<a href="/share/update?boardNo=${view.boardNo }&menu=${view.menu}&cate=${param.cate}"><button class="btn btn-success mt-2" id="btnUpdate">글 수정</button></a>
+		<a href="/share/delete?boardNo=${view.boardNo }&menu=${view.menu}&cate=${param.cate}" class="btn btn-danger">삭제</a>
 	</c:if>
 </div>
 <!-- 댓글 처리 -->

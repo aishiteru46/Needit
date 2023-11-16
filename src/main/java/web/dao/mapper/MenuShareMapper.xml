@@ -110,9 +110,9 @@
 	<!-- 게시판 수정 -->
 	<update id="updateBoard" parameterType="Board">
 		UPDATE board
-		<set>
-			, title = #{title } , content = #{content } 
-		</set>
+		SET title = #{title } 
+		, content = #{content } 
+		
 		<where> 
 			board_no = #{boardNo }
 		</where>
@@ -194,13 +194,14 @@
 	<!-- 예약 정보 -->
 	<insert id="makeBook" parameterType="Booking">
 	INSERT INTO booking( book_no, book_status, book_date, board_no, booker_id , book_time)
-	VALUES ( booking_seq.nextval, '1' , #{bookDate}, '5', 'user3', #{bookTime})
+	VALUES ( booking_seq.nextval, '1' , #{bookDate}, #{boardNo}, #{bookerId}, #{bookTime})
 	</insert>
 	
 	<select id="checkBook" resultType="int" parameterType="Booking">
 		SELECT count(*) FROM booking
 		<where>
-			book_date = #{bookDate}
+			AND book_date = #{bookDate}
+			AND book_time = #{bookTime}
 		</where>
 	
 	</select>

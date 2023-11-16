@@ -74,8 +74,8 @@ $(() => {
 </div>
 
 <div class="text-center">
-	<button class="btn btn-primary" id="btnUpdate">수정</button>
-	<button type="reset" class="btn btn-danger" id="btnCancel">취소</button>
+	<a href="/share/view?menu=${updateBoard.menu }&cate${updateBoard.cate}"><button class="btn btn-primary" id="btnUpdate">수정</button></a>
+	<a href="/share/view?menu=${updateBoard.menu }&cate${updateBoard.cate}"><button type="reset" class="btn btn-danger" id="btnCancel">취소</button></a>
 </div>
 
 </form>
