@@ -10,13 +10,14 @@
 	<sql id="selectBoard">
 		SELECT 
 		    board_no, writer_id, writer_nick, 
-		    hit, menu, title, price, content, location,
+		    hit, menu, cate, title, price, content, location,
 		    CAST(write_date AS DATE) AS write_date, 
 		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
 		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
 		FROM board B
 		<where>
-			menu = #{menu }
+			AND menu = #{menu }
+			AND cate = #{cate }
 		</where>
 	</sql>
 
@@ -53,7 +54,7 @@
 	<!-- 게시글 상세 조회 -->
 	<select id="selectByBoardNo" resultType="Board" parameterType="Board">
 		SELECT
-			board_no, writer_id, writer_nick, write_date, hit, menu
+			board_no, writer_id, writer_nick, write_date, hit, menu, cate
 			, title, price, content, location
 		FROM board
 		<where>
@@ -66,8 +67,8 @@
     	<selectKey resultType="int" order="BEFORE" keyProperty="boardNo">
     		SELECT board_seq.nextval FROM dual
     	</selectKey>
-    		INSERT INTO board(board_no, menu, writer_id, writer_nick, title, price, content, location)
-    		VALUES ( #{boardNo}, #{menu}, #{writerId}, #{writerNick}, #{title}, #{price}, #{content}, #{location} )
+    		INSERT INTO board(board_no, menu, cate, writer_id, writer_nick, title, price, content, location)
+    		VALUES ( #{boardNo}, #{menu}, #{cate}, #{writerId}, #{writerNick}, #{title}, #{price}, #{content}, #{location} )
     </insert>
 
     <!-- 게시글 파일 삽입 -->

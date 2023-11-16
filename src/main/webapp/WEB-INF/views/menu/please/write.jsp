@@ -66,6 +66,9 @@ function setThumbnail(event) {
 <div class="form-group mb-3">
 	<label class="form-label">게시판</label>
 	<input type="text" class="form-control" name="menu" id="menu" readonly="readonly" value="${param.menu }">
+	<label class="form-label">카테고리</label>
+	<input type="text" class="form-control" name="cate" id="cate" readonly="readonly" value="${param.cate }">
+	
 </div>
 
 <div class="form-group mb-3">

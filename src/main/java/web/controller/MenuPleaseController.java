@@ -45,6 +45,11 @@ public class MenuPleaseController {
  		logger.info("list: {}", list);
  		model.addAttribute("list", list);
  		
+ 		for (Map<String, Object> map : list) {
+ 		    logger.info("CATE value in list: {}", map.get("CATE"));
+ 		}
+ 		
+ 		
  		//게시글 추천수 조회
 // 		int cntLike = menuPleaseService.getCntLike(paging);
 // 		model.addAttribute("cntLike", cntLike);
@@ -60,7 +65,7 @@ public class MenuPleaseController {
 
 		//게시글 번호를 전달받지 못하면 목록으로 이동
 		if( board.getBoardNo() < 1 ) {
-			return "redirect:/menu/please/list";
+			return "redirect:/please/list";
 		}
 		
 		//게시글 상세 조회
@@ -90,7 +95,9 @@ public class MenuPleaseController {
    
    //게시글 작성 폼
  	@GetMapping("/write")
- 	public void write() {}
+ 	public String write() {
+ 		return "menu/please/write";
+ 	}
  	
  	//게시글 작성 처리
  	@PostMapping("/write")
@@ -104,7 +111,7 @@ public class MenuPleaseController {
  		//게시글 저장
  		menuPleaseService.write( writeParam, file );
  		
- 		return "redirect:/menu/please/view?boardNo=" + writeParam.getBoardNo();
+ 		return "redirect:/please/view?boardNo=" + writeParam.getBoardNo();
  	}
    
    
@@ -231,7 +238,7 @@ public class MenuPleaseController {
  		
  		menuPleaseService.commentInsert(commentParam);
  		
- 		return "redirect:/menu/please/view?boardNo=" + commentParam.getBoardNo();
+ 		return "redirect:/please/view?boardNo=" + commentParam.getBoardNo();
 	   
  		
  	}
@@ -250,15 +257,7 @@ public class MenuPleaseController {
  	}
    
    
-   
-   
-   
-   
-   
-   
-   
-   
-   
+
    
    
    

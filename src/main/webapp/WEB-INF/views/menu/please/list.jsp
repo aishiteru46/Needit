@@ -60,13 +60,13 @@
 <div class="container">
 
 <c:forEach  var="list" items="${list }" begin="0" end="0">
-	<c:if test="${list.MENU eq 'm3c1' }">
+	<c:if test="${list.MENU eq 3 and list.CATE eq 1 }">
 		<h1>해주세요 물품</h1>	
 	</c:if>
-	<c:if test="${list.MENU eq 'm3c2' }">
+	<c:if test="${list.MENU eq 3 and list.CATE eq 2 }">
 		<h1>해주세요 인력</h1>	
 	</c:if>
-	<c:if test="${list.MENU eq 'm3c3' }">
+	<c:if test="${list.MENU eq 3 and list.CATE eq 3 }">
 		<h1>해주세요 공간</h1>	
 	</c:if>
 </c:forEach>
@@ -78,15 +78,15 @@
   	
     <div class="write-container">
         <h6 class="no">no. ${list.BOARD_NO}</h6>
-        <a href="/menu/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><h6 class="title">제목 : ${list.TITLE }</h6></a>
+        <a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">제목 : ${list.TITLE }</h6></a>
         <c:if test="${ not empty list.THUMBNAIL_NAME  }">
 	        <div>
-	        	<a href="/menu/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
+	        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
 	        </div>
         </c:if>
         <c:if test="${ empty list.THUMBNAIL_NAME  }">
 	        <div>
-	        	<a href="/menu/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/resources/img/noimg.png"/></a>
+	        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/resources/img/noimg.png"/></a>
 	        </div>
         </c:if>
         <h6>작성자 : ${list.WRITER_ID }</h6>
@@ -116,7 +116,7 @@
 
 <div class="write">
 	<c:if test="${not empty isLogin and isLogin }">
-		<a class="btn btn-secondary" href="./write?menu=${param.menu }">글쓰기</a>
+		<a class="btn btn-secondary" href="./write?menu=${param.menu }&cate=${param.cate }">글쓰기</a>
 	</c:if>
 </div>
 
