@@ -45,7 +45,7 @@
 		        B.board_no DESC
 		)
 		WHERE
-		    menu IN ('m1c1', 'm1c2', 'm1c3') AND ROWNUM &lt;= 4
+		    menu IN (1, 2, 3) AND ROWNUM &lt;= 4
 	</select> 	
  	
  	<select id="selectRecentShareBoard" resultType="Map">
@@ -61,13 +61,14 @@
 		        B.board_no DESC
 		)
 		WHERE
-		    menu IN ('m2c1', 'm2c2', 'm2c3') AND ROWNUM &lt;= 4
+		    menu IN (1, 2, 3) AND ROWNUM &lt;= 4
 	</select>
 	
     <select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
 	SELECT count(*) FROM (
 		<include refid="selectBoard"/>
 	)
+	
     </select>
  
  </mapper>
