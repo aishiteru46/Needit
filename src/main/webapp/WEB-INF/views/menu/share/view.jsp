@@ -22,7 +22,7 @@ $(function(){
 	
 	  $.ajax({
          type: "get"
-         , url: "/menu/share/like"
+         , url: "/share/like"
          , data: {
         	 boardNo : ${view.boardNo}
          }
@@ -50,7 +50,7 @@ $(function(){
 function loadComments() {
 	$.ajax({
 			type: "GET"
-         	, url: "/menu/share/comment/list"
+         	, url: "/share/comment/list"
          	, data: { 
          		boardNo : ${view.boardNo }
          	}
@@ -116,7 +116,7 @@ function deleteComment( cmtNo ) {
 	
 		$.ajax({
 			type: "GET"
-	     	, url: "/menu/share/comment/delete"
+	     	, url: "/share/comment/delete"
 	     	, data: { 
 	     		boardNo : ${view.boardNo },
 	     		cmtNo : cmtNo
@@ -145,12 +145,13 @@ $(()=>{
 		
 		$.ajax({
 			type: "POST"
-         	, url: "/menu/share/comment/insert"
+         	, url: "/share/comment/insert"
          	, data: { 
          		boardNo : ${view.boardNo },
          		writerId : "${id }",
          		writerNick : "${nick }",
          		menu : "${param.menu }",
+         		cate : "${param.cate }",
          		content : $("#commentContent").val()
          	}
          	, success: function( res ) {
@@ -213,7 +214,7 @@ $(()=>{
 	</c:forEach>
 <tr>
 	<td class="table-info">가격</td><td>${view.price}</td>
-	<td class="table-info">예약하기</td><td><a href="/menu/share/book?boardNo=${view.boardNo }"><button>예약하기</button></a></td>
+	<td class="table-info">예약하기</td><td><a href="/share/book?boardNo=${view.boardNo }"><button>예약하기</button></a></td>
 	<td>
 		<input type="hidden" name="boardNo" value="${view.boardNo }">
 	</td>
@@ -235,11 +236,11 @@ $(()=>{
 </tr>
 </table>
 <div class="text-center">
-		<a href="/menu/share/list?menu=${view.menu}" class="btn btn-secondary">목록으로</a>
+		<a href="/share/list?menu=${view.menu}&cate=${view.menu}" class="btn btn-secondary">목록으로</a>
 	
 	<c:if test="${id eq view.writerId }">
-		<a href="/menu/share/update?=${view.boardNo }&menu=${view.menu}"><button class="btn btn-success mt-2" id="btnUpdate">글 수정</button></a>
-		<a href="./delete?boardNo=${view.boardNo }&menu=${view.menu}" class="btn btn-danger">삭제</a>
+		<a href="/share/update?=${view.boardNo }&menu=${view.menu}&cate=${list.cate}"><button class="btn btn-success mt-2" id="btnUpdate">글 수정</button></a>
+		<a href="./delete?boardNo=${view.boardNo }&menu=${view.menu}&cate=${list.cate}" class="btn btn-danger">삭제</a>
 	</c:if>
 </div>
 <!-- 댓글 처리 -->

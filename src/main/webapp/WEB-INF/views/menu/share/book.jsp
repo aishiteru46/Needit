@@ -86,11 +86,10 @@
 
 <script type="text/javascript">
 $(function(){
-    // 다음 달의 날짜에 대한 클릭 이벤트 추가
-    $(".Calendar").on("click", ".futureMonth", function(){
+	$(".Calendar").on("click", ".futureMonth", function(){
         let clickedDate = $(this).text();
-        let nextMonth = nowMonth.getMonth() + 1; // 다음 달
-        let fullDate = new Date(nextMonth + "/" + clickedDate);
+        let nextMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, 1); // 다음 달의 1일로 초기화
+        let fullDate = new Date(nextMonth.getFullYear() , nextMonth.getMonth(), clickedDate - 1 );
         console.log("클릭한 날짜 선택", fullDate);
         
         // 선택한 날짜를 hidden input에 설정
@@ -193,7 +192,7 @@ $(function(){
 $(function(){
     // 예약하기 버튼 클릭 시 서버로 전송
     $("#submit").click(function () {
-        let selectedDate = $(".choiceDay").text();
+        let selectedDate = $("#selectedDate").val();
         let selectedTime = $("input[name='time']:checked").val();
 
         // 예약 정보를 서버로 전송
