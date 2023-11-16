@@ -67,6 +67,7 @@ $(document).ready(function() {
 <div class="col-10 mx-auto">
 <form action="./write" method="post" enctype="multipart/form-data">
 <input type="hidden" name="menu" id="menu" name="menu" value="${param.menu }" />
+<input type="hidden" name="menu" id="cate" name="cate" value="${param.cate }" />
 
 <div class="form-group mb-3">
 	<label class="form-label">작성자</label>

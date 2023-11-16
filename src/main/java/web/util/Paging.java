@@ -3,6 +3,7 @@ package web.util;
 public class Paging {
 	
 	private String menu;	//조회할 메뉴
+	private String cate;	//조회할 카테고리
 	private int curPage;	//현재 페이지 번호
 	private int totalCount;	//총 게시글 수
 	private int listCount;	//한 페이지 당 보여질 게시글 수
@@ -16,8 +17,9 @@ public class Paging {
 	public Paging() {}
 
 	//총 게시글 수, 현재 페이지 번호를 입력하는 생성자
-	public Paging(String menu, int totalCount, int curPage) {
+	public Paging(String menu, String cate, int totalCount, int curPage) {
 		setMenu(menu);
+		setCate(cate);
 		setTotalCount(totalCount);
 		setCurPage(curPage);
 		
@@ -25,8 +27,9 @@ public class Paging {
 	}
 	
 	//총 게시글수, 현재 페이지 번호, 보여질 게시글수, 보여질 페이지 수 를 입력하는 생성자
-	public Paging(String menu, int totalCount, int curPage, int listCount, int pageCount) {
+	public Paging(String menu, String cate, int totalCount, int curPage, int listCount, int pageCount) {
 		setMenu(menu);
+		setCate(cate);
 		setTotalCount(totalCount);
 		setCurPage(curPage);
 		setListCount(listCount);
@@ -147,6 +150,14 @@ public class Paging {
 
 	public void setMenu(String menu) {
 		this.menu = menu;
+	}	
+	
+	public String getCate() {
+		return cate;
+	}
+
+	public void setCate(String cate) {
+		this.cate= cate;
 	}	
 	
 }

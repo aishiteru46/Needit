@@ -24,7 +24,7 @@ import web.service.face.MenuRentService;
 import web.util.Paging;
 
 @Controller
-@RequestMapping("/menu/rent")
+@RequestMapping("/rent")
 public class MenuRentController {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 	
@@ -42,7 +42,7 @@ public class MenuRentController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
-		return "/menu/rent/list";
+		return "menu/rent/list";
 	}
 	
 	//게시판 상세 조회
@@ -101,7 +101,9 @@ public class MenuRentController {
 	
 	//게시글 작성 폼
 	@GetMapping("/write")
-	public void write() {}
+	public String write() {
+		return "menu/rent/write";
+	}
 	
 	//게시글 작성 처리
 	@PostMapping("/write")
@@ -115,7 +117,7 @@ public class MenuRentController {
 		//게시글 저장
 		menuRentService.write( writeParam, file );
 		
-		return "redirect:/menu/rent/view?boardNo=" + writeParam.getBoardNo();
+		return "redirect:/rent/view?boardNo=" + writeParam.getBoardNo();
 	}
 
 	//게시글 수정 폼
