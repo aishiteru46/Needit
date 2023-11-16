@@ -116,8 +116,16 @@ hr{
 #MainThumbnailImg{
 	width: 290px;
 	height: 200px;
-	margin-top: 3px;
+	margin: 3px 0px -2px 0px; 
 }
+/* 썸네일 사진 없을 때 */
+#MainNoITumbnail{
+	width: 290px;
+	height: 200px;
+	margin: 3px 0px -2px 0px; 
+	border: 1px solid #ccc;
+}
+
 /* 대여, 나눔해요 썸네일 제목 */
 #MainThumbnailTitle{
 	text-align: center;
@@ -125,14 +133,8 @@ hr{
 	font-weight: bold;
 	margin-top: 5px;
 }
-#MainNoITumbnail{
-	width: 286px;
-	height: 200px;
-	border: 1px solid #ccc;
-}
 
 </style>
-
 
 
 <div id="container">
@@ -198,7 +200,12 @@ hr{
 	<div id="mainTitle">최신 대여해요 게시글</div>
 	<c:forEach var="boardRentInfo" items="${boardRentInfo}">
 		<div id="MainTumbnailDiv">
-			<div><a href="/menu/rent/list?menu=m1c1"><img src="/upload/${boardRentInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></a></div>
+			<c:if test="${not empty boardRentInfo.THUMBNAIL_NAME }">
+				<div><a href="/menu/rent/list?menu=1"><img src="/upload/${boardRentInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></a></div>
+			</c:if>
+			<c:if test="${empty boardRentInfo.THUMBNAIL_NAME }">			
+				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
+			</c:if>
 			<div id="MainThumbnailTitle">${boardRentInfo.TITLE}</div>
 		</div><!-- #MainTumbnailDiv -->
 	</c:forEach>
@@ -211,10 +218,10 @@ hr{
 	<c:forEach var="boardShareInfo" items="${boardShareInfo}">
 		<div id="MainTumbnailDiv">
 			<c:if test="${not empty boardShareInfo.THUMBNAIL_NAME }">
-			<div><a href="/menu/rent/list?menu=m2c1"><img src="/upload/${boardShareInfo.THUMBNAIL_NAME }" id="MainThumbnailImg" ></a></div>
+				<div><a href="/menu/rent/list?menu=2"><img src="/upload/${boardShareInfo.THUMBNAIL_NAME }" id="MainThumbnailImg" ></a></div>
 			</c:if>
 			<c:if test="${empty boardShareInfo.THUMBNAIL_NAME }">
-				<img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png">
+				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
 			</c:if>
 			<div id="MainThumbnailTitle">${boardShareInfo.TITLE}</div>
 		</div><!-- #MainTumbnailDiv -->
