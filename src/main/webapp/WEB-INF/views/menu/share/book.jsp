@@ -86,10 +86,11 @@
 
 <script type="text/javascript">
 $(function(){
-	$(".Calendar").on("click", ".futureMonth", function(){
-        let clickedDate = $(this).text();
-        let nextMonth = new Date(nowMonth.getFullYear(), nowMonth.getMonth() + 1, 1); // 다음 달의 1일로 초기화
-        let fullDate = new Date(nextMonth.getFullYear() , nextMonth.getMonth(), clickedDate - 1 );
+    // 다음 달의 날짜에 대한 클릭 이벤트 추가
+    $(".Calendar").on("click", ".futureMonth", function(){
+        let clickedDate = parseInt($(this).text()); // 문자열을 숫자로 변환
+        let nextMonth = nowMonth.getMonth() + 1; // 현재 월에 1을 더해 다음 달로 설정
+        let fullDate = new Date(nowMonth.getFullYear(), nextMonth - 1, clickedDate); // 월의 경우 1을 빼줌
         console.log("클릭한 날짜 선택", fullDate);
         
         // 선택한 날짜를 hidden input에 설정
@@ -97,7 +98,6 @@ $(function(){
 
         $("#time").show();
     });
-
 })
 </script>
 
