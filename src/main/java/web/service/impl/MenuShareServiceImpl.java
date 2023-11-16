@@ -42,7 +42,7 @@ public class MenuShareServiceImpl implements MenuShareFace{
 		int totalCount = menuShareDao.selectCntAll(param);
 		
 //		Paging paging = new Paging(param.getMenu(),totalCount, param.getCurPage());
-		Paging paging = new Paging(param.getMenu(),totalCount, param.getCurPage(),9,10);
+		Paging paging = new Paging( param.getMenu(), param.getCate(),totalCount, param.getCurPage(), 12, 10 );
 		
 		return paging;
 	}
@@ -250,21 +250,17 @@ public class MenuShareServiceImpl implements MenuShareFace{
 
 	}
 
-	@Override
-	public void book(Booking book) {
-		menuShareDao.makeBook(book);
-		
-	}
 
 	@Override
 	public boolean checkBook(Booking book) {
 		
+		int res = menuShareDao.checkBook(book);
 		
-		if( menuShareDao.checkBook(book) > 0) {
+		if( res > 0) {
 			logger.info("예약 불가");
 			return true;
 		}
-		
+		menuShareDao.makeBook(book);
 		logger.info("예약 가능");
 		return false;
 	}

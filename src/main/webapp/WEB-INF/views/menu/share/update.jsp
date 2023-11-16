@@ -30,7 +30,7 @@ $(() => {
 <hr>
 
 <div class="col-10 mx-auto">
-<form action="/menu/share/update" method="post" enctype="multipart/form-data">
+<form action="/share/update" method="post" enctype="multipart/form-data">
 
 <input type="hidden" name="boardNo" value="${updateBoard.boardNo }" readonly="readonly">
 

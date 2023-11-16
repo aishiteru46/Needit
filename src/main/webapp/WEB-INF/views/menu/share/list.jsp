@@ -81,15 +81,15 @@
         <h6>작성자 : ${list.WRITER_ID }</h6>
         <c:if test="${ not empty list.THUMBNAIL_NAME  }">
 	        <div>
-	        	<a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
+	        	<a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
 	        </div>
         </c:if>
         <c:if test="${ empty list.THUMBNAIL_NAME  }">
 	        <div>
-	        	<a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><img class="preview" src="/resources/img/noimg.png"/></a>
+	        	<a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/resources/img/noimg.png"/></a>
 	        </div>
         </c:if>
-        <a href="/menu/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}"><h6 class="title">제목 : ${list.TITLE }</h6></a>
+        <a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">제목 : ${list.TITLE }</h6></a>
         <h6>닉네임 : ${list.WRITER_NICK }</h6>
         <h6>가격 : <fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</h6>
         <h6>👀  ${list.HIT}</h6>
@@ -116,7 +116,7 @@
 
 <div class="write">
 	<c:if test="${not empty isLogin and isLogin }">
-		<a class="btn btn-secondary" href="./write?menu=${param.menu }">글쓰기</a>
+		<a class="btn btn-secondary" href="./write?menu=${param.menu }&cate=${param.cate}">글쓰기</a>
 	</c:if>
 </div>
 

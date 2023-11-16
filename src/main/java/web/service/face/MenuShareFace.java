@@ -125,12 +125,6 @@ public interface MenuShareFace {
 	 */
 	public void commentdelete(Comment commentDelete);
 	
-	/**
-	 * 예약 하기
-	 * 
-	 * @param book 예약 정보
-	 */
-	public void book(Booking book);
 	
 	/**
 	 * 예약 정보 확인

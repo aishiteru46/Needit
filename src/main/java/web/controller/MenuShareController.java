@@ -1,10 +1,10 @@
 package web.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -89,7 +89,9 @@ public class MenuShareController {
 	}
 	
 	@GetMapping("/write")
-	public void write( Board board ) {
+	public String write( Board board ) {
+		
+		return "menu/share/write";
 	}
 	
 	@PostMapping("/write")
@@ -104,7 +106,7 @@ public class MenuShareController {
 		menuShareFace.write(writerContent,upFile);
 		logger.info("writerContent{}",writerContent);
 		
-		return "redirect:/menu/share/view?boardNo=" + writerContent.getBoardNo();
+		return "redirect:/share/view?boardNo=" + writerContent.getBoardNo();
 	}
 	
 	@GetMapping("/update")
@@ -127,7 +129,7 @@ public class MenuShareController {
 
 		
 		
-		return "menu/share/update";
+		return "menu/share/view";
 		
 	}
 	
@@ -156,7 +158,7 @@ public class MenuShareController {
 	public String delete(Board deleteParam, Model model) {
 		
 		if( deleteParam.getBoardNo() < 1 ) {
-			return "redirect:/menu/share/list";
+			return "redirect:/share/list";
 		}
 
 		menuShareFace.delete( deleteParam );
@@ -201,7 +203,7 @@ public class MenuShareController {
 		//댓글 입력
 		menuShareFace.commentinsert(comment);
 		
-		return "redirect:/menu/share/comment/list?boardNo=" + comment.getBoardNo();
+		return "redirect:/share/comment/list?boardNo=" + comment.getBoardNo();
 	}
 	
 	//댓글 리스트
@@ -237,14 +239,15 @@ public class MenuShareController {
 	}
 	
 	@PostMapping("/book")
+	@ResponseBody
 	public String book(
 			Booking book, HttpSession session
-			) {
+			, Model model) {
 		book.setBookerId((String)session.getAttribute("id"));
-		logger.info("예약정보{}", book);
+		logger.info("예약정보{}", book.toString());
 		
-		//예약
-		menuShareFace.book(book);
+		model.addAttribute("currentDate", new Date());
+		model.addAttribute("today", new Date());
 		
 		//예약 확인
 		boolean check = menuShareFace.checkBook(book);
