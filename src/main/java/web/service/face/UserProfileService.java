@@ -3,6 +3,7 @@ package web.service.face;
 import java.util.List;
 
 import web.dto.Booking;
+
 import web.dto.User;
 
 public interface UserProfileService {
@@ -29,6 +30,12 @@ public interface UserProfileService {
 	 * @return 
 	 */
 	public List<Booking> bookList(Booking book);
+
+	/*
+	 * 회원프로필사진
+	 * 
+	 */
+	public void imgUpdate(MultipartFile file, String userId);
 
 	
 

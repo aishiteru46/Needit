@@ -3,7 +3,9 @@ package web.dao.face;
 import java.util.List;
 
 import web.dto.Booking;
+
 import web.dto.User;
+import web.dto.UserPage;
 
 public interface UserProfileDao {
 
@@ -29,6 +31,20 @@ public interface UserProfileDao {
 	 * @param book 예약 정보
 	 */
 	public List<Booking> selectBookList(Booking book);
+
+
+	/**
+	 * 회원프로필사진
+	 * 
+	 * @param userPage
+	 */
+	public void updateImg(UserPage userPage);
+
+
+
+
+
+	
 
 
 	
