@@ -16,6 +16,13 @@
 	
 	<dependencies>
 	
+		<!-- SseEmitter(알림기능구현)을 사용하기 위한 JSON DI -->
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20231013</version>
+		</dependency>
+	
 		<!-- 메일 서비스 -->
 		<dependency>
 		    <groupId>org.springframework</groupId>

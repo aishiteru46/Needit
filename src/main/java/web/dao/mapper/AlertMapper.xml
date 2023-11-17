@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="web.dao.face.AlertDao">
+	<sql id="selectAlert">
+		SELECT alert_no, id, content, alert_status, board_no, cate, menu, post_date
+<!-- 		, (SELECT car_name FROM cartb C WHERE C.car_no = A.board_no) as carname -->
+		FROM alerttb
+	</sql>
+
+	<select id="selectByUser" resultType="Alert" parameterType="Alert">
+		<include refid="selectAlert" />
+		<where>
+			AND id = #{id }
+		</where>
+		ORDER BY alert_no DESC
+	</select>
+
+	<insert id="insertAlert" parameterType="Alert">
+		<selectKey order="BEFORE" keyProperty="alertNo" resultType="int">
+			SELECT alert_seq.nextval FROM dual
+		</selectKey>
+		INSERT INTO alerttb ( alert_no, id, content,  board_no, cate, menu )
+		VALUES ( #{alertNo }, #{userId }, #{content }, #{boardNo }, #{cate }, #{menu } )
+	</insert>
+
+	<update id="updateAlertStatus" parameterType="Alert">
+		UPDATE alerttb
+		<set>
+			alert_status = 1,
+		</set>
+		<where>
+			AND alert_no = #{alertNo }
+		</where>
+	</update>
+	
+	<select id="countStatus">
+		SELECT count(*) FROM alerttb
+		<where>
+			AND id = #{id }
+			AND alert_status = 0
+		</where>
+	</select>
+
+</mapper>
