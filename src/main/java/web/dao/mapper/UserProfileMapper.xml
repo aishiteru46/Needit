@@ -20,6 +20,10 @@
  		FROM usertb
  		WHERE id = #{id}
  	</delete>
+ 	
+ 	<select id="selectBookList" resultType="Booking" parameterType="Booking">
+ 		SELECT * FROM Booking
+ 	</select>
   
 
  </mapper>
