@@ -123,7 +123,10 @@ public class UserProfileController {
 	}
 	
 	@PostMapping("/imgupdate")
+	
 	public String imgUpdateProc(@RequestParam("file") MultipartFile file, HttpSession session) {
+		
+		
 		// 사용자 ID 가져오기
         String userId = (String) session.getAttribute("id");
         
@@ -134,6 +137,24 @@ public class UserProfileController {
 	}
 	
 	
+	
+	@GetMapping("/introduceupdate")
+	public String intoduceUpdate() {
+		
+		return "/profile/view";
+	}
 
+
+	@PostMapping("/introduce")
+	public String introduceUpdateProc(UserPage userPage, Model model) {
+		
+		userProfileService.introduceUpdate(userPage);
+		
+		
+		return "/profile/view";
+	}
+	
+	
+	
 	
 }

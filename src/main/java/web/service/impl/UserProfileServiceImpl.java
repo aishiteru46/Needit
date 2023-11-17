@@ -150,4 +150,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userProfileDao.selectImg(userId);
 	}
 
+
+	@Override
+	public void introduceUpdate(UserPage userPage) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

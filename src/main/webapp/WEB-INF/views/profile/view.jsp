@@ -90,10 +90,42 @@ function confirmAndSubmit(userId) {
 </table>
 
 
+<script>
 
- 	<c:if test="${not empty img}">
-        <img src="/upload/${img.thumbnailName}" alt="User Profile Image">
+
+$(document).ready(function() {
+    $('#uploadForm').click(function(e) {
+        e.preventDefault();
+
+        // FormData 객체 생성
+        var formData = new FormData($(this)[0]);
+
+        // Ajax를 통한 파일 업로드
+        $.ajax({
+            type: 'POST',
+            url: '/profile/imgupdate',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                // 업로드 성공 시 이미지를 바로 갱신
+                $('#profileImage').attr('src', '/upload/' + response.thumbnailName);
+             // 콘솔에 성공 메시지 출력
+                console.log('업로드 성공:', response);
+            },
+            error: function(error) {
+                console.log('Error:', error);
+            }
+        });
+    });
+});
+</script>
+
+<div id="profileImageContainer">
+    <c:if test="${not empty img}">
+        <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
     </c:if>
+</div>
 
 
 
@@ -125,5 +157,22 @@ function confirmAndSubmit(userId) {
     </div>
    </div>
  </div>
+
+
+<div class="container mt-5">
+    <h2>자기소개</h2>
+    
+    <!-- 자기소개글을 입력하는 텍스트박스 -->
+    <form action="./introduce" method="post">
+        <div class="mb-3">
+            <label for="introduce" class="form-label">자기소개글:</label>
+            <textarea class="form-control" id="introduce" name="introduce" rows="5" maxlength="100"  placeholder="여기에 자기소개를 작성해주세요..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">저장</button>
+    </form>
+</div>
+
+
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
