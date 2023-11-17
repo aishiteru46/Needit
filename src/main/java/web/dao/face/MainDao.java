@@ -19,12 +19,14 @@ public interface MainDao {
 
 	/**
 	 * 메인화면 최신 대여해요 게시글 
+	 * 
 	 * @return 사진, 글 제목
 	 */
 	public List<Map<String, Object>> selectRecentRentBoard();
 
 	/**
 	 * 메인화면 최신 나눔해요 게시글 
+	 * 
 	 * @return 사진, 글 제목
 	 */
 	public List<Map<String, Object>> selectRecentShareBoard();
@@ -36,5 +38,21 @@ public interface MainDao {
 	 * @return 계산된 페이지 수 
 	 */
 	public int selectCntAll(Paging param);
+
+	/**
+	 * 메인화면 최신 업체 게시글 
+	 * 
+	 * @return 사진, 글 제목
+	 */
+	public List<Map<String, Object>> selectRecentBusinessBoard();
+
+	/**
+	 * 메인화면 커뮤니티 인기 게시글
+	 * + 추천수 많은 순으로 2개 출력
+	 *  
+	 * @return 글 제목, 글 내용
+	 */
+	public List<Map<String, Object>> selectLikeCommuBoard();
+	
 
 }

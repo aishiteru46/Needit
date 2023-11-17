@@ -34,6 +34,7 @@ public class MainServiceImpl implements MainService {
 	//최신 대여해요 게시글
 	@Override
 	public List<Map<String, Object>> getBoardShareInfo() {
+		
 		return mainDao.selectRecentShareBoard();
 	}
 	
@@ -55,4 +56,16 @@ public class MainServiceImpl implements MainService {
 		return paging;
 	}
 
+	@Override
+	public List<Map<String, Object>> getBusinessInfo() {
+
+		return mainDao.selectRecentBusinessBoard();
+	}
+
+	@Override
+	public List<Map<String, Object>> getCommuByLike() {
+
+		return mainDao.selectLikeCommuBoard();
+	}
+	
 }

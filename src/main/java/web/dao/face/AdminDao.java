@@ -3,6 +3,8 @@ package web.dao.face;
 import java.util.List;
 
 import web.dto.Banner;
+import web.dto.Board;
+import web.dto.FileTb;
 
 public interface AdminDao {
 
@@ -25,6 +27,16 @@ public interface AdminDao {
 	 * @return 사진 저장 배열
 	 */
 	public List<Banner> getStoredName();
+
+	/**
+	 * 게시글 정보를 삽입한다
+	 * 
+	 * @param writeParam - 삽입할 게시글 정보
+	 */
+	public void insertBoard(Board writeParam);
+
+	
+	public void insertFile(FileTb fileTb);
 
 	
 	
