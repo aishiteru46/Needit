@@ -64,7 +64,10 @@
 	height: 300px;
 	float: left;
 	border-radius: 10px;
+	display: table-cell;
+	vertical-align: middle;
 }
+
 
 /* 지도 */
 #MainMap{
@@ -76,11 +79,11 @@
 }
 
 /* hr 위아래 조절 */
-hr{
-	margin-top: 20px;
-	margin-bottom: 20px;
-	border: 1px solid #black;
-}
+/* hr{ */
+/* 	margin-top: 20px; */
+/* 	margin-bottom: 20px; */
+/* 	border: 1px solid #black; */
+/* } */
 
 /* 게시글 제목 */
 #mainTitle{
@@ -147,7 +150,11 @@ hr{
 #MainCommuLikeDiv{
 	margin: 0px -14px 0px 7px;
 	width: 695px;
-	height: 100px;
+	height: 85px;
+}
+#MainCommuLikeHr{
+	position: relative;
+	top: 100px;
 }
 #MainCommuLikeTitle{
 	font-size: 22px;
@@ -163,9 +170,7 @@ hr{
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-#MainCommuLikeMarginStart{
-	margin-top: 15px;
-}
+
 </style>
 
 
@@ -281,7 +286,7 @@ hr{
 <!-- 인기 게시글(추천수) -->
 <div id="MainLike">
 <div id="mainTitleLike">오늘의 인기 게시글</div>
-	<div id="MainCommuLikeMarginStart"></div>
+    <hr id="MainCommuLikeHr">
 	<c:forEach var="commuLike" items="${commuLike}">
 		<div id="MainCommuLikeDiv">
 			<div id="MainCommuLikeTitle">${commuLike.TITLE}</div>

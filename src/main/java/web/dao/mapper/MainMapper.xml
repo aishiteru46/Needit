@@ -105,4 +105,25 @@
 		)
 		WHERE ROWNUM &lt;= 2
  	</select>
+ 	
+ 	<resultMap type="Board" id="Map">
+ 		<result property="boardNo" column="board_no" />
+ 		<result property="menu" column="menu" />
+ 		<result property="cate" column="cate" />
+ 		<result property="writerId" column="writer_id" />
+ 		<result property="writerNick" column="writer_nick" />
+ 		<result property="writerDate" column="writer_date" />
+ 		<result property="hit" column="hit" />
+ 		<result property="title" column="title" />
+ 		<result property="price" column="price" />
+ 		<result property="content" column="content" />
+ 		<result property="location" column="location" />
+ 	</resultMap>
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
  </mapper>

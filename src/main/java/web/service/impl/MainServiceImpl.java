@@ -56,12 +56,14 @@ public class MainServiceImpl implements MainService {
 		return paging;
 	}
 
+	//니딧 인증 업체
 	@Override
 	public List<Map<String, Object>> getBusinessInfo() {
 
 		return mainDao.selectRecentBusinessBoard();
 	}
 
+	//오늘의 인기 게시글
 	@Override
 	public List<Map<String, Object>> getCommuByLike() {
 
