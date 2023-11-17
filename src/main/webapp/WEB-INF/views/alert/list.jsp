@@ -9,17 +9,20 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style type="text/css">
-.alert-back {
-	position: absolute;
-	top: 10px;
-	right: 15px;
-	z-index: 999;
-}
 
 .wrap-alert {
 /* 	top:0px; */
 	width: 100%;
 	height:100%;
+}
+
+.wrap-content {
+	position: absolute;
+	top: 68px;
+ 	left: -1px; 
+	width: 362px;
+	overflow-y: auto;
+	overflow-x: hidden; 
 }
 
 ul {
@@ -59,12 +62,6 @@ li {
 <script type="text/javascript">
 $(function() {
 	
-	$(".alert-back").css("cursor","pointer").click(function () {
-    	$("#alert").css("left", "0px")
-		$("#alert").attr("style", "visibility:hidden")
-    	
-    });
-    
     $(".alertData").click(function() {
 		$.ajax({
 			type: "post"
@@ -89,10 +86,6 @@ $(function() {
 </head>
 <body>
 
-<div class="wrap-alert">
-
-<img class="alert-back" alt="close" src="/resources/img/back.png" width="40px" height="40px">
-
 <div class="wrap-content">
 	<c:forEach var="list" items="${list }">	
 	<ul class="alertData" id="alertData" data-alert="${list.alertNo }">
@@ -116,8 +109,6 @@ $(function() {
 	</ul>
 	</c:forEach>
 </div><!-- .wrap-content  -->
-
-</div><!-- .wrap-alert -->
 
 </body>
 </html>

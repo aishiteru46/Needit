@@ -35,9 +35,10 @@ public class AlertController {
 	@Autowired private AlertService alertService;
 	
 	@RequestMapping("/test")
-	public void test() {
-		
-	}
+	public void test() {}
+
+	@RequestMapping("/test2")
+	public void test2() {}
 	
 	@RequestMapping(value = "/get", consumes = MediaType.ALL_VALUE )
 	@ResponseBody
