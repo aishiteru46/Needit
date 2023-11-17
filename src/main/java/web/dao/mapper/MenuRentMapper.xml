@@ -181,7 +181,7 @@
 	</insert>
 	
 	<!-- 대여 상태 확인 -->
-	<select id="chkRentStatus" resultType="map" parameterType="Rent">
+	<select id="chkRentStatus" resultType="map" parameterType="Board">
 		SELECT 
 			rent_no, board_no, renter_id, rent_status
 			, CAST(rent_date AS DATE) AS rent_date

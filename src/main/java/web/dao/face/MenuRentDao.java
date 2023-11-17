@@ -138,7 +138,7 @@ public interface MenuRentDao {
 	 * 
 	 * @return
 	 */
-	public List<Map<String, Object>> chkRentStatus(Rent rentParam);
+	public List<Map<String, Object>> chkRentStatus(Board board);
 
 
 

@@ -72,7 +72,12 @@ public class MenuRentController {
 		//추천 상태 전달
 		boolean isLike = menuRentService.isLike(like);
 		model.addAttribute("isLike", isLike);
-		model.addAttribute("cntLike", menuRentService.getTotalCntLike(like));		
+		model.addAttribute("cntLike", menuRentService.getTotalCntLike(like));
+		
+		//대여상태 조회
+		List<Map<String, Object>> status = menuRentService.getStatus(board);
+		logger.info("status : {}", status);
+		model.addAttribute("status", status);
 		
 		return "menu/rent/view";
 	}
@@ -96,10 +101,10 @@ public class MenuRentController {
 		//대여신청 대기처리
 		menuRentService.rent(rentParam);
 		
-		//대여상태 조회
-		List<Map<String, Object>> status = menuRentService.getStatus(rentParam);
-		logger.info("status : {}", status);
-		model.addAttribute("status", status);
+//		//대여상태 조회
+//		List<Map<String, Object>> status = menuRentService.getStatus(rentParam);
+//		logger.info("status : {}", status);
+//		model.addAttribute("status", status);
 		
 		return "jsonView";
 	}

@@ -21,7 +21,7 @@
 }
 
 #map-container.expanded {
-    height: 350px; /* Set the height as per your requirement */
+    height: 350px;
 }
 
 #map {
@@ -42,7 +42,6 @@
     border-radius: 10px;
     color: white; 
     background-color: rgb(255,83,63);
-/*     font-weight: bold; */
     font-size: 11px;
     margin-left: 4px;
 }

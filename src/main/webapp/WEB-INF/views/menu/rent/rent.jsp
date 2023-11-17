@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -173,24 +174,37 @@ $(function(){
         return value;
     }
 </script>
-	
+<c:forEach var="statusMap" items="${status}">
+    <script>
+        var startTime = ${statusMap['START_TIME']};
+        var endTime = ${statusMap['END_TIME']};
+        disableOptionsBetween(startTime, endTime);
+    </script>
+</c:forEach>	
 <!-- 대여 시간 -->
 <script type="text/javascript">
 
-function loadRentStatus() {
-	
-}
-
 $(function(){
+	
+	
+	
+    for (var i = 0; i < res.status.length; i++){
+        var startTime = res.status[i].START_TIME;
+        var endTime = res.status[i].END_TIME;
+       	 disableOptionsBetween(startTime, endTime)
+    }
+  	 disableOptionsBetween(startTime, endTime)
+
 	//시간 잘못 선택시 예외처리
 	$("#endTmSelected").change(function () {
 		console.log('endTmSelected 선택됨');
 		
-		let startTime = $("option[name='startTime']:checked").val();
-		let endTime = $("option[name='endTime']:checked").val();
-		
 		if( startTime > endTime && startTime == endTime ){
 			alert('시간을 잘못 선택하셨습니다.');
+
+			var startTime = $("option[name='startTime']:checked").val();
+			var endTime = $("option[name='endTime']:checked").val();
+
 			$("#startTmSelected option:first").prop('selected', true);
 			$("#endTmSelected option:first").prop('selected', true);
 
@@ -220,24 +234,27 @@ $(function(){
             , success: function (res) {
                 console.log("대여신청 성공:", res);
                 
+               // 대여신청 성공 시 알림창 띄우기
+               alert("대여신청이 성공적으로 완료되었습니다.");
                 
                 for (var i = 0; i < res.status.length; i++){
 	                var startTime = res.status[i].START_TIME;
 	                var endTime = res.status[i].END_TIME;
-	                
-	                // 시작 시간과 종료 시간 사이의 옵션을 찾아 비활성화
-	                disableOptionsBetween(startTime, endTime);
-	                
-	                // 대여신청 성공 시 알림창 띄우기
-	                alert("대여신청이 성공적으로 완료되었습니다.");
-	             	
-	                // 페이지 새로고침
-	                location.reload();
+	               	 disableOptionsBetween(startTime, endTime)
                 }
+               	 console.log('대여신청 성공시 값:', startTime, endTime )
+               	 
+               	 
+                // 페이지 새로고침
+                location.reload();
                 
             }
             , error: function (error) {
                 console.error("대여신청 실패:", error);
+                
+                // 대여신청 실패 시 알림창 띄우기
+                alert("대여신청에 오류가 발생했습니다. 다시 신청해주세요.");
+                
             }
         });
     });
@@ -247,15 +264,16 @@ function disableOptionsBetween(startTime, endTime) {
     // 시작 시간과 종료 시간을 숫자로 변환
     startTime = parseInt(startTime);
     endTime = parseInt(endTime);
-
-    // 시작 시간과 종료 시간 사이의 옵션을 찾아 비활성화
-    $("select[name='startTime'] option, select[name='endTime'] option").each(function () {
-        var optionValue = parseInt($(this).val());
-
-        if (optionValue >= startTime && optionValue <= endTime) {
-            $(this).prop("disabled", true);
-        }
-    });
+    
+    console.log(startTime);
+    console.log(endTime);
+    console.log("disableOptionsBetween 실행됨")
+    
+	$("select[name='startTime']").find("option[value='" + startTime + "']").prop("disabled", true);
+	$("select[name='endTime']").find("option[value='" + endTime + "']").prop("disabled", true);
+    
+    console.log('얘 실행되니?');
+		
 }
 </script>
 
@@ -298,7 +316,7 @@ function disableOptionsBetween(startTime, endTime) {
 				            <div style="margin-bottom: 5px;">
 			            	<span>시간 선택</span>
 				            <select id="startTmSelected">
-					            <option name="startTime" value="1"> 00:00 </option>
+					            <option name="startTime" value="1" disabled="disabled"> 00:00 </option>
 					            <option name="startTime" value="2"> 00:30 </option>
 					            <option name="startTime" value="3"> 01:00 </option>
 					            <option name="startTime" value="4"> 01:30 </option>

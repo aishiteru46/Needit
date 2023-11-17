@@ -220,8 +220,8 @@ public class MenuRentServiceImpl implements MenuRentService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getStatus(Rent rentParam) {
-		return menuRentDao.chkRentStatus(rentParam);
+	public List<Map<String, Object>> getStatus(Board board) {
+		return menuRentDao.chkRentStatus(board);
 	}
 
 }
