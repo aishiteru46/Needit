@@ -1,5 +1,10 @@
 package web.controller;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.sql.Clob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -66,16 +71,17 @@ public class MainController {
 		model.addAttribute("businessInfo", listBusiness);
 		
 		//오늘의 인기 게시글
-		//글 내용 불러와야 함
 		List<Map<String, Object>> listCommu = mainService.getCommuByLike();
-		logger.info("메인에 출력할 업체 list : {}", listCommu);
-		model.addAttribute("commuLike", listCommu);
-		
+		logger.info("메인에 출력할 커뮤 list : {}", listCommu);
+		model.addAttribute("commuHit", listCommu);
 		
 		
 		return "main/main";
 	}//@Get main() End.
 	
+	
+    
+    
 	//내 주변지도
 	@GetMapping("/admin/mainpageMap")
 	public String map() {
