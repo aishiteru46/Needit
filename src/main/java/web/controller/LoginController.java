@@ -3,6 +3,7 @@ package web.controller;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -68,11 +69,15 @@ public class LoginController {
 	public void login() {}
 	
 	@PostMapping("/login")
-	public String loginProc( User user, HttpSession session, Board boardParam, String type) {
+	public String loginProc( User user, HttpSession session,HttpServletRequest request, Board boardParam, String type) {
 		logger.info("boardParam.getBoardNo() : {}", boardParam.getBoardNo());
 		logger.info("boardParam.getMenu() : {}", boardParam.getMenu());
 		logger.info("boardParam.getCate() : {}", boardParam.getCate());
 		logger.info("type : {}", type);
+		
+		// 로그인 이전의 URL을 세션에 저장
+        String referer = request.getHeader("Referer");
+        session.setAttribute("originalUrl", referer);
 		
 		boolean islogin = userService.login(user);
 		user = userService.infoNick(user);
@@ -84,26 +89,32 @@ public class LoginController {
 			session.setAttribute("nick", user.getNick());
 			session.setAttribute("addr1", user.getAddr1());
 			
-			if( boardParam.getBoardNo() > 0 ) {
-
-				return"redirect:" + "/" + type + "/view?boardNo="+boardParam.getBoardNo()+"&menu="+boardParam.getMenu()+"&cate="+ boardParam.getCate();
-			} else {
-				
-				return"redirect:/main";
-			}
-			
+			 // 세션에서 로그인 이전의 URL을 가져오기
+            String originalUrl = (String) session.getAttribute("originalUrl");
+            if (originalUrl != null && !originalUrl.contains("/login")) {
+                // 로그인 이전의 URL이 있으면 해당 URL로 리디렉션
+                return "redirect:" + originalUrl;
+            } else {
+                // 로그인 이전의 URL이 없거나 로그인 페이지 자체였다면 기본 페이지로 리디렉션
+                return "redirect:/main";
+            }    
 		} else {
 			logger.info("로그인 실패");
 			return"redirect:./login";
 		}
 		
 	}
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.invalidate();
-		
-		return "redirect:/main";
-	}
+	@PostMapping("/logout")
+	 @ResponseBody
+	    public void logoutPOST(HttpServletRequest request) throws Exception{
+	        
+	        logger.info("비동기 로그아웃 메서드 진입");
+	        
+	        HttpSession session = request.getSession();
+	        
+	        session.invalidate();
+	        
+	    }
 	// mailSending 코드
 	@RequestMapping(value = "mailSender.do", method = RequestMethod.GET)
 	@ResponseBody
