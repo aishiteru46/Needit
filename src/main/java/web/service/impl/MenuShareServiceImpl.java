@@ -273,6 +273,12 @@ public class MenuShareServiceImpl implements MenuShareFace{
 		return false;
 	}
 
+	@Override
+	public void bookStatus() {
+		System.out.println("안녕");
+		
+	}
+
 		
 
 	
