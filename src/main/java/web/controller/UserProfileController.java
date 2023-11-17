@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import web.dto.Booking;
 import web.dto.User;
+import web.dto.UserPage;
 import web.service.face.UserProfileService;
 
 @Controller
@@ -46,6 +47,21 @@ public class UserProfileController {
 
 		List<Booking> list = userProfileService.bookList(book);
 		model.addAttribute("booklist",list);
+		
+		
+		
+		//----------------------------------
+		// 세션에서 사용자 ID 가져오기
+        String userId = (String) session.getAttribute("id");
+        
+        // 사용자의 프로필 이미지 정보 가져오기
+        UserPage userPage = userProfileService.imgSelect(userId);
+        
+        //모델에 이미지 정보 추가
+        model.addAttribute("img", userPage);
+        
+        
+		
 		
 		return "profile/view";
 		

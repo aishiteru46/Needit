@@ -142,4 +142,12 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userProfileDao.selectBookList(book);
 	}
 
+
+	@Override
+	public UserPage imgSelect(String userId) {
+		
+		
+		return userProfileDao.selectImg(userId);
+	}
+
 }

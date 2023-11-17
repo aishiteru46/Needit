@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dto.Booking;
 
 import web.dto.User;
+import web.dto.UserPage;
 
 public interface UserProfileService {
 
@@ -38,6 +39,15 @@ public interface UserProfileService {
 	 * 
 	 */
 	public void imgUpdate(MultipartFile file, String userId);
+
+	
+	/**
+	 * 뷰에 보여줄 회원프로필사진
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public UserPage imgSelect(String userId);
 
 	
 

@@ -26,14 +26,30 @@
  	</select>
   
 	
-	<insert id="updateImg" parameterType="UserPage">
-		<selectKey resultType="int" order="BEFORE" keyProperty="profile_imgno">
-    		SELECT user_page_seq.nextval FROM dual
-    	</selectKey>
-    	INSERT INTO user_page( profile_imgno, origin_name, stored_name, thumbnail_name, file_type)
-    	VALUES( #{profileImgNo}, #{originName}, #{storedName}, #{thumbnailName}, #{fileType} )
-	
+
+
+	<insert id="updateImg" parameterType="map">
+	    <selectKey resultType="int" order="BEFORE" keyProperty="profileImgno">
+	        SELECT user_page_seq.nextval FROM dual
+	    </selectKey>
+	    INSERT INTO user_page( id, grade, business_no, profile_imgno, origin_name, stored_name, thumbnail_name, file_type)
+	    VALUES( #{id}, 0, 0, #{profileImgno}, #{originName}, #{storedName}, #{thumbnailName}, #{fileType} )
 	</insert>
+
+
+	
+	<select id="selectImg" resultType="UserPage" parameterType="String">
+		SELECT id, grade, business_no, intro, profile_imgno, origin_name, stored_name, thumbnail_name, file_type
+		FROM user_page
+        WHERE id = #{userId}
+	</select>
+	
+	
+	
+	
+
+
+
 
 
  </mapper>

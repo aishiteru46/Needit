@@ -9,9 +9,11 @@ public class UserPage {
 	private String grade;
 	private int businessNo;
 	private String intro;
-	private int profileImgNo;
+	private int profileImgno;
 	private String originName;
 	private String storedName;
 	private String thumbnailName;
 	private String fileType;
+	
+	
 }

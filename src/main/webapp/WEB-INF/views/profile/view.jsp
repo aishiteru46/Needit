@@ -91,6 +91,10 @@ function confirmAndSubmit(userId) {
 
 
 
+ 	<c:if test="${not empty img}">
+        <img src="/upload/${img.thumbnailName}" alt="User Profile Image">
+    </c:if>
+
 
 
 <h3>${id}님의 프로필사진</h3>
