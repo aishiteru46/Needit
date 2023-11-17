@@ -11,7 +11,7 @@
 }
 /* footer 1:1문의 버튼 */
 #footer-report-button{
-	margin-left: 5px;
+	margin-left: -6px;
 	width: 80px;
 	height: 30px;
 	border-radius: 5px;

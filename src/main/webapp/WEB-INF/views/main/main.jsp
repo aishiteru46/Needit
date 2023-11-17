@@ -8,7 +8,7 @@
 <style>
 /* 최신 사진 간격 */
 :root{
-	--imgMargin : 3px 0px -2px 2px;
+	--imgMargin : 3.5px 0px -2px 2.6px;
 }
 /* 썸네일 div */
 #Thumbnail{
@@ -58,14 +58,14 @@
 }
 
 /* 오늘의 인기 게시글 */
-#MainLike{
+#MainCommu{
 	border: 1px solid #ccc;
 	width: 695px;
 	height: 300px;
 	float: left;
 	border-radius: 10px;
-	display: table-cell;
-	vertical-align: middle;
+/* 	display: table-cell; */
+/* 	vertical-align: middle; */
 }
 
 
@@ -95,7 +95,7 @@
 	font-weight: bold;
 	line-height: 60px;
 }
-#mainTitleLike{
+#mainTitleHit{
 	border-bottom: 1px solid #ccc;
 	font-size: 30px;
 	text-align: center;
@@ -122,20 +122,20 @@
 
 /* 대여, 나눔해요 썸네일 이미지 */
 #MainThumbnailImg{
-	width: 290px;
+	width: 289px;
 	height: 200px;
 	margin: var(--imgMargin);
 }
 /* 썸네일 사진 없을 때 */
 #MainNoITumbnail{
-	width: 290px;
+	width: 289px;
 	height: 200px;
  	margin: var(--imgMargin);
 	border: 1px solid #ccc;
 }
 /* 대여, 나눔해요 썸네일 제목 */
 #MainThumbnailTitle{
-	width: 290px;
+	width: 289px;
 	height: 25px;
 	text-align: center;
 	font-size: 17px;
@@ -147,28 +147,50 @@
 }
 
 /* 오늘의 인기 게시글 */
-#MainCommuLikeDiv{
-	margin: 0px -14px 0px 7px;
+#MainCommuHitDiv{
+	margin: -30px -14px 60px 7px;
 	width: 695px;
 	height: 85px;
 }
-#MainCommuLikeHr{
+#MainCommuHitHr{
 	position: relative;
 	top: 100px;
 }
-#MainCommuLikeTitle{
+#MainCommuHitTitle{
+	display: block;
 	font-size: 22px;
 	font-weight: bold;
 	overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-	
 }
-#MainCommuLikeContent{
+#MainCommuHitContent{
 	font-size: 18px;
 	overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+.MainCommuHit{
+    display: inline-block;
+    float: right;
+    position: inherit;
+    font-size: 12px;
+    margin-right: 15px;
+    margin-top: 7px;
+    border: 1px solid;
+    border-radius: 5px;
+    width: 82px;
+    height: 21px;
+    text-align: center;
+}
+.lowCount{
+    color: green;
+    border-color: green;
+}
+
+.highCount{
+    color: red;
+    border-color: red;
 }
 
 </style>
@@ -236,7 +258,7 @@
 <div id="MainRent" >
 <div id="mainTitle">최신 대여해요 게시글</div>
 	<c:forEach var="boardRentInfo" items="${boardRentInfo}">
-		<div id="MainTumbnailDiv">
+		<div id="MainTumbnailDiv" class="MainDiv">
 			<c:if test="${not empty boardRentInfo.THUMBNAIL_NAME }">
 				<div><a href="/rent/list?menu=1&cate=1"><img src="/upload/${boardRentInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></a></div>
 			</c:if>
@@ -255,7 +277,7 @@
 	<c:forEach var="boardShareInfo" items="${boardShareInfo}">
 		<div id="MainTumbnailDiv">
 			<c:if test="${not empty boardShareInfo.THUMBNAIL_NAME }">
-				<div><a href="/rent/list?menu=2&cate=1"><img src="/upload/${boardShareInfo.THUMBNAIL_NAME }" id="MainThumbnailImg" ></a></div>
+				<div><a href="/share/list?menu=2&cate=1"><img src="/upload/${boardShareInfo.THUMBNAIL_NAME }" id="MainThumbnailImg" ></a></div>
 			</c:if>
 			<c:if test="${empty boardShareInfo.THUMBNAIL_NAME }">
 				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
@@ -272,7 +294,7 @@
 	<c:forEach var="businessInfo" items="${businessInfo}">
 		<div id="MainTumbnailDiv">
 			<c:if test="${not empty businessInfo.THUMBNAIL_NAME }">
-				<div><a href="/rent/list?menu=5&cate=1"><img src="/upload/${businessInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></a></div>
+				<div><a href="/menu/business?menu=5&cate=1"><img src="/upload/${businessInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></a></div>
 			</c:if>
 			<c:if test="${empty businessInfo.THUMBNAIL_NAME }">			
 				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
@@ -284,16 +306,19 @@
 <hr>
 
 <!-- 인기 게시글(추천수) -->
-<div id="MainLike">
-<div id="mainTitleLike">오늘의 인기 게시글</div>
-    <hr id="MainCommuLikeHr">
-	<c:forEach var="commuLike" items="${commuLike}">
-		<div id="MainCommuLikeDiv">
-			<div id="MainCommuLikeTitle">${commuLike.TITLE}</div>
-			<div id="MainCommuLikeContent">${commuLike.CONTENT}</div>
-		</div><!-- #MainCommuLikeDiv -->
+<div id="MainCommu">
+<div id="mainTitleHit">오늘의 인기 게시글</div>
+    <hr id="MainCommuHitHr">
+	<c:forEach var="commuHit" items="${commuHit}">
+		<div id="MainCommuHitDiv">
+			<a href="/community/list?menu=4&cate=1">
+            <span class="MainCommuHit ${commuHit.HIT lt 100 ? 'lowCount' : 'highCount'}">조회수: ${commuHit.HIT}</span>
+			<span id="MainCommuHitTitle">${commuHit.TITLE}</span>
+			<span id="MainCommuHitContent">${commuHit.CONTENT}</span>
+			</a>
+		</div><!-- #MainCommuHitDiv -->
 	</c:forEach>
-</div><!-- #MainLike -->
+</div><!-- #MainCommu -->
 
 <!-- 주변 지도 -->
 <div id="MainMap">

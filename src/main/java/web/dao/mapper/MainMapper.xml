@@ -91,38 +91,28 @@
 		    menu = 5 AND ROWNUM &lt;= 4
 	</select>
 	
+	<!-- 인기 게시글 CONTENT CLOB -> String -->
+	<resultMap id="egomap" type="map">
+	    <!-- CLOB 데이터를 String으로 매핑 -->
+	    <result property="BOARD_NO" column="BOARD_NO"/>
+	    <result property="TITLE" column="TITLE"/>
+	    <result property="MENU" column="MENU" />
+	    <result property="CONTENT" column="CONTENT" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" />
+	    <result property="LIKE_NO" column="LIKE_NO"/>
+	 
+	    <result property="messagePreview" column="MESSAGE_PREVIEW" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
+	</resultMap>
+	
 	<!-- 커뮤니티 인기 게시글 -->
-	<select id="selectLikeCommuBoard" resultType="Map">
-		SELECT board_no, title, menu, content, like_no
+	<select id="selectLikeCommuBoard" resultMap="egomap">
+		SELECT board_no, title, menu, content, hit
 		FROM (
-		    SELECT B.board_no, B.title, B.menu, B.content,
-		        (SELECT COUNT(like_no)
-		         FROM liketb L
-		         WHERE L.board_no = B.board_no) AS like_no
-		    FROM board B
-		    WHERE B.menu = 4
-		    ORDER BY like_no DESC
+		    SELECT board_no, title, menu, content, hit
+		    FROM board
+		    ORDER BY hit DESC
 		)
 		WHERE ROWNUM &lt;= 2
  	</select>
- 	
- 	<resultMap type="Board" id="Map">
- 		<result property="boardNo" column="board_no" />
- 		<result property="menu" column="menu" />
- 		<result property="cate" column="cate" />
- 		<result property="writerId" column="writer_id" />
- 		<result property="writerNick" column="writer_nick" />
- 		<result property="writerDate" column="writer_date" />
- 		<result property="hit" column="hit" />
- 		<result property="title" column="title" />
- 		<result property="price" column="price" />
- 		<result property="content" column="content" />
- 		<result property="location" column="location" />
- 	</resultMap>
- 	
- 	
- 	
- 	
  	
  	
  	
