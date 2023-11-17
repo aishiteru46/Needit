@@ -76,7 +76,7 @@
 	<!-- 스프링 컴포넌트를 탐색할 패키지를 설정한다 -->
 	<!-- 	@Controller, @Service, @Repository가 적용된 클래스를
 			스프링 빈으로 등록하고 컴포넌트 역할에 맞게 사용할 준비를 한다 -->
-	<context:component-scan base-package="needit.project.opening, web.controller, web.service, web.dao, web.util, web.scheduler.task, web.scheduler.dao" />
+	<context:component-scan base-package="needit.project.opening, web.controller, web.service, web.dao, web.util, web.scheduler.task.BookCheckDao, web.scheduler.dao" />
 	
 	
 
