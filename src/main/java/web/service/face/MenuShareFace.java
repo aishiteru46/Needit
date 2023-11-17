@@ -135,6 +135,8 @@ public interface MenuShareFace {
 	public boolean checkBook(Booking book);
 
 	public boolean checkBooking(Booking book);
+
+	public void bookStatus();
 	
 	
 	
