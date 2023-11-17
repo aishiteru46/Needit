@@ -62,7 +62,7 @@ function confirmAndSubmit(userId) {
 <h3>${id}님의 프로필사진</h3>
   <div class="panel panel-default">
     <div class="panel-body">
-      <form action="${contextPath}/profile/imgupdate" method="post" enctype="multipart/form-data">
+      <form action="./imgupdate" method="post" enctype="multipart/form-data">
          <input type="hidden" name="id" value="${id}"/>
          <table class="table table-bordered" style="text-align: center; border: 1px solid #dddddd;">
            <tr>
@@ -73,7 +73,7 @@ function confirmAndSubmit(userId) {
              <td style="width: 110px; vertical-align: middle;">사진 업로드</td>
              <td colspan="2">
                <span class="btn btn-default">
-                 이미지를 업로드하세요.<input type="file" name="fileno"/>
+                 이미지를 업로드하세요.<input type="file" name="file"/>
                </span>
              </td>            
            </tr>      

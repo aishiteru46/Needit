@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import web.dto.User;
@@ -85,28 +86,24 @@ public class UserProfileController {
 	
 	
 	
-	@RequestMapping("/imgupdate")
-	public String imgUpdate(
-			HttpServletRequest req
-			, HttpSession session
-			, RedirectAttributes rttr
-			, Model model
-			) {
+	@GetMapping("/imgupdate")
+	public String imgUpdate() {
+		
+		return "/profile/view";
+		
+	}
+	
+	
+	@PostMapping("/imgupdate")
+	public String imgUpdateProc(@RequestParam("file") MultipartFile file, HttpSession session) {
+		// 사용자 ID 가져오기
+        String userId = (String) session.getAttribute("id");
+        
+        // 프로필 사진 업로드 및 데이터베이스에 저장
+        userProfileService.imgUpdate(file, userId);
 		
 		
-		String id = (String) session.getAttribute("id");
-		model.addAttribute("id", id);
-		
-		
-		
-		
-		
-		
-		
-	return "/profile/view";
-		
-		
-		
+		return "/profile/view";
 		
 	}
 	

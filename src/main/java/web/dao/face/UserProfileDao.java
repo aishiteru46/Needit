@@ -1,6 +1,8 @@
 package web.dao.face;
 
+import web.dto.FileTb;
 import web.dto.User;
+import web.dto.UserPage;
 
 public interface UserProfileDao {
 
@@ -19,6 +21,20 @@ public interface UserProfileDao {
 	 * @param userId
 	 */
 	public void deleteUser(String userId);
+
+
+	/**
+	 * 회원프로필사진
+	 * 
+	 * @param userPage
+	 */
+	public void updateImg(UserPage userPage);
+
+
+
+
+
+	
 
 
 	

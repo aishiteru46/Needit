@@ -1,5 +1,7 @@
 package web.service.face;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import web.dto.User;
 
 public interface UserProfileService {
@@ -18,6 +20,12 @@ public interface UserProfileService {
 	 * @param userId
 	 */
 	public void userDelete(String userId);
+
+	/*
+	 * 회원프로필사진
+	 * 
+	 */
+	public void imgUpdate(MultipartFile file, String userId);
 
 	
 

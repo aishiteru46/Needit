@@ -21,5 +21,15 @@
  		WHERE id = #{id}
  	</delete>
   
+	
+	<insert id="updateImg" parameterType="UserPage">
+		<selectKey resultType="int" order="BEFORE" keyProperty="profile_imgno">
+    		SELECT user_page_seq.nextval FROM dual
+    	</selectKey>
+    	INSERT INTO user_page( profile_imgno, origin_name, stored_name, thumbnail_name, file_type)
+    	VALUES( #{profileImgNo}, #{originName}, #{storedName}, #{thumbnailName}, #{fileType} )
+	
+	</insert>
+
 
  </mapper>

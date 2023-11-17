@@ -6,9 +6,12 @@ import lombok.Data;
 public class UserPage {
 	
 	private String id;
-	private int fileNo;
 	private String grade;
 	private int businessNo;
 	private String intro;
-	
+	private int profileImgNo;
+	private String originName;
+	private String storedName;
+	private String thumbnailName;
+	private String fileType;
 }
