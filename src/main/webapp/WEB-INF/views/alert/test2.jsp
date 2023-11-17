@@ -99,7 +99,7 @@
 
 $(function() {
 	hasNew() //페이지 로드 시 'hashNew' 함수를 호출하여 새로운 알림을 확인
-	loadAlert() 	
+	
 	var urlEndPoint = "/alert/get?id=" + "${id}" //Sse세션 생성 시 접속한 세션의 id를 보내준다
 	var eventSource = new EventSource(urlEndPoint) //SSE를 위한 'EventSource'를 생성
 	console.log(urlEndPoint)
@@ -150,6 +150,7 @@ function hasNew() { // 새로운 알림 확인 함수
 } // hasNew 함수 끝
 
 function loadAlert() { // 알림을 로드하는 함수
+	
     $.ajax({
         type: "get"
         , url: "/alert/list"
@@ -157,6 +158,7 @@ function loadAlert() { // 알림을 로드하는 함수
         , dataType: "html"
         , success: function( res ) { // Alert객체를 받아넣어준 list JSP를 HTML 타입으로 불러온다
            console.log("AJAX 성공")
+           console.log("불러온 list : ",  res )
 			$("#alert").html(res)
         }
         , error: function() {
@@ -175,7 +177,7 @@ function loadAlert() { // 알림을 로드하는 함수
 
 <form action="/alert/sendnotification" method="post">
 	<label for="id">알림받는사람</label>
-	<input type="text" name="id" placeholder="사용자 아이디" value="${id }">
+	<input type="text" name="id" placeholder="사용자 아이디" value="joohyunlove">
 	<select name="menu">
 		<option value="1">대여</option>
 		<option value="2">나눔</option>
