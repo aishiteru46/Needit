@@ -127,12 +127,18 @@ public interface MenuRentDao {
 	public void deleteComment(Comment commentDelete);
 
 	/**
-	 * 
+	 * 대여 신청하기
 	 * 
 	 * @param rentParam
-	 * @return - 1-대여, 0-대여실패
 	 */
 	public void makeRent(Rent rentParam);
+
+	/**
+	 * 대여신청 상태 조회
+	 * 
+	 * @return
+	 */
+	public Rent chkRentStatus(Rent rentParam);
 
 
 

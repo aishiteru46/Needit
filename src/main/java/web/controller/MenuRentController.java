@@ -90,12 +90,15 @@ public class MenuRentController {
 
 	//대여 처리
 	@PostMapping("/rent")
-	public String rent( Rent rentParam ) {
+	public String rent( Rent rentParam, Model model ) {
 		logger.info("rentParam {}", rentParam);
 		
-		
+		//대여신청 대기처리
 		menuRentService.rent(rentParam);
-	
+		
+		//대여상태 조회
+		Rent status = menuRentService.getStatus(rentParam);
+		
 		return "jsonView";
 	}
 	

@@ -116,6 +116,7 @@ public class MenuRentServiceImpl implements MenuRentService {
 	         
 	         //원본 파일을 압축할 파일명 변수에 대입
 	         BufferedImage bufOriginImage = ImageIO.read(dest);
+	         
 	         //압축될 파일의 ('넓이', '높이', '생성될 이미지의 타입') 지정->원하는 크기로 지정가능
 	         BufferedImage bufPressImage = new BufferedImage(500, 500, BufferedImage.TYPE_3BYTE_BGR);
 	         
@@ -216,6 +217,11 @@ public class MenuRentServiceImpl implements MenuRentService {
 	@Override
 	public void rent(Rent rentParam) {
 		menuRentDao.makeRent(rentParam);
+	}
+
+	@Override
+	public Rent getStatus(Rent rentParam) {
+		return menuRentDao.chkRentStatus(rentParam);
 	}
 
 }
