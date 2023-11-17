@@ -220,7 +220,7 @@ public class MenuRentServiceImpl implements MenuRentService {
 	}
 
 	@Override
-	public Rent getStatus(Rent rentParam) {
+	public List<Map<String, Object>> getStatus(Rent rentParam) {
 		return menuRentDao.chkRentStatus(rentParam);
 	}
 
