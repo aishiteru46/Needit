@@ -109,9 +109,9 @@ $(function() {
 			<c:if test="${list.content eq 1 }">승인 완료 됐습니다.</c:if>
 			<c:if test="${list.content eq 2 }">승인 요청 중입니다.</c:if>
 			<c:if test="${list.content eq 3 }">승인 취소 됐습니다.</c:if>
-			<c:if test="${list.content eq 4 }">${list.senderId } 님이 댓글을 남겼습니다.</c:if>
-			<c:if test="${list.content eq 5 }">${list.senderId } 님에게 새로운 메세지가 왔습니다.</c:if>
-			<c:if test="${list.content eq 6 }">${list.senderId } 님이 추천 하였습니다.</c:if>
+			<c:if test="${list.content eq 4 }">${list.sender } 님이 댓글을 남겼습니다.</c:if>
+			<c:if test="${list.content eq 5 }">${list.sender } 님에게 새로운 메세지가 왔습니다.</c:if>
+			<c:if test="${list.content eq 6 }">${list.sender } 님이 추천 하였습니다.</c:if>
 		</li>
 	</ul>
 	</c:forEach>

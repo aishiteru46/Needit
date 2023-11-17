@@ -34,6 +34,11 @@ public class AlertController {
 	
 	@Autowired private AlertService alertService;
 	
+	@RequestMapping("/test")
+	public void test() {
+		
+	}
+	
 	@RequestMapping(value = "/get", consumes = MediaType.ALL_VALUE )
 	@ResponseBody
     public SseEmitter getNotification( HttpSession session ) { // 유저가 로그인 시 알림을 불러오기 위한 SSE연결
