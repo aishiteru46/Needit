@@ -2,6 +2,8 @@ package web.service.face;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import web.dto.Booking;
 
 import web.dto.User;
