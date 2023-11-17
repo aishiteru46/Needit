@@ -1,5 +1,7 @@
 package web.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import web.dto.Booking;
 import web.dto.User;
 import web.service.face.UserProfileService;
 
@@ -28,9 +31,26 @@ public class UserProfileController {
 	
 	
 	@GetMapping("")
-	public String profile() {
+	public String profile( ) {
 		
-		return "redirect:/profile/imgupdate";
+		
+		
+		return "redirect:/profile/view";
+	}
+	
+	@RequestMapping("/view")
+	public String profileView(Booking book, Model model
+			, HttpSession session) {
+		
+		book.setBookerId((String)session.getAttribute("id"));
+
+		List<Booking> list = userProfileService.bookList(book);
+		model.addAttribute("booklist",list);
+		
+		return "profile/view";
+		
+		
+		
 	}
 	
 	
@@ -80,19 +100,11 @@ public class UserProfileController {
 	    }
 	}
 	
-	
-	
-	
-	
-	
-	
 	@GetMapping("/imgupdate")
 	public String imgUpdate() {
 		
 		return "/profile/view";
-		
 	}
-	
 	
 	@PostMapping("/imgupdate")
 	public String imgUpdateProc(@RequestParam("file") MultipartFile file, HttpSession session) {
@@ -101,11 +113,10 @@ public class UserProfileController {
         
         // 프로필 사진 업로드 및 데이터베이스에 저장
         userProfileService.imgUpdate(file, userId);
-		
-		
+
 		return "/profile/view";
-		
 	}
+	
 	
 
 	

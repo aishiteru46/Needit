@@ -82,6 +82,9 @@
         font-weight: 600;
         cursor: pointer;
     }
+    ,time {
+    	float:left;
+    }
 </style>
 
 <script type="text/javascript">
@@ -187,9 +190,16 @@ $(function(){
     }
 $(function(){
 	
-    $("selectedTime").click(function(){
-    	$("input[name='bookTime']:checked").val();
-    })
+    $("input[name='bookStartTime']").click(function () {
+        // 클릭한 체크박스의 value 값을 가져와서 콘솔에 출력
+        let startTime = $(this).val();
+        console.log("시작시간" + startTime);
+    });
+    $("input[name='bookEndTime']").click(function () {
+        // 클릭한 체크박스의 value 값을 가져와서 콘솔에 출력
+        let endTime = $(this).val();
+        console.log("끝시간" + endTime);
+    });
 })
     
     
@@ -197,38 +207,36 @@ $(function(){
 
  <!-- 예약하기 버튼 -->
 <script type="text/javascript">
-$(function(){
-	 $.ajax({
-         type: "get",
-         url: "/share/book",
-         data: {},
-         success: function (res) {
-             console.log("서버 응답:", res);
-             if(res){
-             	var target = $("input[name='bookTime']").val();
-             	$("input[id='" + target + "']").prop("disabled", true);
-             }else{
-             	var target = $("input[name='bookTime']").val();
-             	$("input[id='" + target + "']").prop("disabled", false);
-             }
-             
- 			
-             $("#bookTime").val("");
-         },
-         error: function (error) {
-             console.error("에러 발생:", error);
-         }
-     });
-
-});
 
 $(function() {
+	
+	function middleTime(startTime, endTime) {
+	    const middleStartTime = parseInt($("#selectStartTime option[name='startTime']:selected").val(), 10);
+	    const middleEndTime = parseInt($("#selectEndTime option[name='endTime']:selected").val(), 10);
+	    // 선택한 시간 범위가 중간 시간대와 겹치면 true 반환
+	    const result = startTime < middleEndTime || endTime > middleStartTime;
+	    
+	    if (result) {
+	        console.log(result);
+	        return true;
+	    }
+	    
+	    console.log(result);
+	    return false;
+	}
+    
     // 예약하기 버튼 클릭 시
     $("#submitBtn").click(function () {
         let selectedDate = $("#selectedDate").val();
         let selectedTime = $("input[name='bookTime']:checked").val();
+        let startTime = $("option[name='startTime']:checked").val();
+        let endTime = $("option[name='endTime']:checked").val();
         var boardNo = ${param.boardNo};
-
+ 
+        if (middleTime(startTime, endTime)) {
+            alert("이미 예약된 시간입니다.");
+            return;
+        }
         	
             $.ajax({
                 type: "post",
@@ -236,7 +244,9 @@ $(function() {
                 data: {
                     bookDate: new Date(parseInt(selectedDate)),
                     bookTime: selectedTime,
-                    boardNo: boardNo
+                    boardNo: boardNo,
+                    startTime : parseInt(startTime),
+                    endTime : parseInt(endTime)
                 },
                 success: function (res) {
                     console.log("서버 응답:", res);
@@ -253,7 +263,6 @@ $(function() {
                     console.error("에러 발생:", error);
                 }
             });
-
     });
 });
 
@@ -289,23 +298,116 @@ $(function() {
     </div><br><br>
     
     <!-- 예약 시간을 선택하는 폼 -->
-    <form action="/share/book" method="post">
-        <div style="display: none;" id="time">
+        <div style="display: none;" id="time" class="float-left">
             <span>예약 시간</span>
-            <p>${check }</p>
-            <p><input type="checkbox" name="bookTime" id="1" value="1">8 : 00 ~ 10: 00 </p>
-            <p><input type="checkbox" name="bookTime" id="2" value="2">10 : 00 ~ 12: 00 </p>
-            <p><input type="checkbox" name="bookTime" id="3" value="3">12 : 00 ~ 02: 00 </p>
-            <p><input type="checkbox" name="bookTime" id="4" value="4">02 : 00 ~ 04: 00 </p>
-            <p><input type="checkbox" name="bookTime" id="5" value="5">04 : 00 ~ 06: 00 </p>
-            <p><input type="checkbox" name="bookTime" id="6" value="6">08 : 00 ~ 10: 00 </p>
-            <p><input type="checkbox" name="bookTime" id="7"value="7">10 : 00 ~ 12: 00 </p>
+                      <select id="selectStartTime">
+                          <option name="startTime" value="1"> 00:00 </option>
+                          <option name="startTime" value="2"> 00:30 </option>
+                          <option name="startTime" value="3"> 01:00 </option>
+                          <option name="startTime" value="4"> 01:30 </option>
+                          <option name="startTime" value="5"> 02:00 </option>
+                          <option name="startTime" value="6"> 02:30 </option>
+                          <option name="startTime" value="7"> 03:00 </option>
+                          <option name="startTime" value="8"> 03:30 </option>
+                          <option name="startTime" value="9"> 04:00 </option>
+                          <option name="startTime" value="10"> 04:30 </option>
+                          <option name="startTime" value="11"> 05:00 </option>
+                          <option name="startTime" value="12"> 05:30 </option>
+                          <option name="startTime" value="13"> 06:00 </option>
+                          <option name="startTime" value="14"> 06:30 </option>
+                          <option name="startTime" value="15"> 07:00 </option>
+                          <option name="startTime" value="16"> 07:30 </option>
+                          <option name="startTime" value="17"> 08:00 </option>
+                          <option name="startTime" value="18"> 08:30 </option>
+                          <option name="startTime" value="19"> 09:00 </option>
+                          <option name="startTime" value="20"> 09:30 </option>
+                          <option name="startTime" value="21"> 10:00 </option>
+                          <option name="startTime" value="22"> 10:30 </option>
+                          <option name="startTime" value="23"> 11:00 </option>
+                          <option name="startTime" value="24"> 11:30 </option>
+                          <option name="startTime" value="25"> 12:00 </option>
+                          <option name="startTime" value="26"> 12:30 </option>
+                          <option name="startTime" value="27"> 13:00 </option>
+                          <option name="startTime" value="28"> 13:30 </option>
+                          <option name="startTime" value="29"> 14:00 </option>
+                          <option name="startTime" value="30"> 14:30 </option>
+                          <option name="startTime" value="31"> 15:00 </option>
+                          <option name="startTime" value="32"> 15:30 </option>
+                          <option name="startTime" value="33"> 16:00 </option>
+                          <option name="startTime" value="34"> 16:30 </option>
+                          <option name="startTime" value="35"> 17:00 </option>
+                          <option name="startTime" value="36"> 17:30 </option>
+                          <option name="startTime" value="37"> 18:00 </option>
+                          <option name="startTime" value="38"> 18:30 </option>
+                          <option name="startTime" value="39"> 19:00 </option>
+                          <option name="startTime" value="40"> 19:30 </option>
+                          <option name="startTime" value="41"> 20:00 </option>
+                          <option name="startTime" value="42"> 20:30 </option>
+                          <option name="startTime" value="43"> 21:00 </option>
+                          <option name="startTime" value="44"> 21:30 </option>
+                          <option name="startTime" value="45"> 22:00 </option>
+                          <option name="startTime" value="46"> 22:30 </option>
+                          <option name="startTime" value="47"> 23:00 </option>
+                          <option name="startTime" value="48"> 23:30 </option>
+                       </select>
+                       <p style="display: inline;"> ~ </p>
+                       <select id="selectEndTime">
+                          <option name="endTime" value="1"> 00:00 </option>
+                          <option name="endTime" value="2"> 00:30 </option>
+                          <option name="endTime" value="3"> 01:00 </option>
+                          <option name="endTime" value="4"> 01:30 </option>
+                          <option name="endTime" value="5"> 02:00 </option>
+                          <option name="endTime" value="6"> 02:30 </option>
+                          <option name="endTime" value="7"> 03:00 </option>
+                          <option name="endTime" value="8"> 03:30 </option>
+                          <option name="endTime" value="9"> 04:00 </option>
+                          <option name="endTime" value="10"> 04:30 </option>
+                          <option name="endTime" value="11"> 05:00 </option>
+                          <option name="endTime" value="12"> 05:30 </option>
+                          <option name="endTime" value="13"> 06:00 </option>
+                          <option name="endTime" value="14"> 06:30 </option>
+                          <option name="endTime" value="15"> 07:00 </option>
+                          <option name="endTime" value="16"> 07:30 </option>
+                          <option name="endTime" value="17"> 08:00 </option>
+                          <option name="endTime" value="18"> 08:30 </option>
+                          <option name="endTime" value="19"> 09:00 </option>
+                          <option name="endTime" value="20"> 09:30 </option>
+                          <option name="endTime" value="21"> 10:00 </option>
+                          <option name="endTime" value="22"> 10:30 </option>
+                          <option name="endTime" value="23"> 11:00 </option>
+                          <option name="endTime" value="24"> 11:30 </option>
+                          <option name="endTime" value="25"> 12:00 </option>
+                          <option name="endTime" value="26"> 12:30 </option>
+                          <option name="endTime" value="27"> 13:00 </option>
+                          <option name="endTime" value="28"> 13:30 </option>
+                          <option name="endTime" value="29"> 14:00 </option>
+                          <option name="endTime" value="30"> 14:30 </option>
+                          <option name="endTime" value="31"> 15:00 </option>
+                          <option name="endTime" value="32"> 15:30 </option>
+                          <option name="endTime" value="33"> 16:00 </option>
+                          <option name="endTime" value="34"> 16:30 </option>
+                          <option name="endTime" value="35"> 17:00 </option>
+                          <option name="endTime" value="36"> 17:30 </option>
+                          <option name="endTime" value="37"> 18:00 </option>
+                          <option name="endTime" value="38"> 18:30 </option>
+                          <option name="endTime" value="39"> 19:00 </option>
+                          <option name="endTime" value="40"> 19:30 </option>
+                          <option name="endTime" value="41"> 20:00 </option>
+                          <option name="endTime" value="42"> 20:30 </option>
+                          <option name="endTime" value="43"> 21:00 </option>
+                          <option name="endTime" value="44"> 21:30 </option>
+                          <option name="endTime" value="45"> 22:00 </option>
+                          <option name="endTime" value="46"> 22:30 </option>
+                          <option name="endTime" value="47"> 23:00 </option>
+                          <option name="endTime" value="48"> 23:30 </option>
+                       </select>
+            
+	            <button>승인요청</button>
 		    <button type="button" name="submitBtn" id="submitBtn">예약하기</button>
         </div>
         
         <!-- 선택한 날짜를 저장할 hidden input -->
         <input type="hidden" name="selectedDate" id="selectedDate" >
-    </form>
 
     <!-- 예약하기 버튼 -->
 </body>

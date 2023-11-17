@@ -176,13 +176,19 @@
 	
 	<!-- 대여 처리 -->
 	<insert id="makeRent" parameterType="Rent">
-		INSERT INTO rent ( rent_no, board_no, renter_id, rent_status, rent_date, rent_time )
-		VALUES ( rent_seq.nextval, #{boardNo }, #{renterId }, #{rentStatus }, #{rentDate }, #{rentTime } )
+		INSERT INTO rent ( rent_no, board_no, renter_id, rent_status, rent_date, start_time, end_time )
+		VALUES ( rent_seq.nextval, #{boardNo }, #{renterId }, #{rentStatus }, #{rentDate }, #{startTime }, #{endTime } )
 	</insert>
 	
 	<!-- 대여 상태 확인 -->
-	<select id="chkRent" parameterType="Rent">
-		
+	<select id="chkRentStatus" resultType="Rent" parameterType="Rent">
+		SELECT 
+			rent_no,board_no,renter_id,rent_status
+			,rent_date,start_time,end_time
+		FROM rent
+		<where>
+			board_no = #{boardNo}
+		</where>
 	</select>
 
 </mapper>

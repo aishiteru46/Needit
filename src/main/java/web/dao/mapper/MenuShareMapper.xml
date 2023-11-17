@@ -193,15 +193,16 @@
 	
 	<!-- 예약 정보 -->
 	<insert id="makeBook" parameterType="Booking">
-	INSERT INTO booking( book_no, book_status, book_date, board_no, booker_id , book_time)
-	VALUES ( booking_seq.nextval, '1' , #{bookDate}, #{boardNo}, #{bookerId}, #{bookTime})
+	INSERT INTO booking( book_no, book_status, book_date, board_no, booker_id , start_time, end_time)
+	VALUES ( booking_seq.nextval, '1' , #{bookDate}, #{boardNo}, #{bookerId}, #{startTime}, #{endTime})
 	</insert>
 	
 	<select id="checkBook" resultType="int" parameterType="Booking">
 		SELECT count(*) FROM booking
 		<where>
 			AND book_date = #{bookDate}
-			AND book_time = #{bookTime}
+			AND start_time = #{startTime}
+			AND end_time = #{endTime}
 		</where>
 	
 	</select>

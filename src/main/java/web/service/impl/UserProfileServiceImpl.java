@@ -18,7 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.UserProfileDao;
-import web.dto.FileTb;
+
+import web.dto.Booking;
 import web.dto.User;
 import web.dto.UserPage;
 import web.service.face.UserProfileService;
@@ -134,18 +135,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 	    userProfileDao.updateImg(userPage);
 		
 		
+	}	
+
+	public List<Booking> bookList(Booking book) {
 		
+		return userProfileDao.selectBookList(book);
 	}
 
-
-	
-
-	
-
-	
-	
-	
-	
-	
-	
 }

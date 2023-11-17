@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Banner;
+import web.dto.Board;
 import web.dto.Report;
 import web.service.face.AdminService;
 
@@ -118,9 +119,22 @@ public class AdminController {
 	}
 	
 	
-	//관리자 공지등록 
+	//관리자 공지조회
 	@GetMapping("/admin/noticeUpdate")
 	public void noticeUpdate() {}
+	
+	//관리자 공지등록
+	@PostMapping("/admin/noticeUpdate")
+	public String noticeUpdateProc(Board writeParam, List<MultipartFile> file, HttpSession session) {
+		
+		writeParam.setWriterId((String) session.getAttribute("id"));
+		
+		adminService.write(writeParam, file);
+		
+		return "redirect:/admin/noticeUpdate";
+	}
+	
+	
 	
 	//관리자 회원이메일 발송 
 	@GetMapping("/admin/emailSend")

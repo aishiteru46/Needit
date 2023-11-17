@@ -7,7 +7,7 @@
 @import url('https://fonts.googleapis.com/css?family=Questrial&display=swap');
 
 .modal {
-	--bs-modal-width: 395px;
+	--bs-modal-width: 560px;
 }
 
 .Calendar {
@@ -58,7 +58,7 @@
 
 .futureDay.choiceDay,
 .today.choiceDay {
-    background: #0A174E;
+    background: rgb(255,83,63);
     color: #fff;
     font-weight: 600;
     cursor: pointer;
@@ -83,6 +83,7 @@ $(function(){
         $("#selectedDate").val(fullDate.getTime());
 
         $("#time").show();
+//         $("#endTime").show();
     });
 })
 </script>
@@ -175,13 +176,35 @@ $(function(){
 	
 <!-- 대여 시간 -->
 <script type="text/javascript">
+
+function loadRentStatus() {
+	
+}
+
 $(function(){
-    // 대여하기 버튼 클릭 시 서버로 전송
+	//시간 잘못 선택시 예외처리
+	$("#endTmSelected").change(function () {
+		console.log('endTmSelected 선택됨');
+		
+		let startTime = $("option[name='startTime']:checked").val();
+		let endTime = $("option[name='endTime']:checked").val();
+		
+		if( startTime >= endTime ){
+			alert('시간을 잘못 선택하셨습니다.');
+			$("#startTmSelected option:first").prop('selected', true);
+			$("#endTmSelected option:first").prop('selected', true);
+
+			$("#startTmSelected").focus();
+		}
+	});
+
+	// 대여신청 버튼 클릭 시 서버로 전송
     $("#makeRent").click(function () {
         let selectedDate = $("#selectedDate").val();
-        let selectedTime = $("input[name='time']:checked").val();
+        let startTime = $("option[name='startTime']:checked").val();
+        let endTime = $("option[name='endTime']:checked").val();
 
-        // 예약 정보를 서버로 전송
+        // 대여신청 정보를 서버로 전송
         $.ajax({
             type: "POST",
             url: "/rent/rent"
@@ -189,15 +212,16 @@ $(function(){
             	boardNo: "${board.boardNo }",
             	renterId: "${id }",
             	rentDate: new Date(parseInt(selectedDate)),
-                rentTime: selectedTime,
+            	startTime: startTime,
+                endTime: endTime,
                 rentStatus : 1
             }
-            // 예약 성공 시 추가 작업 수행
+            // 대여신청 성공 시 추가 작업 수행
             , success: function (res) {
-                console.log("서버 응답:", res);
+                console.log("대여신청 성공:", res);
             }
             , error: function (error) {
-                console.error("에러 발생:", error);
+                console.error("대여신청 실패:", error);
             }
         });
     });
@@ -229,16 +253,9 @@ $(function(){
 				                    <td onClick="nextCalendar();" style="cursor:pointer;">&#62;</td>
 				                </tr>
 				                <tr>
-				                    <td>일</td>
-				                    <td>월</td>
-				                    <td>화</td>
-				                    <td>수</td>
-				                    <td>목</td>
-				                    <td>금</td>
-				                    <td>토</td>
+				                    <td>일</td><td>월</td><td>화</td><td>수</td><td>목</td><td>금</td><td>토</td>
 				                </tr>
 				            </thead>
-				
 				            <tbody>
 				            </tbody>
 				        </table>
@@ -248,58 +265,109 @@ $(function(){
 				    <form>
 				        <div style="display: none;" id="time">
 				            <div style="margin-bottom: 5px;">
-			            	<span>대여 시간</span>
-				            <select>
-					            <option name="time" value="1" disabled="disabled"> 00:00 ~ 00:30 </option>
-					            <option name="time" value="2"> 00:30 ~ 01:00 </option>
-					            <option name="time" value="3"> 01:00 ~ 01:30 </option>
-					            <option name="time" value="4"> 01:30 ~ 02:00 </option>
-					            <option name="time" value="5"> 02:00 ~ 02:30 </option>
-					            <option name="time" value="6"> 02:30 ~ 03:00 </option>
-					            <option name="time" value="7"> 03:00 ~ 03:30 </option>
-					            <option name="time" value="8"> 03:30 ~ 04:00 </option>
-					            <option name="time" value="9"> 04:00 ~ 04:30 </option>
-					            <option name="time" value="10"> 04:30 ~ 05:00 </option>
-					            <option name="time" value="11"> 05:00 ~ 05:30 </option>
-					            <option name="time" value="12"> 05:30 ~ 06:00 </option>
-					            <option name="time" value="13"> 06:00 ~ 06:30 </option>
-					            <option name="time" value="14"> 06:30 ~ 07:00 </option>
-					            <option name="time" value="15"> 07:00 ~ 07:30 </option>
-					            <option name="time" value="16"> 07:30 ~ 08:00 </option>
-					            <option name="time" value="17"> 08:00 ~ 08:30 </option>
-					            <option name="time" value="18"> 08:30 ~ 09:00 </option>
-					            <option name="time" value="19"> 09:00 ~ 09:30 </option>
-					            <option name="time" value="20"> 09:30 ~ 10:00 </option>
-					            <option name="time" value="21"> 10:00 ~ 10:30 </option>
-					            <option name="time" value="22"> 10:30 ~ 11:00 </option>
-					            <option name="time" value="23"> 11:00 ~ 11:30 </option>
-					            <option name="time" value="24"> 11:30 ~ 12:00 </option>
-					            <option name="time" value="25"> 12:00 ~ 12:30 </option>
-					            <option name="time" value="26"> 12:30 ~ 13:00 </option>
-					            <option name="time" value="27"> 13:00 ~ 13:30 </option>
-					            <option name="time" value="28"> 13:30 ~ 13:00 </option>
-					            <option name="time" value="29"> 14:00 ~ 13:30 </option>
-					            <option name="time" value="30"> 14:30 ~ 13:00 </option>
-					            <option name="time" value="31"> 15:00 ~ 13:30 </option>
-					            <option name="time" value="32"> 15:30 ~ 13:00 </option>
-					            <option name="time" value="33"> 16:00 ~ 13:30 </option>
-					            <option name="time" value="34"> 16:30 ~ 13:00 </option>
-					            <option name="time" value="35"> 17:00 ~ 13:30 </option>
-					            <option name="time" value="36"> 17:30 ~ 13:00 </option>
-					            <option name="time" value="37"> 18:00 ~ 13:30 </option>
-					            <option name="time" value="38"> 18:30 ~ 13:00 </option>
-					            <option name="time" value="39"> 19:00 ~ 13:30 </option>
-					            <option name="time" value="40"> 19:30 ~ 13:00 </option>
-					            <option name="time" value="41"> 20:00 ~ 13:30 </option>
-					            <option name="time" value="42"> 20:30 ~ 13:00 </option>
-					            <option name="time" value="43"> 21:00 ~ 13:30 </option>
-					            <option name="time" value="44"> 21:30 ~ 13:00 </option>
-					            <option name="time" value="45"> 22:00 ~ 13:30 </option>
-					            <option name="time" value="46"> 22:30 ~ 13:00 </option>
-					            <option name="time" value="47"> 23:00 ~ 13:30 </option>
-					            <option name="time" value="48"> 23:30 ~ 00:00 </option>
+			            	<span>시간 선택</span>
+				            <select id="startTmSelected">
+					            <option name="startTime" value="1"> 00:00 </option>
+					            <option name="startTime" value="2"> 00:30 </option>
+					            <option name="startTime" value="3"> 01:00 </option>
+					            <option name="startTime" value="4"> 01:30 </option>
+					            <option name="startTime" value="5"> 02:00 </option>
+					            <option name="startTime" value="6"> 02:30 </option>
+					            <option name="startTime" value="7"> 03:00 </option>
+					            <option name="startTime" value="8"> 03:30 </option>
+					            <option name="startTime" value="9"> 04:00 </option>
+					            <option name="startTime" value="10"> 04:30 </option>
+					            <option name="startTime" value="11"> 05:00 </option>
+					            <option name="startTime" value="12"> 05:30 </option>
+					            <option name="startTime" value="13"> 06:00 </option>
+					            <option name="startTime" value="14"> 06:30 </option>
+					            <option name="startTime" value="15"> 07:00 </option>
+					            <option name="startTime" value="16"> 07:30 </option>
+					            <option name="startTime" value="17"> 08:00 </option>
+					            <option name="startTime" value="18"> 08:30 </option>
+					            <option name="startTime" value="19"> 09:00 </option>
+					            <option name="startTime" value="20"> 09:30 </option>
+					            <option name="startTime" value="21"> 10:00 </option>
+					            <option name="startTime" value="22"> 10:30 </option>
+					            <option name="startTime" value="23"> 11:00 </option>
+					            <option name="startTime" value="24"> 11:30 </option>
+					            <option name="startTime" value="25"> 12:00 </option>
+					            <option name="startTime" value="26"> 12:30 </option>
+					            <option name="startTime" value="27"> 13:00 </option>
+					            <option name="startTime" value="28"> 13:30 </option>
+					            <option name="startTime" value="29"> 14:00 </option>
+					            <option name="startTime" value="30"> 14:30 </option>
+					            <option name="startTime" value="31"> 15:00 </option>
+					            <option name="startTime" value="32"> 15:30 </option>
+					            <option name="startTime" value="33"> 16:00 </option>
+					            <option name="startTime" value="34"> 16:30 </option>
+					            <option name="startTime" value="35"> 17:00 </option>
+					            <option name="startTime" value="36"> 17:30 </option>
+					            <option name="startTime" value="37"> 18:00 </option>
+					            <option name="startTime" value="38"> 18:30 </option>
+					            <option name="startTime" value="39"> 19:00 </option>
+					            <option name="startTime" value="40"> 19:30 </option>
+					            <option name="startTime" value="41"> 20:00 </option>
+					            <option name="startTime" value="42"> 20:30 </option>
+					            <option name="startTime" value="43"> 21:00 </option>
+					            <option name="startTime" value="44"> 21:30 </option>
+					            <option name="startTime" value="45"> 22:00 </option>
+					            <option name="startTime" value="46"> 22:30 </option>
+					            <option name="startTime" value="47"> 23:00 </option>
+					            <option name="startTime" value="48"> 23:30 </option>
 				            </select>
-						    <button type="button" name="makeRent" id="makeRent" class="btn">대여하기</button>
+				            <p style="display: inline;"> ~ </p>
+				            <select id="endTmSelected">
+					            <option name="endTime" id="end1" value="1"> 00:00 </option>
+					            <option name="endTime" value="2"> 00:30 </option>
+					            <option name="endTime" value="3"> 01:00 </option>
+					            <option name="endTime" value="4"> 01:30 </option>
+					            <option name="endTime" value="5"> 02:00 </option>
+					            <option name="endTime" value="6"> 02:30 </option>
+					            <option name="endTime" value="7"> 03:00 </option>
+					            <option name="endTime" value="8"> 03:30 </option>
+					            <option name="endTime" value="9"> 04:00 </option>
+					            <option name="endTime" value="10"> 04:30 </option>
+					            <option name="endTime" value="11"> 05:00 </option>
+					            <option name="endTime" value="12"> 05:30 </option>
+					            <option name="endTime" value="13"> 06:00 </option>
+					            <option name="endTime" value="14"> 06:30 </option>
+					            <option name="endTime" value="15"> 07:00 </option>
+					            <option name="endTime" value="16"> 07:30 </option>
+					            <option name="endTime" value="17"> 08:00 </option>
+					            <option name="endTime" value="18"> 08:30 </option>
+					            <option name="endTime" value="19"> 09:00 </option>
+					            <option name="endTime" value="20"> 09:30 </option>
+					            <option name="endTime" value="21"> 10:00 </option>
+					            <option name="endTime" value="22"> 10:30 </option>
+					            <option name="endTime" value="23"> 11:00 </option>
+					            <option name="endTime" value="24"> 11:30 </option>
+					            <option name="endTime" value="25"> 12:00 </option>
+					            <option name="endTime" value="26"> 12:30 </option>
+					            <option name="endTime" value="27"> 13:00 </option>
+					            <option name="endTime" value="28"> 13:30 </option>
+					            <option name="endTime" value="29"> 14:00 </option>
+					            <option name="endTime" value="30"> 14:30 </option>
+					            <option name="endTime" value="31"> 15:00 </option>
+					            <option name="endTime" value="32"> 15:30 </option>
+					            <option name="endTime" value="33"> 16:00 </option>
+					            <option name="endTime" value="34"> 16:30 </option>
+					            <option name="endTime" value="35"> 17:00 </option>
+					            <option name="endTime" value="36"> 17:30 </option>
+					            <option name="endTime" value="37"> 18:00 </option>
+					            <option name="endTime" value="38"> 18:30 </option>
+					            <option name="endTime" value="39"> 19:00 </option>
+					            <option name="endTime" value="40"> 19:30 </option>
+					            <option name="endTime" value="41"> 20:00 </option>
+					            <option name="endTime" value="42"> 20:30 </option>
+					            <option name="endTime" value="43"> 21:00 </option>
+					            <option name="endTime" value="44"> 21:30 </option>
+					            <option name="endTime" value="45"> 22:00 </option>
+					            <option name="endTime" value="46"> 22:30 </option>
+					            <option name="endTime" value="47"> 23:00 </option>
+					            <option name="endTime" value="48"> 23:30 </option>
+				            </select>
+						    <button type="button" name="makeRent" id="makeRent" class="btn">대여신청</button>
 				            </div>
 				        </div>
 				        

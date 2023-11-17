@@ -7,9 +7,11 @@
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1b5f231240cb73d46a6f0aa5b0d4c5e1&libraries=services"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
 <!-- HEADER -->
 <c:import url="/WEB-INF/views/layout/header.jsp" />
+
 <style type="text/css">
 
 #map-container {
@@ -26,8 +28,30 @@
 	margin: 0 auto;
 }
 
+#del {
+	border: none;
+	border-radius: 10px;
+}
 .file {
     color: blue;
+}
+.cmtWriter {
+	display: inline-block;
+    text-align: center;
+    width: 42px;
+    border-radius: 10px;
+    color: white; 
+    background-color: rgb(255,83,63);
+/*     font-weight: bold; */
+    font-size: 11px;
+    margin-left: 4px;
+}
+h5 {
+	font-size: 15px;
+
+}
+h6 {
+    font-weight: bolder;
 }
 </style>
 
@@ -36,44 +60,63 @@
 // 댓글목록 불러오기
 function loadComments() {
 	$.ajax({
-			type: "GET"
-         	, url: "/rent/comment/list"
-         	, data: { 
-         		boardNo : ${board.boardNo }
-         	}
-         	, success: function(res) {
-         		console.log("댓글창 반응 성공")
-         		console.log(res)
-
-                // 댓글 목록을 가져와서 HTML로 렌더링
-                var commentListHtml = "";
-         		
-         		const id = '${id}'
-                for (var i = 0; i < res.commentList.length; i++) {
-                	
-                    commentListHtml += '<tr data-cmtNo="' + res.commentList[i].cmtNo + '">';
-                    commentListHtml += '<td>' + res.commentList[i].cmtNo + '</td>';
-                    commentListHtml += '<td>' + res.commentList[i].writerNick + '</td>';
-                    commentListHtml += '<td class="text-start">' + res.commentList[i].content + '</td>';
-                    commentListHtml += '<td>' + formatDate(new Date(res.commentList[i].writeDate)) + '</td>';
-                    commentListHtml += '<td>';
-                    if( id && id == res.commentList[i].writerId ) {
-	                    commentListHtml += '	<button class="btn btn-danger btn-xs" onclick="deleteComment(' + res.commentList[i].cmtNo + ');">삭제</button>';
-                    }
-                    commentListHtml += '</td>';
-                    commentListHtml += '</tr>';
-                    
-                }
-				
-                // 렌더링된 HTML을 해당 <tbody>에 추가
-                $("#commentList tbody").html(commentListHtml);
-         		
-	         }
-	         , error: function() {
-    	        console.log("댓글창 반응 실패")
-	         }
+	    type: "GET",
+	    url: "/rent/comment/list",
+	    data: {
+	        boardNo: ${board.boardNo}
+	    },
+	    success: function (res) {
+	        console.log("댓글창 반응 성공");
+	        console.log(res);
 	
-	})	
+	        // 댓글 목록을 가져와서 HTML로 렌더링
+	        var commentListHtml = "";
+	
+	        const id = '${id}' //세션 아이디
+	        const nick = '${nick}' //세션 닉네임
+	
+	        for (var i = 0; i < res.commentList.length; i++) {
+	
+	            var boardMaster = "${board.writerNick }" //게시글 작성자
+	            var commentWriter = res.commentList[i].writerNick //댓글 작성자
+	
+	            commentListHtml += '<hr>'; 
+	            commentListHtml += '<div class="media mb-4">';
+	            commentListHtml += '  <img style="width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800" alt="">';
+	            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
+	            //댓글 작성자 구분 처리                
+	            if (commentWriter === boardMaster && commentWriter === nick) { 
+	                commentListHtml += '    <h6>' + res.commentList[i].writerNick + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+	            } else if (commentWriter === nick) {
+	                commentListHtml += '    <h6>' + res.commentList[i].writerNick + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+	            } else if (commentWriter === boardMaster) {
+	                commentListHtml += '    <h6>' + res.commentList[i].writerNick + '<div class="cmtWriter">작성자</div>' + '</h6>';
+	            } else {
+	                commentListHtml += '    <h6>' + res.commentList[i].writerNick + '</h6>';
+	            }
+	            commentListHtml += '    <h5 class="text-start">' + res.commentList[i].content + '</h5>';
+	            commentListHtml += '    <p style="font-size: 13px; display: inline-block;">' + formatDate(new Date(res.commentList[i].writeDate)) + '</p>';
+	            //본인 댓글 삭제가능 처리
+	            if (id && id == res.commentList[i].writerId) {
+	                commentListHtml += '    <button id="del" onclick="deleteComment(' + res.commentList[i].cmtNo + ');">';
+	                commentListHtml += '	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">';
+	                commentListHtml += '	<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>';
+	                commentListHtml += '	</svg>'
+	                commentListHtml += '    </button>';
+	            }
+	            commentListHtml += '  </div>';
+	            commentListHtml += '</div>';
+	        }
+	
+	        // 렌더링된 HTML을 추가
+	        $("#commentList").html(commentListHtml);
+	
+	    },
+	    error: function () {
+	        console.log("댓글창 반응 실패");
+	    }
+	
+	});	
 	
 	function formatDate(date) {
 	    var curDate = new Date();
@@ -207,6 +250,11 @@ $(()=>{
 		}); //ajax end
 	}); //$("#btnLike").click() End.
 	
+	//미로그인 상태 대여요청 클릭
+	$("#noLogin").click(function(){
+		alert("로그인 후 요청이 가능합니다.")
+	});
+	
 }); //jQuery Function End.
 </script>
 
@@ -296,7 +344,12 @@ $(()=>{
 	<td class="table-info">대여하기</td>
 	<td>
 		<!-- Button trigger modal -대여 -->
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rentModal" >대여하고싶어요</button>
+		<c:if test="${isLogin }">
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rentModal" >대여하고싶어요</button>
+		</c:if>
+		<c:if test="${not isLogin }">
+			<button type="button" class="btn btn-primary" id="noLogin" data-bs-toggle="modal" >대여하고싶어요</button>
+		</c:if>
 		<%-- Modal.대여 --%>
 		<c:import url="./rent.jsp"/>
 	</td>
@@ -366,20 +419,21 @@ $(()=>{
 
 </div> <!-- .container -->
 
-<%-- 댓글 처리 --%>
+<%-- 댓글 영역 --%>
 <div class="comment_container">
 	
 	<%-- 로그인 상태 --%>
 	<c:if test="${isLogin }">
+		<%-- 댓글작성 --%>
 		<div class="row text-center justify-content-around align-items-center">
 			<div class="col col-2">
-				<input type="text" class="form-control" id="commentWriter" value="${nick }" readonly="readonly"/>
+				<input style="background-color: white;" type="text" class="form-control" id="commentWriter" value="${nick }" readonly="readonly"/>
 			</div>
 			<div class="col col-9">
 				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;"></textarea>
 			</div>
 			<button id="btnCommInsert" class="btn btn-primary col-1">작성</button>
-		</div>	<!-- 댓글 조회, 작성 End. -->
+		</div>
 	</c:if><br>
 
 	<%-- 비로그인 상태 --%>
@@ -396,33 +450,9 @@ $(()=>{
 	</c:if><br>
 
 	<%-- 댓글 목록 --%>
-	<div id="commentList">
-
-		<!-- 댓글 리스트 -->
-		<table class="table table-condensed text-center">
-		<colgroup>
-			<col style="width: 10%;">
-			<col style="width: 10%;">
-			<col style="width: 50%;">
-			<col style="width: 20%;">
-			<col style="width: 10%;">
-		</colgroup>
-		<thead>
-		<tr>
-			<th>번호</th>
-			<th>닉네임</th>
-			<th>댓글</th>
-			<th>작성일</th>
-			<th></th>
-		</tr>
-		</thead>
-		<tbody id="commentBody">
-		</table>
-	</div><!-- 댓글 목록 End. -->
+	<div id="commentList"></div>
 	
 </div><!-- .comment_container End. -->
-
-
 	
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
