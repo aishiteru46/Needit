@@ -117,11 +117,17 @@ public interface MenuRentService {
 	public void delete(Comment commentDelete);
 
 	/**
-	 * 대여 하기
+	 * 대여신청 하기
 	 * 
 	 * @param rentParam
 	 */
 	public void rent(Rent rentParam);
+
+	/**
+	 * 대여상태 조회
+	 * 
+	 */
+	public Rent getStatus(Rent rentParam);
 
 
 
