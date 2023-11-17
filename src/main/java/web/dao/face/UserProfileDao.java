@@ -34,11 +34,20 @@ public interface UserProfileDao {
 
 
 	/**
-	 * 회원프로필사진
+	 * 회원프로필사진인서트
 	 * 
 	 * @param userPage
 	 */
 	public void updateImg(UserPage userPage);
+
+
+	/**
+	 * 뷰에 보여줄 회원프로필사진
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public UserPage selectImg(String userId);
 
 
 
