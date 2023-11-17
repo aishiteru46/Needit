@@ -127,7 +127,7 @@ public interface MenuRentService {
 	 * 대여상태 조회
 	 * 
 	 */
-	public Rent getStatus(Rent rentParam);
+	public List<Map<String, Object>> getStatus(Rent rentParam);
 
 
 

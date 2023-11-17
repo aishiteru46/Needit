@@ -189,7 +189,7 @@ $(function(){
 		let startTime = $("option[name='startTime']:checked").val();
 		let endTime = $("option[name='endTime']:checked").val();
 		
-		if( startTime >= endTime ){
+		if( startTime > endTime && startTime == endTime ){
 			alert('시간을 잘못 선택하셨습니다.');
 			$("#startTmSelected option:first").prop('selected', true);
 			$("#endTmSelected option:first").prop('selected', true);
@@ -219,6 +219,22 @@ $(function(){
             // 대여신청 성공 시 추가 작업 수행
             , success: function (res) {
                 console.log("대여신청 성공:", res);
+                
+                
+                for (var i = 0; i < res.status.length; i++){
+	                var startTime = res.status[i].START_TIME;
+	                var endTime = res.status[i].END_TIME;
+	                
+	                // 시작 시간과 종료 시간 사이의 옵션을 찾아 비활성화
+	                disableOptionsBetween(startTime, endTime);
+	                
+	                // 대여신청 성공 시 알림창 띄우기
+	                alert("대여신청이 성공적으로 완료되었습니다.");
+	             	
+	                // 페이지 새로고침
+	                location.reload();
+                }
+                
             }
             , error: function (error) {
                 console.error("대여신청 실패:", error);
@@ -226,6 +242,21 @@ $(function(){
         });
     });
 });
+
+function disableOptionsBetween(startTime, endTime) {
+    // 시작 시간과 종료 시간을 숫자로 변환
+    startTime = parseInt(startTime);
+    endTime = parseInt(endTime);
+
+    // 시작 시간과 종료 시간 사이의 옵션을 찾아 비활성화
+    $("select[name='startTime'] option, select[name='endTime'] option").each(function () {
+        var optionValue = parseInt($(this).val());
+
+        if (optionValue >= startTime && optionValue <= endTime) {
+            $(this).prop("disabled", true);
+        }
+    });
+}
 </script>
 
 <!-- Modal, 대여 -->

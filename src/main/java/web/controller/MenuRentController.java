@@ -97,7 +97,9 @@ public class MenuRentController {
 		menuRentService.rent(rentParam);
 		
 		//대여상태 조회
-		Rent status = menuRentService.getStatus(rentParam);
+		List<Map<String, Object>> status = menuRentService.getStatus(rentParam);
+		logger.info("status : {}", status);
+		model.addAttribute("status", status);
 		
 		return "jsonView";
 	}
