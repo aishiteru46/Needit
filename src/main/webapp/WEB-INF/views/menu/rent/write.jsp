@@ -8,11 +8,11 @@
 
 <script type="text/javascript">
 $(() => {
-	$("#title").focus()
-	
-	$("#content").summernote({
-		height: 300
-	})
+   $("#title").focus()
+   
+   $("#content").summernote({
+      height: 300
+   })
 })
 </script>
 
@@ -58,7 +58,7 @@ $(document).ready(function() {
 </script>
 
 <style type="text/css">
-	
+   
 #thumbnail_container{
     border: 1px solid #ccc;
     width: 200px;
@@ -83,23 +83,23 @@ $(document).ready(function() {
 <input type="hidden" id="cate" name="cate" value="${param.cate }" />
 
 <div class="form-group mb-3">
-	<label class="form-label">작성자</label>
-	<input type="text" class="form-control" readonly="readonly" name="writerNick" value="${nick }">
+   <label class="form-label">작성자</label>
+   <input type="text" class="form-control" readonly="readonly" name="writerNick" value="${nick }">
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="title">제목</label>
-	<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해주세요" required>
+   <label class="form-label" for="title">제목</label>
+   <input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해주세요" required>
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="location">위치</label>
-	<input type="text" class="form-control" readonly="readonly" name="location" value="${addr1 }" id="location">
+   <label class="form-label" for="location">위치</label>
+   <input type="text" class="form-control" readonly="readonly" name="location" value="${addr1 }" id="location">
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="price">가격</label>
-	<input type="text" class="form-control" name="price" id="price" required>
+   <label class="form-label" for="price">가격</label>
+   <input type="text" class="form-control" name="price" id="price" required>
 </div>
 
 <div class="form-group mb-3">
@@ -109,18 +109,18 @@ $(document).ready(function() {
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="content">본문</label>
-	<textarea class="form-control" name="content" id="content"></textarea>
+   <label class="form-label" for="content">본문</label>
+   <textarea class="form-control" name="content" id="content"></textarea>
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="file">첨부파일</label>
-	<input type="file" class="form-control" name="file" id="file" multiple="multiple">
+   <label class="form-label" for="file">첨부파일</label>
+   <input type="file" class="form-control" name="file" id="file" multiple="multiple">
 </div>
 
 <div class="text-center">
-	<button class="btn btn-primary" id="btnWrite">작성</button>
-	<button type="reset" class="btn btn-danger" id="btnCancel">취소</button>
+   <button class="btn btn-primary" id="btnWrite">작성</button>
+   <button type="reset" class="btn btn-danger" id="btnCancel">취소</button>
 </div>
 
 </form>
