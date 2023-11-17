@@ -167,11 +167,39 @@ function loadAlert() { // 알림을 로드하는 함수
 </head>
 <body>
 
+<h1>알림 테스트</h1>
+<h3>${nick }</h3>
+<button><a href="/main">메인으로</a></button>
+
+<form action="/alert/sendnotification" method="post">
+	<label for="id">알림받는사람</label>
+	<input type="text" name="id" placeholder="사용자 아이디" value="${id }">
+	<select name="menu">
+		<option value="1">대여</option>
+		<option value="2">나눔</option>
+		<option value="3">해주세요</option>
+		<option value="4">커뮤니티</option>
+		<option value="5">동네업체</option>
+		<option value="6">채팅</option>
+	</select>
+	<input type="text" name="boardNo" placeholder="게시글 번호">
+	<select name="content">
+		<option value="1">승인</option>
+		<option value="2">보류</option>
+		<option value="3">불가</option>
+		<option value="4">댓글</option>
+		<option value="5">채팅</option>
+		<option value="5">추천</option>
+	</select>
+	<label for="sender">알림보낸사람</label>
+	<input type="text" name="sender" placeholder="보낸사람">
+
+	<button id="btn">Send</button>
+</form>
+
 <div id="alertWrap">
 <div id="new-icon"><div id="new-icon-text">NEW</div></div>
-<img alt="menu" class="menu-icon" src="/resources/img/menu_white.png" width="40" height="40">
-<!--     <span class="visually-hidden">New alerts</span> -->
-  
+<div id="alert"></div> 
 </div><!-- #alertWrap  -->
 
 </body>

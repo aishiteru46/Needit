@@ -6,7 +6,7 @@
 
 <mapper namespace="web.dao.face.AlertDao">
 	<sql id="selectAlert">
-		SELECT alert_no, id, content, alert_status, board_no, cate, menu, post_date
+		SELECT alert_no, id, content, alert_status, board_no, menu, post_date, sender
 <!-- 		, (SELECT car_name FROM cartb C WHERE C.car_no = A.board_no) as carname -->
 		FROM alerttb
 	</sql>
@@ -23,8 +23,8 @@
 		<selectKey order="BEFORE" keyProperty="alertNo" resultType="int">
 			SELECT alert_seq.nextval FROM dual
 		</selectKey>
-		INSERT INTO alerttb ( alert_no, id, content,  board_no, cate, menu )
-		VALUES ( #{alertNo }, #{userId }, #{content }, #{boardNo }, #{cate }, #{menu } )
+		INSERT INTO alerttb ( alert_no, id, sender, content,  board_no, menu )
+		VALUES ( #{alertNo }, #{id }, #{sender }, #{content }, #{boardNo }, #{menu } )
 	</insert>
 
 	<update id="updateAlertStatus" parameterType="Alert">
