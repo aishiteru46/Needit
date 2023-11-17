@@ -16,6 +16,7 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script type="text/javascript">
+
 $(document).ready(function(){
 	$('.menu_btn').click(function(){
 	$('.menu_btn').toggleClass('lijo');
@@ -56,6 +57,17 @@ $(document).ready(function(){
 	$('.gnb > li').mouseleave(function () {
 	    $(this).removeClass('active');
 	});
+	
+	$("#logout_button").click(function(){
+	      //alert("버튼 작동");
+	      $.ajax({
+	          type:"POST",
+	          url:"/user/logout",
+	          success:function(data){
+	              document.location.reload();     
+	          } 
+	      }); // ajax 
+	  });
  
 });
 
@@ -163,13 +175,33 @@ nav li {width: 150px; margin-right: 20px;}
 
 </head>
 <body>
-
 <div class="wrap">
 
 		<div class="float-end" style="margin-top: 30px; width: 90px; height: 40px; text-align: right; ">
 				<%-- 비로그인 --%>
 			<c:if test="${empty isLogin }">
-				<a href="/user/login"><img src="/resources/img/mypageicon.png" style="height: 40px; width: 40px; left:  40px;"></a>
+				    <div class="image-container">
+				        <img src="/resources/img/mypageicon.png" id="popover-trigger" style="height: 40px; width: 40px;">
+				        <div class="popover-content" id="popover-content" style="right:350; top: 80;">
+				            <!-- 팝오버 내용 -->
+				            <ul style="padding-left: 0px; text-align: center;">
+				              
+				                <li><a data-bs-toggle="modal" data-bs-target="#exampleModal">로그인</a></li>
+
+				            </ul>
+				        </div>
+				    </div>
+				<!-- Button trigger modal -->
+		
+			
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			  <div class="modal-dialog modal-dialog-centered">
+			    <div class="modal-content" style="display:contents;">
+			    <c:import url="/user/login" />
+			    </div>
+			  </div>
+			</div>
 			</c:if>
 			<c:if test="${not empty isLogin and isLogin }">
 				<a href="/main"><img src="/resources/img/jong.png" style="height: 40px; width: 40px;"></a>
@@ -184,7 +216,8 @@ nav li {width: 150px; margin-right: 20px;}
 				                <li><a href="#">빌린거/빌려준거</a></li>
 				                <li><a href="#">장바구니</a></li>
 				                <li><a href="#">고객센터</a></li>
-				                <li><a href="/user/logout">로그아웃</a>
+				                <li><a id="logout_button">로그아웃</a></li>
+
 				            </ul>
 				        </div>
 				    </div>

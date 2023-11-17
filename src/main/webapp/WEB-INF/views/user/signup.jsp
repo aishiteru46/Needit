@@ -16,6 +16,15 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 //주소입력
+	var idCheck = false;
+	var pwCheck = false;
+	var nickCheck = false;
+	var email = false;
+	var nameCheck = false;
+	var phoneCheck = false;
+	var birthCheck = false;
+	var addrCheck = false;
+	
 function sample5_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
@@ -24,7 +33,8 @@ function sample5_execDaumPostcode() {
                 // 주소 정보를 해당 필드에 넣는다.
                 document.getElementById("sample5_address").value = addr;
                 // 주소로 상세 정보를 검색
-              
+                
+                addrCheck = true;
             }
         }).open();
     }
@@ -60,29 +70,27 @@ function sendEmail() {
 
 $(document).ready(function() {
 	
-	var idCheck = false;
-	var pwCheck = false;
-	var nickCheck = false;
-	var email = false;
-	var nameCheck = false;
-	var phoneCheck = false;
-	var birthCheck = false;
-	var addrCheck = false;
 	
+
 	//ID 중복 확인
 	//id를 입력할 수 있는 input text 영역을 벗어나면 동작한다.
 	$("#id").on("input focusin focusout", function() {
 		
-		var id = $("#id").val();
-		var idRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9]{4,15}$/; // 영어 대문자 미포함, 특수문자 사용하지 않음
-		if(id == '' || id.length == 0 || !idRegex.test(id)) {
-			
-			$("#label1").css("color", "red").css("display", "block").text("ID로 사용할 수 없습니다.");
-			$("#idLimit").css("color", "red").css("display", "block").text("영문, 숫자를 포함한 4~15글자 대문자 미포함, 특수문자 사용 불가");
-			idCheck = false;
-			return false;
-		}
-		
+	 	var id = $("#id").val();
+        var idRegex = id.replace(/[^a-zA-Z0-9]/g, ''); // Remove characters that are not English letters or numbers
+
+        // Ensure the length is between 4 and 15 characters
+        idRegex = idRegex.substring(0, 15);
+
+        // Update the input value with the cleaned id
+        $(this).val(idRegex);
+
+        if (idRegex.length < 4 || idRegex.length > 15 || !(/[a-zA-Z]/.test(idRegex) && /[0-9]/.test(idRegex))) {
+            $("#label1").css("color", "red").css("display", "block").text("ID로 사용할 수 없습니다.");
+            $("#idLimit").css("color", "red").css("display", "block").text("영문자와 숫자를 포함한 4~15글자 대문자 미포함, 특수문자 사용 불가");
+            idCheck = false;
+            return false;
+        }
     	//Ajax로 전송
     	$.ajax({
     		url : '/user/idCheck',
@@ -188,25 +196,48 @@ $(document).ready(function() {
     	}
     });
     
-    $("#name").on("input focusout focusin", function() {
-    	var name = $("#name").val();
-    	
-    	if(name == '' || name.length == 0 ){
-    		return false;
-    	} else {
-    		nameCheck = true;
-    	}
-    });    
+    $("#name").on("input", function() {
+        var name = $(this).val();
+
+        // 한글과 영어만 허용하도록 정규표현식 적용
+        var cleanedName = name.replace(/[^ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z]/g, '');
+
+        // 입력란에 정제된 이름 설정
+        $(this).val(cleanedName);
+
+        // 유효성 검사
+        if (cleanedName.length > 0) {
+            // 유효한 경우
+            nameCheck = true;
+        } else {
+            // 유효하지 않은 경우
+            nameCheck = false;
+        }
+    });
     
-    $("#phone").on("input focusout focusin", function() {
-    	var phone = $("#phone").val();
-    	
-    	if(phone == '' || phone.length == 0 ){
-    		return false;
-    	} else {
-    		phoneCheck = true;
-    	}
-    });   
+    $("#phone").on("input focusout focusin", function(event) {
+        // 현재 입력된 전화번호
+        var phone = $(this).val();
+
+        // 숫자 이외의 문자 제거
+        var numericPhone = phone.replace(/[^0-9]/g, '');
+
+        // 입력된 숫자가 11자리를 초과하면 맨 앞에서부터 11자리까지만 남기기
+        numericPhone = numericPhone.slice(0, 11);
+
+        // 입력란에 숫자만 설정
+        $(this).val(numericPhone);
+
+        // 유효성 검사
+        if (numericPhone.length === 11) {
+            // 유효한 경우
+            phoneCheck = true;
+        } else {
+            // 유효하지 않은 경우
+            phoneCheck = false;
+        }
+    });
+
     
     $("#birth").on("input focusout focusin", function() {
     	var birth = $("#birth").val();
@@ -218,20 +249,12 @@ $(document).ready(function() {
     	}
     });   
     
-    $("#sample5_address").on("input focusout focusin", function() {
-    	var addr1 = $("#sample5_address").val();
-    	
-    	if(addr1 == '' || addr1.length == 0 ){
-    		return false;
-    	} else {
-    		addrCheck = true;
-    	}
-    });    
+     
     
     // 최종 확인
     $("#needit1").click(function() {
     	
-    	console.log(email,idCheck,pwCheck,nickCheck);
+    	console.log(email,idCheck,pwCheck,nickCheck, nameCheck, phoneCheck, birthCheck, addrCheck);
         if (email && idCheck && pwCheck && nickCheck && nameCheck && phoneCheck && birthCheck && addrCheck) { // 이메일이 인증되었는지 확인
        
             alert("회원가입이 완료되었습니다!");
