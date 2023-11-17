@@ -50,6 +50,14 @@ public interface UserProfileService {
 	public UserPage imgSelect(String userId);
 
 	
+	/**
+	 * 자기소개 수정
+	 * 
+	 * @param userPage
+	 */
+	public void introduceUpdate(UserPage userPage);
+
+	
 
 	
 	
