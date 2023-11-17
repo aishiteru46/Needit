@@ -26,7 +26,7 @@ $(() => {
 <div id="AdminContent">
 
 <div class="col-10 mx-auto">
-<form action="./write" method="post" enctype="multipart/form-data">
+<form action="./noticeUpdate" method="post" enctype="multipart/form-data">
 
 <div class="form-group mb-3">
 	<label class="form-label" for="title">제목</label>

@@ -20,6 +20,7 @@
 		</where>
      </sql>
 
+	<!-- 배너 사진 3개 받아오기 -->
  	<select id="getStoredName" resultType="Banner" >
 		SELECT
 			banner_no, origin_name, stored_name, file_type
@@ -32,6 +33,7 @@
 		WHERE rnum &lt;= 3
  	</select>
  
+ 	<!-- 대여해요 게시글 -->
 	<select id="selectRecentRentBoard" resultType="Map">
 		SELECT *
 		FROM (
@@ -48,6 +50,7 @@
 		    menu = 1 AND ROWNUM &lt;= 4
 	</select> 	
  	
+ 	<!-- 나눔해요 게시글 -->
  	<select id="selectRecentShareBoard" resultType="Map">
 		SELECT *
 		FROM (
@@ -64,13 +67,42 @@
 		    menu = 2 AND ROWNUM &lt;= 4
 	</select>
 	
+	<!-- 검색 -->
     <select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
 	SELECT count(*) FROM (
 		<include refid="selectBoard"/>
 	)
-	
     </select>
- 
+    
+   	<!-- 업체 게시글 -->
+   	<select id="selectRecentBusinessBoard" resultType="Map">
+		SELECT *
+		FROM (
+		    SELECT
+		        B.board_no, B.title, F.thumbnail_name, B.menu
+		    FROM
+		        board B
+		    LEFT JOIN
+		        filetb F ON B.board_no = F.board_no
+		    ORDER BY
+		        B.board_no DESC
+		)
+		WHERE
+		    menu = 5 AND ROWNUM &lt;= 4
+	</select>
+	
+	<!-- 커뮤니티 인기 게시글 -->
+	<select id="selectLikeCommuBoard" resultType="Map">
+		SELECT board_no, title, menu, content, like_no
+		FROM (
+		    SELECT B.board_no, B.title, B.menu, B.content,
+		        (SELECT COUNT(like_no)
+		         FROM liketb L
+		         WHERE L.board_no = B.board_no) AS like_no
+		    FROM board B
+		    WHERE B.menu = 4
+		    ORDER BY like_no DESC
+		)
+		WHERE ROWNUM &lt;= 2
+ 	</select>
  </mapper>
-  
-  

@@ -13,7 +13,6 @@
   --button-width: 400px;
   --button-height:50px;
 }
-
 /* 바깥 div */
 #report{
 	margin: 0 auto;
@@ -43,10 +42,18 @@
 	color: white;
 }
 
+
 </style>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function() {
+	$('.reportBtn').click(function() {
+	$('.reportBtn').css('outline', 'none');
+	  
+	$(this).css('outline', '2px solid #E8133D');
+	});
+});
 
 
 </script>

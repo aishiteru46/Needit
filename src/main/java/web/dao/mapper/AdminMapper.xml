@@ -22,5 +22,14 @@
 		)
 		WHERE rnum &lt;= 3
  	</select>
+ 	
+ 	<!-- 공지사항 작성 -->
+    <insert id="insertFile" parameterType="FileTb">
+    	<selectKey resultType="int" order="BEFORE" keyProperty="fileNo">
+    		SELECT fileTb_seq.nextval FROM dual
+    	</selectKey>
+    	INSERT INTO fileTb( file_no, origin_name, stored_name, thumbnail_name, file_type, board_no)
+    	VALUES( #{fileNo}, #{originName}, #{storedName}, #{thumbnailName}, #{fileType}, #{boardNo} )
+    </insert>
 
 </mapper>

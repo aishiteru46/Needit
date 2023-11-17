@@ -8,7 +8,7 @@
 <style>
 /* 최신 사진 간격 */
 :root{
-	--imgMargin : 3px 1px -2px 1px;
+	--imgMargin : 3px 0px -2px 2px;
 }
 /* 썸네일 div */
 #Thumbnail{
@@ -60,7 +60,7 @@
 /* 오늘의 인기 게시글 */
 #MainLike{
 	border: 1px solid #ccc;
-	width: 700px;
+	width: 695px;
 	height: 300px;
 	float: left;
 	border-radius: 10px;
@@ -69,7 +69,7 @@
 /* 지도 */
 #MainMap{
 	border: 1px solid #ccc;
-	width: 500px;
+	width: 505px;
 	height: 300px;
 	float: right;
 	border-radius: 10px;
@@ -119,20 +119,20 @@ hr{
 
 /* 대여, 나눔해요 썸네일 이미지 */
 #MainThumbnailImg{
-	width: 291px;
+	width: 290px;
 	height: 200px;
 	margin: var(--imgMargin);
 }
 /* 썸네일 사진 없을 때 */
 #MainNoITumbnail{
-	width: 291px;
+	width: 290px;
 	height: 200px;
  	margin: var(--imgMargin);
 	border: 1px solid #ccc;
 }
 /* 대여, 나눔해요 썸네일 제목 */
 #MainThumbnailTitle{
-	width: 291px;
+	width: 290px;
 	height: 25px;
 	text-align: center;
 	font-size: 17px;
@@ -143,6 +143,29 @@ hr{
     white-space: nowrap;
 }
 
+/* 오늘의 인기 게시글 */
+#MainCommuLikeDiv{
+	margin: 0px -14px 0px 7px;
+	width: 695px;
+	height: 100px;
+}
+#MainCommuLikeTitle{
+	font-size: 22px;
+	font-weight: bold;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+	
+}
+#MainCommuLikeContent{
+	font-size: 18px;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#MainCommuLikeMarginStart{
+	margin-top: 15px;
+}
 </style>
 
 
@@ -178,7 +201,7 @@ hr{
 	<div class="carousel-inner">
 		<c:forEach items="${file }" var="bannerNames" varStatus="status">
 		<div class="carousel-item ${status.index == 0 ? 'active' : ''}">
-			<img src="/resources/banner/${bannerNames.storedName }" class="d-block w-100 h-300 m-auto" alt="썸네일1">
+			<img src="/resources/banner/${bannerNames.storedName }" class="d-block w-100 h-300 m-auto" alt="배너 썸네일">
 		</div>
   		</c:forEach>
 	</div><!-- .carousel-inner -->
@@ -206,11 +229,11 @@ hr{
 
 <!-- 대여해요 게시글 -->
 <div id="MainRent" >
-	<div id="mainTitle">최신 대여해요 게시글</div>
+<div id="mainTitle">최신 대여해요 게시글</div>
 	<c:forEach var="boardRentInfo" items="${boardRentInfo}">
 		<div id="MainTumbnailDiv">
 			<c:if test="${not empty boardRentInfo.THUMBNAIL_NAME }">
-				<div><a href="/menu/rent/list?menu=1"><img src="/upload/${boardRentInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></a></div>
+				<div><a href="/rent/list?menu=1&cate=1"><img src="/upload/${boardRentInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></a></div>
 			</c:if>
 			<c:if test="${empty boardRentInfo.THUMBNAIL_NAME }">			
 				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
@@ -218,7 +241,7 @@ hr{
 			<div id="MainThumbnailTitle">${boardRentInfo.TITLE}</div>
 		</div><!-- #MainTumbnailDiv -->
 	</c:forEach>
-</div>
+</div><!-- #MainRent -->
 <hr>
 
 <!-- 나눔해요 게시글 -->
@@ -227,7 +250,7 @@ hr{
 	<c:forEach var="boardShareInfo" items="${boardShareInfo}">
 		<div id="MainTumbnailDiv">
 			<c:if test="${not empty boardShareInfo.THUMBNAIL_NAME }">
-				<div><a href="/menu/rent/list?menu=2"><img src="/upload/${boardShareInfo.THUMBNAIL_NAME }" id="MainThumbnailImg" ></a></div>
+				<div><a href="/rent/list?menu=2&cate=1"><img src="/upload/${boardShareInfo.THUMBNAIL_NAME }" id="MainThumbnailImg" ></a></div>
 			</c:if>
 			<c:if test="${empty boardShareInfo.THUMBNAIL_NAME }">
 				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
@@ -241,19 +264,40 @@ hr{
 <!-- 니딧 인증 업체 -->
 <div id="MainBusiness">
 <div id="mainTitle">니딧 인증 업체</div>
-</div>
+	<c:forEach var="businessInfo" items="${businessInfo}">
+		<div id="MainTumbnailDiv">
+			<c:if test="${not empty businessInfo.THUMBNAIL_NAME }">
+				<div><a href="/rent/list?menu=5&cate=1"><img src="/upload/${businessInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></a></div>
+			</c:if>
+			<c:if test="${empty businessInfo.THUMBNAIL_NAME }">			
+				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
+			</c:if>
+			<div id="MainThumbnailTitle">${businessInfo.TITLE}</div>
+		</div><!-- #MainTumbnailDiv -->
+	</c:forEach>
+</div><!-- #MainBusiness -->
 <hr>
 
 <!-- 인기 게시글(추천수) -->
 <div id="MainLike">
 <div id="mainTitleLike">오늘의 인기 게시글</div>
-</div>
+	<div id="MainCommuLikeMarginStart"></div>
+	<c:forEach var="commuLike" items="${commuLike}">
+		<div id="MainCommuLikeDiv">
+			<div id="MainCommuLikeTitle">${commuLike.TITLE}</div>
+			<div id="MainCommuLikeContent">${commuLike.CONTENT}</div>
+		</div><!-- #MainCommuLikeDiv -->
+	</c:forEach>
+</div><!-- #MainLike -->
 
 <!-- 주변 지도 -->
 <div id="MainMap">
 <div id="mainTitleMap">내 주변 지도</div>
-<%-- <div style="width: 499px; height: 63px;"><%@ include file="/WEB-INF/views/map/map.jsp" %></div> --%>
-</div>
+<!-- 지도 링크 작게 -->
+<a href="/map" style="width: 363px; height: 225px; float: left; position: absolute; z-index: 10;"></a>
+<div><%@ include file="/WEB-INF/views/admin/mainpageMap.jsp" %></div>
+<!-- <iframe src="/admin/mainpageMap" style="width: 300px; height: 222px;"></iframe> -->
+</div><!-- #MainMap -->
 
 </div><!-- #container -->
 
