@@ -12,6 +12,7 @@ public class Booking {
 	private String bookerId;
 	private int bookStatus;
 	private Date bookDate;
-	private int bookTime;
-  
+	private int startTime;
+  	private int endTime;
+
 }

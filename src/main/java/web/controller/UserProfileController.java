@@ -1,5 +1,7 @@
 package web.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import web.dto.Booking;
 import web.dto.User;
 import web.service.face.UserProfileService;
 
@@ -27,9 +30,26 @@ public class UserProfileController {
 	
 	
 	@GetMapping("")
-	public String profile() {
+	public String profile( ) {
 		
-		return "redirect:/profile/imgupdate";
+		
+		
+		return "redirect:/profile/view";
+	}
+	
+	@RequestMapping("/view")
+	public String profileView(Booking book, Model model
+			, HttpSession session) {
+		
+		book.setBookerId((String)session.getAttribute("id"));
+
+		List<Booking> list = userProfileService.bookList(book);
+		model.addAttribute("booklist",list);
+		
+		return "profile/view";
+		
+		
+		
 	}
 	
 	
@@ -80,11 +100,6 @@ public class UserProfileController {
 	}
 	
 	
-	
-	
-	
-	
-	
 	@RequestMapping("/imgupdate")
 	public String imgUpdate(
 			HttpServletRequest req
@@ -98,17 +113,10 @@ public class UserProfileController {
 		model.addAttribute("id", id);
 		
 		
-		
-		
-		
-		
-		
-	return "/profile/view";
-		
-		
-		
+		return "/profile/view";
 		
 	}
+	
 	
 
 	

@@ -1,5 +1,8 @@
 package web.dao.face;
 
+import java.util.List;
+
+import web.dto.Booking;
 import web.dto.User;
 
 public interface UserProfileDao {
@@ -19,6 +22,13 @@ public interface UserProfileDao {
 	 * @param userId
 	 */
 	public void deleteUser(String userId);
+
+	/**
+	 * 예약 정보 확인
+	 * 
+	 * @param book 예약 정보
+	 */
+	public List<Booking> selectBookList(Booking book);
 
 
 	

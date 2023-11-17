@@ -1,5 +1,8 @@
 package web.service.face;
 
+import java.util.List;
+
+import web.dto.Booking;
 import web.dto.User;
 
 public interface UserProfileService {
@@ -18,6 +21,14 @@ public interface UserProfileService {
 	 * @param userId
 	 */
 	public void userDelete(String userId);
+	
+	/**
+	 * 예약 목록
+	 * 
+	 * @param book 예약 정보
+	 * @return 
+	 */
+	public List<Booking> bookList(Booking book);
 
 	
 

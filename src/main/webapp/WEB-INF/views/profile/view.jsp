@@ -5,6 +5,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
+<style type="text/css">
+#booktable, th, td {
+
+	border: 1px solid #ccc;
+	
+
+}
+
+</style>
 
 <div class="container">
 <h1>마이페이지</h1>
@@ -54,6 +63,31 @@ function confirmAndSubmit(userId) {
 <br>
 회원정보수정은 마이페이지에서 독립되어있어야 예쁠듯
 <hr>
+
+<table id="booktable">
+<c:forEach items="${booklist }" var="list" begin="0" end="5">
+	<tr>
+		<th>예약 번호</th>
+		<th>예약자</th>
+		<th>예약 날짜</th>
+		<th>예약 시작 시간</th>
+		<th>예약 끝 시간</th>
+		<th>승인 처리</th>
+		<th></th>
+		
+	</tr>
+	<tr>
+		<td>${list.bookNo }</td>
+		<td>${list.bookerId }</td>
+		<td>${list.bookDate }</td>
+		<td>${list.startTime }</td>
+		<td>${list.endTime }</td>
+		<td><button>승인</button></td>
+		<td><button>취소</button></td>
+	</tr>
+	
+</c:forEach>
+</table>
 
 
 

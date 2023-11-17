@@ -223,6 +223,7 @@ $(()=>{
 <tr>
 	<td class="table-info">추천수</td><td id="likeCount">${likeCount}</td>
 		<td><button id="like">추천하기</button></td>
+		<td><input type="time" name="a" id="b">
 </tr>
 <tr>
 	<td class="table-info" colspan="4">본문</td>

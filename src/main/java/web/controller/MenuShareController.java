@@ -235,12 +235,7 @@ public class MenuShareController {
 		return "jsonView";
 	}
 	@GetMapping("/book")
-	public String book(Booking book, HttpSession session
-			, Model model) {
-		
-		boolean check = menuShareFace.checkBooking(book);
-		logger.info("예약 확인{}",check);
-		model.addAttribute("check",check);
+	public String book() {
 		
 		return "menu/share/book";
 		
@@ -248,20 +243,21 @@ public class MenuShareController {
 	
 	@PostMapping("/book")
 	@ResponseBody
-	public boolean bookProc(
+	public boolean book(
 			Booking book, HttpSession session
 			, Model model) {
 		book.setBookerId((String)session.getAttribute("id"));
-		logger.info("예약정보{}", book.toString());
+		logger.info("예약정보{}", book);
+		logger.info("나와라잇{}", book.getStartTime());
+		logger.info("나와라잇2{}", book.getEndTime());
 		
-//		model.addAttribute("currentDate", new Date());
-//		model.addAttribute("today", new Date());
-		logger.info("예약 시간{}", book.getBookTime());
+		model.addAttribute("currentDate", new Date());
+		model.addAttribute("today", new Date());
 		
 		//예약 확인
 		boolean check = menuShareFace.checkBook(book);
 		logger.info("예약 확인{}",check);
-		
+		model.addAttribute("check",check);
 		
 		return check;
 		
