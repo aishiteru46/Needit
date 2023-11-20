@@ -37,10 +37,6 @@ public interface AdminDao {
 	 */
 	public void insertBoard(Board writeParamNotice);
 
-	
-	public void insertFileNotice(FileTb fileTb);
-	
-	
 	/**
 	 * 공지 게시글 목록 조회
 	 * 
