@@ -20,9 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.UserProfileDao;
 import web.dto.Like;
-import web.dto.Rent;
 import web.dto.User;
-import web.dto.UserPage;
+import web.dto.UserFile;
 import web.service.face.UserProfileService;
 
 @Service
@@ -126,26 +125,26 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 		
 		// 이미지 정보를 user_page 테이블에 저장
-	    UserPage userPage = new UserPage();
-	    userPage.setId(userId);
-	    userPage.setOriginName(originalFilename);
-	    userPage.setStoredName(storedName);
-	    userPage.setThumbnailName(thumbnailName);  // 썸네일 이름은 필요에 따라 변경
-	    userPage.setFileType(fileType);
+	    UserFile userFile = new UserFile();
+	    userFile.setId(userId);
+	    userFile.setOriginName(originalFilename);
+	    userFile.setStoredName(storedName);
+	    userFile.setThumbnailName(thumbnailName);  // 썸네일 이름은 필요에 따라 변경
+	    userFile.setFileType(fileType);
 
-	    userProfileDao.updateImg(userPage);
+	    userProfileDao.updateImg(userFile);
 		
 		
 	}	
 
-	public List<Map<String,Object>> bookList(UserPage userPage) {
+	public List<Map<String,Object>> rentList(User user) {
 		
-		return userProfileDao.selectBookList(userPage);
+		return userProfileDao.selectBookList(user);
 	}
 
 
 	@Override
-	public UserPage imgSelect(String userId) {
+	public UserFile imgSelect(String userId) {
 		
 		
 		return userProfileDao.selectImg(userId);
@@ -153,16 +152,16 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 
 	@Override
-	public void introduceUpdate(UserPage userPage) {
+	public void introduceUpdate(User user) {
 
-		userProfileDao.updateIntroduce(userPage);
+		userProfileDao.updateIntroduce(user);
 	}
 
 	
 	@Override
-	public void imgDelete(UserPage userPage) {
+	public void imgDelete(UserFile userFile) {
 	
-		userProfileDao.deleteImg(userPage);
+		userProfileDao.deleteImg(userFile);
 		
 	}
 
@@ -172,25 +171,25 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 	
 	@Override
-	public int selectUserGarde(UserPage userPage) {
-		return userProfileDao.selectGrade(userPage);
+	public User selectUserGrade(User user) {
+		return userProfileDao.selectGrade(user);
 	}
 
 
 	@Override
-	public UserPage updateGrade(int likeCount, UserPage userPage) {
+	public User updateGrade(int likeCount, User user) {
 		
 		if( likeCount > 5) {
-			userProfileDao.updateCrackEgg(userPage);
+			userProfileDao.updateCrackEgg(user);
 		} else if( likeCount > 10) {
-			userProfileDao.updateChick(userPage);
+			userProfileDao.updateChick(user);
 		} else if( likeCount > 20 ) {
-			userProfileDao.updateChicken(userPage);
+			userProfileDao.updateChicken(user);
 		} else if( likeCount > 30 ) {
-			userProfileDao.updateFriedChicken(userPage);
+			userProfileDao.updateFriedChicken(user);
 		}
 		
-		return userPage;
+		return user;
 		
 	}
 
