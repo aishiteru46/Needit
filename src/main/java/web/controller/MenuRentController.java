@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -47,7 +48,7 @@ public class MenuRentController {
 	}
 	
 	//게시판 상세 조회
-	@RequestMapping("/view")
+	@GetMapping("/view")
 	public String view( Board board, Model model, HttpSession session ) {
 
 		//게시글 번호를 전달받지 못하면 목록으로 이동
@@ -83,7 +84,7 @@ public class MenuRentController {
 	}
 
 	//파일 다운로드
-	@RequestMapping("/download")
+	@GetMapping("/download")
 	public String down( FileTb fileTb, Model model ) {
 		
 		//첨부파일 정보 조회
@@ -100,11 +101,6 @@ public class MenuRentController {
 		
 		//대여신청 대기처리
 		menuRentService.rent(rentParam);
-		
-//		//대여상태 조회
-//		List<Map<String, Object>> status = menuRentService.getStatus(rentParam);
-//		logger.info("status : {}", status);
-//		model.addAttribute("status", status);
 		
 		return "jsonView";
 	}
@@ -151,7 +147,7 @@ public class MenuRentController {
 	public void delete() {}
 
 	//추천 적용
-	@RequestMapping("/like")
+	@GetMapping("/like")
 	public ModelAndView like( Like like, ModelAndView mav, HttpSession session  ) {
 		logger.info("like : {}", like);
 		
@@ -194,7 +190,7 @@ public class MenuRentController {
 	}
 	
 	//댓글 삭제
-	@RequestMapping("/comment/delete")
+	@GetMapping("/comment/delete")
 	public String delete(Comment commentDelete) {
 		logger.info("commentDelete : {}", commentDelete);
 		
