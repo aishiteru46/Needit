@@ -14,7 +14,7 @@
 }
 
 .write-container {
-    height: 600px;
+    height: 526px;
     width: 380px;
     margin: 1em auto; 
     text-align: center; 
@@ -45,17 +45,75 @@
 	background-position: center center;
 }
 
+.write-container-head {
+	width: 380px;
+	margin: 0 auto;
+}
+
 .no {
-	margin-top: 10px;
+	display: inline-block;
+	float: left;
+	position: absolute;
+    margin-left: -114px;
+    margin-top: 10px;
 }
 
 .title {
-	margin-top: 10px;
-	color: black;
-	font-weight: bold;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+ 	width: 150px; 
+ 	color: black; 
+ 	font-weight: bold; 
+ 	overflow: hidden; 
+ 	text-overflow: ellipsis; 
+ 	white-space: nowrap; 
+	display: inline-block;
+    margin-top: 10px;
+    margin-bottom: -12px;
+    margin-left: -6px;
+}
+#write-conatiner-hit, #write-conatiner-like {
+	display: inline-block;
+	float: right;
+	position: absolute;
+	font-size: 14px;
+    margin-left: 45px;
+}
+#write-conatiner-hit {
+	margin-top: 25px;
+}
+#write-conatiner-like {
+	margin-top: 4px;
+}
+#write-conatiner-nick {
+	float: left;
+	position: relative;
+	font-size: 18px;
+	margin-top: -8px;
+	margin-left: 4px;
+}
+#write-conatiner-time {
+	float: right;
+	position: relative;
+	font-size: 18px;
+	margin-top: -8px;
+	margin-right: 4px;
+}
+#write-conatiner-price {
+	margin-top: 45px;
+    margin-bottom: 13px;
+    font-size: 27px;
+    text-align: center;
+}
+#write-conatiner-loc {
+	width: 353px;
+    font-size: 19px;
+   	overflow: hidden; 
+ 	text-overflow: ellipsis; 
+ 	white-space: nowrap; 
+}
+#nickIcon{
+	float: none;
+	display: inline-block;
+	
 }
 
 </style>
@@ -84,8 +142,13 @@
   </c:if>
   	
     <div class="write-container">
-        <h6 class="no">no. ${list.BOARD_NO}</h6>
-        <a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">제목 : ${list.TITLE }</h6></a>
+ 		<div class="write-container-head">
+	        <div class="no">no.${list.BOARD_NO}</div> 
+	        <a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE }</div></a>
+        <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>
+        <div id="write-conatiner-hit">👀  ${list.HIT}</div>
+        </div><!-- .write-container-head -->
+        <hr>
         <c:if test="${ not empty list.THUMBNAIL_NAME  }">
 	        <div>
 	        	<a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
@@ -96,11 +159,9 @@
 	        	<a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/resources/img/noimg.png"/></a>
 	        </div>
         </c:if>
-        <h6>작성자 : ${list.WRITER_ID }</h6>
-        <h6>닉네임 : ${list.WRITER_NICK }</h6>
-        <h6>가격 : <fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</h6>
-        <h6>👀  ${list.HIT}</h6>
-        <h6>✍️  
+        <hr>
+        <div id="write-conatiner-nick"><div id="nickIcon">✍️</div>${list.WRITER_NICK }</div>
+        <div id="write-conatiner-time">🕟
             <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" /> 
             <fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" /> 
             <c:choose> 
@@ -111,9 +172,10 @@
                     <fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" /> 
                 </c:otherwise> 
             </c:choose>                    
-        </h6>
-        <h6>❤️  ${list.LIKE_CNT }</h6>
-        <h6>🚩  ${list.LOCATION }</h6>
+        </div><!-- #write-conatiner-time -->
+        <div id="write-conatiner-price">💸<fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</div>
+        
+        <div id="write-conatiner-loc">🗺︎  ${list.LOCATION }</div>
     </div><!-- .write-container -->
     
   <c:if test="${loop.index % 3 == 2 || loop.index + 1 == yourList.size()}">

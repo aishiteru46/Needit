@@ -60,6 +60,10 @@ h6 {
     color: red;
     content: "\f59e";
 }
+#likeNo {
+	display:inline;
+	color: blue;
+}
 </style>
 
 <script type="text/javascript">
@@ -212,12 +216,12 @@ $(()=>{
 	if(${isLike}) {
 		console.log('추천 이미 함')
 		$("#btnLike")
-			.addClass("bi bi-suit-heart")
+			.addClass("bi bi-suit-heart-fill")
 			.html('좋아요 취소');
 	} else {
 		console.log('추천 아직 안함')
 		$("#btnLike")
-			.addClass("bi bi-suit-heart-fill")
+			.addClass("bi bi-suit-heart")
 			.html('좋아요');
 	}// 추천 버튼 End.
 	
@@ -235,22 +239,21 @@ $(()=>{
 	
 				if( data.result ) { //추천 성공
 					$("#btnLike")
-					.removeClass("bi bi-suit-heart-fill")
-					.addClass("bi bi-suit-heart")
+					.removeClass("bi bi-suit-heart")
+					.addClass("bi bi-suit-heart-fill")
 					.html('좋아요 취소');
 				
 				} else { //추천 취소 성공
 					$("#btnLike")
-					.removeClass("bi bi-suit-heart")
-					.addClass("bi bi-suit-heart-fill")
+					.removeClass("bi bi-suit-heart-fill")
+					.addClass("bi bi-suit-heart")
 					.html('좋아요');
 				
 				}
 				
 				//추천수 적용
 				$("#like")
-				.css("color", "#007bff")
-				.text(data.cnt);
+				.html('<div id="likeNo">' + data.cnt + '</div>명이 이 게시글을 좋아합니다.');
 				
 			}
 			, error: function() {
@@ -343,7 +346,14 @@ $(()=>{
 
 <tr>
 	<td class="table-info">글번호</td><td>${board.boardNo }</td>
-	<td class="table-info">❤️</td><td id="like">${cntLike }명이 이 게시글을 좋아합니다.</td>
+	<td class="table-info">
+		<c:if test="${isLogin }">
+		<div style="text-align: center;">
+			<div class="btn" id="btnLike"></div>
+		</div>
+		</c:if>		
+<!-- 		❤️ -->
+	</td><td id="like"><div id="likeNo">${cntLike }</div>명이 이 게시글을 좋아합니다.</td>
 </tr>
 <tr>
 	<td class="table-info">닉네임</td><td>${board.writerNick }</td>
@@ -410,11 +420,11 @@ $(()=>{
 <div id="map" style="width:350px; height:350px;"></div><br>
 
 <%-- 추천버튼 --%>
-<c:if test="${isLogin }">
-<div style="text-align: center;">
-	<div class="btn" id="btnLike"></div>
-</div><br>
-</c:if>
+<%-- <c:if test="${isLogin }"> --%>
+<!-- <div style="text-align: center;"> -->
+<!-- 	<div class="btn" id="btnLike"></div> -->
+<!-- </div><br> -->
+<%-- </c:if> --%>
 
 <%-- 목록,수정,삭제 --%>
 <div class="text-center">
