@@ -1,8 +1,8 @@
 package web.controller;
 
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import web.dto.Booking;
+import web.dto.Like;
+import web.dto.Rent;
 import web.dto.User;
 import web.dto.UserPage;
 import web.service.face.UserProfileService;
@@ -40,12 +41,12 @@ public class UserProfileController {
 	}
 	
 	@RequestMapping("/view")
-	public String profileView(Booking book, Model model
-			, HttpSession session) {
+	public String profileView(Rent rent, Model model
+			, HttpSession session, UserPage userPage,Like like) {
 		
-		book.setBookerId((String)session.getAttribute("id"));
+		userPage.setId((String)session.getAttribute("id"));
 
-		List<Booking> list = userProfileService.bookList(book);
+		List<Map<String,Object>> list = userProfileService.bookList(userPage);
 		model.addAttribute("booklist",list);
 		
 		
@@ -55,21 +56,26 @@ public class UserProfileController {
         String userId = (String) session.getAttribute("id");
         
         // 사용자의 프로필 이미지 정보 가져오기
-        UserPage userPage = userProfileService.imgSelect(userId);
+        UserPage img = userProfileService.imgSelect(userId);
+        
+        //회원등급 조회
+        int userGrade = userProfileService.selectUserGarde(userPage);
+        model.addAttribute("userGrade",userGrade);
+        
+        //추천수 조회
+        int likeCount = userProfileService.cntLike(like);
+        //회원등업
+		UserPage grade = userProfileService.updateGrade(likeCount, userPage);
+		logger.info("회원등급{}",grade);
+		model.addAttribute("grade",grade);
         
         //모델에 이미지 정보 추가
-        model.addAttribute("img", userPage);
+        model.addAttribute("img", img);
         
-        
-		
 		
 		return "profile/view";
 		
-		
-		
 	}
-	
-	
 	
 	
 	@GetMapping("/infoupdate")
@@ -137,7 +143,6 @@ public class UserProfileController {
 	}
 	
 	
-	
 	@GetMapping("/introduceupdate")
 	public String intoduceUpdate() {
 		
@@ -154,6 +159,11 @@ public class UserProfileController {
 		return "/profile/view";
 	}
 	
+	@RequestMapping("/basket")
+	public String basket() {
+		
+		return null;
+	}
 	
 	
 	

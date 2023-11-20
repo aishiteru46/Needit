@@ -19,6 +19,8 @@
 <h1>마이페이지</h1>
 <hr>
 
+${userGrade}
+
 
 
 <a href="javascript:void(0);" class="btn btn-danger" onclick="confirmAndSubmit('${id}')">회원탈퇴</a><br>
@@ -65,8 +67,9 @@ function confirmAndSubmit(userId) {
 <hr>
 
 <table id="booktable">
-<c:forEach items="${booklist }" var="list" begin="0" end="5">
+<c:forEach items="${booklist }" var="list" begin="0" end="10">
 	<tr>
+		<th>게시글 번호</th>
 		<th>예약 번호</th>
 		<th>예약자</th>
 		<th>예약 날짜</th>
@@ -77,11 +80,12 @@ function confirmAndSubmit(userId) {
 		
 	</tr>
 	<tr>
-		<td>${list.bookNo }</td>
-		<td>${list.bookerId }</td>
-		<td>${list.bookDate }</td>
-		<td>${list.startTime }</td>
-		<td>${list.endTime }</td>
+		<td>${list.BOARD_NO }</td>
+		<td>${list.RENT_NO }</td>
+		<td>${list.RENTER_ID }</td>
+		<td>${list.RENT_DATE }</td>
+		<td>${list.START_TIME }</td>
+		<td>${list.END_TIME }</td>
 		<td><button>승인</button></td>
 		<td><button>취소</button></td>
 	</tr>

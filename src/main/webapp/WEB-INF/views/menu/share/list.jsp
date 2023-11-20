@@ -9,6 +9,7 @@
 
 <style type="text/css">
 
+
 .row {
     text-align: center;
 }
@@ -54,6 +55,17 @@
 	color: black;
 	font-weight: bold;
 }
+.heart {
+	margin-right: 7px;
+	margin-top: 5px;
+	font-size: 30px;
+	
+}
+
+.heart.redheart{
+	color: red;
+}
+
 
 </style>
 
@@ -77,8 +89,9 @@
   </c:if>
   	
     <div class="write-container">
+        <span class="float-end clearfix heart">♡</span>
         <h6 class="no">no. ${list.BOARD_NO}</h6>
-        <h6>작성자 : ${list.WRITER_ID }</h6>
+        <a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">제목 : ${list.TITLE }</h6></a>
         <c:if test="${ not empty list.THUMBNAIL_NAME  }">
 	        <div>
 	        	<a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
@@ -89,7 +102,7 @@
 	        	<a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/resources/img/noimg.png"/></a>
 	        </div>
         </c:if>
-        <a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">제목 : ${list.TITLE }</h6></a>
+        <h6>작성자 : ${list.WRITER_ID }</h6>
         <h6>닉네임 : ${list.WRITER_NICK }</h6>
         <h6>가격 : <fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</h6>
         <h6>👀  ${list.HIT}</h6>

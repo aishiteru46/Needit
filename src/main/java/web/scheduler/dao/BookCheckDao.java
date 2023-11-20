@@ -14,14 +14,13 @@ import web.dto.Booking;
 public interface BookCheckDao {
 	
 	
+	
 	/**
-	 * 30분마다 예약정보 확인
+	 * 30분 마다 book_status가 1인 예약정보
+	 * 0으로 update
+	 * @return 
 	 * 
-	 * @param book
-	 * @return
 	 */
-	public List<Booking> selectBookList(Booking book);
-
-	public List<Booking> selectBookList();
+	public int update();
 
 }

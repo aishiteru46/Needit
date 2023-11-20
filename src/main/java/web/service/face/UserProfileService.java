@@ -1,11 +1,13 @@
 package web.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Booking;
-
+import web.dto.Like;
+import web.dto.Rent;
 import web.dto.User;
 import web.dto.UserPage;
 
@@ -32,7 +34,7 @@ public interface UserProfileService {
 	 * @param book 예약 정보
 	 * @return 
 	 */
-	public List<Booking> bookList(Booking book);
+	public List<Map<String,Object>> bookList(UserPage userPage);
 
 	/*
 	 * 회원프로필사진
@@ -56,6 +58,31 @@ public interface UserProfileService {
 	 * @param userPage
 	 */
 	public void introduceUpdate(UserPage userPage);
+	
+	/**
+	 * 회원등급을 위한 추천수 조회
+	 * 
+	 * @param board
+	 * @return
+	 */
+	public int cntLike(Like like);
+	
+	/**
+	 * 추천수에 따른 회원등급
+	 * 
+	 * @param likeCount 추천수
+	 * @param grade 
+	 * @return 
+	 */
+	public UserPage updateGrade(int likeCount, UserPage userPage);
+	
+	/**
+	 * 유저 등급 조회
+	 * 
+	 * @param userPage 유저 정보
+	 * @return
+	 */
+	public int selectUserGarde(UserPage userPage);
 
 	
 

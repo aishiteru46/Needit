@@ -209,21 +209,6 @@ $(function(){
 <script type="text/javascript">
 
 $(function() {
-	
-	function middleTime(startTime, endTime) {
-	    const middleStartTime = parseInt($("#selectStartTime option[name='startTime']:selected").val(), 10);
-	    const middleEndTime = parseInt($("#selectEndTime option[name='endTime']:selected").val(), 10);
-	    // 선택한 시간 범위가 중간 시간대와 겹치면 true 반환
-	    const result = startTime < middleEndTime || endTime > middleStartTime;
-	    
-	    if (result) {
-	        console.log(result);
-	        return true;
-	    }
-	    
-	    console.log(result);
-	    return false;
-	}
     
     // 예약하기 버튼 클릭 시
     $("#submitBtn").click(function () {
@@ -233,10 +218,6 @@ $(function() {
         let endTime = $("option[name='endTime']:checked").val();
         var boardNo = ${param.boardNo};
  
-        if (middleTime(startTime, endTime)) {
-            alert("이미 예약된 시간입니다.");
-            return;
-        }
         	
             $.ajax({
                 type: "post",

@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -18,8 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.UserProfileDao;
-
-import web.dto.Booking;
+import web.dto.Like;
+import web.dto.Rent;
 import web.dto.User;
 import web.dto.UserPage;
 import web.service.face.UserProfileService;
@@ -137,9 +138,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 		
 	}	
 
-	public List<Booking> bookList(Booking book) {
+	public List<Map<String,Object>> bookList(UserPage userPage) {
 		
-		return userProfileDao.selectBookList(book);
+		return userProfileDao.selectBookList(userPage);
 	}
 
 
@@ -156,5 +157,37 @@ public class UserProfileServiceImpl implements UserProfileService {
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	@Override
+	public int cntLike(Like like) {
+		return userProfileDao.selectLikeByBoardNo(like);
+	}
+	
+	@Override
+	public int selectUserGarde(UserPage userPage) {
+		return userProfileDao.selectGrade(userPage);
+	}
+
+
+	@Override
+	public UserPage updateGrade(int likeCount, UserPage userPage) {
+		
+		if( likeCount > 5) {
+			userProfileDao.updateCrackEgg(userPage);
+		} else if( likeCount > 10) {
+			userProfileDao.updateChick(userPage);
+		} else if( likeCount > 20 ) {
+			userProfileDao.updateChicken(userPage);
+		} else if( likeCount > 30 ) {
+			userProfileDao.updateFriedChicken(userPage);
+		}
+		
+		return userPage;
+		
+	}
+
+
+	
 
 }
