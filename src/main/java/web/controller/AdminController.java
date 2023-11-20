@@ -71,7 +71,7 @@ public class AdminController {
 	public String logout(HttpSession session) {
 		session.invalidate();
 		
-		return "/main/main";
+		return "redirect:/main";
 	}
 	
 	//관리자 메인페이지
