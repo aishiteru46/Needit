@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import lombok.Setter;
-import web.dto.Booking;
 import web.scheduler.dao.BookCheckDao;
 
 @Component // 자동생성 - servlet- context.xml에 base패키지로 정의 되야함
@@ -18,15 +16,14 @@ public class BookCheckTask {
 	//로그 객체 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	@Setter(onMethod_ = {@Autowired})
-	private BookCheckDao bookCheckDao;
+	@Autowired private BookCheckDao bookCheckDao;
 	
-	@Scheduled(cron = "0/3 * * * * *")
+	@Scheduled(cron = "0 0/30 * * * *")
 	public void bookList () throws Exception {
 		logger.info("book check Task Run....................");
 		
-		List<Booking> bookList = bookCheckDao.selectBookList();
-		logger.info("{}",bookList);
+		int res = bookCheckDao.update();
+		logger.info("업데이트목록{}",res);
 		
 		logger.info("======================");
 	}

@@ -39,9 +39,9 @@ public interface MenuShareDao {
 	/**
 	 * 조회수 조회
 	 * 
-	 * @param boardNo 전달 파라미터
+	 * @param board 전달 파라미터
 	 */
-	public void updateHit(int boardNo);
+	public void updateHit(Board board);
 	
 	/**
 	 * 사용자가 입력한 글작성 정보를 DB에 insert
@@ -98,21 +98,6 @@ public interface MenuShareDao {
 	 */
 	public void deleteByBoardNo(Board deleteParam);
 	
-	/**
-	 * 추천수가 있는지 없는지 확인
-	 * 
-	 * @param like 추천수
-	 * @return 추천수가 있으면 1 없으면 0 
-	 */
-	public int selectByLike(Like like);
-	
-	/**
-	 * 총 추천수 조회
-	 * 
-	 * @param like 조회된 추천수
-	 * @return 추천수
-	 */
-	public int selectLikeByBoardNo(Like like);
 	
 	/**
 	 * 추천이있으면 삭제
@@ -166,6 +151,22 @@ public interface MenuShareDao {
 	 * @return false 예약 가능 true 예약 불가능
 	 */
 	public int checkBook(Booking book);
+
+	/**
+	 * 사용자가 해당 게시글을 추천한 적이 있는지 조회	
+	 * 
+	 * @param like - 사용자와 게시글 정보를 가지고 있는 객체
+	 * @return 1 - 추천한 적 있음, 0 - 추천한 적 없음
+	 */
+	public int selectCntLike(Like like);
+
+	/**
+	 * 게시글의 전체 추천 수 조회
+	 * 
+	 * @param recommend - 추천 수를 조회할 게시글 정보
+	 * @return 전체 추천 수
+	 */
+	public int selectTotalCntLike(Like like);
 	
 
 }

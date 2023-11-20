@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import web.dto.Board;
 import web.dto.Booking;
@@ -57,9 +58,6 @@ public class MenuShareController {
 		
 		file.setBoardNo(board.getBoardNo());	
 		
-		List<FileTb> fileData = menuShareFace.getImg(file);
-		logger.info("{}", fileData);
-		model.addAttribute("fileData",fileData);
 		logger.info("메뉴{}",paging);
 		logger.info("카테고리 들어오나?{}",param.getCate());
 		
@@ -69,9 +67,8 @@ public class MenuShareController {
 	@RequestMapping("/view")
 	public String view(
 			Board board, HttpSession session
-			, Model model, Like like
+			, Model model
 			) {
-		like.setLikeId((String)session.getAttribute("id"));
 		Board view = menuShareFace.view(board);
 		
 		//첨부파일 정보 전달
@@ -81,13 +78,15 @@ public class MenuShareController {
 		logger.info("보드넘버{}",view);
 		model.addAttribute("view", view);
 		
-		//총 추천수 조회
-		int likeCount = menuShareFace.selectLikeCnt(like);
-		model.addAttribute("likeCount",likeCount);
-		
-		//추천이 되있는지 안되있는지 확인
-		boolean isLike = menuShareFace.checkLike(like);
-		model.addAttribute("isLike",isLike);
+		//추천 상태 조회
+		Like like = new Like();
+		like.setBoardNo(board.getBoardNo()); //게시글 번호
+		like.setLikeId((String)session.getAttribute("id")); //로그인한 아이디
+
+		//추천 상태 전달
+		boolean isLike = menuShareFace.isLike(like);
+		model.addAttribute("isLike", isLike);
+		model.addAttribute("cntLike", menuShareFace.getTotalCntLike(like));
 		
 		return "menu/share/view";
 	}
@@ -172,26 +171,21 @@ public class MenuShareController {
 	}
 	
 	@RequestMapping("/like")
-	public String list(
-			Board board
-			, HttpSession session
-			,Model model, Like like ) {
+	public ModelAndView like( Like like, ModelAndView mav, HttpSession session  ) {
+		logger.info("like : {}", like);
 		
+		//추천 정보 토글
+		like.setLikeId((String) session.getAttribute("id"));
+		boolean result = menuShareFace.like(like);
+		mav.addObject("result", result);
 		
-		like.setBoardNo(board.getBoardNo());
-		like.setLikeId((String)session.getAttribute("id"));
+		//추천 수 조회
+		int cnt = menuShareFace.getTotalCntLike(like);
+		mav.addObject("cnt", cnt);
+
+		mav.setViewName("jsonView");
 		
-		//총 추천수 조회
-		int likeCount = menuShareFace.selectLikeCnt(like);
-		
-		//추천이 되있는지 안되있는지 확인
-		boolean isLike = menuShareFace.checkLike(like);
-		logger.info("isLike", isLike);
-		model.addAttribute("isLike",isLike);
-		model.addAttribute("likeCount",likeCount);
-		
-		
-		return "jsonView";
+		return mav;
 	}
 	
 	//댓글입력

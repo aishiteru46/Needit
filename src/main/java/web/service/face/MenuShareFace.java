@@ -62,13 +62,7 @@ public interface MenuShareFace {
 	 */
 	public List<Board> menu(Board writerContent);
 	
-	/**
-	 * 사용자가 업로드한 파일 가져오기
-	 * 
-	 * @param file 파일 정보
-	 * @return 
-	 */
-	public List<FileTb> getImg(FileTb file);
+
 	
 	
 	/**
@@ -88,21 +82,29 @@ public interface MenuShareFace {
 	public void delete(Board deleteParam);
 	
 	/**
-	 * 추천이 있는지 없는 지 조회
+	 * 추천 상태확인
 	 * 
-	 * @param like 추천수
-	 * @return 추천이 있으면 true 없으면 false
+	 * @param like - 추천 상태를 확인할 게시글과 정보 
+	 * @return true - 추천한 상태, false - 추천하지 않은 상태
 	 */
-	public boolean checkLike(Like like);
+	public boolean isLike(Like like);
 	
 	/**
-	 * 추천수 조회
+	 * 추천 상태를 확인하고 추천을 토글(넣고빼기) 작업
 	 * 
-	 * @param like 추천수
-	 * @return 추천수
+	 * @param like - 추천 대상 정보
+	 * @return true - 추천함, false - 추천 취소함
 	 */
-	public int selectLikeCnt(Like like);
+	public boolean like(Like like);
 	
+	/**
+	 * 총 추천 수를 구한다
+	 * 
+	 * @param like - 추천수를 파악할 게시글 정보
+	 * @return 총 추천 수
+	 */
+	public int getTotalCntLike(Like like);
+
 	/**
 	 * 댓글 작성
 	 * 

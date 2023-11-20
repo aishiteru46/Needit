@@ -21,8 +21,14 @@
  		WHERE id = #{id}
  	</delete>
  	
- 	<select id="selectBookList" resultType="Booking" parameterType="Booking">
- 		SELECT * FROM Booking
+ 	<!-- 예약 목록 -->
+ 	<select id="selectBookList" resultType="Map" parameterType="UserPage">
+<!--  		SELECT * FROM rent -->
+ 	SELECT B.board_no, A.renter_id, A.rent_no,A.rent_date, A.start_time, A.end_time
+	FROM rent A
+	INNER JOIN board B ON B.board_no = A.board_no
+	WHERE B.writer_id = #{id}
+	ORDER BY board_no, rent_no DESC
  	</select>
   
 	
@@ -35,7 +41,7 @@
 	        SELECT user_page_seq.nextval FROM dual
 	    </selectKey>
 	    INSERT INTO user_page( id, grade, business_no, profile_imgno, origin_name, stored_name, thumbnail_name, file_type)
-	    VALUES( #{id}, 0, 0, #{profileImgno}, #{originName}, #{storedName}, #{thumbnailName}, #{fileType} )
+	    VALUES( #{id}, '1', 1, #{profileImgno}, #{originName}, #{storedName}, #{thumbnailName}, #{fileType} )
 	</insert>
 
 
@@ -44,6 +50,61 @@
 		SELECT id, grade, business_no, intro, profile_imgno, origin_name, stored_name, thumbnail_name, file_type
 		FROM user_page
         WHERE id = #{userId}
+	</select>
+	
+	<!-- 추천수 조회 -->
+	<select id="selectLikeByBoardNo" resultType="int" parameterType="Like">
+		SELECT count(*) FROM likeTb
+		WHERE board_no = #{boardNo}
+	</select>
+	
+	<!-- 회원등급 -->
+	<update id="updateCrackEgg" parameterType="UserPage">
+		UPDATE user_page
+		<set>
+			grade = '2'
+		</set>
+		<where>
+			AND grade = '1'
+		</where>
+	</update>
+	
+	<update id="updateChick" parameterType="UserPage">
+			UPDATE user_page
+		<set>
+			grade = '2'
+		</set>
+		<where>
+			AND grade = '1'
+		</where>
+	</update>
+	
+	<update id="updateChicken" parameterType="UserPage">
+			UPDATE user_page
+		<set>
+			grade = '3'
+		</set>
+		<where>
+			AND grade = '2'
+		</where>
+	</update>
+	
+	<update id="updateFriedChicken" parameterType="UserPage">
+			UPDATE user_page
+		<set>
+			grade = '4'
+		</set>
+		<where>
+			AND grade = '3'
+		</where>
+	</update>
+	
+	<select id="selectGrade" resultType="int" parameterType="UserPage">
+		SELECT grade FROM user_page
+		<where>
+			id = #{id}
+		</where>
+	
 	</select>
 	
 	

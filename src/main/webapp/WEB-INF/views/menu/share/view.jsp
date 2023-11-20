@@ -16,36 +16,60 @@ $(() => {
 	})
 })
 
-// 추천
+
+//추천 버튼 변경
+
 $(function(){
-	$("#like").click(function(){
 	
-	  $.ajax({
-         type: "get"
-         , url: "/share/like"
-         , data: {
-        	 boardNo : ${view.boardNo}
-         }
-         , dataType: "json"
-         , success: function( res ) {
-            console.log("AJAX 성공")
-			
-            if(res.isLike){
-            	$("#like").html("추천취소")
-            	$("#likeCount").html(res.likeCount)
-            } else {
-            	$("#like").html("추천하기")
-            	$("#likeCount").html(res.likeCount)
-            }
-         }
-         , error: function() {
-            console.log("AJAX 실패")
-
-         }
-      })	
-	})
+	if(${isLike}) {
+		console.log('추천 이미 함')
+		$("#likeCount")
+			.addClass("btn-warning")
+			.html('추천 취소');
+	} else {
+		console.log('추천 아직 안함')
+		$("#likeCount")
+			.addClass("btn-primary")
+			.html('추천');
+	}// 추천 버튼 End.
+	
+	//추천, 취소 요청Ajax
+	$("#likeCount").click(()=>{
+		$.ajax({
+			type: "GET"
+			, url: "/rent/like"
+			, data: {  
+				boardNo : ${board.boardNo }
+			}
+			, dataType: "JSON"
+			, success: function( data ) {
+					console.log("성공");
+	
+				if( data.result ) { //추천 성공
+					$("#likeCount")
+					.removeClass("btn-primary")
+					.addClass("btn-warning")
+					.html('추천 취소');
+				
+				} else { //추천 취소 성공
+					$("#likeCount")
+					.removeClass("btn-warning")
+					.addClass("btn-primary")
+					.html('추천');
+				
+				}
+				
+				//추천수 적용
+				$("#like").html(data.cnt);
+				
+			}
+			, error: function() {
+				console.log("실패");
+			}
+		}); //ajax end
+	}); //$("#btnLike").click() End.
 })
-
+	
 //댓글목록 불러오기
 function loadComments() {
 	$.ajax({
@@ -221,9 +245,7 @@ $(()=>{
 	
 </tr>
 <tr>
-	<td class="table-info">추천수</td><td id="likeCount">${likeCount}</td>
-		<td><button id="like">추천하기</button></td>
-		<td><input type="time" name="a" id="b">
+	<td class="table-info">추천수</td><td id="like">${cntLike }</td>
 </tr>
 <tr>
 	<td class="table-info" colspan="4">본문</td>
@@ -236,6 +258,8 @@ $(()=>{
 	</td>
 </tr>
 </table>
+	<%-- 추천버튼 --%>
+		<button class="btn" id="likeCount"></button>
 <div class="text-center">
 		<a href="/share/list?menu=${view.menu}&cate=${param.cate}" class="btn btn-secondary">목록으로</a>
 	

@@ -41,24 +41,21 @@ public class MenuShareServiceImpl implements MenuShareFace{
 		
 		int totalCount = menuShareDao.selectCntAll(param);
 		
-//		Paging paging = new Paging(param.getMenu(),totalCount, param.getCurPage());
 		Paging paging = new Paging( param.getMenu(), param.getCate(),totalCount, param.getCurPage(), 12, 10 );
 		return paging;
 	}
 	
 	@Override
 	public List<Map<String, Object>> selectBoardStatus(Paging paging, Board board) {
-		
 		return menuShareDao.selectAll(paging);
 	}
 
 	@Override
 	public Board view(Board board) {
 		
-		Board res = menuShareDao.selectByBoardNo(board);
 		
 		if(board.getHit() != -1 ) {
-			menuShareDao.updateHit(res.getBoardNo());
+			menuShareDao.updateHit(board);
 			
 		}
 		return menuShareDao.selectByBoardNo(board);
@@ -165,11 +162,6 @@ public class MenuShareServiceImpl implements MenuShareFace{
 		
 	}
 	
-	@Override
-	public List<FileTb> getImg(FileTb file) {
-		
-		return menuShareDao.selectFileImg(file);
-	}
 	
 	@Override
 	public List<FileTb> getAttachFile(Board updateParam) {
@@ -213,25 +205,41 @@ public class MenuShareServiceImpl implements MenuShareFace{
 	}
 	
 	@Override
-	public int selectLikeCnt(Like like) {
-		return menuShareDao.selectLikeByBoardNo(like);
+	public boolean isLike(Like like) {
+		int cnt = menuShareDao.selectCntLike(like);
+		
+		if(cnt > 0) { //추천했음
+			logger.info("추천함!");
+			return true;
+			
+		} else { //추천하지 않았음
+			logger.info("추천안함!");
+			return false;
+			
+		}
 	}
 
 	@Override
-	public boolean checkLike(Like like) {
+	public boolean like(Like like) {
+		logger.info("추천 넘어옴");
 		
-		int count = menuShareDao.selectByLike(like);
-		logger.info("{}",count);
-		if( count > 0 ) {
+		if( isLike(like) ) { //추천한 상태
 			menuShareDao.deleteLike(like);
 			
-			return true;
-		} else {
-			
-			menuShareDao.insertLike(like);
 			return false;
+			
+		} else { //추천하지 않은 상태
+			menuShareDao.insertLike(like);
+			
+			return true;
 		}
 	}
+
+	@Override
+	public int getTotalCntLike(Like like) {
+		return menuShareDao.selectTotalCntLike(like);
+	}
+	
 	
 	@Override
 	public void commentinsert(Comment comment) {
@@ -278,6 +286,8 @@ public class MenuShareServiceImpl implements MenuShareFace{
 		System.out.println("안녕");
 		
 	}
+
+	
 
 		
 

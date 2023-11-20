@@ -6,12 +6,14 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
-		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
-		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -76,9 +78,9 @@
 	<!-- 스프링 컴포넌트를 탐색할 패키지를 설정한다 -->
 	<!-- 	@Controller, @Service, @Repository가 적용된 클래스를
 			스프링 빈으로 등록하고 컴포넌트 역할에 맞게 사용할 준비를 한다 -->
-	<context:component-scan base-package="needit.project.opening, web.controller, web.service, web.dao, web.util, web.scheduler.task.BookCheckDao, web.scheduler.dao" />
+	<context:component-scan base-package="needit.project.opening, web.controller, web.service, web.dao, web.util, web.scheduler.task, web.scheduler.dao" />
 	
-	
+	<mybatis-spring:scan base-package="web.scheduler.dao" />
 
 </beans:beans>
 
