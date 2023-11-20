@@ -85,6 +85,16 @@ public interface UserProfileService {
 	public int selectUserGarde(UserPage userPage);
 
 	
+	/**
+	 * 프로필사진 삭제
+	 * 
+	 * @param userPage
+	 */
+	public void imgDelete(UserPage userPage);
+
+	
+
+	
 
 	
 	

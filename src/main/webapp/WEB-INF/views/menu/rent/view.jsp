@@ -52,6 +52,14 @@ h5 {
 h6 {
     font-weight: bolder;
 }
+.bi-suit-heart-fill::before {
+    color: red;
+    content: "\f59d";
+}
+.bi-suit-heart::before {
+    color: red;
+    content: "\f59e";
+}
 </style>
 
 <script type="text/javascript">
@@ -204,13 +212,13 @@ $(()=>{
 	if(${isLike}) {
 		console.log('추천 이미 함')
 		$("#btnLike")
-			.addClass("btn-warning")
-			.html('추천 취소');
+			.addClass("bi bi-suit-heart")
+			.html('좋아요 취소');
 	} else {
 		console.log('추천 아직 안함')
 		$("#btnLike")
-			.addClass("btn-primary")
-			.html('추천');
+			.addClass("bi bi-suit-heart-fill")
+			.html('좋아요');
 	}// 추천 버튼 End.
 	
 	//추천, 취소 요청Ajax
@@ -227,20 +235,22 @@ $(()=>{
 	
 				if( data.result ) { //추천 성공
 					$("#btnLike")
-					.removeClass("btn-primary")
-					.addClass("btn-warning")
-					.html('추천 취소');
+					.removeClass("bi bi-suit-heart-fill")
+					.addClass("bi bi-suit-heart")
+					.html('좋아요 취소');
 				
 				} else { //추천 취소 성공
 					$("#btnLike")
-					.removeClass("btn-warning")
-					.addClass("btn-primary")
-					.html('추천');
+					.removeClass("bi bi-suit-heart")
+					.addClass("bi bi-suit-heart-fill")
+					.html('좋아요');
 				
 				}
 				
 				//추천수 적용
-				$("#like").html(data.cnt);
+				$("#like")
+				.css("color", "#007bff")
+				.text(data.cnt);
 				
 			}
 			, error: function() {
@@ -333,7 +343,7 @@ $(()=>{
 
 <tr>
 	<td class="table-info">글번호</td><td>${board.boardNo }</td>
-	<td class="table-info">추천수</td><td id="like">${cntLike }</td>
+	<td class="table-info">❤️</td><td id="like">${cntLike }명이 이 게시글을 좋아합니다.</td>
 </tr>
 <tr>
 	<td class="table-info">닉네임</td><td>${board.writerNick }</td>
@@ -402,7 +412,7 @@ $(()=>{
 <%-- 추천버튼 --%>
 <c:if test="${isLogin }">
 <div style="text-align: center;">
-	<button class="btn" id="btnLike"></button>
+	<div class="btn" id="btnLike"></div>
 </div><br>
 </c:if>
 
@@ -444,7 +454,8 @@ $(()=>{
 			<div class="col col-9">
 				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;" readonly="readonly" placeholder="로그인 후 댓글 작성 가능"></textarea>
 			</div>
-				<a class="btn btn-danger col-1" href="/user/login?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate }&type=rent">로그인</a>
+<%-- 				<a class="btn btn-danger col-1" href="/user/login?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate }&type=rent">로그인</a> --%>
+				<a class="btn btn-danger col-1" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">로그인</a>
 		</div>
 	</c:if><br>
 

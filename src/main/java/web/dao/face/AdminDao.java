@@ -1,10 +1,12 @@
 package web.dao.face;
 
 import java.util.List;
+import java.util.Map;
 
 import web.dto.Banner;
 import web.dto.Board;
 import web.dto.FileTb;
+import web.util.Paging;
 
 public interface AdminDao {
 
@@ -31,13 +33,27 @@ public interface AdminDao {
 	/**
 	 * 게시글 정보를 삽입한다
 	 * 
-	 * @param writeParam - 삽입할 게시글 정보
+	 * @param writeParamNotice - 삽입할 게시글 정보
 	 */
-	public void insertBoard(Board writeParam);
+	public void insertBoard(Board writeParamNotice);
 
 	
-	public void insertFile(FileTb fileTb);
-
+	public void insertFileNotice(FileTb fileTb);
 	
+	
+	/**
+	 * 공지 게시글 목록 조회
+	 * 
+	 * @return 게시글 목록
+	 */
+	public List<Board> selectAll();
+
+	/**
+	 * 전체 게시글 수를 조회한다
+	 *  + 검색어 추가
+	 * 
+	 * @return 총 게시글 수
+	 */
+	public int selectCntAll();
 	
 }

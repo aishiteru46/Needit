@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -22,6 +23,7 @@ import web.dto.Banner;
 import web.dto.Board;
 import web.dto.FileTb;
 import web.service.face.AdminService;
+import web.util.Paging;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -98,27 +100,28 @@ public class AdminServiceImpl implements AdminService {
 
 	//------------------------------------------------------
 	
+	//공지사항 작성
 	@Override
-	public void write(Board writeParam, List<MultipartFile> file) {
+	public void writeNotice(Board writeParamNotice, List<MultipartFile> fileNotice) {
 
 		//글작성 
-//		adminDao.insertBoard(writeParam);
+		adminDao.insertBoard(writeParamNotice);
 		
 		//첨부파일이 없을 경우 처리
-		if( file.size() == 0 ) {
+		if( fileNotice.size() == 0 ) {
 			return;
 		}
 
-		for(MultipartFile f : file) {
-			this.fileinsert1( f, writeParam.getBoardNo() );
+		for(MultipartFile fn : fileNotice) {
+			this.fileinsertNotice( fn, writeParamNotice.getBoardNo() );
 		}
 		
 	}
 	
-	private void fileinsert1( MultipartFile file, int boardNo ) {
+	private void fileinsertNotice( MultipartFile fileNotice, int boardNo ) {
 		
 		//빈 파일 처리
-		if( file.getSize() <= 0 ) {
+		if( fileNotice.getSize() <= 0 ) {
 			return;
 		}
 		
@@ -130,7 +133,7 @@ public class AdminServiceImpl implements AdminService {
 		storedFolder.mkdir();
 		
 		//저장될 파일 이름
-		String originName = file.getOriginalFilename();
+		String originName = fileNotice.getOriginalFilename();
 		String storedName = originName + UUID.randomUUID().toString().split("-")[4];
 		String fileType = originName.substring(originName.lastIndexOf(".")+ 1);
 
@@ -143,7 +146,7 @@ public class AdminServiceImpl implements AdminService {
 		
 		try {
 			
-			file.transferTo(dest);
+			fileNotice.transferTo(dest);
 			
 	         //--- 이미지 파일 압축하여 저장하기 ---
 			
@@ -184,11 +187,15 @@ public class AdminServiceImpl implements AdminService {
 		
 		logger.info("fileTb : {}", fileTb);
 		
-		adminDao.insertFile( fileTb );
+		adminDao.insertFileNotice( fileTb );
 
 	}	
 		
-	
+	@Override
+	public List<Board> noticeList() {
+
+		return adminDao.selectAll();
+	}
 	
 	
 	

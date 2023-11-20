@@ -53,6 +53,9 @@
 	margin-top: 10px;
 	color: black;
 	font-weight: bold;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 </style>
@@ -71,6 +74,7 @@
 	</c:if>
 </c:forEach>
 
+<div class="gridContainer">
 <c:forEach items="${list}" var="list" varStatus="loop">
   <c:if test="${loop.index % 3 == 0}">
   <div class="row">
@@ -124,6 +128,9 @@
 
 </div> <!-- .container -->
 <br>
-
+</div><!-- .gridContainer -->
 
 <c:import url="/WEB-INF/views/layout/pagination.jsp" />
+
+
+<c:import url="/WEB-INF/views/layout/footer.jsp" />

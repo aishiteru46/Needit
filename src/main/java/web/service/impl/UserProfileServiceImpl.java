@@ -154,10 +154,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	public void introduceUpdate(UserPage userPage) {
-		// TODO Auto-generated method stub
-		
+
+		userProfileDao.updateIntroduce(userPage);
 	}
 
+	
+	@Override
+	public void imgDelete(UserPage userPage) {
+	
+		userProfileDao.deleteImg(userPage);
+		
+	}
 
 	@Override
 	public int cntLike(Like like) {
@@ -186,8 +193,5 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userPage;
 		
 	}
-
-
-	
 
 }

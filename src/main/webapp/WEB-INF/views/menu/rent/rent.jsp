@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script> -->
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Questrial&display=swap');
@@ -69,6 +69,24 @@
 	color: white;
 	background-color: rgb(255,83,63);
 }
+
+#startTmSelected td {
+	padding: 0;
+}
+#startTmSelected td div {
+	padding: 0.75em;
+	text-align: center;
+}
+
+.reserved {
+	background-color: #ccc;
+	text-decoration-line:line-through;
+}
+
+.reserving {
+	background-color: rgb(255,83,63);
+	color: white;
+}
 </style>
 
 <script type="text/javascript">
@@ -84,9 +102,47 @@ $(function(){
         $("#selectedDate").val(fullDate.getTime());
 
         $("#time").show();
+        renderTable(fullDate.getTime());
 //         $("#endTime").show();
     });
-})
+});
+
+//시간 잘못 선택시 예외처리
+function renderTable(selectedDate) {
+	
+	var startSelect = $("#startTmSelected");
+	var tmp = "";
+	var reservedTime = [];
+	var tempDate = new Date(parseInt(selectedDate));
+	
+	<c:forEach var="sta" items="${status}">
+	var rentDate = new Date('${sta.RENT_DATE}');
+	console.log(rentDate + "\r\n " + tempDate)
+	
+ 	if (rentDate.toLocaleString() ===  tempDate.toLocaleString()) {
+		for (let i=${sta.START_TIME}; i<=${sta.END_TIME}; i++) {	
+			reservedTime.push(i);
+		}
+	}
+
+	</c:forEach>
+	
+	for (let i=1; i<=48; i++) {	
+		var time = new Date('2023-01-01 00:00:00');
+		time.setMinutes((i-1)*30);
+		if ((i-1)%6==0) {tmp += '<tr>';}
+		if (reservedTime.indexOf(i) == -1) {
+			tmp += `<td><div type="button" name='endTime' value='\${i}' onClick="timeSet(event, \${i})">\${time.toString().substring(16,21)}</div></td>`;
+		
+		} else {
+			tmp += `<td><div type="button" name='endTime' value='\${i}' class="reserved">\${time.toString().substring(16,21)}</div></td>`;
+		}
+		if (i%6==0) {tmp += '</tr>';}
+	}
+	startSelect.html(tmp);
+	
+}
+
 </script>
 
 <script>
@@ -174,107 +230,108 @@ $(function(){
         return value;
     }
 </script>
-<c:forEach var="statusMap" items="${status}">
-    <script>
-        var startTime = ${statusMap['START_TIME']};
-        var endTime = ${statusMap['END_TIME']};
-        disableOptionsBetween(startTime, endTime);
-    </script>
-</c:forEach>	
+
 <!-- 대여 시간 -->
 <script type="text/javascript">
 
-$(function(){
+let fromTime = 0;
+let toTime = 0;
+
+function timeSet(event, t) {
 	
+	var selectedDate =  $("#selectedDate").val();
+	var reservedTime = [];
+	var tempDate = new Date(parseInt(selectedDate));
 	
+	<c:forEach var="sta" items="${status}">
 	
-    for (var i = 0; i < res.status.length; i++){
-        var startTime = res.status[i].START_TIME;
-        var endTime = res.status[i].END_TIME;
-       	 disableOptionsBetween(startTime, endTime)
-    }
-  	 disableOptionsBetween(startTime, endTime)
-
-	//시간 잘못 선택시 예외처리
-	$("#endTmSelected").change(function () {
-		console.log('endTmSelected 선택됨');
-		
-		if( startTime > endTime && startTime == endTime ){
-			alert('시간을 잘못 선택하셨습니다.');
-
-			var startTime = $("option[name='startTime']:checked").val();
-			var endTime = $("option[name='endTime']:checked").val();
-
-			$("#startTmSelected option:first").prop('selected', true);
-			$("#endTmSelected option:first").prop('selected', true);
-
-			$("#startTmSelected").focus();
+	var rentDate = new Date('${sta.RENT_DATE}');
+	console.log(rentDate + "\r\n " + tempDate)
+	
+ 	if (rentDate.toLocaleString() ===  tempDate.toLocaleString()) {
+		for (let i=${sta.START_TIME}; i<=${sta.END_TIME}; i++) {	
+			reservedTime.push(i);
 		}
-	});
-
-	// 대여신청 버튼 클릭 시 서버로 전송
-    $("#makeRent").click(function () {
-        let selectedDate = $("#selectedDate").val();
-        let startTime = $("option[name='startTime']:checked").val();
-        let endTime = $("option[name='endTime']:checked").val();
-
-        // 대여신청 정보를 서버로 전송
-        $.ajax({
-            type: "POST",
-            url: "/rent/rent"
-            , data: {
-            	boardNo: "${board.boardNo }",
-            	renterId: "${id }",
-            	rentDate: new Date(parseInt(selectedDate)),
-            	startTime: startTime,
-                endTime: endTime,
-                rentStatus : 1
-            }
-            // 대여신청 성공 시 추가 작업 수행
-            , success: function (res) {
-                console.log("대여신청 성공:", res);
-                
-               // 대여신청 성공 시 알림창 띄우기
-               alert("대여신청이 성공적으로 완료되었습니다.");
-                
-                for (var i = 0; i < res.status.length; i++){
-	                var startTime = res.status[i].START_TIME;
-	                var endTime = res.status[i].END_TIME;
-	               	 disableOptionsBetween(startTime, endTime)
-                }
-               	 console.log('대여신청 성공시 값:', startTime, endTime )
-               	 
-               	 
-                // 페이지 새로고침
-                location.reload();
-                
-            }
-            , error: function (error) {
-                console.error("대여신청 실패:", error);
-                
-                // 대여신청 실패 시 알림창 띄우기
-                alert("대여신청에 오류가 발생했습니다. 다시 신청해주세요.");
-                
-            }
-        });
-    });
-});
-
-function disableOptionsBetween(startTime, endTime) {
-    // 시작 시간과 종료 시간을 숫자로 변환
-    startTime = parseInt(startTime);
-    endTime = parseInt(endTime);
-    
-    console.log(startTime);
-    console.log(endTime);
-    console.log("disableOptionsBetween 실행됨")
-    
-	$("select[name='startTime']").find("option[value='" + startTime + "']").prop("disabled", true);
-	$("select[name='endTime']").find("option[value='" + endTime + "']").prop("disabled", true);
-    
-    console.log('얘 실행되니?');
-		
+	}
+	</c:forEach>
+	
+	if (fromTime == 0 || toTime !=0 || fromTime >= t) {
+		$("#startTmSelected td div").removeClass('reserving');
+		fromTime = t;
+		toTime = 0;
+		$(event.target).addClass('reserving');
+		console.log(event.target);
+	
+	} else {
+		toTime = t;
+		for (let i=fromTime; i<=toTime; i++) {			
+			if (reservedTime.indexOf(i) != -1) {
+				alert('선택불가한 시간입니다.');
+				$("#startTmSelected td div").removeClass('reserving');
+				fromTime = 0;
+				toTime = 0;
+				return false;
+			}
+			$(`#startTmSelected td div[value="\${i}"]`).addClass('reserving');
+		}
+	}
+	
 }
+
+
+// 대여신청 버튼 클릭 시 서버로 전송
+$(document).ready(function(){
+  $("#makeRent").click(function () {
+	  console.log("대여신청 버튼 클릭 됨!");
+	  
+      let selectedDate = $("#selectedDate").val();
+      let startTime = fromTime;
+      let endTime = toTime;
+      
+      if (fromTime == 0 || toTime == 0 || fromTime >= toTime) {
+		alert('선택불가한 시간입니다.');
+		
+		$("#startTmSelected td div").prop("style","background-color:transparent;");
+		fromTime = 0;
+		toTime = 0;
+		
+		return false;  
+      }
+
+    // 대여신청 정보를 서버로 전송
+	    $.ajax({
+	        type: "POST",
+	        url: "/rent/rent"
+	        , data: {
+	        	boardNo: "${board.boardNo }",
+	        	renterId: "${id }",
+	        	rentDate: new Date(parseInt(selectedDate)),
+	        	startTime: startTime,
+	            endTime: endTime,
+	            rentStatus : 1
+	        }
+	    
+	        // 대여신청 성공 시 추가 작업 수행
+	        , success: function (res) {
+	            console.log("대여신청 성공:", res);
+	            
+	           // 대여신청 성공 시 알림창 띄우기
+	           alert("대여신청이 성공적으로 완료되었습니다. 승인을 기다려주세요.");
+	           	 
+	           // 페이지 새로고침
+	           location.reload();
+	            
+	        }
+	        , error: function (error) {
+	            console.error("대여신청 실패:", error);
+	            
+	            // 대여신청 실패 시 알림창 띄우기
+	            alert("대여신청에 오류가 발생했습니다. 다시 신청해주세요.");
+	            
+	        }
+	    });
+  });
+});
 </script>
 
 <!-- Modal, 대여 -->
@@ -311,118 +368,23 @@ function disableOptionsBetween(startTime, endTime) {
 				    </div><br><br>
 				    
 				    <!-- 예약 시간을 선택하는 폼 -->
-				    <form>
+				    <div>
 				        <div style="display: none;" id="time">
-				            <div style="margin-bottom: 5px;">
-			            	<span>시간 선택</span>
-				            <select id="startTmSelected">
-					            <option name="startTime" value="1" disabled="disabled"> 00:00 </option>
-					            <option name="startTime" value="2"> 00:30 </option>
-					            <option name="startTime" value="3"> 01:00 </option>
-					            <option name="startTime" value="4"> 01:30 </option>
-					            <option name="startTime" value="5"> 02:00 </option>
-					            <option name="startTime" value="6"> 02:30 </option>
-					            <option name="startTime" value="7"> 03:00 </option>
-					            <option name="startTime" value="8"> 03:30 </option>
-					            <option name="startTime" value="9"> 04:00 </option>
-					            <option name="startTime" value="10"> 04:30 </option>
-					            <option name="startTime" value="11"> 05:00 </option>
-					            <option name="startTime" value="12"> 05:30 </option>
-					            <option name="startTime" value="13"> 06:00 </option>
-					            <option name="startTime" value="14"> 06:30 </option>
-					            <option name="startTime" value="15"> 07:00 </option>
-					            <option name="startTime" value="16"> 07:30 </option>
-					            <option name="startTime" value="17"> 08:00 </option>
-					            <option name="startTime" value="18"> 08:30 </option>
-					            <option name="startTime" value="19"> 09:00 </option>
-					            <option name="startTime" value="20"> 09:30 </option>
-					            <option name="startTime" value="21"> 10:00 </option>
-					            <option name="startTime" value="22"> 10:30 </option>
-					            <option name="startTime" value="23"> 11:00 </option>
-					            <option name="startTime" value="24"> 11:30 </option>
-					            <option name="startTime" value="25"> 12:00 </option>
-					            <option name="startTime" value="26"> 12:30 </option>
-					            <option name="startTime" value="27"> 13:00 </option>
-					            <option name="startTime" value="28"> 13:30 </option>
-					            <option name="startTime" value="29"> 14:00 </option>
-					            <option name="startTime" value="30"> 14:30 </option>
-					            <option name="startTime" value="31"> 15:00 </option>
-					            <option name="startTime" value="32"> 15:30 </option>
-					            <option name="startTime" value="33"> 16:00 </option>
-					            <option name="startTime" value="34"> 16:30 </option>
-					            <option name="startTime" value="35"> 17:00 </option>
-					            <option name="startTime" value="36"> 17:30 </option>
-					            <option name="startTime" value="37"> 18:00 </option>
-					            <option name="startTime" value="38"> 18:30 </option>
-					            <option name="startTime" value="39"> 19:00 </option>
-					            <option name="startTime" value="40"> 19:30 </option>
-					            <option name="startTime" value="41"> 20:00 </option>
-					            <option name="startTime" value="42"> 20:30 </option>
-					            <option name="startTime" value="43"> 21:00 </option>
-					            <option name="startTime" value="44"> 21:30 </option>
-					            <option name="startTime" value="45"> 22:00 </option>
-					            <option name="startTime" value="46"> 22:30 </option>
-					            <option name="startTime" value="47"> 23:00 </option>
-					            <option name="startTime" value="48"> 23:30 </option>
-				            </select>
-				            <p style="display: inline;"> ~ </p>
-				            <select id="endTmSelected">
-					            <option name="endTime" id="end1" value="1"> 00:00 </option>
-					            <option name="endTime" value="2"> 00:30 </option>
-					            <option name="endTime" value="3"> 01:00 </option>
-					            <option name="endTime" value="4"> 01:30 </option>
-					            <option name="endTime" value="5"> 02:00 </option>
-					            <option name="endTime" value="6"> 02:30 </option>
-					            <option name="endTime" value="7"> 03:00 </option>
-					            <option name="endTime" value="8"> 03:30 </option>
-					            <option name="endTime" value="9"> 04:00 </option>
-					            <option name="endTime" value="10"> 04:30 </option>
-					            <option name="endTime" value="11"> 05:00 </option>
-					            <option name="endTime" value="12"> 05:30 </option>
-					            <option name="endTime" value="13"> 06:00 </option>
-					            <option name="endTime" value="14"> 06:30 </option>
-					            <option name="endTime" value="15"> 07:00 </option>
-					            <option name="endTime" value="16"> 07:30 </option>
-					            <option name="endTime" value="17"> 08:00 </option>
-					            <option name="endTime" value="18"> 08:30 </option>
-					            <option name="endTime" value="19"> 09:00 </option>
-					            <option name="endTime" value="20"> 09:30 </option>
-					            <option name="endTime" value="21"> 10:00 </option>
-					            <option name="endTime" value="22"> 10:30 </option>
-					            <option name="endTime" value="23"> 11:00 </option>
-					            <option name="endTime" value="24"> 11:30 </option>
-					            <option name="endTime" value="25"> 12:00 </option>
-					            <option name="endTime" value="26"> 12:30 </option>
-					            <option name="endTime" value="27"> 13:00 </option>
-					            <option name="endTime" value="28"> 13:30 </option>
-					            <option name="endTime" value="29"> 14:00 </option>
-					            <option name="endTime" value="30"> 14:30 </option>
-					            <option name="endTime" value="31"> 15:00 </option>
-					            <option name="endTime" value="32"> 15:30 </option>
-					            <option name="endTime" value="33"> 16:00 </option>
-					            <option name="endTime" value="34"> 16:30 </option>
-					            <option name="endTime" value="35"> 17:00 </option>
-					            <option name="endTime" value="36"> 17:30 </option>
-					            <option name="endTime" value="37"> 18:00 </option>
-					            <option name="endTime" value="38"> 18:30 </option>
-					            <option name="endTime" value="39"> 19:00 </option>
-					            <option name="endTime" value="40"> 19:30 </option>
-					            <option name="endTime" value="41"> 20:00 </option>
-					            <option name="endTime" value="42"> 20:30 </option>
-					            <option name="endTime" value="43"> 21:00 </option>
-					            <option name="endTime" value="44"> 21:30 </option>
-					            <option name="endTime" value="45"> 22:00 </option>
-					            <option name="endTime" value="46"> 22:30 </option>
-					            <option name="endTime" value="47"> 23:00 </option>
-					            <option name="endTime" value="48"> 23:30 </option>
-				            </select>
-						    <button type="button" name="makeRent" id="makeRent" class="btn">대여신청</button>
+				            <div style="margin-bottom: 5px; display: grid;">
+			            	<span>시간 선택(*선택한 시간 전까지 반납필수!)</span>
+			            	<table>
+			            	<thead></thead>
+					            <tbody id="startTmSelected">
+					            </tbody>
+			            	</table>
+			            	<br>
+						    <button type="button" name="makeRent" id="makeRent" class="btn float-end">대여신청</button>
 				            </div>
 				        </div>
 				        
 				        <!-- 선택한 날짜를 저장할 hidden input -->
 				        <input type="hidden" name="selectedDate" id="selectedDate" >
-				    </form>
+				    </div>
 			</div><!-- .modal-body -->
 			
 			<!-- Modal Footer -->

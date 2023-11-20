@@ -16,8 +16,6 @@
 $(() => {
 	$("#title").focus()
 	
-	$("#content").summernote({
-		height: 300
 	})
 })
 </script>
