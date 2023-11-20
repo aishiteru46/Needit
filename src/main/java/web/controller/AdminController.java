@@ -129,23 +129,24 @@ public class AdminController {
 	@PostMapping("/admin/noticeUpdate")
 	public String noticeUpdateProc(
 			Board writeNotice,
-			List<MultipartFile> fileNotice,
 			HttpSession session
 			) {
 		
 		writeNotice.setWriterId((String) session.getAttribute("id"));
 		writeNotice.setWriterNick((String) session.getAttribute("nick"));
 		
-		adminService.writeNotice(writeNotice, fileNotice);
+		adminService.writeNotice(writeNotice);
 		
 		return "redirect:/admin/noticeUpdate";
 	}
 	
+	//공지사항 list 조회
 	@GetMapping("/admin/noticeList")
-	public void noticeList(Model model) {
+	public void noticeList(Model model, HttpSession session) {
 		
 		List<Board> noticeList = adminService.noticeList(); 
 		model.addAttribute("noticeList", noticeList);
+		session.setAttribute("noticeList", noticeList);
 		
 //		logger.info("공지사항 목록 : {}", noticeList);
 	}

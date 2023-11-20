@@ -6,6 +6,11 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <style>
+#NoticeTop{
+	text-align: center;
+	font-size: 50px;
+	margin-bottom: 30px;
+}
 #NoticeDiv{
 	border-bottom: 1px solid black;
 	margin-bottom: 15px;
@@ -31,20 +36,16 @@
 }
 #NoticeTitle{
 	display: block;
+	height: 100%;
 	font-size: 20px;
 	font-weight: bold;
 	overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-bottom: 3px;
+    margin-bottom: 5px;
 }
 #NoticeContent{
 	display: block;
-	height: 80px;
+	height: 100%;
 	font-size: 16px;
-	overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     margin-left: 54px;
 }
 #NoticeDate{
@@ -60,6 +61,7 @@
 <div style="margin-top: 5%;"></div>
 
 <!-- 공지사항 -->
+<div id="NoticeTop">⭐NOTICE.공지사항</div>
 <c:forEach var="list" items="${noticeList }">
 	<div id="NoticeDiv">
 		<div id="NoticeFloat">공지</div>

@@ -31,17 +31,7 @@
  		VALUES(#{boardNo}, 4, 1, #{writerId}, '관리자닉', sysdate, 0, #{title}, 1, #{content}, '서울' )
  	</insert>
  	
- 	<!-- 공지사항 작성 -->
-    <insert id="insertFileNotice" parameterType="FileTb">
-    	<selectKey resultType="int" order="BEFORE" keyProperty="fileNo">
-    		SELECT fileTb_seq.nextval FROM dual
-    	</selectKey>
-    	INSERT INTO fileTb( file_no, origin_name, stored_name, thumbnail_name, file_type, board_no)
-    	VALUES( #{fileNo}, #{originName}, #{storedName}, #{thumbnailName}, #{fileType}, #{boardNo} )
-    </insert>
-
-
-	<!-- 해당 메뉴 게시글 조회 -->
+	<!-- 공지사항 게시글 조회 -->
 	<select id="selectAll" resultType="Board">
 		SELECT board_no, writer_id, writer_nick, menu, cate, title, content, location, write_date
 		FROM board
