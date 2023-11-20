@@ -1,10 +1,5 @@
 package web.controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.Reader;
-import java.sql.Clob;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +43,7 @@ public class MainController {
 		//배너 조회,출력
 		List<Banner> bannerNames = new ArrayList<Banner>();
 		bannerNames = mainService.getBannerNo();
-		logger.info(bannerNames.toString());
+//		logger.info(bannerNames.toString());
 		model.addAttribute("file", bannerNames);
 		
 		//검색
@@ -56,23 +51,23 @@ public class MainController {
 		
 		//최신 게시글 조회 출력_대여게시판
 		List<Map<String, Object>> listRent = mainService.getBoardRentInfo();
-		logger.info("메인에 출력할 대여 list : {}", listRent);
+//		logger.info("메인에 출력할 대여 list : {}", listRent);
 		model.addAttribute("boardRentInfo", listRent);
 		model.addAttribute("boardNo", board.getBoardNo());
 		
 		//최신 게시글 조회 출력_나눔게시판
 		List<Map<String, Object>> listShare = mainService.getBoardShareInfo();
-		logger.info("메인에 출력할 나눔 list : {}", listShare);
+//		logger.info("메인에 출력할 나눔 list : {}", listShare);
 		model.addAttribute("boardShareInfo", listShare);
 		
 		//니딧 인증 업체
 		List<Map<String, Object>> listBusiness = mainService.getBusinessInfo();
-		logger.info("메인에 출력할 업체 list : {}", listBusiness);
+//		logger.info("메인에 출력할 업체 list : {}", listBusiness);
 		model.addAttribute("businessInfo", listBusiness);
 		
 		//오늘의 인기 게시글
 		List<Map<String, Object>> listCommu = mainService.getCommuByLike();
-		logger.info("메인에 출력할 커뮤 list : {}", listCommu);
+//		logger.info("메인에 출력할 커뮤 list : {}", listCommu);
 		model.addAttribute("commuHit", listCommu);
 		
 		
@@ -85,7 +80,7 @@ public class MainController {
 	//내 주변지도
 	@GetMapping("/admin/mainpageMap")
 	public String map() {
-		logger.info("/admin/mainpageMap");
+//		logger.info("/admin/mainpageMap");
 		return "/admin/mainpageMap";
 	}
 }

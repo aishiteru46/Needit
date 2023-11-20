@@ -165,11 +165,30 @@
     white-space: nowrap;
 }
 #MainCommuHitContent{
+    display: inline-block;
+    width: 682px;
+    height: 66px;
 	font-size: 18px;
 	overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+/* 썸머노트 사진 등록시 */
+#MainCommuHitContent p{
+	float: left;
+	position: absolute;
+	max-width: 682px;
+	max-height: 66px;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#MainCommuHitContent img{
+	display :block;
+/* 	display :inline-block; */
+    max-width: 120px;
+}
+/* 인기 게시글 100이상 붉은 글씨 */
 .MainCommuHit{
     display: inline-block;
     float: right;
@@ -192,7 +211,38 @@
     color: red;
     border-color: red;
 }
-
+/* 지도 아이콘 링크 */
+#mainMapIcon{
+	width: 30px;
+	height: 30px;
+	margin-top: -49px;
+    margin-right: 9px;
+    float: right;
+}
+#mainMapIconSpan{
+    background: url(/resources/img/blueSea.jpg) no-repeat center bottom / cover;
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+    font-weight: bolder;
+    font-size: 36px;
+    margin-top: -64px;
+    margin-right: 16px;
+    width: 30px;
+    height: 50px;
+    float: right;
+}
+#mainMapIconSpan1{
+    display: block;
+    float: right;
+    position: relative;
+    margin-top: -21px;
+    margin-right: 16px;
+    font-size: 12px;
+    width: 25px;
+    height: 10px;
+    color: blue;
+    text-decoration: underline;
+}
 </style>
 
 
@@ -259,13 +309,15 @@
 <div id="mainTitle">최신 대여해요 게시글</div>
 	<c:forEach var="boardRentInfo" items="${boardRentInfo}">
 		<div id="MainTumbnailDiv" class="MainDiv">
+		<a href="/rent/view?boardNo=${boardRentInfo.BOARD_NO }&menu=1&cate=${boardRentInfo.CATE }">
 			<c:if test="${not empty boardRentInfo.THUMBNAIL_NAME }">
-				<div><a href="/rent/list?menu=1&cate=1"><img src="/upload/${boardRentInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></a></div>
+				<div><img src="/upload/${boardRentInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></div>
 			</c:if>
 			<c:if test="${empty boardRentInfo.THUMBNAIL_NAME }">			
 				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
 			</c:if>
-			<div id="MainThumbnailTitle">${boardRentInfo.TITLE}</div>
+		</a>
+		<div id="MainThumbnailTitle">${boardRentInfo.TITLE}</div>
 		</div><!-- #MainTumbnailDiv -->
 	</c:forEach>
 </div><!-- #MainRent -->
@@ -276,13 +328,15 @@
 <div id="mainTitle">최신 나눔해요 게시글</div>
 	<c:forEach var="boardShareInfo" items="${boardShareInfo}">
 		<div id="MainTumbnailDiv">
+		<a href="/share/view?boardNo=${boardShareInfo.BOARD_NO }&menu=2&cate=${boardShareInfo.CATE }">
 			<c:if test="${not empty boardShareInfo.THUMBNAIL_NAME }">
-				<div><a href="/share/list?menu=2&cate=1"><img src="/upload/${boardShareInfo.THUMBNAIL_NAME }" id="MainThumbnailImg" ></a></div>
+				<div><img src="/upload/${boardShareInfo.THUMBNAIL_NAME }" id="MainThumbnailImg" ></div>
 			</c:if>
 			<c:if test="${empty boardShareInfo.THUMBNAIL_NAME }">
 				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
 			</c:if>
-			<div id="MainThumbnailTitle">${boardShareInfo.TITLE}</div>
+		</a>
+		<div id="MainThumbnailTitle">${boardShareInfo.TITLE}</div>
 		</div><!-- #MainTumbnailDiv -->
 	</c:forEach>
 </div><!-- #MainShare -->
@@ -293,13 +347,15 @@
 <div id="mainTitle">니딧 인증 업체</div>
 	<c:forEach var="businessInfo" items="${businessInfo}">
 		<div id="MainTumbnailDiv">
+		<a href="/menu/business?menu=5&cate=${businessInfo.CATE }">
 			<c:if test="${not empty businessInfo.THUMBNAIL_NAME }">
-				<div><a href="/menu/business?menu=5&cate=1"><img src="/upload/${businessInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></a></div>
+				<div><img src="/upload/${businessInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></div>
 			</c:if>
 			<c:if test="${empty businessInfo.THUMBNAIL_NAME }">			
 				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
 			</c:if>
-			<div id="MainThumbnailTitle">${businessInfo.TITLE}</div>
+		</a>
+		<div id="MainThumbnailTitle">${businessInfo.TITLE}</div>
 		</div><!-- #MainTumbnailDiv -->
 	</c:forEach>
 </div><!-- #MainBusiness -->
@@ -311,7 +367,7 @@
     <hr id="MainCommuHitHr">
 	<c:forEach var="commuHit" items="${commuHit}">
 		<div id="MainCommuHitDiv">
-			<a href="/community/list?menu=4&cate=1">
+			<a href="/community/view?boardNo=${commuHit.BOARD_NO }&menu=4&cate=${commuHit.CATE }">
             <span class="MainCommuHit ${commuHit.HIT lt 100 ? 'lowCount' : 'highCount'}">조회수: ${commuHit.HIT}</span>
 			<span id="MainCommuHitTitle">${commuHit.TITLE}</span>
 			<span id="MainCommuHitContent">${commuHit.CONTENT}</span>
@@ -323,9 +379,13 @@
 <!-- 주변 지도 -->
 <div id="MainMap">
 <div id="mainTitleMap">내 주변 지도</div>
+<a href="/map">
+	<span id="mainMapIconSpan">M</span>
+	<span id="mainMapIconSpan1">클릭</span>
+</a>
+
 <!-- 지도 링크 작게 -->
-<a href="/map" style="width: 363px; height: 225px; float: left; position: absolute; z-index: 10;"></a>
-<div><%@ include file="/WEB-INF/views/admin/mainpageMap.jsp" %></div>
+<div><%@ include file="/WEB-INF/views/main/mainpageMap.jsp" %></div>
 <!-- <iframe src="/admin/mainpageMap" style="width: 300px; height: 222px;"></iframe> -->
 </div><!-- #MainMap -->
 

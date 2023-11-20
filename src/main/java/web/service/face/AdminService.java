@@ -1,11 +1,13 @@
 package web.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Banner;
 import web.dto.Board;
+import web.util.Paging;
 
 public interface AdminService {
 
@@ -31,6 +33,14 @@ public interface AdminService {
 	 * @param writeParam - 게시글 정보 객체
 	 * @param file - 첨부 파일 리스트
 	 */
-	public void write(Board writeParam, List<MultipartFile> file);
+	public void writeNotice(Board writeParamNotice, List<MultipartFile> fileNotice);
+
+	/**
+	 * 게시글 목록 조회
+	 * 
+	 * @return 게시글 목록
+	 */
+	public List<Board> noticeList();
+
 
 }

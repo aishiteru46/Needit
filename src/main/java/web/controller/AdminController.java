@@ -2,6 +2,7 @@ package web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,6 +20,7 @@ import web.dto.Banner;
 import web.dto.Board;
 import web.dto.Report;
 import web.service.face.AdminService;
+import web.util.Paging;
 
 @Controller
 public class AdminController {
@@ -48,15 +50,15 @@ public class AdminController {
 
 	//고객센터
 	@GetMapping("/admin/customerService")
-	public void customerService() {}
-	
-	//고객센터 -> 공지사항
-	@GetMapping("/admin/notice")
-	public void notice() {}
+	public String customerService() {
+		return "admin/customerService";
+	}
 	
 	//고객센터 -> FAQ
 	@GetMapping("/admin/faq")
-	public void faq() {}
+	public String faq() {
+		return "admin/faq";
+	}
 	
 	//고객센터 -> 1:1채팅
 	@GetMapping("/admin/chat")
@@ -125,14 +127,29 @@ public class AdminController {
 	
 	//관리자 공지등록
 	@PostMapping("/admin/noticeUpdate")
-	public String noticeUpdateProc(Board writeParam, List<MultipartFile> file, HttpSession session) {
+	public String noticeUpdateProc(
+			Board writeNotice,
+			List<MultipartFile> fileNotice,
+			HttpSession session
+			) {
 		
-		writeParam.setWriterId((String) session.getAttribute("id"));
+		writeNotice.setWriterId((String) session.getAttribute("id"));
+		writeNotice.setWriterNick((String) session.getAttribute("nick"));
 		
-		adminService.write(writeParam, file);
+		adminService.writeNotice(writeNotice, fileNotice);
 		
 		return "redirect:/admin/noticeUpdate";
 	}
+	
+	@GetMapping("/admin/noticeList")
+	public void noticeList(Model model) {
+		
+		List<Board> noticeList = adminService.noticeList(); 
+		model.addAttribute("noticeList", noticeList);
+		
+//		logger.info("공지사항 목록 : {}", noticeList);
+	}
+	
 	
 	
 	
