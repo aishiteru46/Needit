@@ -11,9 +11,22 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<meta name="google-signin-client_id" content="802470395014-41r2ji3pfdpgnpl13tgfdgo6v8bv5ue5.apps.googleusercontent.com">
 <script type="text/javascript">
+function onSignIn(googleUser) {
+	  var profile = googleUser.getBasicProfile();
+	  var id_token = googleUser.getAuthResponse().id_token;
+	  var xhr = new XMLHttpRequest();
+	  xhr.open('POST', '승인된 리디렉션 URI');
+	  xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	  xhr.onload = function() {
+	    console.log('Signed in as: ' + xhr.responseText);
+	  };
+	  xhr.send('idtoken=' + id_token);
+}//onSignIn
+
 $(document).ready(function(){
     // 세션 스토리지에 현재 페이지의 URL 저장
     sessionStorage.setItem('previousUrl', window.location.href);
@@ -67,10 +80,7 @@ form {
 				<input type="text" class="form-control mb-3" name="id" id="id" placeholder="아이디를 입력해주세요" required="required">
 				<input type="password" class="form-control" name="pw" id="pw" placeholder="비밀번호를 입력해주세요" required="required">
 			</div>
-			<input type="hidden" name="boardNo" value="${not empty param.boardNo ?param.boardNo :'0' }">
-			<input type="hidden" name="menu" value="${not empty param.menu ?param.menu :'0' }">
-			<input type="hidden" name="cate" value="${not empty param.cate ?param.cate :'0' }">
-			<input type="hidden" name="type" value="${not empty param.type ?param.type :'null' }">
+		
 			<button class="col-3 mr-2 btn btn-danger float-end" id="login" onclick="goBack()">로그인</button>
 		</div>
 		
@@ -83,6 +93,7 @@ form {
 		</div>
 		<div>
 		<a id="needit"class=" col-12 btn btn-danger"href="/user/signup">회원가입</a>
+		<div class="g-signin2" data-onsuccess="onSignIn">구글 로그인</div>
 		</div>
 	</form>
 </div>
