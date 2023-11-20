@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import web.dto.Like;
 import web.dto.Rent;
 import web.dto.User;
-import web.dto.UserPage;
+import web.dto.UserFile;
 import web.service.face.UserProfileService;
 
 @Controller
@@ -42,11 +42,11 @@ public class UserProfileController {
 	
 	@RequestMapping("/view")
 	public String profileView(Rent rent, Model model
-			, HttpSession session, UserPage userPage,Like like) {
+			, HttpSession session, User user,Like like) {
 		
-		userPage.setId((String)session.getAttribute("id"));
+		user.setId((String)session.getAttribute("id"));
 
-		List<Map<String,Object>> list = userProfileService.bookList(userPage);
+		List<Map<String,Object>> list = userProfileService.rentList(user);
 		model.addAttribute("booklist",list);
 		
 		
@@ -56,16 +56,16 @@ public class UserProfileController {
         String userId = (String) session.getAttribute("id");
         
         // 사용자의 프로필 이미지 정보 가져오기
-        UserPage img = userProfileService.imgSelect(userId);
+        UserFile img = userProfileService.imgSelect(userId);
         
         //회원등급 조회
-        int userGrade = userProfileService.selectUserGarde(userPage);
+        User userGrade = userProfileService.selectUserGrade(user);
         model.addAttribute("userGrade",userGrade);
         
         //추천수 조회
         int likeCount = userProfileService.cntLike(like);
         //회원등업
-		UserPage grade = userProfileService.updateGrade(likeCount, userPage);
+		User grade = userProfileService.updateGrade(likeCount, user);
 		logger.info("회원등급{}",grade);
 		model.addAttribute("grade",grade);
         
@@ -148,9 +148,9 @@ public class UserProfileController {
 
 	//프로필사진 삭제
 	@PostMapping("/imgdelete")
-	public String imgDelete(UserPage userPage) {
+	public String imgDelete(UserFile userFile) {
 		
-		userProfileService.imgDelete(userPage);
+		userProfileService.imgDelete(userFile);
 		
 		return "/profile";
 	}
@@ -166,13 +166,13 @@ public class UserProfileController {
 
 
 	@PostMapping("/introduce")
-	public String introduceProc(UserPage userPage, Model model) {
+	public String introduceProc(User user, Model model) {
 		
 		
 		
-		userProfileService.introduceUpdate(userPage);
+		userProfileService.introduceUpdate(user);
 		
-		model.addAttribute("userpage", userPage);
+		model.addAttribute("userpage", user);
 		
 		
 		return "redirect:/profile/view";

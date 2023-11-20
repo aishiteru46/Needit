@@ -5,11 +5,9 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import web.dto.Booking;
 import web.dto.Like;
-import web.dto.Rent;
 import web.dto.User;
-import web.dto.UserPage;
+import web.dto.UserFile;
 
 public interface UserProfileService {
 
@@ -34,7 +32,7 @@ public interface UserProfileService {
 	 * @param book 예약 정보
 	 * @return 
 	 */
-	public List<Map<String,Object>> bookList(UserPage userPage);
+	public List<Map<String,Object>> rentList(User user);
 
 	/*
 	 * 회원프로필사진
@@ -49,7 +47,7 @@ public interface UserProfileService {
 	 * @param userId
 	 * @return
 	 */
-	public UserPage imgSelect(String userId);
+	public UserFile imgSelect(String userId);
 
 	
 	/**
@@ -57,7 +55,7 @@ public interface UserProfileService {
 	 * 
 	 * @param userPage
 	 */
-	public void introduceUpdate(UserPage userPage);
+	public void introduceUpdate(User user);
 	
 	/**
 	 * 회원등급을 위한 추천수 조회
@@ -74,7 +72,7 @@ public interface UserProfileService {
 	 * @param grade 
 	 * @return 
 	 */
-	public UserPage updateGrade(int likeCount, UserPage userPage);
+	public User updateGrade(int likeCount, User user);
 	
 	/**
 	 * 유저 등급 조회
@@ -82,7 +80,7 @@ public interface UserProfileService {
 	 * @param userPage 유저 정보
 	 * @return
 	 */
-	public int selectUserGarde(UserPage userPage);
+	public User selectUserGrade(User user);
 
 	
 	/**
@@ -90,7 +88,7 @@ public interface UserProfileService {
 	 * 
 	 * @param userPage
 	 */
-	public void imgDelete(UserPage userPage);
+	public void imgDelete(UserFile userFile);
 
 	
 

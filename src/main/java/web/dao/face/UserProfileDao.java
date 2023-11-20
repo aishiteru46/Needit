@@ -3,12 +3,9 @@ package web.dao.face;
 import java.util.List;
 import java.util.Map;
 
-import web.dto.Booking;
-import web.dto.Grade;
 import web.dto.Like;
-import web.dto.Rent;
 import web.dto.User;
-import web.dto.UserPage;
+import web.dto.UserFile;
 
 public interface UserProfileDao {
 
@@ -33,7 +30,7 @@ public interface UserProfileDao {
 	 * 
 	 * @param rent 예약 정보
 	 */
-	public List<Map<String,Object>> selectBookList(UserPage userPage);
+	public List<Map<String,Object>> selectBookList(User user);
 
 
 	/**
@@ -41,7 +38,7 @@ public interface UserProfileDao {
 	 * 
 	 * @param userPage
 	 */
-	public void updateImg(UserPage userPage);
+	public void updateImg(UserFile userFile);
 
 
 	/**
@@ -50,7 +47,7 @@ public interface UserProfileDao {
 	 * @param userId
 	 * @return
 	 */
-	public UserPage selectImg(String userId);
+	public UserFile selectImg(String userId);
 
 	/**
 	 * 추천수 조회
@@ -66,7 +63,7 @@ public interface UserProfileDao {
 	 * 
 	 * @param grade 추천수
 	 */
-	public void updateCrackEgg(UserPage userPage);
+	public void updateCrackEgg(User user);
 
 	/**
 	 * 추천수가 10이상이면 회원등급
@@ -74,7 +71,7 @@ public interface UserProfileDao {
 	 * 
 	 * @param likeCount 추천수
 	 */
-	public void updateChick(UserPage userPage);
+	public void updateChick(User user);
 
 	/**
 	 * 추천수가 20이상이면 회원등급
@@ -82,7 +79,7 @@ public interface UserProfileDao {
 	 * 
 	 * @param likeCount 추천수
 	 */
-	public void updateChicken(UserPage userPage);
+	public void updateChicken(User user);
 
 	/**
 	 * 추천수가 30이상이면 회원등급
@@ -90,7 +87,7 @@ public interface UserProfileDao {
 	 * 
 	 * @param likeCount
 	 */
-	public void updateFriedChicken(UserPage userPage);
+	public void updateFriedChicken(User user);
 
 	/**
 	 * 유저 등급 조회
@@ -98,7 +95,7 @@ public interface UserProfileDao {
 	 * @param userPage 유저 등급
 	 * @return
 	 */
-	public int selectGrade(UserPage userPage);
+	public User selectGrade(User user);
 
 
 	/**
@@ -106,7 +103,7 @@ public interface UserProfileDao {
 	 * 
 	 * @param userPage
 	 */
-	public void updateIntroduce(UserPage userPage);
+	public void updateIntroduce(User user);
 
 
 	/**
@@ -114,7 +111,7 @@ public interface UserProfileDao {
 	 * 
 	 * @param userPage
 	 */
-	public void deleteImg(UserPage userPage);
+	public void deleteImg(UserFile userFile);
 
 
 

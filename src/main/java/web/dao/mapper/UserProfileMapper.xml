@@ -22,7 +22,7 @@
  	</delete>
  	
  	<!-- 예약 목록 -->
- 	<select id="selectBookList" resultType="Map" parameterType="UserPage">
+ 	<select id="selectBookList" resultType="Map" parameterType="User">
 <!--  		SELECT * FROM rent -->
  	SELECT B.board_no, A.renter_id, A.rent_no,A.rent_date, A.start_time, A.end_time
 	FROM rent A
@@ -38,17 +38,17 @@
 
 	<insert id="updateImg" parameterType="map">
 	    <selectKey resultType="int" order="BEFORE" keyProperty="profileImgno">
-	        SELECT user_page_seq.nextval FROM dual
+	        SELECT user_file_seq.nextval FROM dual
 	    </selectKey>
-	    INSERT INTO user_page( id, grade, business_no, profile_imgno, origin_name, stored_name, thumbnail_name, file_type)
-	    VALUES( #{id}, '1', 1, #{profileImgno}, #{originName}, #{storedName}, #{thumbnailName}, #{fileType} )
+	    INSERT INTO user_file( id, profile_imgno, origin_name, stored_name, thumbnail_name, file_type)
+	    VALUES( #{id}, #{profileImgno}, #{originName}, #{storedName}, #{thumbnailName}, #{fileType} )
 	</insert>
 
 
 	
-	<select id="selectImg" resultType="UserPage" parameterType="String">
-		SELECT id, grade, business_no, intro, profile_imgno, origin_name, stored_name, thumbnail_name, file_type
-		FROM user_page
+	<select id="selectImg" resultType="UserFile" parameterType="String">
+		SELECT id, profile_imgno, origin_name, stored_name, thumbnail_name, file_type
+		FROM user_file
         WHERE id = #{userId}
 	</select>
 	
@@ -59,8 +59,8 @@
 	</select>
 	
 	<!-- 회원등급 -->
-	<update id="updateCrackEgg" parameterType="UserPage">
-		UPDATE user_page
+	<update id="updateCrackEgg" parameterType="User">
+		UPDATE usertb
 		<set>
 			grade = '2'
 		</set>
@@ -69,8 +69,8 @@
 		</where>
 	</update>
 	
-	<update id="updateChick" parameterType="UserPage">
-			UPDATE user_page
+	<update id="updateChick" parameterType="User">
+			UPDATE usertb
 		<set>
 			grade = '2'
 		</set>
@@ -79,8 +79,8 @@
 		</where>
 	</update>
 	
-	<update id="updateChicken" parameterType="UserPage">
-			UPDATE user_page
+	<update id="updateChicken" parameterType="User">
+			UPDATE usertb
 		<set>
 			grade = '3'
 		</set>
@@ -89,8 +89,8 @@
 		</where>
 	</update>
 	
-	<update id="updateFriedChicken" parameterType="UserPage">
-			UPDATE user_page
+	<update id="updateFriedChicken" parameterType="User">
+			UPDATE user
 		<set>
 			grade = '4'
 		</set>
@@ -99,8 +99,8 @@
 		</where>
 	</update>
 	
-	<select id="selectGrade" resultType="int" parameterType="UserPage">
-		SELECT grade FROM user_page
+	<select id="selectGrade" resultType="User" parameterType="User">
+		SELECT grade FROM usertb
 		<where>
 			id = #{id}
 		</where>
@@ -108,15 +108,15 @@
 	</select>
 	
 	
-	<update id="updateIntroduce" parameterType="UserPage">
-		UPDATE user_page
+	<update id="updateIntroduce" parameterType="User">
+		UPDATE usertb
 		SET intro = #{intro}
 		WHERE id = #{id}
 	</update>
 	
 	
-	<update id="deleteImg" parameterType="UserPage">
-		UPDATE user_page
+	<update id="deleteImg" parameterType="User">
+		UPDATE usertb
 		SET 
 			ORIGIN_NAME = NULL,
 		    STORED_NAME = NULL,

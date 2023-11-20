@@ -18,5 +18,8 @@ public class User {
 	private String addr1;
 	private String addr2;
 	private Date joinDate;
+	private String grade;
+	private String intro;
+	private int businessNo;
 	
 }
