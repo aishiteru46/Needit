@@ -27,6 +27,8 @@
   
 	
 
+	<!-- 원래 업데이트여야되는데 user_page 테이블에 행이 존재하지않는데 업데이트할수가 없어서 인서트로 했음 -->
+	<!-- 	중배햄한테 user만들때 userpage만들어달라고 하기-->
 
 	<insert id="updateImg" parameterType="map">
 	    <selectKey resultType="int" order="BEFORE" keyProperty="profileImgno">
@@ -45,8 +47,22 @@
 	</select>
 	
 	
+	<update id="updateIntroduce" parameterType="UserPage">
+		UPDATE user_page
+		SET intro = #{intro}
+		WHERE id = #{id}
+	</update>
 	
 	
+	<update id="deleteImg" parameterType="UserPage">
+		UPDATE user_page
+		SET 
+			ORIGIN_NAME = NULL,
+		    STORED_NAME = NULL,
+		    THUMBNAIL_NAME = NULL,
+		    FILE_TYPE = NULL
+		WHERE id = #{id}
+	</update>
 
 
 

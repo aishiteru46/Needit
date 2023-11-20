@@ -31,13 +31,13 @@ public class UserProfileController {
 	@Autowired UserProfileService userProfileService;
 	
 	
+	//아무것도없이 /profile했을때 view로연결
 	@GetMapping("")
 	public String profile( ) {
 		
-		
-		
 		return "redirect:/profile/view";
 	}
+	
 	
 	@RequestMapping("/view")
 	public String profileView(Booking book, Model model
@@ -71,7 +71,7 @@ public class UserProfileController {
 	
 	
 	
-	
+	//회원정보수정
 	@GetMapping("/infoupdate")
 	public String infoUpdate( ) {
 		return "profile/userUpdate";
@@ -91,7 +91,7 @@ public class UserProfileController {
 	}
 	
 	
-	
+	//회원탈퇴
 	@PostMapping("/delete")
 	public String delete(@RequestParam("id") String userId, HttpSession session, RedirectAttributes rttr) {
 	    // 세션에서 로그인된 사용자의 ID 가져오기
@@ -116,6 +116,8 @@ public class UserProfileController {
 	    }
 	}
 	
+	
+	//프로필사진등록
 	@GetMapping("/imgupdate")
 	public String imgUpdate() {
 		
@@ -133,25 +135,42 @@ public class UserProfileController {
         // 프로필 사진 업로드 및 데이터베이스에 저장
         userProfileService.imgUpdate(file, userId);
 
-		return "/profile/view";
+		return "redirect:/profile";
+	}
+	
+	
+	//프로필사진 삭제
+	
+	
+	@PostMapping("/imgdelete")
+	public String imgDelete(UserPage userPage) {
+		
+		userProfileService.imgDelete(userPage);
+		
+		return "/profile";
 	}
 	
 	
 	
-	@GetMapping("/introduceupdate")
-	public String intoduceUpdate() {
+	//자기소개
+	@GetMapping("/introduce")
+	public String intoduce() {
 		
 		return "/profile/view";
 	}
 
 
 	@PostMapping("/introduce")
-	public String introduceUpdateProc(UserPage userPage, Model model) {
+	public String introduceProc(UserPage userPage, Model model) {
+		
+		
 		
 		userProfileService.introduceUpdate(userPage);
 		
+		model.addAttribute("userpage", userPage);
 		
-		return "/profile/view";
+		
+		return "redirect:/profile/view";
 	}
 	
 	

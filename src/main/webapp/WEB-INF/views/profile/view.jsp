@@ -15,9 +15,173 @@
 
 </style>
 
+
+
+<script type="text/javascript">
+//썸네일 미리보기
+function setThumbnail(event) {
+    var reader = new FileReader();
+
+    reader.onload = function (event) {
+        var thumbnailContainer = document.querySelector("#thumbnail_container");
+        thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+}// .setThumbnail() End
+</script>
+
+
+
+<style type="text/css">
+	
+#thumbnail_container{
+    border: 1px solid #ccc;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+</style>
+
+
+
+<style>
+    #profileImageContainer {
+        width: 300px; /* 프로필 이미지 컨테이너의 너비 */
+        height: 300px; /* 프로필 이미지 컨테이너의 높이 */
+        overflow: hidden;
+        border-radius: 50%; /* 반지름 50%로 설정하여 동그랗게 만듭니다. */
+    }
+
+    #profileImage {
+        width: 100%; /* 이미지를 100%로 설정하여 부모 컨테이너에 맞게 합니다. */
+        height: auto;
+        border-radius: 50%; /* 이미지도 둥글게 만듭니다. */
+    }
+</style>
+
+
+
+
 <div class="container">
 <h1>마이페이지</h1>
 <hr>
+
+프로필 올릴때 user_page 생성되게해둔상태인데 이러면 안되고<br>
+회원가입때 usertb에 id 들어가면서 user_page도 동시에 생겨야 될거같음<br>
+인서트로해놔서 수정안되고 처음등록만 되는데 나중에 업데이트로 수정
+
+
+
+
+
+
+<div id="profileImageContainer">
+    <c:if test="${not empty img}">
+        <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
+    </c:if>
+</div>
+
+
+
+
+
+<h3>${id}님의 프로필사진</h3>
+
+<div class="panel panel-default">
+   <div class="panel-body">
+      <form action="./imgupdate" method="post" enctype="multipart/form-data">
+         <input type="hidden" name="id" value="${id}"/>
+         <table class="table table-bordered" style="text-align: center; border: 1px solid #dddddd;">
+            <tr>
+               <td style="width: 110px; vertical-align: middle;">아이디</td>
+               <td>${id}</td>
+            </tr>
+            <tr>
+               <td style="width: 110px; vertical-align: middle;">사진 업로드</td>
+               <td colspan="2">
+                  <span class="btn btn-default">
+                     이미지를 업로드하세요.<input type="file" name="file" onchange="setThumbnail(event);"/>
+                  </span>
+               </td>            
+            </tr>      
+            <tr>
+               <td colspan="2" style="text-align: left;">
+                  <input type="submit" class="btn btn-primary btn-sm pull-right" value="등록"/>
+                   <!-- 이미지 삭제 버튼 -->
+                   <button type="button" class="btn btn-danger btn-sm pull-right" onclick="deleteImg()">이미지 삭제</button>
+               </td>
+               
+            </tr>
+         </table>
+      </form> 
+      <!-- 썸네일 미리보기를 담을 div 추가 -->
+      <div id="thumbnail_container"></div>
+   </div>
+</div>
+
+
+<script>
+    // 이미지 삭제 함수
+    function deleteImg() {
+        if (confirm('이미지를 삭제하시겠습니까?')) {
+            // Ajax를 이용하여 서버에 이미지 삭제 요청을 보냅니다.
+            var xhr = new XMLHttpRequest();
+            
+            // 아래 URL은 서버 측의 이미지 삭제를 처리하는 엔드포인트로 변경해야 합니다.
+            var url = "./imgdelete";
+            
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            
+            // 여기에서 필요한 경우에 따라 데이터를 전송합니다.
+            var formData = "id=" + encodeURIComponent(document.getElementById("id").value);
+            xhr.send(formData);
+
+            // 이미지를 화면에서 감추는 부분
+            var thumbnailContainer = document.getElementById("thumbnail_container");
+            thumbnailContainer.innerHTML = ""; // 썸네일을 비우거나 다른 방식으로 감추세요.
+        }
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+<hr>
+
+<div class="container mt-5">
+    <h2>자기소개</h2>
+    
+    <!-- 자기소개글을 입력하는 텍스트박스 -->
+    <form action="./introduce" method="post">
+            <input type="hidden" id="id" name="id" value="${id}">
+        <div class="mb-3">
+            <textarea class="form-control" id="intro" name="intro" rows="5" maxlength="100" >${userPage.intro}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">저장</button>
+    </form>
+</div>
+
+
+
+
+<hr>
+
+
 
 
 
@@ -89,89 +253,10 @@ function confirmAndSubmit(userId) {
 </c:forEach>
 </table>
 
-
-<script>
-
-
-$(document).ready(function() {
-    $('#uploadForm').click(function(e) {
-        e.preventDefault();
-
-        // FormData 객체 생성
-        var formData = new FormData($(this)[0]);
-
-        // Ajax를 통한 파일 업로드
-        $.ajax({
-            type: 'POST',
-            url: '/profile/imgupdate',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                // 업로드 성공 시 이미지를 바로 갱신
-                $('#profileImage').attr('src', '/upload/' + response.thumbnailName);
-             // 콘솔에 성공 메시지 출력
-                console.log('업로드 성공:', response);
-            },
-            error: function(error) {
-                console.log('Error:', error);
-            }
-        });
-    });
-});
-</script>
-
-<div id="profileImageContainer">
-    <c:if test="${not empty img}">
-        <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
-    </c:if>
-</div>
+<hr>
 
 
 
-<h3>${id}님의 프로필사진</h3>
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <form action="./imgupdate" method="post" enctype="multipart/form-data">
-         <input type="hidden" name="id" value="${id}"/>
-         <table class="table table-bordered" style="text-align: center; border: 1px solid #dddddd;">
-           <tr>
-             <td style="width: 110px; vertical-align: middle;">아이디</td>
-             <td>${id}</td>
-           </tr>
-           <tr>
-             <td style="width: 110px; vertical-align: middle;">사진 업로드</td>
-             <td colspan="2">
-               <span class="btn btn-default">
-                 이미지를 업로드하세요.<input type="file" name="file"/>
-               </span>
-             </td>            
-           </tr>      
-           <tr>
-             <td colspan="2" style="text-align: left;">
-                <input type="submit" class="btn btn-primary btn-sm pull-right" value="등록"/>
-             </td>             
-           </tr>
-         </table>
-      </form> 
-    </div>
-   </div>
- </div>
-
-
-<div class="container mt-5">
-    <h2>자기소개</h2>
-    
-    <!-- 자기소개글을 입력하는 텍스트박스 -->
-    <form action="./introduce" method="post">
-        <div class="mb-3">
-            <label for="introduce" class="form-label">자기소개글:</label>
-            <textarea class="form-control" id="introduce" name="introduce" rows="5" maxlength="100"  placeholder="여기에 자기소개를 작성해주세요..."></textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary">저장</button>
-    </form>
-</div>
 
 
 
