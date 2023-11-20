@@ -50,6 +50,24 @@ public interface UserProfileDao {
 	public UserPage selectImg(String userId);
 
 
+	/**
+	 * 자기소개 수정
+	 * 
+	 * @param userPage
+	 */
+	public void updateIntroduce(UserPage userPage);
+
+
+	/**
+	 * 회원프로필 삭제
+	 * 
+	 * @param userPage
+	 */
+	public void deleteImg(UserPage userPage);
+
+
+
+
 
 
 

@@ -21,24 +21,49 @@ $(() => {
 	})
 })
 
+//썸네일 미리보기
 function setThumbnail(event) {
     var reader = new FileReader();
 
     reader.onload = function (event) {
-        var thumbnailContainer = document.querySelector("#thumnail_container");
+        var thumbnailContainer = document.querySelector("#thumbnail_container");
         thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
     };
 
     reader.readAsDataURL(event.target.files[0]);
-}
+}// .setThumbnail() End
 
+//가격란에 문자,높은 금액, 0원 입력 방지
+$(document).ready(function() {
+    $("#price").on("keyup", function() {
+        var checkType = $("#price").val();
 
+        if (isNaN(checkType)) {
+            alert("숫자만 입력 가능합니다");
+            $("#price").val("");
+            $("#price").focus();
+        }
+
+        if ( checkType > 999999999) {
+            alert("가격은 999,999,999원 보다 높을 수 없습니다.");
+            $("#price").val("");
+            $("#price").focus();
+        }
+    
+        if ( checkType == 0 ) {
+            alert("가격은 0원 보다 높아야 합니다.");
+            $("#price").val("");
+            $("#price").focus();
+        }
+
+    });
+});
 
 </script>
 
 <style type="text/css">
 	
-#thumnail_container{
+#thumbnail_container{
     border: 1px solid #ccc;
     width: 200px;
     height: 200px;

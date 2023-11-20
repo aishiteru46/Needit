@@ -58,6 +58,16 @@ public interface UserProfileService {
 	public void introduceUpdate(UserPage userPage);
 
 	
+	/**
+	 * 프로필사진 삭제
+	 * 
+	 * @param userPage
+	 */
+	public void imgDelete(UserPage userPage);
+
+	
+
+	
 
 	
 	
