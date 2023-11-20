@@ -42,7 +42,7 @@ public class LoginController {
 		
 		userService.join(user);
 		
-		return "redirect:./login";
+		return "redirect:/main";
 	}
 	
 	@RequestMapping("/idCheck")

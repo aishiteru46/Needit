@@ -15,6 +15,7 @@
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -68,28 +69,20 @@ $(document).ready(function(){
 	          } 
 	      }); // ajax 
 	  });
- 
+	 $('#dropdownBtn').click(function () {
+          // Toggle the visibility of the dropdown content
+          $('.dropdown-content').toggle();
+          event.stopPropagation();
+      });
+	  $(document).click(function(event) {
+	        var dropdownContent = $('.dropdown-content');
+	        if (!dropdownContent.is(event.target) && dropdownContent.has(event.target).length === 0) {
+	            dropdownContent.hide();
+	        }
+	    });	
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    var trigger = document.getElementById('popover-trigger');
-    var popover = document.getElementById('popover-content');
 
-    trigger.addEventListener('click', function () {
-        if (popover.style.display === 'block') {
-            popover.style.display = 'none';
-        } else {
-            popover.style.display = 'block';
-        }
-    });
-
-    // 이미지 외의 영역을 클릭하면 팝오버가 닫히도록 설정
-    document.addEventListener('click', function (event) {
-        if (!trigger.contains(event.target) && !popover.contains(event.target)) {
-            popover.style.display = 'none';
-        }
-    });
-});
 
 </script>
 <style type="text/css">
@@ -113,6 +106,8 @@ nav li {width: 150px; margin-right: 20px;}
 #header .nav ul.gnb li ul.sub li a{padding:10px;}
 #header .nav ul.gnb:hover li ul.sub{visibility:visible;opacity:1;transform:translateY(0px);} 
 #header .nav ul.gnb li:hover{display:inline-block;margin-bottom:0px;}
+#header .nav ul.gnb li a:hover{	background-color: #f1f1f1;
+}
 #header.open .hd_bg{position: absolute;width: 100%;background: #fff;z-index: 1;transition: all .3s;border-top: 1px solid #dcdcdc; opacity: 95%;}
 #header .nav ul.gnb li ul.sub li a{text-align: center}
 #header .nav .active  {position: relative}
@@ -120,107 +115,158 @@ nav li {width: 150px; margin-right: 20px;}
 
 
 
-.image-container {
+/* Style The Dropdown Button */
+.dropbtn {
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
     position: relative;
     display: inline-block;
-}
-
-#popover-content {
-    display: none;
-    position: fixed;
-    background-color: #ff533f;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    padding: 10px;
     z-index: 2;
-    border-radius: 10px;
-}
 }
 
-#popover-content ul {
-	text-align: center;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    
+.dropdown-content {
+	margin-top: 15px;
+	display: none; 
+    position: absolute;
+    background-color: #f1f1f1;
+  	width : 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    text-align: center;
+    right: -50px;
+    border-radius: 20px;
+}
+.dropdown-content:after{
+content:""; 
+position: absolute; 
+top: -10px; 
+border-left: 10px solid transparent; 
+border-right: 10px solid transparent; 
+border-bottom: 10px solid #f1f1f1;
+
 }
 
-#popover-content ul li {
-    margin-bottom: 5px;
-    
-}
-
-#popover-content a {
+.dropdown-content a {
+/*     color: black; */
+    padding: 12px 16px;
     text-decoration: none;
-    color: #333;
     display: block;
-    padding: 5px;
-    border-radius: 10px;
     
 }
 
-#popover-content a:hover {
-    background-color: #f0f0f0;
+.dropdown-content a:hover {
+	background-color: #ccc;
+	position: relative;
+	border-radius: 20px;
 }
+.dropdown-title{
+	color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-bottom: solid #f1f1f1;
+    background-color: #ff533f; 
+    border-radius: 20px 20px 0px 0px;
+}
+.dropdown-title:after{
+z-index: 1;
+content:""; 
+position: absolute; 
+top: -10px; 
+right: 60px;
+border-left: 10px solid transparent; 
+border-right: 10px solid transparent; 
+border-bottom: 10px solid #ff533f;
 
-
-
-
-
-
-
-
-
-
+}
 </style>
 
 </head>
 <body>
 <div class="wrap">
 
-		<div class="float-end" style="margin-top: 30px; width: 90px; height: 40px; text-align: right; ">
-				<%-- 비로그인 --%>
-			<c:if test="${empty isLogin }">
-				    <div class="image-container">
-				        <img src="/resources/img/mypageicon.png" id="popover-trigger" style="height: 40px; width: 40px;">
-				        <div class="popover-content" id="popover-content" style="right:350; top: 80;">
-				            <!-- 팝오버 내용 -->
-				            <ul style="padding-left: 0px; text-align: center;">
-				              
-				                <li><a data-bs-toggle="modal" data-bs-target="#exampleModal">로그인</a></li>
-
-				            </ul>
-				        </div>
-				    </div>
-				<!-- Button trigger modal -->
+	<div class="float-end" style="margin-top: 30px; width: 90px; height: 40px; text-align: right; ">
+		<%-- 비로그인 --%>
+		<c:if test="${empty isLogin }">
 		
+			<div class="dropdown">
+				<img id="dropdownBtn" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
+					<div class="dropdown-content">
+						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"> 로그인 </a>
+					</div>
+			</div>
 			
 			<!-- Modal -->
 			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			  <div class="modal-dialog modal-dialog-centered">
-			    <div class="modal-content" style="display:contents;">
-			    <c:import url="/user/login" />
-			    </div>
-			  </div>
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content" style="display:contents;">
+						<c:import url="/user/login" />
+					</div>
+				</div>
 			</div>
-			</c:if>
-			<c:if test="${not empty isLogin and isLogin }">
-				<a href="/main"><img src="/resources/img/jong.png" style="height: 40px; width: 40px;"></a>
-				    <div class="image-container">
-				        <img src="/resources/img/mypageicon.png" id="popover-trigger" style="height: 40px; width: 40px;">
-				        <div class="popover-content" id="popover-content" style="right:350; top: 80;">
-				            <!-- 팝오버 내용 -->
-				            <ul style="padding-left: 0px; text-align: center;">
-				                <li><img src="/resources/img/profile.png" width="30px" height="30px" style="text-align: left;"><label style="color: white;">${nick } </label></li>
-				                <li><a href="/profile">마이페이지</a></li>
-				                <li><a href="#">내 채팅</a></li>
-				                <li><a href="#">빌린거/빌려준거</a></li>
-				                <li><a href="#">장바구니</a></li>
-				                <li><a href="#">고객센터</a></li>
-				                <li><a id="logout_button">로그아웃</a></li>
-
-				            </ul>
-				        </div>
-				    </div>
+			
+		</c:if>
+			
+		<c:if test="${not empty isLogin and isLogin }">
+		
+		 <c:choose>
+            <c:when test="${id eq 'admin'}">
+                <!-- 사용자가 'admin' 역할을 가지고 있는 경우의 코드 -->
+				<a href=""><img src="/resources/img/jong.png" style="height: 40px; width: 40px;"></a>
+				
+				<div class="dropdown">
+					<img id="dropdownBtn" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
+						<div class="dropdown-content">
+							<div class="dropdown-title">${nick }</div>
+							<a href="/admin">관리자 페이지</a>
+			                <a href="#">내 채팅</a>
+			                <a href="#">빌린거/빌려준거</a>
+			                <a href="#">장바구니</a>
+			                <a href="#">고객센터</a>
+			                <a href=""id="logout_button">로그아웃</a>
+						</div>
+				</div>
+				
+            </c:when>
+            <c:otherwise>
+           
+			<a href=""><img src="/resources/img/jong.png" style="height: 40px; width: 40px;"></a>
+			
+			<div class="dropdown">
+				<img id="dropdownBtn" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
+					<div class="dropdown-content">
+						<div class="dropdown-title">${nick }</div>
+						<a href="/profile">마이페이지</a>
+		                <a href="#">내 채팅</a>
+		                <a href="#">빌린거/빌려준거</a>
+		                <a href="#">장바구니</a>
+		                <a href="#">고객센터</a>
+		                <a href=""id="logout_button">로그아웃</a>
+					</div>
+			</div>
+            </c:otherwise>
+        </c:choose>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			
+	
+			
+			
+			
+			
+			
+		
 			</c:if>
 		</div>
 	<div class=" text-center mx-auto p-4" style="width: 1200px;" >
@@ -235,7 +281,7 @@ nav li {width: 150px; margin-right: 20px;}
 	
 		<nav class="nav justify-content-center">
             <ul class="gnb">
-                <li><a id="needitFont" style="font-size: 30px;">대여해요</a>
+                <li><label id="needitFont" style="font-size: 30px;">대여해요</label>
                     <ul class="sub">
                         <li><a href="/rent/list?menu=1&cate=1">물품</a></li>
                         <li><a href="/rent/list?menu=1&cate=2">인력</a></li>
@@ -243,7 +289,7 @@ nav li {width: 150px; margin-right: 20px;}
                     </ul>
                 </li>
                 
-                <li><a id="needitFont" style="font-size: 30px;">나눔해요</a>
+                <li><label id="needitFont" style="font-size: 30px;">나눔해요</label>
                      <ul class="sub">
                         <li><a href="/share/list?menu=2&cate=1">물품</a></li>
                         <li><a href="/share/list?menu=2&cate=2">인력</a></li>
@@ -251,7 +297,7 @@ nav li {width: 150px; margin-right: 20px;}
                     </ul>
                 </li>
                 
-                <li><a id="needitFont" style="font-size: 30px;">해주세요</a>
+                <li><label id="needitFont" style="font-size: 30px;">해주세요</label>
                      <ul class="sub">
                     	<li><a href="/please/list?menu=3&cate=1">물품</a>
 						<li><a href="/please/list?menu=3&cate=2">인력</a>
@@ -259,7 +305,7 @@ nav li {width: 150px; margin-right: 20px;}
                     </ul>
                 </li>
                 
-                <li><a id="needitFont" style="font-size: 30px;">커뮤니티</a>
+                <li><label id="needitFont" style="font-size: 30px;">커뮤니티</label>
                      <ul class="sub">
                			<li><a href="/community/list?menu=4&cate=1">공지사항</a>
 						<li><a href="/community/list?menu=4&cate=2">우리동네 소식</a>
@@ -268,7 +314,7 @@ nav li {width: 150px; margin-right: 20px;}
                     </ul>
                 </li>
                 
-                <li><a id="needitFont" style="font-size: 30px;">동네업체</a>
+                <li><label id="needitFont" style="font-size: 30px;">동네업체</label>
                 	<ul class="sub">
                 		<li><a href="/menu/business/list?menu=5&cate=1">물품</a></li>
 						<li><a href="/menu/business/list?menu=5&cate=2">인력</a></li>
@@ -285,4 +331,3 @@ nav li {width: 150px; margin-right: 20px;}
 <div class="hd_bg"></div>
 	
 </header>
-    

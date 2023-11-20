@@ -33,8 +33,10 @@ function sample5_execDaumPostcode() {
                 // 주소 정보를 해당 필드에 넣는다.
                 document.getElementById("sample5_address").value = addr;
                 // 주소로 상세 정보를 검색
-                
-                addrCheck = true;
+
+            	// 주소창에 포커스 이동
+		    	document.getElementById("sample5_address").focus();
+        	  	addrCheck = true;
             }
         }).open();
     }
@@ -335,7 +337,7 @@ form {
   			<label class="fs-3 fw-bold">*주소</label> 
   			<input class="btn mb-2 position-absolute top-50 end-0 translate-middle-y" id="needit"type="button" onclick="sample5_execDaumPostcode()" value="우편번호 찾기">
   			</div>
-  			<input type="text" class="form-control form-control-lg mb-3" name="addr1" placeholder="주소을 입력해주세요" id="sample5_address" required="required" disabled="disabled">
+  			<input type="text" class="form-control form-control-lg mb-3" name="addr1" placeholder="주소을 입력해주세요" id="sample5_address" required="required">
     		
     		<label class="fs-3 fw-bold">상세주소</label>
     		<input type="text" class="form-control form-control-lg mb-3" name="addr2" placeholder="상세주소 입력">
