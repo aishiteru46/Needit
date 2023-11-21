@@ -6,7 +6,8 @@
   
   
  <mapper namespace="web.dao.face.UserProfileDao">
-  
+ 
+	<!--  회원정보수정  -->
  	<update id="infoUpdate" parameterType="User">
  		UPDATE usertb 
  		SET pw = #{pw}, nick = #{nick}, gender = #{gender}, addr1 = #{addr1}, addr2 = #{addr2}
@@ -14,7 +15,7 @@
  	
  	</update> 
  	
- 	
+	<!--  회원탈퇴	 -->
  	<delete id="deleteUser" parameterType="String">
  		DELETE
  		FROM usertb
@@ -33,9 +34,9 @@
   
 	
 
-	<!-- 원래 업데이트여야되는데 user_page 테이블에 행이 존재하지않는데 업데이트할수가 없어서 인서트로 했음 -->
-	<!-- 	중배햄한테 user만들때 userpage만들어달라고 하기-->
-
+	
+	
+	<!-- 유저프로필사진 업로드 -->
 	<insert id="updateImg" parameterType="map">
 	    <selectKey resultType="int" order="BEFORE" keyProperty="profileImgno">
 	        SELECT user_file_seq.nextval FROM dual
@@ -45,7 +46,7 @@
 	</insert>
 
 
-	
+	<!-- 유저프로필사진 조회 -->
 	<select id="selectImg" resultType="UserFile" parameterType="String">
 		SELECT id, profile_imgno, origin_name, stored_name, thumbnail_name, file_type
 		FROM user_file
@@ -107,7 +108,7 @@
 	
 	</select>
 	
-	
+	<!-- 자기소개 수정	 -->
 	<update id="updateIntroduce" parameterType="User">
 		UPDATE usertb
 		SET intro = #{intro}
@@ -115,6 +116,7 @@
 	</update>
 	
 	
+	<!-- 회원프로필사진 삭제 -->
 	<update id="deleteImg" parameterType="User">
 		UPDATE usertb
 		SET 
@@ -124,6 +126,24 @@
 		    FILE_TYPE = NULL
 		WHERE id = #{id}
 	</update>
+
+	<!-- 유저 정보 전체 조회	 -->
+	<select id="selectUserAll" resultType="User" parameterType="User">
+		SELECT *
+		FROM usertb
+		WHERE id = #{id}
+	
+	</select>
+	
+	
+	
+<!-- 	<select id="selectBoardById" resultType="Board" parameterType="User"> -->
+<!-- 		SELECT * -->
+				
+<!-- 		FROM board -->
+<!-- 		WHERE id = #{id} -->
+	
+<!-- 	</select> -->
 
 
 

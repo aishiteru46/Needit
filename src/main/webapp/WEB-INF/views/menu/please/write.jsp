@@ -108,7 +108,7 @@ $(document).ready(function() {
 
 <div class="form-group mb-3">
 	<label class="form-label" for="location">지역</label>
-	<input type="text" class="form-control" name="location" id="location">
+	<input type="text" class="form-control" name="location" id="location" value="${addr1 }">
 </div>
 
 <div class="form-group mb-3">

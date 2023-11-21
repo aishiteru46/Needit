@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.UserProfileDao;
+import web.dto.Board;
 import web.dto.Like;
 import web.dto.User;
 import web.dto.UserFile;
@@ -192,5 +193,20 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return user;
 		
 	}
+
+
+	@Override
+	public User userAllSelect(User user) {
+		return userProfileDao.selectUserAll(user);
+	}
+
+
+//	@Override
+//	public List<Board> boardSelectById(User user) {
+//		return userProfileDao.selectBoardById(user);
+//	}
+
+
+	
 
 }

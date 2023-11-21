@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import web.dto.Board;
 import web.dto.Like;
 import web.dto.Rent;
 import web.dto.User;
@@ -72,6 +73,29 @@ public class UserProfileController {
         //모델에 이미지 정보 추가
         model.addAttribute("img", img);
         
+        
+        
+        
+        //--------------------------------------------------------------
+        //이걸로 user테이블 정보 다 가져올게요
+        User profile = userProfileService.userAllSelect(user);
+		
+		model.addAttribute("user", profile);
+        
+        
+		//--------------------------------------------------------------
+		
+		//내가쓴글보기
+//		user.setId((String) session.getAttribute("id"));
+//		
+//		
+//		List<Board> board = userProfileService.boardSelectById(user);
+//		
+//		model.addAttribute("board", board);
+		
+		
+		
+		
 		
 		return "profile/view";
 		
@@ -79,7 +103,10 @@ public class UserProfileController {
 	
 	//회원정보수정
 	@GetMapping("/infoupdate")
-	public String infoUpdate( ) {
+	public String infoUpdate(User user, Model model) {
+		
+		
+		
 		return "profile/userUpdate";
 	}
 
@@ -159,7 +186,12 @@ public class UserProfileController {
 	
 	//자기소개
 	@GetMapping("/introduce")
-	public String intoduce() {
+	public String intoduce(User user, Model model) {
+		
+		User intro = userProfileService.userAllSelect(user);
+		logger.info("인트로{}",intro.getIntro());
+		
+		model.addAttribute("user", intro);
 		
 		return "/profile/view";
 	}
@@ -169,11 +201,10 @@ public class UserProfileController {
 	public String introduceProc(User user, Model model) {
 		
 		
-		
+		//자기소개 업데이트
 		userProfileService.introduceUpdate(user);
 		
-		model.addAttribute("userpage", user);
-		
+		model.addAttribute("user", user);
 		
 		return "redirect:/profile/view";
 	}
@@ -183,6 +214,24 @@ public class UserProfileController {
 		
 		return null;
 	}
+	
+	
+	
+//	
+//	//내가 쓴 글 목록 가져오기
+//	@GetMapping("/writelist")
+//	public String writeList(HttpSession session, User user, Model model) {
+//		
+//		user.setId((String) session.getAttribute("id"));
+//		
+//		
+//		List<Board> board = userProfileService.boardSelectById(user);
+//		
+//		model.addAttribute("board", board);
+//		
+//		return "/profile/view";
+//	}
+//	
 	
 	
 	
