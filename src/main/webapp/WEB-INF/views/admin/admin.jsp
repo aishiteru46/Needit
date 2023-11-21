@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+ 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
@@ -31,6 +33,7 @@
 /* 로그아웃 버튼 */
 #AdminBtn{
 	float: right;
+	position: relative;
 	z-index:2;
 	margin-right:17px;
 	margin-top:30px;
@@ -62,7 +65,7 @@ li:hover{
 	width: 1620px;
 	height: 100px;
 	background: rgb(255,83,63);
-	position: absolute;
+	position: fixed;
 	margin-left: 300px;
 	z-index: 3;
 }
@@ -70,7 +73,7 @@ li:hover{
 /* 왼쪽 배경 */
 #AdminLeft{
 	float: left;
-	position: absolute;
+	position: fixed;
 	border: 0px solid rgb(255,83,63);
 	width: 300px;
 	height: 910px;
@@ -80,7 +83,7 @@ li:hover{
 /* 목록 전체 div */
 #AdminList{
 	float: left;
-	position: absolute;
+	position: fixed;
 	z-index:1;
 	margin-top: 110px;
 	margin-left: -28px;
@@ -89,7 +92,7 @@ li:hover{
 /* 안쪽 내용 중간 배치 */
 #AdminContent {
     float: left;
-    position: absolute;
+    position: fixed;
 	width: 1620px;
     margin-left: 300px;
     margin-top: 128px;
@@ -105,6 +108,18 @@ li:hover{
 #AdminDayVisit{
 	margin-top: 8px;
 }
+/* 로그인중일때 */
+#ifLogin{
+	float: right;
+    position: relative;
+    margin-right: -185px;
+    margin-top: 25px;
+    z-index: 5;
+    width: 12px;
+    height: 12px;
+    background-color: red;
+    border-radius: 20px;
+}
 
 </style>
 
@@ -117,17 +132,23 @@ li:hover{
 	<img alt="니딧로고" src="/resources/img/needitAdmin_white.png" id="AdminImg">
 </a>
 
+
 <!-- 위쪽 배경 -->
 <div id="AdminTop">
 <!-- 로그아웃 버튼 -->
 <form action="/main" method="post">
 <button id="AdminBtn">로그아웃</button>
 <button id="AdminBtn">메인으로</button>
+<c:if test="${not empty isLogin}">
+	<div id="ifLogin"></div>
+</c:if>
 </form>
 </div>
 
+
 <!-- 왼쪽 배경 -->
 <div id="AdminLeft"></div>
+
 
 <!-- 목록 -->
 <div id="AdminList">

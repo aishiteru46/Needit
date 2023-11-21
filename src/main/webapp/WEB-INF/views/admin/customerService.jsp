@@ -10,7 +10,7 @@
 /* customerServie div */
 #customerServie-button-div{
 	text-align: center;
- 	margin: -5% auto 5% auto; 
+ 	margin: 60px auto 5% auto; 
 }
 /* customerServie div button */
 #customerServie-button{
@@ -32,7 +32,6 @@
 </style>
 
 
-<br><br><br>
 <div id="customerServie-button-div">
 <a href="/admin/noticeList"><button id="customerServie-button">⭐NOTICE.공지사항</button></a><br><br>
 <a href="/admin/faq"><button id="customerServie-button">❔FAQ.자주 묻는 질문</button></a><br><br>
