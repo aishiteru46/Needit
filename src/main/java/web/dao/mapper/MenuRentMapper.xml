@@ -150,20 +150,19 @@
 	<!-- 댓글 조회 -->
 	<select id="selectAllComment" resultType="Comment" parameterType="Comment">
 		SELECT * FROM (
-			SELECT rownum rnum, B.* FROM (
-				SELECT
-					CMT_NO, board_no, writer_id, 
-					writer_nick, content,
-					CAST(write_date AS DATE) AS "writeDate"
-				FROM commentTb
-				<where>
-					board_no = #{boardNo}
-				</where>
-				ORDER BY write_date DESC
-			) B
+		    SELECT rownum rnum, B.*, uf.THUMBNAIL_NAME 
+		    FROM (
+		        SELECT
+		            cmt_no, board_no, writer_id, writer_nick, content,
+		            CAST(write_date AS DATE) AS "writeDate"
+		        FROM commentTb
+		        WHERE board_no = #{boardNo}
+		        ORDER BY write_date DESC
+		    ) B
+		    LEFT JOIN user_file uf ON B.writer_id = uf.id
 		)
 		ORDER BY rnum
-	</select>	
+	</select>
 	
 	<!-- 댓글 삭제 -->
 	<delete id="deleteComment" parameterType="Comment">
