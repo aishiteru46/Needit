@@ -41,8 +41,8 @@ $(document).ready(function() {
             $("#price").focus();
         }
 
-        if ( checkType > 999999999) {
-            alert("가격은 999,999,999원 보다 높을 수 없습니다.");
+        if ( checkType > 1000000) {
+            alert("가격은 30분에 1,000,000원 보다 높을 수 없습니다.");
             $("#price").val("");
             $("#price").focus();
         }

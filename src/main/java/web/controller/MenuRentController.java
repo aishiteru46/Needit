@@ -47,6 +47,21 @@ public class MenuRentController {
 		return "menu/rent/list";
 	}
 	
+	//게시판 목록 띄우기
+	@GetMapping("/listType")
+	public String listType( Paging param, Model model ) {
+		logger.info("param : {}", param);
+		//페이징 계산
+		Paging paging = menuRentService.getPaging(param);
+		
+		//게시글 목록 조회
+		List<Map<String, Object>> list = menuRentService.list(paging); 
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		
+		return "menu/rent/listType";
+	}
+
 	//게시판 상세 조회
 	@GetMapping("/view")
 	public String view( Board board, Model model, HttpSession session ) {
@@ -181,10 +196,12 @@ public class MenuRentController {
 	public String viewComment(Comment commentParam, Model model) {
 		logger.info("commentParam: {}", commentParam);
 		
+		//댓글 목록 조회
 		List<Comment> commentList = menuRentService.viewComment(commentParam);
-		logger.info("저장된 댓글:" + commentList.toString());
-		
 		model.addAttribute("commentList", commentList);
+		
+		//사용자 프로필 조회
+
 		
 		return "jsonView";
 	}
