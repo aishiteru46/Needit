@@ -6,7 +6,7 @@
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <style type="text/css">
-#booktable, th, td {
+#rentTable, th, td {
 
 	border: 1px solid #ccc;
 	
@@ -29,12 +29,115 @@ function setThumbnail(event) {
 
     reader.readAsDataURL(event.target.files[0]);
 }// .setThumbnail() End
+
+
+//예약 승인 
+$(function(){
+	$(".confirmBtn").click(function(){
+		var confirmBtn = $(this);
+		  $.ajax({
+		         type: "post"
+		         , url: "/profile/confirm"
+		         , data: {
+		        	 rentNo: confirmBtn.data("rent_no"),
+		             boardNo: confirmBtn.data("board_no")
+		         }
+		         , dataType: "json"
+		         , success: function( res ) {
+			      	confirmBtn.html("승인완료").prop("disabled", true);
+
+		            console.log("AJAX 성공")
+
+		         }
+		         , error: function() {
+		            console.log("AJAX 실패")
+
+		         }
+		      })
+	})
+})
+
+//예약 취소
+$(function(){
+	$(".cancelBtn").click(function(){
+		var cancelBtn = $(this);
+		  $.ajax({
+		         type: "post"
+		         , url: "/profile/cancel"
+		         , data: {
+		        	 rentNo: cancelBtn.data("rent_no"),
+		             boardNo: cancelBtn.data("board_no")
+		         }
+		         , dataType: "json"
+		         , success: function( res ) {
+			       	confirmBtn.html("승인완료").prop("disabled", true);
+
+		            console.log("AJAX 성공")
+
+		         }
+		         , error: function() {
+		            console.log("AJAX 실패")
+
+		         }
+		      })
+	})
+})
+
+$(function(){
+	let cancelBtn = $(this);
+	$.ajax({
+	       type: "get"
+	       , url: "/profile/cancel"
+	       , data: {
+	       }
+	       , dataType: "json"
+	       , success: function( res ) {
+	    	   console.log(res.cancel)
+	    	 if(res.cancel) {
+	    		 
+	    	 } else {
+	      	 	cancelBtn.html("취소 완료").prop("disabled", true);
+	    		 
+	    	 }
+	          console.log("AJAX 성공")
+	
+	       }
+	       , error: function() {
+	          console.log("AJAX 실패")
+	
+	       }
+	    })
+	
+		let confirmBtn = $(this);
+		  $.ajax({
+		         type: "get"
+		         , url: "/profile/confirm"
+		         , data: {
+		         }
+		         , dataType: "json"
+		         , success: function( res ) {
+		        	if( res.confirm) {
+		        	} else {
+		        		confirmBtn.html("승인완료").prop("disabled", true);
+		        	}
+
+		            console.log("AJAX 성공")
+
+		         }
+		         , error: function() {
+		            console.log("AJAX 실패")
+
+		         }
+		      })
+	
+})
 </script>
 
 
 
+
 <style type="text/css">
-	
+
 #thumbnail_container{
     border: 1px solid #ccc;
     width: 200px;
@@ -72,9 +175,25 @@ function setThumbnail(event) {
 <div class="container">
 <h1>마이페이지</h1>
 <hr>
+<c:choose>
+	<c:when test="${userGrade eq 1}">
+		<img src="/resources/img/계란.png"/>
+	</c:when>
+	<c:when test="${userGrade eq 2}">
+		<img src="/resources/img/금간계란.png"/>
+	</c:when>
+	<c:when test="${userGrade eq 3}">
+		<img src="/resources/img/병아리.png"/>
+	</c:when>
+	<c:when test="${userGrade eq 4}">
+		<img src="/resources/img/닭.png"/>
+	</c:when>
+	<c:when test="${userGrade eq 5}">
+		<img src="/resources/img/치킨.png"/>
+	</c:when>
 
+</c:choose>
 
-${userGrade}
 
 
 
@@ -230,8 +349,9 @@ function confirmAndSubmit(userId) {
 회원정보수정은 마이페이지에서 독립되어있어야 예쁠듯
 <hr>
 
-<table id="booktable">
-<c:forEach items="${booklist }" var="list" begin="0" end="10">
+<h1>빌려줄 예약 목록</h1>
+<table id="rentTable">
+<c:forEach items="${myList }" var="list" begin="0" end="10">
 	<tr>
 		<th>게시글 번호</th>
 		<th>예약 번호</th>
@@ -250,15 +370,39 @@ function confirmAndSubmit(userId) {
 		<td>${list.RENT_DATE }</td>
 		<td>${list.START_TIME }</td>
 		<td>${list.END_TIME }</td>
-		<td><button>승인</button></td>
-		<td><button>취소</button></td>
+		<td><button class="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }" >승인</button></td>
+		<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
 	</tr>
 	
 </c:forEach>
 </table>
-
 <hr>
 
+<h1>빌린 예약 목록</h1>
+<table id="rentTable">
+<c:forEach items="${list }" var="list" begin="0" end="10">
+	<tr>
+		<th>게시글 번호</th>
+		<th>예약 번호</th>
+		<th>예약자</th>
+		<th>예약 날짜</th>
+		<th>예약 시작 시간</th>
+		<th>예약 끝 시간</th>
+		<th>승인 처리</th>
+		<th></th>
+		
+	</tr>
+	<tr>
+		<td>${list.BOARD_NO }</td>
+		<td>${list.RENT_NO }</td>
+		<td>${list.RENTER_ID }</td>
+		<td>${list.RENT_DATE }</td>
+		<td>${list.START_TIME }</td>
+		<td>${list.END_TIME }</td>
+		<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
+	</tr>
+</c:forEach>
+</table>
 
 
 

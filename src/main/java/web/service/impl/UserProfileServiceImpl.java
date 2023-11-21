@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dao.face.UserProfileDao;
 import web.dto.Board;
 import web.dto.Like;
+import web.dto.Rent;
 import web.dto.User;
 import web.dto.UserFile;
 import web.service.face.UserProfileService;
@@ -137,11 +138,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 		
 		
 	}	
-
-	public List<Map<String,Object>> rentList(User user) {
+	@Override
+	public List<Map<String,Object>> myRentList(User user) {
 		
-		return userProfileDao.selectBookList(user);
+		return userProfileDao.selectMyRentList(user);
 	}
+	
+	@Override
+	public List<Map<String, Object>> rentList(User user) {
+		return userProfileDao.selectRentList(user);
+	}
+
 
 
 	@Override
@@ -167,8 +174,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 	@Override
-	public int cntLike(Like like) {
-		return userProfileDao.selectLikeByBoardNo(like);
+	public int cntLike(User user) {
+		return userProfileDao.selectLikeByBoardNo(user);
 	}
 	
 	@Override
@@ -178,24 +185,47 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 
 	@Override
-	public User updateGrade(int likeCount, User user) {
+	public void updateGrade(int likeCount, User userGrade) {
 		
-		if( likeCount > 5) {
-			userProfileDao.updateCrackEgg(user);
-		} else if( likeCount > 10) {
-			userProfileDao.updateChick(user);
-		} else if( likeCount > 20 ) {
-			userProfileDao.updateChicken(user);
-		} else if( likeCount > 30 ) {
-			userProfileDao.updateFriedChicken(user);
+		if (likeCount >= 5 && likeCount < 10) {
+		    userProfileDao.updateCrackEgg(userGrade);
+		} else if (likeCount >= 10 && likeCount < 20) {
+		    userProfileDao.updateChick(userGrade);
+		} else if (likeCount >= 20 && likeCount <= 30) {
+		    userProfileDao.updateChicken(userGrade);
+		} else if (likeCount > 30) {
+		    userProfileDao.updateFriedChicken(userGrade);
 		}
 		
-		return user;
+	}
+
+	@Override
+	public boolean updateRentStatus(Rent rent) {
+		int res = userProfileDao.updateRentStatus(rent);
+		if (res > 0 ) {
+			logger.info("22222{}",res);
+			return true;
+		} else {
+			logger.info("33333{}",res);
+			return false; 
+		}
 		
 	}
 
 
 	@Override
+	public boolean updateRentCancel(Rent rent) {
+		int res = userProfileDao.updateCancel(rent);
+		
+		if (res > 0 ) {
+			logger.info("123{}",res);
+			return true;
+		} else {
+			logger.info("12344{}",res);
+			return false; 
+		} 
+	}
+
 	public User userAllSelect(User user) {
 		return userProfileDao.selectUserAll(user);
 	}
@@ -205,8 +235,5 @@ public class UserProfileServiceImpl implements UserProfileService {
 //	public List<Board> boardSelectById(User user) {
 //		return userProfileDao.selectBoardById(user);
 //	}
-
-
-	
 
 }

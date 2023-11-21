@@ -23,13 +23,22 @@
  	</delete>
  	
  	<!-- 예약 목록 -->
- 	<select id="selectBookList" resultType="Map" parameterType="User">
-<!--  		SELECT * FROM rent -->
- 	SELECT B.board_no, A.renter_id, A.rent_no,A.rent_date, A.start_time, A.end_time
-	FROM rent A
-	INNER JOIN board B ON B.board_no = A.board_no
-	WHERE B.writer_id = #{id}
-	ORDER BY board_no, rent_no DESC
+ 	<select id="selectMyRentList" resultType="Map" parameterType="User">
+	 	SELECT B.board_no, A.renter_id, A.rent_no,A.rent_date, A.start_time, A.end_time
+		FROM rent A
+		INNER JOIN board B ON B.board_no = A.board_no
+		WHERE B.writer_id = #{id}
+		ORDER BY board_no, rent_no DESC
+ 	</select>
+ 	
+ 	<!-- 내가 예약한 목록 -->
+ 	<select id="selectRentList" resultType="Map" parameterType="User">
+ 		SELECT B.board_no, A.renter_id, A.rent_no, A.rent_date, A.start_time, A.end_time
+		FROM rent A
+		INNER JOIN board B ON B.board_no = A.board_no
+		WHERE A.renter_id = #{id}
+		ORDER BY board_no, rent_no DESC
+		 	
  	</select>
   
 	
@@ -54,9 +63,15 @@
 	</select>
 	
 	<!-- 추천수 조회 -->
-	<select id="selectLikeByBoardNo" resultType="int" parameterType="Like">
-		SELECT count(*) FROM likeTb
-		WHERE board_no = #{boardNo}
+	<select id="selectLikeByBoardNo" resultType="int" parameterType="User">
+	    SELECT 
+	        COUNT(l.like_id) AS like_count
+	    FROM board b
+	    LEFT JOIN liketb l ON b.board_no = l.board_no
+	    <where>
+	        b.writer_id = #{id}
+	    </where>
+	
 	</select>
 	
 	<!-- 회원등급 -->
@@ -66,37 +81,41 @@
 			grade = '2'
 		</set>
 		<where>
-			AND grade = '1'
+			grade = '1'
+			AND id = #{id}
 		</where>
 	</update>
 	
 	<update id="updateChick" parameterType="User">
-			UPDATE usertb
-		<set>
-			grade = '2'
-		</set>
-		<where>
-			AND grade = '1'
-		</where>
-	</update>
-	
-	<update id="updateChicken" parameterType="User">
-			UPDATE usertb
+		UPDATE usertb
 		<set>
 			grade = '3'
 		</set>
 		<where>
-			AND grade = '2'
+			grade = '2'
+			AND id = #{id}
 		</where>
 	</update>
 	
-	<update id="updateFriedChicken" parameterType="User">
-			UPDATE user
+	<update id="updateChicken" parameterType="User">
+		UPDATE usertb
 		<set>
 			grade = '4'
 		</set>
 		<where>
-			AND grade = '3'
+			grade = '3'
+			AND id = #{id}
+		</where>
+	</update>
+	
+	<update id="updateFriedChicken" parameterType="User">
+		UPDATE user
+		<set>
+			grade = '5'
+		</set>
+		<where>
+			grade = '4'
+			AND id = #{id}
 		</where>
 	</update>
 	
@@ -125,6 +144,32 @@
 		    THUMBNAIL_NAME = NULL,
 		    FILE_TYPE = NULL
 		WHERE id = #{id}
+	</update>
+	
+	<update id="updateRentStatus" parameterType="Rent">
+		UPDATE rent
+		<set>
+			rent_status = '2'
+		</set>
+		<where>
+			rent_status = '1'
+			AND board_no = #{boardNo}
+			AND rent_no = #{rentNo}
+		</where>
+		
+	</update>
+	
+	<update id="updateCancel" parameterType="Rent">
+		UPDATE rent
+		<set>
+			rent_status = '0'
+		</set>
+		<where>
+			rent_status = '1'
+			AND board_no = #{boardNo}
+			AND rent_no = #{rentNo}
+		</where>
+		
 	</update>
 
 	<!-- 유저 정보 전체 조회	 -->
