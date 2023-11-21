@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Like;
+import web.dto.Rent;
 import web.dto.User;
 import web.dto.UserFile;
 
@@ -32,7 +33,15 @@ public interface UserProfileService {
 	 * @param book 예약 정보
 	 * @return 
 	 */
-	public List<Map<String,Object>> rentList(User user);
+	public List<Map<String,Object>> myRentList(User user);
+	
+	/**
+	 * 내가 예약한 리스트
+	 * 
+	 * @param user 정보
+	 * @return 리스트
+	 */
+	public List<Map<String, Object>> rentList(User user);
 
 	/*
 	 * 회원프로필사진
@@ -63,7 +72,7 @@ public interface UserProfileService {
 	 * @param board
 	 * @return
 	 */
-	public int cntLike(Like like);
+	public int cntLike(User user);
 	
 	/**
 	 * 추천수에 따른 회원등급
@@ -72,7 +81,7 @@ public interface UserProfileService {
 	 * @param grade 
 	 * @return 
 	 */
-	public User updateGrade(int likeCount, User user);
+	public void updateGrade(int likeCount, User userGrade);
 	
 	/**
 	 * 유저 등급 조회
@@ -89,6 +98,24 @@ public interface UserProfileService {
 	 * @param userPage
 	 */
 	public void imgDelete(UserFile userFile);
+	
+	/**
+	 * rentStatus 상태 변경 
+	 * 
+	 * @param rent rent_no, board_no
+	 * @return 
+	 */
+	public boolean updateRentStatus(Rent rent);
+	
+	/**
+	 * 승인 취소 시 예약상태 0 으로 변경
+	 * 
+	 * @param rent rent_no , board_no
+	 * @return true false
+	 */
+	public boolean updateRentCancel(Rent rent);
+	
+	
 
 	
 
