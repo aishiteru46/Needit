@@ -3,17 +3,23 @@ package web.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Banner;
@@ -27,6 +33,7 @@ public class AdminController {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 
 	@Autowired AdminService adminService;
+	@Autowired JavaMailSender mailSender;
 	
 	//소개 페이지(오프닝 페이지)
 	@GetMapping("/opening")
@@ -157,6 +164,49 @@ public class AdminController {
 	//관리자 회원이메일 발송 
 	@GetMapping("/admin/emailSend")
 	public void emailSend() {}
+	
+	
+	// mailSending 코드
+	@RequestMapping(value = "/admin/emailSend", method = RequestMethod.POST)
+	@ResponseBody
+	public String emailSend(String m_email) {
+
+		//뷰에서 넘어왔는지 확인
+		//System.out.println("이메일 전송");
+		
+		//난수 생성(인증번호)
+		Random r = new Random();
+		int num = r.nextInt(888888) + 111111;  //111111 ~ 999999
+//		System.out.println("인증번호:" + num);
+		
+		/* 이메일 보내기 */
+        String setFrom = "Needit@gmail.com"; //보내는 이메일
+        String toMail = m_email; //받는 사람 이메일
+        String title = "Needit 방문을 환영합니다.";
+        String content = 
+                "Needit 홈페이지를 방문해주셔서 감사합니다." +
+                "<br><br>" + 
+                "저희 서비스를 이용해 주셔서 감사합니다." + 
+                "<br>" + 
+                "많은 이용 부탁드립니다.";
+        
+        try {
+            
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
+            helper.setFrom(setFrom);
+            helper.setTo(toMail);
+            helper.setSubject(title);
+            helper.setText(content,true);
+            mailSender.send(message);
+            
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        String rnum = Integer.toString(num);  //view로 다시 반환할 때 String만 가능
+        
+        return rnum;
+	}
 	
 	//신고버튼 클릭시
 	@GetMapping("/admin/report")
