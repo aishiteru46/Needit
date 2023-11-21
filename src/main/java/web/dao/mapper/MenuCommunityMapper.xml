@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="web.dao.face.MenuCommunityDao">
+
+	<!-- 게시글 조회용 SQL -->
+	<sql id="selectBoard">
+		SELECT 
+		    board_no, writer_id, writer_nick, 
+		    hit, menu, cate, title, price, content, location,
+		    CAST(write_date AS DATE) AS write_date, 
+		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
+		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
+		FROM board B
+		<where>
+			AND menu = #{menu }
+			AND cate = #{cate }
+		</where>
+	</sql>
+
+	<!-- 게시글 수 조회하여 페이징 처리 -->
+	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
+		SELECT count(*) FROM (
+			<include refid="selectBoard" />
+		)
+	</select>
+	
+	<!-- 해당 메뉴 게시글 조회 -->
+	<select id="selectAll" resultType="Map" parameterType="web.util.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				<include refid="selectBoard"/>
+				ORDER BY board_no DESC
+          	) B
+      	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+	
+	<!-- 게시글 조회수 증가 -->
+	<update id="updateHit" parameterType="Board">
+		UPDATE board
+		<set>
+			hit = hit + 1,
+		</set>
+		<where>
+			AND board_no = #{boardNo }
+		</where>
+	</update>
+	
+	<!-- 게시글 상세 조회 -->
+	<select id="selectByBoardNo" resultType="Board" parameterType="Board">
+<!-- 	    SELECT -->
+<!-- 	        board_no, writer_id, writer_nick, write_date, hit, menu, -->
+<!-- 	        title, price, content, U.addr1 as location -->
+<!-- 	    FROM -->
+<!-- 	        board B -->
+<!-- 	    JOIN -->
+<!-- 	        usertb U ON B.writer_id = U.id -->
+<!-- 	    <where> -->
+<!-- 	        board_no = #{boardNo } -->
+<!-- 	    </where> -->
+		SELECT
+			board_no, writer_id, writer_nick
+			, write_date, hit, menu, cate
+			, title, price, content, location
+		FROM board
+		<where>
+			board_no = #{boardNo }
+		</where>	    
+	</select>
+	
+	<!-- 게시글 삽입 -->
+    <insert id="insertBoard" parameterType="Board">
+    	<selectKey resultType="int" order="BEFORE" keyProperty="boardNo">
+    		SELECT board_seq.nextval FROM dual
+    	</selectKey>
+    		INSERT INTO board(board_no, menu, cate, writer_id, writer_nick, title, price, content, location)
+    		VALUES ( #{boardNo}, #{menu}, #{cate}, #{writerId}, #{writerNick}, #{title}, #{price}, #{content}, #{location} )
+    </insert>
+    
+    <!-- 게시글 파일 삽입 -->
+    <insert id="insertFile" parameterType="FileTb">
+    	<selectKey resultType="int" order="BEFORE" keyProperty="fileNo">
+    		SELECT fileTb_seq.nextval FROM dual
+    	</selectKey>
+    	INSERT INTO fileTb( file_no, origin_name, stored_name, thumbnail_name, file_type, board_no)
+    	VALUES( #{fileNo}, #{originName}, #{storedName}, #{thumbnailName}, #{fileType}, #{boardNo} )
+    </insert>
+    
+    <!-- 게시글 파일 조회, 목록용 -->
+   	<select id="selectFileByBoardNo" resultType="FileTb" parameterType="Board">
+		SELECT
+			file_no, board_no, origin_name, stored_name, thumbnail_name
+		FROM filetb
+		<where>
+			board_no = #{boardNo}
+		</where>
+	</select>
+	
+	<!-- 게시글 파일 조회, 다운로드용 -->
+	<select id="selectFileByFileNo" resultType="FileTb" parameterType="FileTb">
+		SELECT
+			file_no, board_no, origin_name, stored_name, thumbnail_name
+		FROM filetb
+		<where>
+			file_no = #{fileNo}
+		</where>
+	</select>
+	
+	<!-- 사용자 추천수 유무 조회 -->
+	<select id="selectCntLike" resultType="int" parameterType="Like">
+		SELECT count(*) FROM liketb
+		<where>
+			AND like_id = #{likeId}
+			AND board_no = #{boardNo}
+		</where>
+	</select>
+	
+	<!-- 추천 적용 -->
+	<insert id="insertLike" parameterType="Like">
+		INSERT INTO liketb ( like_no, like_id, board_no)
+		VALUES ( liketb_seq.nextval, #{likeId}, #{boardNo} )
+	</insert>
+	
+	<!-- 추천 취소 -->
+	<delete id="deleteLike" parameterType="Like">
+		DELETE liketb
+		<where>
+			AND like_id = #{likeId}
+			AND board_no = #{boardNo}
+		</where>
+	</delete>		
+	
+	<!-- 총 추천수 조회 -->
+	<select id="selectTotalCntLike" resultType="int" parameterType="Like">
+		SELECT COUNT(*) FROM liketb
+		<where>
+			AND board_no = #{boardNo}
+		</where>
+	</select>    
+
+	<!-- 댓글 삽입 -->
+	<insert id="insertComment" parameterType="Comment">
+		INSERT INTO commentTB ( CMT_NO, BOARD_NO, WRITER_ID, WRITER_NICK, CONTENT)
+		VALUES ( commentTB_seq.nextval, #{boardNo }, #{writerId }, #{writerNick }, #{content } )
+	</insert>
+	
+	<!-- 댓글 조회 -->
+	<select id="selectAllComment" resultType="Comment" parameterType="Comment">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				SELECT
+					CMT_NO, board_no, writer_id, 
+					writer_nick, content,
+					CAST(write_date AS DATE) AS "writeDate"
+				FROM commentTb
+				<where>
+					board_no = #{boardNo}
+				</where>
+				ORDER BY write_date DESC
+			) B
+		)
+		ORDER BY rnum
+	</select>	
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="Comment">
+		DELETE FROM commentTB
+		<where>
+			AND	cmt_no = #{cmtNo }
+			AND board_no = #{boardNo }
+		</where>
+	</delete>
+
+</mapper>
