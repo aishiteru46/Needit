@@ -315,7 +315,7 @@ form {
   			<label class="fs-3 fw-bold">*아이디</label>
    	 		<span class="position-absolute top-50 end-0 translate-middle-y" id="label1" style="font-size: 15px;"></span>
   			</div>
-   	 		<input type="text" class="form-control form-control-lg mb-3" name="id" id="id" value="${id }required="required">
+   	 		<input type="text" class="form-control form-control-lg mb-3" name="id" id="id" value="${id }" required="required" readonly>
    	 		<span  id="idLimit" style="font-size: 13px;"></span>
    	 		<div class="position-relative">
   			<label class="fs-3 fw-bold">*비밀번호</label>
@@ -330,6 +330,13 @@ form {
     		</div>
     		<input type="password" class="form-control form-control-lg mb-3" id="pw2" placeholder="비밀번호를 입력해주세요" required="required">
     		
+     		<div class="position-relative"> 
+  			<label class="fs-3 fw-bold">*닉네임</label> 
+   			<span class="position-absolute top-50 end-0 translate-middle-y" id="label3" style="font-size: 15px;"></span> 
+     		</div> 
+    		<input type="text" class="form-control form-control-lg mb-3" id="nick" name="nick" value="${nick }"  required="required"> 
+    	 		<span  id="nickLimit" style="font-size: 15px;"></span> 
+    	 		
 <!--   			<label class="fs-3 fw-bold">*생년월일</label> -->
 <!--     		<input type="date" class="form-control form-control-lg mb-3" id="birth" name="birth" required="required"> -->
     		
@@ -337,10 +344,10 @@ form {
   			<label class="fs-3 fw-bold">*주소</label> 
   			<input class="btn mb-2 position-absolute top-50 end-0 translate-middle-y" id="needit"type="button" onclick="sample5_execDaumPostcode()" value="우편번호 찾기">
   			</div>
-  			<input type="text" class="form-control form-control-lg mb-3" name="addr1" value="${addr1 } id="sample5_address" required="required">
+  			<input type="text" class="form-control form-control-lg mb-3" name="addr1" value="${addr1 }" id="sample5_address" required="required">
     		
     		<label class="fs-3 fw-bold">상세주소</label>
-    		<input type="text" class="form-control form-control-lg mb-3" name="addr2" value="${addr2 }>
+    		<input type="text" class="form-control form-control-lg mb-3" name="addr2" value="${addr2 }">
    	 		
   		</div>
   		
@@ -355,12 +362,6 @@ form {
 <!--   			<label class="fs-3 fw-bold">*이름</label> -->
 <!--     		<input type="text" class="form-control form-control-lg mb-3" id="name" name="name" placeholder="이름을 입력해주세요" required="required"> -->
     		
-<!--     		<div class="position-relative"> -->
-<!--   			<label class="fs-3 fw-bold">*닉네임</label> -->
-<!--   			<span class="position-absolute top-50 end-0 translate-middle-y" id="label3" style="font-size: 15px;"></span> -->
-<!--     		</div> -->
-<!--     		<input type="text" class="form-control form-control-lg mb-3" id="nick" name="nick" value="${nick }  required="required"> -->
-<!--    	 		<span  id="nickLimit" style="font-size: 15px;"></span> -->
   			
 <!--   			<label class="fs-3 fw-bold">*전화번호</label> -->
 <!--     		<input type="text" class="form-control form-control-lg mb-3" id="phone" name="phone" placeholder="전화번호를 입력해주세요" > -->

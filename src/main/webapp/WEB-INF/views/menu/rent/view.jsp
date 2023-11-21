@@ -93,9 +93,9 @@ function loadComments() {
 	
 	            commentListHtml += '<hr>'; 
 	            commentListHtml += '<div class="media mb-4">';
-	            commentListHtml += '  <img style="width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="https://mblogthumb-phinf.pstatic.net/MjAyMDA2MTBfMTY1/MDAxNTkxNzQ2ODcyOTI2.Yw5WjjU3IuItPtqbegrIBJr3TSDMd_OPhQ2Nw-0-0ksg.8WgVjtB0fy0RCv0XhhUOOWt90Kz_394Zzb6xPjG6I8gg.PNG.lamute/user.png?type=w800" alt="">';
+	            commentListHtml += '  <img style="width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/${' + res.commentList[i].THUMBNAIL_NAME} + '}">';
 	            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
-	            //댓글 작성자 구분 처리                
+	            //댓글 작성자 구분 처리                                                                                    
 	            if (commentWriter === boardMaster && commentWriter === nick) { 
 	                commentListHtml += '    <h6>' + res.commentList[i].writerNick + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
 	            } else if (commentWriter === nick) {
@@ -352,7 +352,6 @@ $(()=>{
 			<div class="btn" id="btnLike"></div>
 		</div>
 		</c:if>		
-<!-- 		❤️ -->
 	</td><td id="like"><div id="likeNo">${cntLike }</div>명이 이 게시글을 좋아합니다.</td>
 </tr>
 <tr>

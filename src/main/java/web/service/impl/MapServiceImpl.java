@@ -34,18 +34,8 @@ public class MapServiceImpl implements MapService {
         
         // 맵을 2차원 배열로 변환
         List<List<Board>> result = new ArrayList<>(map.values());
-        
-        // 출력
-        for (List<Board> group : result) {
-            for (Board board : group) {
-                System.out.println(board.getLocation() + " | " + board.getTitle() + " | " + board.getWriterNick() + " | " + board.getPrice());
-            }
-            System.out.println("-----");
-        }
 
 		return result;
 	}
-	
-
 	
 }

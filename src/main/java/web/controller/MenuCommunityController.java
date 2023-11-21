@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,63 +20,47 @@ import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
-import web.dto.Rent;
-import web.service.face.MenuRentService;
+import web.service.face.MenuCommunityService;
 import web.util.Paging;
 
 @Controller
-@RequestMapping("/rent")
-public class MenuRentController {
+@RequestMapping("/community")
+public class MenuCommunityController {
 	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
 	
-	@Autowired private MenuRentService menuRentService;
+	@Autowired private MenuCommunityService menuCommunityService;
 	
 	//게시판 목록 띄우기
 	@GetMapping("/list")
 	public String list( Paging param, Model model ) {
 		logger.info("param : {}", param);
 		//페이징 계산
-		Paging paging = menuRentService.getPaging(param);
+		Paging paging = menuCommunityService.getPaging(param);
 		
 		//게시글 목록 조회
-		List<Map<String, Object>> list = menuRentService.list(paging); 
+		List<Map<String, Object>> list = menuCommunityService.list(paging); 
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
-		return "menu/rent/list";
+		return "menu/community/list";
 	}
 	
-	//게시판 목록 띄우기
-	@GetMapping("/listType")
-	public String listType( Paging param, Model model ) {
-		logger.info("param : {}", param);
-		//페이징 계산
-		Paging paging = menuRentService.getPaging(param);
-		
-		//게시글 목록 조회
-		List<Map<String, Object>> list = menuRentService.list(paging); 
-		model.addAttribute("paging", paging);
-		model.addAttribute("list", list);
-		
-		return "menu/rent/listType";
-	}
-
 	//게시판 상세 조회
 	@GetMapping("/view")
 	public String view( Board board, Model model, HttpSession session ) {
 
 		//게시글 번호를 전달받지 못하면 목록으로 이동
 		if( board.getBoardNo() < 1 ) {
-			return "redirect:/rent/list";
+			return "redirect:/community/list";
 		}
 		
 		//게시글 상세 조회
-		board = menuRentService.view(board);
+		board = menuCommunityService.view(board);
 		model.addAttribute("board", board);
 		logger.info(board.toString());
 		
 		//첨부파일 정보 전달
-		List<FileTb> fileTb = menuRentService.getAttachFile( board );
+		List<FileTb> fileTb = menuCommunityService.getAttachFile( board );
 		model.addAttribute("fileTb", fileTb);
 		
 		//추천 상태 조회
@@ -86,16 +69,11 @@ public class MenuRentController {
 		like.setLikeId((String)session.getAttribute("id")); //로그인한 아이디
 
 		//추천 상태 전달
-		boolean isLike = menuRentService.isLike(like);
+		boolean isLike = menuCommunityService.isLike(like);
 		model.addAttribute("isLike", isLike);
-		model.addAttribute("cntLike", menuRentService.getTotalCntLike(like));
+		model.addAttribute("cntLike", menuCommunityService.getTotalCntLike(like));
 		
-		//대여상태 조회
-		List<Map<String, Object>> status = menuRentService.getStatus(board);
-		logger.info("status : {}", status);
-		model.addAttribute("status", status);
-		
-		return "menu/rent/view";
+		return "menu/community/view";
 	}
 
 	//파일 다운로드
@@ -103,35 +81,16 @@ public class MenuRentController {
 	public String down( FileTb fileTb, Model model ) {
 		
 		//첨부파일 정보 조회
-		fileTb = menuRentService.getFile( fileTb );
+		fileTb = menuCommunityService.getFile( fileTb );
 		model.addAttribute("downFile", fileTb);
 		
 		return "down";
 	}
 
-	//대여 처리
-	@PostMapping("/rent")
-	public String rent( Rent rentParam, Model model ) {
-		logger.info("rentParam {}", rentParam);
-		
-		//대여신청 대기처리
-		menuRentService.rent(rentParam);
-		
-		return "jsonView";
-	}
-	
-	//예약 처리
-	@PostMapping("/book")
-	public void book() {} 
-	
-	//결제 처리
-	@PostMapping("/pay")
-	public void pay() {} 
-	
 	//게시글 작성 폼
 	@GetMapping("/write")
 	public String write() {
-		return "menu/rent/write";
+		return "menu/community/write";
 	}
 	
 	//게시글 작성 처리
@@ -144,9 +103,9 @@ public class MenuRentController {
 		writeParam.setWriterNick((String) session.getAttribute("nick"));
 		
 		//게시글 저장
-		menuRentService.write( writeParam, file );
+		menuCommunityService.write( writeParam, file );
 		
-		return "redirect:/rent/view?boardNo=" + writeParam.getBoardNo();
+		return "redirect:/community/view?boardNo=" + writeParam.getBoardNo();
 	}
 
 	//게시글 수정 폼
@@ -168,11 +127,11 @@ public class MenuRentController {
 		
 		//추천 정보 토글
 		like.setLikeId((String) session.getAttribute("id"));
-		boolean result = menuRentService.like(like);
+		boolean result = menuCommunityService.like(like);
 		mav.addObject("result", result);
 		
 		//추천 수 조회
-		int cnt = menuRentService.getTotalCntLike(like);
+		int cnt = menuCommunityService.getTotalCntLike(like);
 		mav.addObject("cnt", cnt);
 
 		mav.setViewName("jsonView");
@@ -186,9 +145,9 @@ public class MenuRentController {
 		logger.info("댓글 전달인자 commentParam: {}", commentParam);
 		logger.info("댓글 전달인자 board: {}", board);
 		
-		menuRentService.commentInsert(commentParam);
+		menuCommunityService.commentInsert(commentParam);
 		
-		return "redirect: /rent/view?boardNo=" + board.getBoardNo();
+		return "redirect: /community/view?boardNo=" + board.getBoardNo();
 	}
 	
 	//댓글 불러오기
@@ -196,12 +155,10 @@ public class MenuRentController {
 	public String viewComment(Comment commentParam, Model model) {
 		logger.info("commentParam: {}", commentParam);
 		
-		//댓글 목록 조회
-		List<Comment> commentList = menuRentService.viewComment(commentParam);
-		model.addAttribute("commentList", commentList);
+		List<Comment> commentList = menuCommunityService.viewComment(commentParam);
+		logger.info("저장된 댓글:" + commentList.toString());
 		
-		//사용자 프로필 조회
-
+		model.addAttribute("commentList", commentList);
 		
 		return "jsonView";
 	}
@@ -211,7 +168,7 @@ public class MenuRentController {
 	public String delete(Comment commentDelete) {
 		logger.info("commentDelete : {}", commentDelete);
 		
-		menuRentService.delete(commentDelete);
+		menuCommunityService.delete(commentDelete);
 		
 		return "jsonView";
 	}

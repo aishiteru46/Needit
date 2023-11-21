@@ -4,7 +4,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-<mapper namespace="web.dao.face.MenuRentDao">
+<mapper namespace="web.dao.face.MenuCommunityDao">
 
 	<!-- 게시글 조회용 SQL -->
 	<sql id="selectBoard">
@@ -150,19 +150,20 @@
 	<!-- 댓글 조회 -->
 	<select id="selectAllComment" resultType="Comment" parameterType="Comment">
 		SELECT * FROM (
-		    SELECT rownum rnum, B.*, uf.THUMBNAIL_NAME 
-		    FROM (
-		        SELECT
-		            cmt_no, board_no, writer_id, writer_nick, content,
-		            CAST(write_date AS DATE) AS "writeDate"
-		        FROM commentTb
-		        WHERE board_no = #{boardNo}
-		        ORDER BY write_date DESC
-		    ) B
-		    LEFT JOIN user_file uf ON B.writer_id = uf.id
+			SELECT rownum rnum, B.* FROM (
+				SELECT
+					CMT_NO, board_no, writer_id, 
+					writer_nick, content,
+					CAST(write_date AS DATE) AS "writeDate"
+				FROM commentTb
+				<where>
+					board_no = #{boardNo}
+				</where>
+				ORDER BY write_date DESC
+			) B
 		)
 		ORDER BY rnum
-	</select>
+	</select>	
 	
 	<!-- 댓글 삭제 -->
 	<delete id="deleteComment" parameterType="Comment">
@@ -172,23 +173,5 @@
 			AND board_no = #{boardNo }
 		</where>
 	</delete>
-	
-	<!-- 대여 처리 -->
-	<insert id="makeRent" parameterType="Rent">
-		INSERT INTO rent ( rent_no, board_no, renter_id, rent_status, rent_date, start_time, end_time )
-		VALUES ( rent_seq.nextval, #{boardNo }, #{renterId }, #{rentStatus }, #{rentDate }, #{startTime }, #{endTime } )
-	</insert>
-	
-	<!-- 대여 상태 확인 -->
-	<select id="chkRentStatus" resultType="map" parameterType="Board">
-		SELECT 
-			rent_no, board_no, renter_id, rent_status
-			, CAST(rent_date AS DATE) AS rent_date
-			, start_time, end_time
-		FROM rent
-		<where>
-			board_no = #{boardNo}
-		</where>
-	</select>
 
 </mapper>

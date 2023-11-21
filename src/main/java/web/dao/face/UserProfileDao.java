@@ -3,6 +3,7 @@ package web.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import web.dto.Board;
 import web.dto.Like;
 import web.dto.Rent;
 import web.dto.User;
@@ -143,6 +144,27 @@ public interface UserProfileDao {
 
 
 	
+
+	/**
+	 * 유저테이블 전체 조회
+	 * 
+	 * @return
+	 */
+	public User selectUserAll(User user);
+
+
+//	/**
+//	 * 로그인한아이디가 쓴글 조회
+//	 * 
+//	 * @param user
+//	 * @return
+//	 */
+//	public List<Board> selectBoardById(User user);
+
+
+	
+	
+
 
 
 
