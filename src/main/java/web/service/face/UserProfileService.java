@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.Board;
 import web.dto.Like;
 import web.dto.User;
 import web.dto.UserFile;
@@ -89,6 +90,22 @@ public interface UserProfileService {
 	 * @param userPage
 	 */
 	public void imgDelete(UserFile userFile);
+
+	/**
+	 * 
+	 * @param user 
+	 * @return
+	 */
+	public User userAllSelect(User user);
+
+	
+//	/**
+//	 * 아이디로 글찾기
+//	 * 
+//	 * @param user
+//	 * @return
+//	 */
+//	public List<Board> boardSelectById(User user);
 
 	
 

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@page import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 
@@ -76,13 +76,6 @@ function setThumbnail(event) {
 
 ${userGrade}
 
-프로필 올릴때 user_page 생성되게해둔상태인데 이러면 안되고<br>
-회원가입때 usertb에 id 들어가면서 user_page도 동시에 생겨야 될거같음<br>
-인서트로해놔서 수정안되고 처음등록만 되는데 나중에 업데이트로 수정
-
-
-
-
 
 
 <div id="profileImageContainer">
@@ -95,7 +88,7 @@ ${userGrade}
 
 
 
-<h3>${id}님의 프로필사진</h3>
+<h3>${nick}님의 프로필사진</h3>
 
 <div class="panel panel-default">
    <div class="panel-body">
@@ -103,11 +96,28 @@ ${userGrade}
          <input type="hidden" name="id" value="${id}"/>
          <table class="table table-bordered" style="text-align: center; border: 1px solid #dddddd;">
             <tr>
-               <td style="width: 110px; vertical-align: middle;">아이디</td>
-               <td>${id}</td>
+               <td style="width: 150px; vertical-align: middle;">아이디</td>
+               <td>${id }</td>
             </tr>
             <tr>
-               <td style="width: 110px; vertical-align: middle;">사진 업로드</td>
+               <td style="width: 150px; vertical-align: middle;">닉네임</td>
+               <td>${nick }</td>
+            </tr>
+            <tr>
+               <td style="width: 150px; vertical-align: middle;">등급</td>
+               <td>${user.grade }</td>
+            </tr>
+            <tr>
+               <td style="width: 150px; vertical-align: middle;">가입일</td>
+               <td><fmt:formatDate pattern="yyyy-MM-dd" value="${user.joinDate }"/></td>
+            </tr>
+            <tr>
+               <td style="width: 150px; vertical-align: middle;">주소</td>
+               <td>${user.addr1 }<br>${user.addr2 }</td>
+               
+            </tr>
+            <tr>
+               <td style="width: 150px; vertical-align: middle;">사진 업로드</td>
                <td colspan="2">
                   <span class="btn btn-default">
                      이미지를 업로드하세요.<input type="file" name="file" onchange="setThumbnail(event);"/>
@@ -116,6 +126,8 @@ ${userGrade}
             </tr>      
             <tr>
                <td colspan="2" style="text-align: left;">
+               	<!-- 썸네일 미리보기를 담을 div 추가 -->
+               	<div id="thumbnail_container"></div>
                   <input type="submit" class="btn btn-primary btn-sm pull-right" value="등록"/>
                    <!-- 이미지 삭제 버튼 -->
                    <button type="button" class="btn btn-danger btn-sm pull-right" onclick="deleteImg()">이미지 삭제</button>
@@ -124,8 +136,8 @@ ${userGrade}
             </tr>
          </table>
       </form> 
-      <!-- 썸네일 미리보기를 담을 div 추가 -->
-      <div id="thumbnail_container"></div>
+      
+      
    </div>
 </div>
 
@@ -161,9 +173,9 @@ ${userGrade}
     
     <!-- 자기소개글을 입력하는 텍스트박스 -->
     <form action="./introduce" method="post">
-            <input type="hidden" id="id" name="id" value="${id}">
+            <input type="text" id="id" name="id" value="${id}">
         <div class="mb-3">
-            <textarea class="form-control" id="intro" name="intro" rows="5" maxlength="100" >${userPage.intro}</textarea>
+            <textarea class="form-control" id="intro" name="intro" rows="5" maxlength="100" value="안녕하세요 이주현입니다">${user.intro }</textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">저장</button>
@@ -246,6 +258,17 @@ function confirmAndSubmit(userId) {
 </table>
 
 <hr>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
