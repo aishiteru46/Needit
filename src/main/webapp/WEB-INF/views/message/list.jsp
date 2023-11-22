@@ -14,14 +14,14 @@ pageEncoding="UTF-8"%>
   width: 1300px;
 }
 
-.msgmain {
+.msgMain {
   display: flex;
   border: 1px solid;
   min-height: 800px;
   width: 1300px;
 }
 
-.msglist {
+.msgList {
   display: flex;
   flex-direction: column;
   border: 1px solid;
@@ -62,7 +62,7 @@ pageEncoding="UTF-8"%>
   margin-right: 0px;
 }
 
-.msginput {
+.msgInput {
   width: 100%;
   border: 1px solid;
   height: 150px;
@@ -118,7 +118,7 @@ pageEncoding="UTF-8"%>
   border-bottom: 1px solid #ccc;
 }
 
-.msgmain .hidden {
+.msgMain .hidden {
   display: none;
 }
 
@@ -187,15 +187,167 @@ var currentUserIdSubscription;
 var receiverIdSubscription;
 var newRoom
 var makingRoom = false;
-var newChatMessage;
+var newChatMsg;
 var sendNewFlag = 0;
 
-function scrollToBottom() { // 채팅방 스크롤 내려주는 fucntion
+$(document).ready(function() {
+	$('.msgInput form').on('submit', function(event) { // 메시지를 보낼 때
+		event.preventDefault(); // 기본 submit 동작 방지
+		var message = $(this).find('input[name="message"]').val(); // 입력 필드의 값을 가져옴
+	     
+		if(makingRoom == false){ // 방이 존재한다면 
+			sendMessage() // 메시지 보내기 
+		} else if(makingRoom ==true){ // 방이 존재안하면
+			console.log("makingNewRoom start")
+			
+			receiverId = newRoom.newReceiverId;
+			subscribeToReceiverId(receiverId) // 받는 사람 한테 구독 하는 함수
+			console.log('receiverId = ' + receiverId)
+			
+			var newChatMsg = {	// 새로 생성된 채팅방의 첫 메시지
+				writerId: currentUserId,	// 작성자 : 현재 접속 유저
+				content: message,	// 메시지
+				receiverId: receiverId,	// 받는 사람 
+				boardNo: newRoom.newBoardNo,	// 새로운 방의 방 번호
+				menu: newRoom.newMenu,	// 새로운 방의 메뉴
+				cate: newRoom.newCate,	// 새로운 방의 카테고리
+				msgStatus: 3	// 3 : 새로운 방에서 작성한 메시지
+			} // var newChatMsg 끝
+			console.log('newChatMsg = ' + newChatMsg)
+			     	
+			if(stompId && newChatMsg && makingRoom){
+			stompId.send("/pub/chat/" + receiverId + "/sendStatus",{},JSON.stringify(newChatMsg))
+			}
+		}
+	
+	$(this).find('input[name="message"]').val(''); // input 필드를 지움
+	$('.msgInput input').attr('placeholder', '메시지를 입력해 주세요.');
+	return;
+	// 여기에 메시지 전송 로직을 추가할 수 있습니다.
+	}); // 메세지 전송 이벤트 끝
+	 
+	  currentUserId = '<c:out value="${sessionScope.id}"/>'; // JSP EL to get current user ID
+	  console.log('현재 접속 아이디 = ' + currentUserId)
+		$('.msgObjects').on('click', '.msgObject', function() {
+	    roomNo = $(this).attr('room_no');
+	    
+	    lastSentRoomNo = $(this).attr('room_no');
+	    // Hide the prompt and show the message content
+	    $('.msgPrompt').addClass('hidden');
+	    $('.msgcontent, .msgprofile').removeClass('hidden');
+	    $(this).css('background-color','white');
+
+	    // AJAX call to get messages
+	    $.ajax({
+	      url: './msgload',
+	      type: 'GET',
+	      data: { RoomNo: roomNo,
+	    	  currentUserId: currentUserId
+	      },
+	      success: function(messages){
+	        // Clear previous messages
+	        $('.messages-container').empty();
+	        console.log("ajax데이터")
+	        // Iterate through messages and add to the page
+	        messages.forEach(function(message) {
+	            var messageElement, wrapperElement, timeElement;
+// 	            console.log(message.receiverId)
+	            if(currentUserId === message.writerId){
+	            	receiverId = message.receiverId
+	            }else{
+	            	receiverId = message.writerId
+	            }
+	            var timestamp = message.postDate;
+	            var date = new Date(timestamp);
+	            var dateFormatter = new Intl.DateTimeFormat('ko-KR', {
+	                year: 'numeric', month: '2-digit', day: '2-digit', 
+	                hour: '2-digit', minute: '2-digit', hour12: false
+	            });
+	            var formattedDate = dateFormatter.format(date);
+	            //console.log(formattedDate)
+	            timeElement = $('<div>').text(formattedDate);
+	            if(message.receiverId === currentUserId) {
+	                // Received message
+	                messageElement = $('<div>').addClass('msgReceiverContent').text(message.content);
+	                wrapperElement = $('<div>').addClass('message-receiver-wrapper');
+	                wrapperElement.append(messageElement).append(timeElement.addClass('receive-time'));
+	            } else {
+	                // Sent message
+	                messageElement = $('<div>').addClass('msgSendContent').text(message.content);
+	                wrapperElement = $('<div>').addClass('message-send-wrapper');
+	                wrapperElement.append(timeElement.addClass('send-time')).append(messageElement);
+	            }
+
+	            // Append the wrapper element to the correct container
+	            $('.messages-container').append(wrapperElement);
+	              scrollToBottom()
+	        });
+	        select = 1
+	        
+		    console.log(receiverId)
+		    console.log("리시버 아이디로 접속을 할거야 이건 뜨면")
+		    subscribeToReceiverId(receiverId)
+	      },
+	      error: function(error){
+	        console.log("AJAX request failed");
+	      }
+	    }); // ajax 끝
+	    connectToRoom(roomNo);
+	    var userId = '<c:out value="${sessionScope.id}"/>'
+	    
+	  }); // $('.msgObjects').on('click') 펑션 끝
+	
+	console.log("onfunction 로직 시작")
+	currentUserId = '<c:out value="${sessionScope.id}"/>';
+	console.log('현재 유저 아이디' + currentUserId)
+	
+	connectWebSocket()
+	console.log("현재 아이디로 구독 완료")
+    var newMaking = '<c:out value="${newMaking}" escapeXml="false"/>';
+    if(newMaking) {
+    	console.log("이부분이 문제야")
+        newRoom = JSON.parse(newMaking);
+        console.log(newRoom.newMenu);
+        console.log(newRoom.newCate);
+        console.log(newRoom.newBoardNo);
+        console.log(newRoom.newReceiverId);
+        makingRoom = true;
+        console.log(newRoom)
+        $('.msgInput input').attr('placeholder', '메시지를 입력하면 새로운 채팅이 시작됩니다.');
+        $('.msgPrompt').addClass('hidden');
+        $('.msgcontent, .msgprofile').removeClass('hidden');
+        // $(this).css('background-color','white'); // $(this)는 여기서 문맥에 맞지 않을 수 있습니다.
+    }
+    var targetRoomNo = '<c:out value="${targetRoomNo}" escapeXml="false"/>'
+    if(targetRoomNo){
+    	console.log("이것 지나오나요?")
+    	 $(".msgObject[room_no='" + targetRoomNo + "']").click();
+    }
+	console.log("이것들이 나오나요?")
+	 
+}); //ready 함수 끝
+
+function connectWebSocket() { // 웹소켓 연결 시작 함수
+	console.log('connectWebSocket 함수 시작')
+	
+    var socketId = new SockJS('/ws');
+    stompId = Stomp.over(socketId);
+    stompId.connect({}, function() {
+        console.log("WebSocket connected");
+        subscribeToCurrentUserId();   // 최초 접속 시, currentUserId로 구독
+    }, onErrorId);
+} // connectWebSocket() 끝
+
+
+function scrollToBottom() { // 채팅방 스크롤 내려주는 함수
     var messagesContainer = $('.messages-container');
     messagesContainer.scrollTop(messagesContainer.prop("scrollHeight"));
 } // scrollToBottom() 끝
   
-function connectToRoom(roomNumber) {
+function connectToRoom(roomNumber) { // 채팅방 접속 함수
+	console.log('connectToRoom 함수 실행')
+	console.log('connectToRoom의 파라미터 = ' + roomNumber )
+	
     disconnectWebSocket(); // 기존 연결 해제
     roomNo = roomNumber; // 방번호
     
@@ -205,124 +357,134 @@ function connectToRoom(roomNumber) {
     stompClient.connect({}, function(frame) {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/sub/' + roomNo + '/public', onMessageReceived); // 구독
-        if(makingRoom && currentUserId == newChatMessage.writerId){
+        if(makingRoom && currentUserId == newChatMsg.writerId){
             // 여기서 메시지 전송 로직을 수행
             sendNewFlag = 1;
-    		stompClient.send("/app/chat/" + roomNo + "/sendMessage",{},JSON.stringify(newChatMessage))
+    		stompClient.send("/pub/chat/" + roomNo + "/sendMessage",{},JSON.stringify(newChatMsg))
     		
     		makingRoom=false;
     		sendNewFlag = 0;
     		lastSentRoomNo = roomNo;
     		
-        }// if(makingRoom &&currentUserId == newChatMessage.writerId) 끝
+        }// if(makingRoom &&currentUserId == newChatMsg.writerId) 끝
         
         // 사용자 추가 메시지 보내기
-        stompClient.send("/app/chat.addUser", {}, JSON.stringify({ 'currentUserId': currentUserId, 'userId':currentUserId, 'roomNo': roomNo }));
+        // .send( destination, headers = {}, body = '' )
+        // body는 JSON으로 헤더없이 보내기
+        stompClient.send( "/pub/chat.addUser", {}
+        , JSON.stringify({ 'currentUserId' : currentUserId // 현재 접속 유저
+				        	, 'userId' : currentUserId // 현재 접속 유저(ID)
+				        	, 'roomNo': roomNo })); // 방 번호
     }, onError);
     
 } // connectToRoom(roomNumber) 끝
 
-function onError(){
-	console.log("에러뜸!")
-}
-function sendMessage(event){
-	console.log("sendMessage function start")
-	lastSentRoomNo = roomNo;
+function onError(){ console.log("에러뜸!") }
+
+function sendMessage(event){ // 메시지 전송 함수
+	console.log("sendMessage 함수 시작")
+	lastSentRoomNo = roomNo;  // 마지막으로 보낸 방 번호
 	
-	var messageContent = $('.msginput form').find('input[name="message"]').val()
+	var messageContent = $('.msgInput form').find('input[name="message"]').val() // 메세지 입력 창 value
 	
-	if(messageContent && stompClient){
+	if( messageContent && stompClient ){ // 보내는 메세지가 존재하고, 통신이 연결되어 있을 때
 		console.log("데이터 전송 시작")
-		var chatMessage = {
+		
+		var chatMessage = { // 메시지 Object로 보낸다
 			roomNo: roomNo,
 			writerId: currentUserId,
 			content: messageContent
 		}
-		stompClient.send("/app/chat/" + roomNo + "/sendMessage",{},JSON.stringify(chatMessage))
-		
-		
+		stompClient.send("/pub/chat/" + roomNo + "/sendMessage",{},JSON.stringify(chatMessage)) // object Json으로 파싱
 	}
-}
+} // sendMessage(event) 끝
 
-function onMessageReceived(payload) { 
-    console.log("소켓에서 메세지 받는중")
+function onMessageReceived(payload) { // 메시지 수신 함수
+    console.log("onMessageReceived 함수 시작")
+    console.log("onMessageReceived 페이로드 = " + payload)
+    
     var newMessage = JSON.parse(payload.body);
     console.log(newMessage)
-    var messageElement, wrapperElement, timeElement;
-    var timestamp1 = newMessage.postDate;
-    var date1 = new Date(timestamp1);
-    var dateFormatter1 = new Intl.DateTimeFormat('ko-KR', {
-        year: 'numeric', month: '2-digit', day: '2-digit', 
-        hour: '2-digit', minute: '2-digit', hour12: false
+    
+    var messageElement, wrapperElement, timeElement; // 지역변수 생성
+    var timestamp1 = newMessage.postDate; // TIMESTAMP 타입 메세지의 전송 시간
+    
+    var date1 = new Date(timestamp1); // Date타입으로 형변환
+    var dateFormatter1 = new Intl.DateTimeFormat('ko-KR', { // 시간 지역 설정
+        year: 'numeric' // 연도를 숫자로 표시
+        , month: '2-digit' // 월을 두 자리 숫자로 표시
+        , day: '2-digit' // 일을 두 자리 숫자로 표시
+        , hour: '2-digit' // 시간을 두 자리 숫자로 표시
+        , minute: '2-digit' // 분을 두 자리 숫자로 표시
+        , hour12: false // 시간을 24시간 형식으로 표시
     });
-    var formattedDate1 = dateFormatter1.format(date1);
-    console.log("여기 지나오나??");
+    
+    var formattedDate1 = dateFormatter1.format(date1); // 설정해놓은 포맷 방식에 따라 변환
+    console.log('formattedDate1 = ' + formattedDate1)
+    
     timeElement = $('<div>').text(formattedDate1);
-    if(newMessage.receiverId === currentUserId) {
-        // Received message
+    
+    if(newMessage.receiverId === currentUserId) { // 새로운 메세지의 수신자 == 현재 유저 일 때 
+    	// => 본인이 보낸 메시지를 보고 있을 때 
+    	
+        // 받은 메시지
         messageElement = $('<div>').addClass('msgReceiverContent').text(newMessage.content);
         wrapperElement = $('<div>').addClass('message-receiver-wrapper');
         wrapperElement.append(messageElement).append(timeElement.addClass('receive-time'));
+        
     } else {
-        // Sent message
+    	
+        // 보낸 메시지
         messageElement = $('<div>').addClass('msgSendContent').text(newMessage.content);
         wrapperElement = $('<div>').addClass('message-send-wrapper');
         wrapperElement.append(timeElement.addClass('send-time')).append(messageElement);
-    }
+    } // if(newMessage.receiverId === currentUserId) 끝
 
     // Append the wrapper element to the correct container
     $('.messages-container').append(wrapperElement);
       scrollToBottom()
+      
 	if(stompId && newMessage && sendNewFlag == 0){
-		stompId.send("/app/chat/" + receiverId + "/sendStatus",{},JSON.stringify(newMessage))
+		stompId.send("/pub/chat/" + receiverId + "/sendStatus",{},JSON.stringify(newMessage))
 	}
 } // onMessageReceived(payload) 끝
 
 
-function disconnectWebSocket() {
-    if (stompClient !== null) {
-        stompClient.disconnect();
-    }
+function disconnectWebSocket() { // 웹소켓 연결 해제 함수
+    if (stompClient !== null) { stompClient.disconnect(); } // 연결이 되어있을 때 연결 해제
     console.log("Disconnected");
-}
+} // disconnectWebSocket() 끝
 
-function connectWebSocket() {
-    var socketId = new SockJS('/ws');
-    stompId = Stomp.over(socketId);
-    stompId.connect({}, function() {
-        console.log("WebSocket connected");
-        // 최초 접속 시, currentUserId로 구독
-        subscribeToCurrentUserId();
-    }, onErrorId);
-}
 
-function subscribeToCurrentUserId() {
-    if (stompId && !currentUserIdSubscription) {
-        currentUserIdSubscription = stompId.subscribe('/topic/' + currentUserId + '/public/g', onReceivedId);
+function subscribeToCurrentUserId() { // 현재 접속 유저 구독 함수
+	console.log('subscribeToCurrentUserId 시작')
+    if (stompId && !currentUserIdSubscription) { // 최초 접속 구독과 현재 접속 구독을 안했다면
+        currentUserIdSubscription = stompId.subscribe('/sub/' + currentUserId + '/public/g', onReceivedId);
     }
-}
-function subscribeToReceiverId() {
+} // subscribeToCurrentUserId() 끝
+
+function subscribeToReceiverId() { // 받는 사람 한테 구독 하는 함수
+	console.log('subscribeToReceiverId 시작')
     // 기존 receiverId 구독이 있다면 해제
     if (receiverIdSubscription) {
         receiverIdSubscription.unsubscribe();
     }
-    receiverIdSubscription = stompId.subscribe('/topic/' + receiverId + '/public/g', onReceivedId);
-}
-function onErrorId(){
-	console.log("에러에용")
-}
+    receiverIdSubscription = stompId.subscribe('/sub/' + receiverId + '/public/g', onReceivedId);
+} // subscribeToReceiverId() 끝
+
+function onErrorId(){ console.log("에러에용") }
+
 function onReceivedId(payload){
-	console.log("onReceivedId function start...")
-	newChatMessage = JSON.parse(payload.body);
+	console.log("onReceivedId 함수 시작")
+	
+	newChatMsg = JSON.parse(payload.body);
 	var testMsg = JSON.parse(payload.body)
 	if(testMsg.msgStatus === 3){
-		console.log("이건 아직 새로 만들거다.");
 		if(testMsg.writerId == currentUserId){
 		roomNo = testMsg.roomNo;
 		console.log("새로운 채팅방으로 구독 시작")
 		connectToRoom(roomNo);
 		lastSentRoomNo = roomNo;
-		console.log("이거 연결 됐다!!")
 		}
 		var messagePreview = testMsg.content.length > 10 ? testMsg.content.substring(0, 10) + '...' : testMsg.content;
 		var date = new Date(testMsg.postDate);
@@ -383,220 +545,86 @@ function onReceivedId(payload){
     if(testMsg.roomNo != lastSentRoomNo) {
         chatRoomDiv.css('background-color', '#F3F781');
     }
-}
+} // onReceivedId(payload) 끝
 
 
 function formatDate(timestamp) {
+	console.log('formatDate 함수 시작')
     // Create a new Date object from the timestamp
     var date = new Date(timestamp * 1000); // The timestamp is in seconds, Date() requires milliseconds
     // Format the date and time
     return date.toLocaleString('ko-KR'); // This will use the Korean locale
-}
-$(document).ready(function() {
-	$('.msginput form').on('submit', function(event) {
-        event.preventDefault(); // 기본 submit 동작 방지
-        var message = $(this).find('input[name="message"]').val(); // input 필드의 값을 가져옴
-        if(makingRoom == false){
-        sendMessage()
-        }else if(makingRoom ==true){
-        	console.log("makingNewRoom start")
-        	receiverId = newRoom.newReceiverId;
-        	subscribeToReceiverId(receiverId)
-        	var newChatMessage = {
-			writerId: currentUserId,
-			content: message,
-			receiverId: receiverId,
-			boardNo: newRoom.newBoardNo,
-			boardCate: newRoom.newBoardCate,
-			msgStatus: 3
-		}
-          if(stompId && newChatMessage && makingRoom){
-            stompId.send("/app/chat/" + receiverId + "/sendStatus",{},JSON.stringify(newChatMessage))
-          }
-        }
-
-        $(this).find('input[name="message"]').val(''); // input 필드를 지움
-        $('.msginput input').attr('placeholder', '메시지를 입력해 주세요.');
-        return;
-        // 여기에 메시지 전송 로직을 추가할 수 있습니다.
-    });
-	 
-	  currentUserId = '<c:out value="${sessionScope.loginId}"/>'; // JSP EL to get current user ID
-
-		$('.msgObjects').on('click', '.msgObject', function() {
-	    roomNo = $(this).attr('room_no');
-	    
-	    lastSentRoomNo = $(this).attr('room_no');
-	    // Hide the prompt and show the message content
-	    $('.msgPrompt').addClass('hidden');
-	    $('.msgcontent, .msgprofile').removeClass('hidden');
-	    $(this).css('background-color','white');
-
-	    // AJAX call to get messages
-	    $.ajax({
-	      url: './msgload',
-	      type: 'GET',
-	      data: { RoomNo: roomNo,
-	    	  currentUserId: currentUserId
-	      },
-	      success: function(messages){
-	        // Clear previous messages
-	        $('.messages-container').empty();
-	        console.log("ajax데이터")
-	        // Iterate through messages and add to the page
-	        messages.forEach(function(message) {
-	            var messageElement, wrapperElement, timeElement;
-// 	            console.log(message.receiverId)
-// 	            console.log("여기서 확인해보자구요?")
-	            if(currentUserId === message.writerId){
-	            	receiverId = message.receiverId
-	            }else{
-	            	receiverId = message.writerId
-	            }
-	            var timestamp = message.postDate;
-	            var date = new Date(timestamp);
-	            var dateFormatter = new Intl.DateTimeFormat('ko-KR', {
-	                year: 'numeric', month: '2-digit', day: '2-digit', 
-	                hour: '2-digit', minute: '2-digit', hour12: false
-	            });
-	            var formattedDate = dateFormatter.format(date);
-	            //console.log(formattedDate)
-	            timeElement = $('<div>').text(formattedDate);
-	            if(message.receiverId === currentUserId) {
-	                // Received message
-	                messageElement = $('<div>').addClass('msgReceiverContent').text(message.content);
-	                wrapperElement = $('<div>').addClass('message-receiver-wrapper');
-	                wrapperElement.append(messageElement).append(timeElement.addClass('receive-time'));
-	            } else {
-	                // Sent message
-	                messageElement = $('<div>').addClass('msgSendContent').text(message.content);
-	                wrapperElement = $('<div>').addClass('message-send-wrapper');
-	                wrapperElement.append(timeElement.addClass('send-time')).append(messageElement);
-	            }
-
-	            // Append the wrapper element to the correct container
-	            $('.messages-container').append(wrapperElement);
-	              scrollToBottom()
-	        });
-	        select = 1
-	        
-		    console.log(receiverId)
-		    console.log("리시버 아이디로 접속을 할거야 이건 뜨면")
-		    subscribeToReceiverId(receiverId)
-	      },
-	      error: function(error){
-	        console.log("AJAX request failed");
-	      }
-	    });
-	    connectToRoom(roomNo);
-	    var userId = '<c:out value="${sessionScope.loginId}"/>'
-	    
-	  });
-//====================================================onfunction로직 시작 부분=====================================
-	console.log("onfunction 로직 시작")
-	currentUserId = '<c:out value="${sessionScope.loginId}"/>';
-	connectWebSocket()
-	console.log("현재 아이디로 구독 완료")
-    var newMaking = '<c:out value="${newMaking}" escapeXml="false"/>';
-    if(newMaking) {
-    	console.log("이부분이 문제야")
-        newRoom = JSON.parse(newMaking);
-        console.log(newRoom.newBoardCate);
-        console.log(newRoom.newBoardNo);
-        console.log(newRoom.newReceiverId);
-        makingRoom = true;
-        console.log(newRoom)
-        $('.msginput input').attr('placeholder', '메시지를 입력하면 새로운 채팅이 시작됩니다.');
-        $('.msgPrompt').addClass('hidden');
-        $('.msgcontent, .msgprofile').removeClass('hidden');
-        // $(this).css('background-color','white'); // $(this)는 여기서 문맥에 맞지 않을 수 있습니다.
-    }
-    var targetRoomNo = '<c:out value="${targetRoomNo}" escapeXml="false"/>'
-    if(targetRoomNo){
-    	console.log("이것 지나오나요?")
-    	 $(".msgObject[room_no='" + targetRoomNo + "']").click();
-    }
-	console.log("이것들이 나오나요?")
-	
-    
-	 
-	});
+} // formatDate(timestamp) 끝 
 
 </script>
-<!-- 작성 공간 -->
+
 <div class="container">
-
-<div class="pageTitle">
-<h3 id="pageTitle">메세지</h3>
-<hr style="width: 1300px;">
-</div>
-<div class="msgmain">
-
-<div class="msglist">
-  <div class="msgFilter">
-    <!-- 필터 메뉴 -->
-    <select name="filter" style=" padding: 10px; margin-right: 10px;">
-      <option value="all">전체</option>
-      <option value="rent">대여</option>
-      <option value="recruit">모집</option>
-      <option value="market">중고장터</option>
-    </select>
-    
-    <!-- 검색창 -->
-    <form method="post" style="display: flex; align-items: center;"> <!-- action 속성 추가 예정 -->
-  <input type="text" placeholder="검색" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; flex-grow: 1;">
-  <!-- 이미지 버튼 -->
-  <button type="submit" style="border: none; background: none; padding: 0; margin-left: 10px;">
-    <img alt="search" src="/resources/img/search_gray.png" style="width:35px; height:35px; margin-left:-64px;">
-  </button>
-</form>
-
-   	
-  </div>
-  <!-- 나머지 msglist 내용 -->
-<div class="msgObjects">
-  <c:forEach var="list" items="${list}">
-    <div class="msgObject ${list.msgStatus == 1 ? 'msgObject-unread' : ''}"  room_no="${list.roomNo}">
-      <img src="/resources/img/chunsic.png" alt="Profile Image" class="msgObject-img">
-      <div class="msgObject-content">
-        <div class="msgObject-username">${list.otherUserId}</div>
-        <div class="messagePreview">
-          <c:choose>
-            <c:when test="${fn:length(list.messagePreview) > 10}">
-              ${fn:substring(list.messagePreview, 0, 10)}...
-            </c:when>
-            <c:otherwise>
-              ${list.messagePreview}
-            </c:otherwise>
-          </c:choose>
-        </div>
-      </div>
-      <div class="lastMessageTime">${list.lastMessageTime}</div>
-    </div>
-  </c:forEach>
-</div>
-</div>
- <div class="msgPrompt" >
-      <span>메시지 리스트를 선택해주세요.</span>
- </div>
-<div class="msgcontent hidden">
-  <div class="messages-container">
-  </div>
-  <!-- 보내는 사람 메시지 -->
-  
-<div class="msginput">
-  <form method="post"> <!-- 나중에 action 속성 추가 예정 -->
-    <input type="text" placeholder="메세지를 입력해주세요" name="message"  autocomplete="off"  style="width: 80%; padding: 10px; margin-right: 10px; border-radius: 5px; border: 1px solid #ccc;
-    height: 140px;">
-    <button type="submit" style="padding: 10px 20px; border-radius: 5px; border: none; background-color: #4CAF50; color: white;">보내기</button>
-  </form>
-</div>
-</div>
-
-<div class="msgprofile hidden">
-</div>
-</div>
-
-
+	<div class="pageTitle">
+	<h3 id="pageTitle">채팅</h3>
+	<hr style="width: 1300px;">
+	</div><!-- .pageTitle -->
+	
+	<div class="msgMain">
+		<div class="msgList">
+			<div class="msgFilter">
+				<!-- 필터 메뉴 -->
+				<select name="filter" style=" padding: 10px; margin-right: 10px;">
+					<option value="all">전체</option>
+					<option value="rent">대여해요</option>
+					<option value="share">나눔해요</option>
+					<option value="please">해주세요</option>
+				</select>
+		    
+				<!-- 검색창 -->
+				<form method="post" style="display: flex; align-items: center;"> <!-- action 속성 추가 예정 -->
+					<input type="text" placeholder="검색" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; flex-grow: 1;">
+					<button type="submit" style="border: none; background: none; padding: 0; margin-left: 10px;">
+					<img alt="search" src="/resources/img/search.png" style="width:35px; height:35px; margin-left:-64px;">
+					</button>
+				</form>
+			</div><!-- .msgFilter -->
+		
+			<div class="msgObjects">
+				<c:forEach var="list" items="${list}">
+					<div class="msgObject ${list.msgStatus == 1 ? 'msgObject-unread' : ''}"  room_no="${list.roomNo}">
+						<img src="/resources/img/chunsic.png" alt="Profile Image" class="msgObject-img">
+						<div class="msgObject-content">
+							<div class="msgObject-username">${list.otherUserId}</div>
+							<div class="messagePreview">
+								<c:choose>
+								<c:when test="${fn:length(list.messagePreview) > 10}">
+								${fn:substring(list.messagePreview, 0, 10)}...
+								</c:when>
+								<c:otherwise>
+								${list.messagePreview}
+								</c:otherwise>
+								</c:choose>
+							</div><!-- ."messagePreview" -->
+						</div><!-- .msgObject-content  -->
+						<div class="lastMessageTime">${list.lastMessageTime}</div>
+					</div><!-- .msgObject -->
+				</c:forEach>
+			</div><!-- .msgObjects -->
+		</div><!-- .msgList  -->
+	
+		<div class="msgPrompt" >
+		     <span>메시지 리스트를 선택해주세요.</span>
+		</div><!-- .msgPrompt -->
+		
+		<div class="msgContent hidden">
+			<div class="messages container"></div>
+			<!-- 보내는 사람 메시지 -->
+			<div class="msgInput">
+				<form method="post"> <!-- 나중에 action 속성 추가 예정 -->
+					<input type="text" placeholder="메세지를 입력해주세요" name="message"  autocomplete="off"  style="width: 80%; padding: 10px; margin-right: 10px; border-radius: 5px; border: 1px solid #ccc;
+					height: 140px;">
+					<button type="submit" style="padding: 10px 20px; border-radius: 5px; border: none; background-color: #4CAF50; color: white;">보내기</button>
+				</form>
+			</div><!-- .msgInput -->
+		</div><!-- .msgContent-hidden -->
+		<div class="msgProfile hidden"></div>
+	</div><!-- .msgMain  -->
 </div><!-- .container -->
+
+
 <c:import url="../layout/footer.jsp" />
