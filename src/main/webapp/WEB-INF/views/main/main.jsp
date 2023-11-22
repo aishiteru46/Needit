@@ -10,12 +10,45 @@
 :root{
 	--imgMargin : 3.5px 0px -2px 2.6px;
 }
+
+/* 검색 */ 
+#MainSearchDiv {
+	margin-left: 169px;
+	margin-top: 3em;
+	margin-bottom: -10px;
+}
+.search-container {
+	position: relative;
+	display: inline-block;
+}
+/* 검색input */
+#MainSearch {
+	width: 800px;
+	height: 40px;
+	border: 1px solid #ccc;
+	border-right: none;
+	border-radius: 5px;
+}
+/* 검색버튼 */
+#MainBtnSearch {
+	height: 40px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: none;
+	border-top-right-radius: 5px; 
+	border-bottom-right-radius: 5px; 
+}
+
+
+
 /* 썸네일 div */
 #Thumbnail{
 	border:1px solid #ccc;
+	border-radius: 10px;
 	width: 1200px;
 	height: 500px;
-	margin: 50px auto 10px auto;
+	margin: 40px auto 0px auto;
 	overflow: hidden;
 }
 /* 썸네일 */
@@ -28,25 +61,6 @@
     object-fit: cover;
     width: 1200px;
     height: 500px;
-}
-
-/* 검색 */
-#MainSearchDiv{
-	text-align: center;
-	margin-top: 1em;
-}
-/* 검색input */
-#MainSearch{
-	width: 1000px;
-	height: 35px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-}
-/* 검색버튼 */
-#MainBtnSearch{
-	background-color: inherit;
-	border: 0;
-	margin-left: -5px;
 }
 
 /* 나눔,대여,업체 div */
@@ -219,6 +233,7 @@
     margin-right: 9px;
     float: right;
 }
+/* 지도 링크 M안에 사진 */
 #mainMapIconSpan{
     background: url(/resources/img/blueSea.jpg) no-repeat center bottom / cover;
 	-webkit-background-clip: text;
@@ -231,6 +246,7 @@
     height: 50px;
     float: right;
 }
+/* 지도 링크 클릭 */
 #mainMapIconSpan1{
     display: block;
     float: right;
@@ -242,6 +258,11 @@
     height: 10px;
     color: blue;
     text-decoration: underline;
+}
+
+/* 항목별 간격 맞추기 */
+#textMargin{
+	margin-bottom: 2.5em;
 }
 </style>
 
@@ -259,10 +280,19 @@
 
 <!-- 신고버튼 테스트 나중에 삭제좀 -->
 <!-- 버튼 트리거 모달 -->
-<button type="button" style="width: 30px; height: 30px;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">
-<div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div>
-</button>
+<!-- <button type="button" style="width: 30px; height: 30px;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal"> -->
+<!-- <div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div> -->
+<!-- </button> -->
 
+<!-- 검색 -->
+<div id="MainSearchDiv">
+  <form action="/main" method="get" id="searchForm">
+    <div class="search-container">
+      <input type="text" id="MainSearch" value="${param.search}" placeholder="필요한 것을 검색해보세요." />
+      <button id="MainBtnSearch" type="submit">검색</button>
+    </div>
+  </form>
+</div>
 
 <!-- 썸네일 -->
 <!-- 저장 경로를 img폴더로 지정, src에 storedname EL문으로 불러오기 -->
@@ -293,16 +323,7 @@
   </button>
 </div>
 </div><!-- 썸네일 끝 -->
-<hr>
-
-<!-- 검색 -->
-<div id="MainSearchDiv">
-	<form action="/main" method="get">
-		<input type="text" id="MainSearch" value="${param.search }" placeholder="필요한 것을 검색해보세요." />
-		<button id="MainBtnSearch" type="submit">🔍</button>
-	</form>
-</div><!-- 검색끝 -->
-<hr>
+<div id="textMargin"></div>
 
 <!-- 대여해요 게시글 -->
 <div id="MainRent" >
@@ -321,7 +342,7 @@
 		</div><!-- #MainTumbnailDiv -->
 	</c:forEach>
 </div><!-- #MainRent -->
-<hr>
+<div id="textMargin"></div>
 
 <!-- 나눔해요 게시글 -->
 <div id="MainShare">
@@ -340,7 +361,7 @@
 		</div><!-- #MainTumbnailDiv -->
 	</c:forEach>
 </div><!-- #MainShare -->
-<hr>
+<div id="textMargin"></div>
 
 <!-- 니딧 인증 업체 -->
 <div id="MainBusiness">
@@ -359,7 +380,7 @@
 		</div><!-- #MainTumbnailDiv -->
 	</c:forEach>
 </div><!-- #MainBusiness -->
-<hr>
+<div id="textMargin"></div>
 
 <!-- 인기 게시글(추천수) -->
 <div id="MainCommu">
@@ -391,6 +412,6 @@
 
 </div><!-- #container -->
 
-<div style="clear: both;"></div>
+<div style="clear: both; margin-bottom: 50px;"></div>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

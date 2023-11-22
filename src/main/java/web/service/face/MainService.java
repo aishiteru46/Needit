@@ -53,6 +53,21 @@ public interface MainService {
 	 * @return 글 제목, 글 내용
 	 */
 	public List<Map<String, Object>> getCommuByLike();
+
+	/**
+	 * 검색용
+	 * @param param - 페이징
+	 * @param query - 검색값
+	 * @return 페이징 계산
+	 */
+	public Paging getPaging(Paging param, String query);
+
+	/**
+	 * 검색용
+	 * @param paging - 페이징
+	 * @return 검색결과
+	 */
+	public List<Board> getList(Paging paging);
 	
 
 }

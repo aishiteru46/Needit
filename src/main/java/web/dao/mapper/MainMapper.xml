@@ -67,12 +67,6 @@
 		    menu = 2 AND ROWNUM &lt;= 4
 	</select>
 	
-	<!-- 검색 -->
-    <select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
-	SELECT count(*) FROM (
-		<include refid="selectBoard"/>
-	)
-    </select>
     
    	<!-- 업체 게시글 -->
    	<select id="selectRecentBusinessBoard" resultType="Map">
@@ -119,6 +113,13 @@
 		WHERE ROWNUM &lt;= 2
  	</select>
  	
+ 	
+	<!-- 검색 -->
+    <select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
+	SELECT count(*) FROM (
+		<include refid="selectBoard"/>
+	)
+    </select>
  	
  	
  </mapper>

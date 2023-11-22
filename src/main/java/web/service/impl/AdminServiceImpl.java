@@ -22,6 +22,7 @@ import web.dao.face.AdminDao;
 import web.dto.Banner;
 import web.dto.Board;
 import web.dto.FileTb;
+import web.dto.User;
 import web.service.face.AdminService;
 import web.util.Paging;
 
@@ -114,6 +115,13 @@ public class AdminServiceImpl implements AdminService {
 	public List<Board> noticeList() {
 
 		return adminDao.selectAll();
+	}
+
+	//DB에서 이메일 불러오기
+	@Override
+	public List<Map<String, Object>> emailList() {
+		
+		return adminDao.selectAllEmail();
 	}
 	
 	
