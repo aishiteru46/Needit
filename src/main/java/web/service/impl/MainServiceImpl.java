@@ -45,16 +45,6 @@ public class MainServiceImpl implements MainService {
 		return mainDao.selectRecentRentBoard();
 	}
 	
-	//메인 검색
-	@Override
-	public Paging getPaging(Paging param) {
-		
-		int totalCount = mainDao.selectCntAll(param);
-		
-		Paging paging = new Paging(param.getMenu(), param.getCate(), totalCount, param.getCurPage(),10,10);
-		
-		return paging;
-	}
 
 	//니딧 인증 업체
 	@Override
@@ -69,5 +59,31 @@ public class MainServiceImpl implements MainService {
 
 		return mainDao.selectLikeCommuBoard();
 	}
+
+	//메인 검색
+	@Override
+	public Paging getPaging(Paging param) {
+		
+		int totalCount = mainDao.selectCntAll(param);
+		
+		Paging paging = new Paging(param.getMenu(), param.getCate(), totalCount, param.getCurPage(),10,10);
+		
+		return paging;
+	}
+	
+	
+	
+	@Override
+	public Paging getPaging(Paging param, String query) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Board> getList(Paging paging) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

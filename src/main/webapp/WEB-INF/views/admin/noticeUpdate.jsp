@@ -26,11 +26,6 @@ $(() => {
 <div class="col-10 mx-auto">
 <form action="./noticeUpdate" method="post" enctype="multipart/form-data">
 
-<select>
-	<option value="1">공지사항</option>
-	<option value="2">FAQ</option>
-</select>
-
 <div class="form-group mb-3">
 	<label class="form-label" for="title">제목</label>
 	<input type="text" class="form-control" name="title" id="title">

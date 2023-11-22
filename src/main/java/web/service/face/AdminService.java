@@ -1,11 +1,13 @@
 package web.service.face;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Banner;
 import web.dto.Board;
+import web.dto.User;
 
 public interface AdminService {
 
@@ -39,6 +41,13 @@ public interface AdminService {
 	 * @return 게시글 목록
 	 */
 	public List<Board> noticeList();
+
+	/**
+	 * 메일 전송을 위해 DB에서 이메일을 불러온다
+	 * 
+	 * @return 이메일 목록
+	 */
+	public List<Map<String, Object>> emailList();
 
 
 }
