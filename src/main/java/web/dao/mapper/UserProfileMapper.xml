@@ -24,7 +24,7 @@
  	
  	<!-- 예약 목록 -->
  	<select id="selectMyRentList" resultType="Map" parameterType="User">
-	 	SELECT B.board_no, A.renter_id, A.rent_no,A.rent_date, A.start_time, A.end_time
+	 	SELECT B.board_no, A.renter_id, A.rent_no,A.rent_date, A.start_time, A.end_time,A.rent_status
 		FROM rent A
 		INNER JOIN board B ON B.board_no = A.board_no
 		WHERE B.writer_id = #{id}
@@ -33,17 +33,14 @@
  	
  	<!-- 내가 예약한 목록 -->
  	<select id="selectRentList" resultType="Map" parameterType="User">
- 		SELECT B.board_no, A.renter_id, A.rent_no, A.rent_date, A.start_time, A.end_time
-		FROM rent A
+ 		SELECT B.board_no, A.renter_id, A.rent_no, A.rent_date, A.start_time, A.end_time,A.rent_status
+ 		FROM rent A
 		INNER JOIN board B ON B.board_no = A.board_no
 		WHERE A.renter_id = #{id}
 		ORDER BY board_no, rent_no DESC
 		 	
  	</select>
   
-	
-
-	
 	
 	<!-- 유저프로필사진 업로드 -->
 	<insert id="updateImg" parameterType="map">
@@ -146,6 +143,7 @@
 		WHERE id = #{id}
 	</update>
 	
+	
 	<update id="updateRentStatus" parameterType="Rent">
 		UPDATE rent
 		<set>
@@ -169,8 +167,25 @@
 			AND board_no = #{boardNo}
 			AND rent_no = #{rentNo}
 		</where>
-		
 	</update>
+	
+	<select id="selectConfirm" resultType="int" parameterType="Rent">
+		SELECT count(*) FROM rent
+		<where>
+			AND rent_status = '2'
+			AND board_no = #{boardNo}
+			AND rent_no = #{rentNo}
+		</where>
+	</select>
+	
+	<select id="selectCancel" resultType="int" parameterType="Rent">
+		SELECT count(*) FROM rent
+		<where>
+			AND rent_status = '0'
+			AND board_no = #{boardNo}
+			AND rent_no = #{rentNo}
+		</where>
+	</select>
 
 	<!-- 유저 정보 전체 조회	 -->
 	<select id="selectUserAll" resultType="User" parameterType="User">
