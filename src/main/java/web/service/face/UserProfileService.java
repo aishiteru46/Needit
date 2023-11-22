@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.Like;
 import web.dto.Rent;
 import web.dto.User;
@@ -126,13 +127,21 @@ public interface UserProfileService {
 	public User userAllSelect(User user);
 
 	
-//	/**
-//	 * 아이디로 글찾기
-//	 * 
-//	 * @param user
-//	 * @return
-//	 */
-//	public List<Board> boardSelectById(User user);
+	/**
+	 * 로그인세션아이디로 글찾기
+	 * 
+	 * @param board
+	 * @return
+	 */
+	public List<Board> boardSelectById(Board board);
+
+	/**
+	 * 로그인세션아이디로 댓글찾기 
+	 * 
+	 * @param comment
+	 * @return
+	 */
+	public List<Map<String, Object>> commentSelectById(Comment comment);
 
 	
 

@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.Like;
 import web.dto.Rent;
 import web.dto.User;
@@ -43,8 +44,17 @@ public class UserProfileController {
 	
 	
 	@RequestMapping("/view")
-	public String profileView(Rent rent, Model model
-			, HttpSession session, User user,Like like) {
+	public String profileView(
+			
+			Rent rent
+			, Model model
+			, HttpSession session
+			, User user
+			, Like like
+			, Board board
+			, Comment comment
+			
+			) {
 		
 		user.setId((String)session.getAttribute("id"));
 		like.setLikeId((String)session.getAttribute("id"));
@@ -92,15 +102,35 @@ public class UserProfileController {
         
 		//--------------------------------------------------------------
 		
-		//내가쓴글보기
-//		user.setId((String) session.getAttribute("id"));
-//		
-//		
-//		List<Board> board = userProfileService.boardSelectById(user);
-//		
-//		model.addAttribute("board", board);
+		//내가 쓴 글 보기
+		
+		board.setWriterId((String) session.getAttribute("id"));
+		
+		List<Board> boardList = userProfileService.boardSelectById(board);
+		logger.info("내가쓴글목록: {}", boardList);
+		
+		model.addAttribute("board", boardList);
 
+		//--------------------------------------------------------------
+
+		//내가 쓴 댓글 보기
+		
+		comment.setWriterId((String) session.getAttribute("id"));
+		
+		List<Map<String, Object>> commentList = userProfileService.commentSelectById(comment);
+		logger.info("내가쓴댓글목록: {}", commentList);
+		
+		
+		model.addAttribute("comment", commentList);
+		
 		return "profile/view";
+		//---------------------------------------------------------------
+		
+		
+		
+		
+		
+		
 		
 	}
 	
@@ -251,7 +281,6 @@ public class UserProfileController {
 //	public String writeList(HttpSession session, User user, Model model) {
 //		
 //		user.setId((String) session.getAttribute("id"));
-//		
 //		
 //		List<Board> board = userProfileService.boardSelectById(user);
 //		

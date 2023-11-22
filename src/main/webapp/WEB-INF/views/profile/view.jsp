@@ -201,6 +201,9 @@ $(function(){
     <c:if test="${not empty img}">
         <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
     </c:if>
+    <c:if test="${empty img}">
+        <img id="profileImage" src="/resources/img/defaultProfile.png" alt="User Profile Image">
+    </c:if>
 </div>
 
 
@@ -302,6 +305,12 @@ $(function(){
 </div>
 
 
+<hr>
+
+<a href="infoupdate" class="btn btn-success">회원정보 수정</a>
+
+
+
 
 
 <hr>
@@ -341,13 +350,9 @@ function confirmAndSubmit(userId) {
 }
 </script>
 
+
 <hr>
 
-<a href="infoupdate" class="btn btn-success">회원정보 수정</a>
-
-<br>
-회원정보수정은 마이페이지에서 독립되어있어야 예쁠듯
-<hr>
 
 <h1>빌려줄 예약 목록</h1>
 <table id="rentTable">
@@ -405,17 +410,69 @@ function confirmAndSubmit(userId) {
 </table>
 
 
+<hr>
 
 
+<h1>내가 쓴 글</h1>
+
+<table id="boardTable">
+<c:forEach items="${board }" var="board" begin="0" end="10">
+
+	<tr>
+		<td>${board.boardNo }</td>
+		<td>
+			<c:choose>
+	            <c:when test="${board.menu eq 1}">
+	                <a href="/rent/view?boardNo=${board.boardNo}">${board.title}</a>
+	            </c:when>
+	            <c:when test="${board.menu eq 2}">
+	                <a href="/share/view?boardNo=${board.boardNo}">${board.title}</a>
+	            </c:when>
+	            <c:when test="${board.menu eq 3}">
+	                <a href="/please/view?boardNo=${board.boardNo}">${board.title}</a>
+	            </c:when>
+	        </c:choose>
+        </td>
+		<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.writeDate }"/></td>
+	</tr>
+	
+	
+</c:forEach>
+</table>
 
 
+<hr>
+
+<h1>내가 쓴 댓글</h1>
+
+<table id="commentTable">
+<c:forEach items="${comment }" var="comment" begin="0" end="10">
+
+	<tr>
+		<td>${comment.CMT_NO }</td>
+		<td>
+			<c:choose>
+	            <c:when test="${comment.MENU eq 1}">
+	                <a href="/rent/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+	            </c:when>
+	            <c:when test="${comment.MENU eq 2}">
+	                <a href="/share/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+	            </c:when>
+	            <c:when test="${comment.MENU eq 3}">
+	                <a href="/please/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+	            </c:when>
+	        </c:choose>
+        </td>
+		<td><fmt:formatDate pattern="yyyy-MM-dd" value="${comment.writeDate}"/></td>
+	</tr>
+
+</c:forEach>
+</table>
 
 
+<hr>
 
-
-
-
-
+<h1>회원리뷰</h1>
 
 
 

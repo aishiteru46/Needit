@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.Like;
 import web.dto.Rent;
 import web.dto.User;
@@ -153,13 +154,22 @@ public interface UserProfileDao {
 	public User selectUserAll(User user);
 
 
-//	/**
-//	 * 로그인한아이디가 쓴글 조회
-//	 * 
-//	 * @param user
-//	 * @return
-//	 */
-//	public List<Board> selectBoardById(User user);
+	/**
+	 * 로그인한 아이디가 쓴 글 목록 조회
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public List<Board> selectBoardById(Board board);
+
+
+	/**
+	 * 로그인한 아이디가 쓴 댓글 목록 조회
+	 * 
+	 * @param comment
+	 * @return
+	 */
+	public List<Map<String, Object>> selectCommentById(Comment comment);
 
 
 	

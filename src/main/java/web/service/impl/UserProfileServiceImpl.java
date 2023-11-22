@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.UserProfileDao;
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.Like;
 import web.dto.Rent;
 import web.dto.User;
@@ -231,9 +232,15 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 
-//	@Override
-//	public List<Board> boardSelectById(User user) {
-//		return userProfileDao.selectBoardById(user);
-//	}
+	@Override
+	public List<Board> boardSelectById(Board board) {
+		return userProfileDao.selectBoardById(board);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> commentSelectById(Comment comment) {
+		return userProfileDao.selectCommentById(comment);
+	}
 
 }

@@ -10,7 +10,7 @@
 	<!--  회원정보수정  -->
  	<update id="infoUpdate" parameterType="User">
  		UPDATE usertb 
- 		SET pw = #{pw}, nick = #{nick}, gender = #{gender}, addr1 = #{addr1}, addr2 = #{addr2}
+ 		SET pw = #{pw}, nick = #{nick}, addr1 = #{addr1}, addr2 = #{addr2}
  		WHERE id = #{id}
  	
  	</update> 
@@ -181,15 +181,33 @@
 	</select>
 	
 	
+	<!-- 내가 쓴 글 조회 -->
+	<select id="selectBoardById" resultType="Board" parameterType="Board">
+		SELECT *
+		FROM board
+		WHERE writer_id = #{writerId}
+		ORDER BY board_no DESC
 	
-<!-- 	<select id="selectBoardById" resultType="Board" parameterType="User"> -->
-<!-- 		SELECT * -->
-				
-<!-- 		FROM board -->
-<!-- 		WHERE id = #{id} -->
+	</select>
 	
-<!-- 	</select> -->
+	
+	<!-- 내가 쓴 댓글 조회 -->
+	<select id="selectCommentById" resultType="Map" parameterType="Comment">
+		SELECT
+			c.cmt_no,
+			c.board_no,
+			c.writer_id,
+			c.writer_nick,
+			c.content,
+			CAST(c.write_date AS DATE) AS "writeDate",
+		 	b.menu
+		FROM commenttb c
+		LEFT JOIN board b ON c.board_no = b.board_no
+		ORDER BY cmt_no DESC
+	
+	</select>
 
+	
 
 
 
