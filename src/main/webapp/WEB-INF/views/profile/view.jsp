@@ -6,7 +6,7 @@
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <style type="text/css">
-#rentTable, th, td {
+.rentTable, th, td {
 
 	border: 1px solid #ccc;
 	
@@ -70,7 +70,7 @@ $(function(){
 		         }
 		         , dataType: "json"
 		         , success: function( res ) {
-			       	confirmBtn.html("승인완료").prop("disabled", true);
+		        	 cancelBtn.html("취소완료").prop("disabled", true);
 
 		            console.log("AJAX 성공")
 
@@ -84,53 +84,34 @@ $(function(){
 })
 
 $(function(){
-	let cancelBtn = $(this);
-	$.ajax({
-	       type: "get"
-	       , url: "/profile/cancel"
-	       , data: {
-	       }
-	       , dataType: "json"
-	       , success: function( res ) {
-	    	   console.log(res.cancel)
-	    	 if(res.cancel) {
-	    		 
-	    	 } else {
-	      	 	cancelBtn.html("취소 완료").prop("disabled", true);
-	    		 
-	    	 }
-	          console.log("AJAX 성공")
 	
-	       }
-	       , error: function() {
-	          console.log("AJAX 실패")
-	
-	       }
-	    })
-	
-		let confirmBtn = $(this);
-		  $.ajax({
-		         type: "get"
-		         , url: "/profile/confirm"
-		         , data: {
-		         }
-		         , dataType: "json"
-		         , success: function( res ) {
-		        	if( res.confirm) {
-		        	} else {
-		        		confirmBtn.html("승인완료").prop("disabled", true);
-		        	}
-
-		            console.log("AJAX 성공")
-
-		         }
-		         , error: function() {
-		            console.log("AJAX 실패")
-
-		         }
-		      })
+	 var checkCon = ${checkCon}
+	 var checkCan = ${checkCan}
+	 
+	if(checkCon) {
+		$(".confirmBtn")
+		.addClass("btn-warning")
+		.html('승인완료');
+	} else {
+		console.log('추천 아직 안함')
+		$(".confirmBtn")
+			.addClass("btn-primary")
+			.html('승인');
+	}
+	if(checkCan) {
+		$(".cancelBtn")
+		.addClass("btn-warning")
+		.html('취소');
+	} else {
+		console.log('추천 아직 안함')
+		$(".cancelBtn")
+			.addClass("btn-primary")
+			.html('취소 완료');
+	}
 	
 })
+
+
 </script>
 
 
@@ -355,7 +336,7 @@ function confirmAndSubmit(userId) {
 
 
 <h1>빌려줄 예약 목록</h1>
-<table id="rentTable">
+<table class="rentTable">
 <c:forEach items="${myList }" var="list" begin="0" end="10">
 	<tr>
 		<th>게시글 번호</th>
@@ -375,16 +356,19 @@ function confirmAndSubmit(userId) {
 		<td>${list.RENT_DATE }</td>
 		<td>${list.START_TIME }</td>
 		<td>${list.END_TIME }</td>
-		<td><button class="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }" >승인</button></td>
-		<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
+		<td>${checkCon }</td>
+		<td>${checkCan }</td>
+		<td><button class="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }"></button></td>
+		<td><button class="cancelBtn"data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }"></button></td>
 	</tr>
 	
 </c:forEach>
 </table>
+		$
 <hr>
 
 <h1>빌린 예약 목록</h1>
-<table id="rentTable">
+<table class="rentTable">
 <c:forEach items="${list }" var="list" begin="0" end="10">
 	<tr>
 		<th>게시글 번호</th>

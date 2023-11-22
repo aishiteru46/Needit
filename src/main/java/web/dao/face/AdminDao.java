@@ -6,6 +6,7 @@ import java.util.Map;
 import web.dto.Banner;
 import web.dto.Board;
 import web.dto.FileTb;
+import web.dto.User;
 import web.util.Paging;
 
 public interface AdminDao {
@@ -51,5 +52,14 @@ public interface AdminDao {
 	 * @return 총 게시글 수
 	 */
 	public int selectCntAll();
+
+	/**
+	 * DB에 저장된 이메일 목록을 불러온다
+	 * 
+	 * @return 이메일 목록
+	 */
+	public List<Map<String, Object>> selectAllEmail();
+	
+
 	
 }

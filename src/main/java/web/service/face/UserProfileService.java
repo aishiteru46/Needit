@@ -117,14 +117,29 @@ public interface UserProfileService {
 	 */
 	public boolean updateRentCancel(Rent rent);
 	
-	
-
 	/**
 	 * 
 	 * @param user 
 	 * @return
 	 */
 	public User userAllSelect(User user);
+	
+	/**
+	 * 예약 상태 확인 confirm
+	 * @param rent rent_status
+	 * @return true false
+	 */
+	public boolean checkConfirm(Rent rent);
+	
+	/**
+	 * 예약 상태 확인 cancel
+	 * 
+	 * @param rent rent_status
+	 * @return true false
+	 */
+	public boolean checkCancel(Rent rent);
+	
+	
 
 	
 	/**

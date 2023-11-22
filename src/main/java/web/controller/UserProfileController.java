@@ -69,6 +69,7 @@ public class UserProfileController {
 		
 		
 		
+		
 		//----------------------------------
 		// 세션에서 사용자 ID 가져오기
         String userId = (String) session.getAttribute("id");
@@ -246,30 +247,40 @@ public class UserProfileController {
 	}
 	
 	@RequestMapping("/confirm")
-	@ResponseBody
-	public boolean confirm(Rent rent, Model model, HttpSession session) {
+	public String confirm(Rent rent, Model model,HttpSession session) {
 		logger.info("렌트 번호{}",rent);
 		
 		//업데이트 여부 확인 confirm
         boolean confirmStatus = userProfileService.updateRentStatus(rent);
         logger.info("성공{}",confirmStatus);
-        session.setAttribute("confirm", confirmStatus);
-		
-		return confirmStatus;
+        model.addAttribute("confirm",confirmStatus);
+        
+        boolean checkCon = userProfileService.checkConfirm(rent);
+		logger.info("컨트롤러 컨펌{}",checkCon);
+		session.setAttribute("checkCon", checkCon);
+		model.addAttribute("checkCon", checkCon);
+        
+      
+		return "jsonView";
 		
 	}
 	
 	@RequestMapping("/cancel")
-	@ResponseBody
-	public boolean cancel(Rent rent, Model model, HttpSession session) {
+	public String cancel(Rent rent, Model model, HttpSession session) {
 		logger.info("렌트 번호2{}",rent);
 		
 		//업데이트 여부 확인 cancel
 		boolean cancelStatus = userProfileService.updateRentCancel(rent);
 		logger.info("취소{}",cancelStatus);
-		session.setAttribute("cancel", cancelStatus);
-		
-		return cancelStatus;
+        model.addAttribute("cancel",cancelStatus);
+        
+        boolean checkCan = userProfileService.checkCancel(rent);
+      	logger.info("컨트롤러 취소{}",checkCan);
+      	session.setAttribute("checkCan", checkCan);
+      	model.addAttribute("checkCan", checkCan);
+        
+
+		return "jsonView";
 
 	}
 	

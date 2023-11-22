@@ -93,7 +93,7 @@
 }
 
 #locationBox {
-	width: 100px;
+	width: 116px;
   	overflow: hidden;
  	text-overflow: ellipsis; 
  	white-space: nowrap; 
@@ -256,7 +256,7 @@ th {
 		
 		<thead>
 			<tr>
-				<th style="border-top-left-radius: 8px;">No.</th><th>제목</th><th>작성자</th><th>조회수</th><th>작성일</th><th>가격</th><th style="border-top-right-radius: 8px;">위치</th>
+				<th style="border-top-left-radius: 8px;">No.</th><th>제목</th><th>가격(30분)</th><th>위치</th><th>작성자</th><th>작성일</th><th style="border-top-right-radius: 8px;">조회</th>
 			</tr>
 		</thead>
 		
@@ -281,8 +281,9 @@ th {
 						</div>
 					</div>
 				</td>
+				<td><fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</td>
+				<td><div id="locationBox">${list.LOCATION }</div></td>
 				<td>${list.WRITER_NICK }</td>
-				<td>${list.HIT}</td>
 				<td>
 					<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
 					<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" />
@@ -295,8 +296,7 @@ th {
 						</c:otherwise>
 					</c:choose>				
 				</td>
-				<td><fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</td>
-				<td><div id="locationBox">${list.LOCATION }</div></td>
+				<td>${list.HIT}</td>
 			</tr>
 		</c:forEach>
 		</tbody>

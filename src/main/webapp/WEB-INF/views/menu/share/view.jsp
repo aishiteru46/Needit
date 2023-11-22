@@ -17,10 +17,9 @@ $(() => {
 })
 
 
-//추천 버튼 변경
-
 $(function(){
 	
+	//추천 버튼 변경
 	if(${isLike}) {
 		console.log('추천 이미 함')
 		$("#likeCount")
@@ -194,7 +193,9 @@ $(()=>{
 	}) //$("#btnLike").click() End.
 });
 </script>
-
+<button type="button" style="width: 30px; height: 30px; float: right;" id="report" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">
+<div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div>
+</button>
 <table class="table table-boardered">
 
 <colgroup>

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import web.dto.Banner;
 import web.dto.Board;
@@ -46,9 +48,6 @@ public class MainController {
 //		logger.info(bannerNames.toString());
 		model.addAttribute("file", bannerNames);
 		
-		//검색
-		
-		
 		//최신 게시글 조회 출력_대여게시판
 		List<Map<String, Object>> listRent = mainService.getBoardRentInfo();
 //		logger.info("메인에 출력할 대여 list : {}", listRent);
@@ -73,6 +72,37 @@ public class MainController {
 		
 		return "main/main";
 	}//@Get main() End.
+	
+	
+	//검색
+//	@PostMapping("/search")
+//	   public String searchProc( 
+//	         Model model,
+//	         Paging param, 
+//	         @RequestParam(value = "query", required = false) String query 
+//	         ) {
+//	      logger.info("query : {}", query);
+//	      logger.info("param : {}", param);
+//	      
+//	      Paging paging = mainService.getPaging(param, query);
+//	      
+//	      boolean hasData = false;
+//	      if( paging.getTotalCount() > 0 ) {
+//	         hasData = true; 
+//	      }
+//	      logger.info("paging : {}", paging);
+//	      logger.info("hasData : {}", hasData);
+//	      
+//	      List<Board> list = mainService.getList(paging);
+//	      
+//	      logger.info("list : {}", list);
+//	      
+//	      model.addAttribute("paging", paging);
+//	      model.addAttribute("hasData", hasData);
+//	      model.addAttribute("list", list);
+//	      
+//	      return "main/result";
+//	   }
 	
 	
     

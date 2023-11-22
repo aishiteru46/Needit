@@ -117,7 +117,7 @@ public interface MenuRentDao {
 	 * @param commentParam
 	 * @return
 	 */
-	public List<Comment> selectAllComment(Comment commentParam);
+	public List<Map<String, Object>> selectAllComment(Comment commentParam);
 
 	/**
 	 * 

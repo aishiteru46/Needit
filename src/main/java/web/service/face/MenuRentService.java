@@ -107,7 +107,7 @@ public interface MenuRentService {
 	 * @param commentParam - id, content, boardNo
 	 * @return - 조회된 댓글 목록
 	 */
-	public List<Comment> viewComment(Comment commentParam);
+	public List<Map<String, Object>> viewComment(Comment commentParam);
 
 	/**
 	 * 댓글 삭제

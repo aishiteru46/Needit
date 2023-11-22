@@ -11,7 +11,7 @@
 <style type="text/css">
 .write {
     margin-top: 25px;
-    margin-bottom: -22px;
+    margin-bottom: -23px;
 }
 .row {
     text-align: center;
@@ -57,16 +57,18 @@
 }
 
 .no {
-	display: inline-block;
-	float: left;
-	position: absolute;
-    margin-left: -114px;
-    margin-top: 10px;
+    font-size: 15px;
+    display: inline-block;
+    float: left;
+    position: absolute;
+    margin-left: -70px;
+    margin-top: 14px;
 }
 
 .title {
- 	width: 150px; 
- 	color: black; 
+	font-size: 18px;
+ 	width: 245px; 
+	color: rgb(255,83,63);
  	font-weight: bold; 
  	overflow: hidden; 
  	text-overflow: ellipsis; 
@@ -74,17 +76,16 @@
 	display: inline-block;
     margin-top: 10px;
     margin-bottom: -12px;
-    margin-left: -6px;
+    margin-left: -15px;
 }
 #write-conatiner-hit, #write-conatiner-like {
 	display: inline-block;
 	float: right;
 	position: absolute;
 	font-size: 14px;
-    margin-left: 45px;
 }
 #write-conatiner-hit {
-	margin-top: 25px;
+    margin-top: 23px;
 }
 #write-conatiner-like {
 	margin-top: 4px;
@@ -126,13 +127,14 @@
 	color: rgb(255,83,63);
 }
 #rentText1 {
-	margin-top: 37px;
-    margin-bottom: -34px;
-    font-size: 40px;
+	margin-top: 60px;
+    margin-bottom: -55px;
+    font-size: 30px;
     text-align: center;
     color: #343a40;
 }
 #rentText2 {
+    vertical-align: text-top;
 	font-size: 25px;
 	text-align: center;
 	display: inline-block;
@@ -145,7 +147,8 @@
     display: inline-block;
 }
 
-.btn { 
+.btn {
+    --bs-btn-line-height: 1.3;
 	--bs-btn-color: #fff;
     --bs-btn-bg: #343a40;
     --bs-btn-hover-border-color: unset;    
@@ -167,17 +170,20 @@
 <c:forEach  var="list" items="${list }" begin="0" end="0">
 	<c:if test="${list.MENU eq '1' && list.CATE eq '1' }">
 		<div id="rentText1"> 대여해요 
-			<div id="rentText2">물품 <img src="/resources/img/borrowIcon.png" style="width: 45px; height: 45px; margin-top: -28px;"></div>
+			<div id="rentText2">[물품]</div>
+<!-- 			<img src="/resources/img/borrowIcon.png" style="width: 45px; height: 45px; margin-top: -28px;"> -->
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '1' && list.CATE eq '2' }">
 		<div id="rentText1"> 대여해요
-			<div id="rentText2">인력 <img src="/resources/img/humanpower.png" style="width: 45px; height: 45px; margin-top: -28px;"></div>
+			<div id="rentText2">[인력]</div>
+<!-- 			 <img src="/resources/img/humanpower.png" style="width: 45px; height: 45px; margin-top: -28px;"> -->
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '1' && list.CATE eq '3' }">
 		<div id="rentText1"> 대여해요
-			<div id="rentText2">공간 <img src="/resources/img/place.png" style="width: 45px; height: 45px; margin-top: -26px;"></div>
+			<div id="rentText2">[공간]</div>
+<!-- 			 <img src="/resources/img/place.png" style="width: 45px; height: 45px; margin-top: -26px;"> -->
 		</div>
 	</c:if>
 </c:forEach>
@@ -207,7 +213,8 @@
   	
     <div class="write-container">
  		<div class="write-container-head">
-	        <div class="no">no.${list.BOARD_NO}</div> 
+<%-- 	        <div class="no">no.${list.BOARD_NO}</div> --%>
+	        <div class="no">Title.</div>
 	        <a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE }</div></a>
         <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>
         <div id="write-conatiner-hit">👀  ${list.HIT}</div>

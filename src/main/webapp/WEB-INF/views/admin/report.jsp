@@ -1,12 +1,37 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
-
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+$(function(){
+	$("input[name=reportType]").click(function(){
+		var reportType = $(this).val()
+		   $.ajax({
+		         type: "post"
+		         , url: "/report"
+		         , data: {
+		        	 reportType: reportType
+		        	 , boardNo : ${param.boardNo}
+		         }
+		         , dataType: "json"
+		         , success: function( res  ) {
+		            console.log("AJAX 성공")
+
+		         }
+		         , error: function() {
+		            console.log("AJAX 실패")
+
+		         }
+		      })
+		
+	})
+	
+})
+
+</script>
 <style type="text/css">
 /* 버튼 크기 */
 :root {
@@ -62,27 +87,26 @@ $(document).ready(function() {
 
 <div id="report">
 <div id="reportIn">
-<!-- <form action="/admin/report" method="post"> -->
 	<div>
-	<input class="reportBtn" id="reportBtn1" type="submit" value="광고성" name="reportType" >
+	<input class="reportBtn" id="reportBtn1" value="광고성" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
 	</div>
 	
 	<div>
-	<input class="reportBtn" id="reportBtn2" type="submit" value="음란물" name="reportType" >
+	<input class="reportBtn" id="reportBtn2" value="음란물" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" >
 	</div>
 	
 	<div>
-	<input class="reportBtn" id="reportBtn1" type="submit" value="욕설" name="reportType" >
+	<input class="reportBtn" id="reportBtn1" value="욕설" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" >
 	</div>
 	
 	<div>
-	<input class="reportBtn" id="reportBtn2" type="submit" value="불법 정보" name="reportType">
+	<input class="reportBtn" id="reportBtn2" value="불법 정보" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
 	</div>
 	
 	<div>
-	<input class="reportBtn" id="reportBtn1" type="submit" value="개인정보 노출" name="reportType" >
+	<input class="reportBtn" id="reportBtn1" value="개인정보 노출" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
 	</div>
-<!-- </form> -->
+	
 </div><!-- .reportIn -->
 
 </div><!-- .report -->

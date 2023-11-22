@@ -203,7 +203,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	public boolean updateRentStatus(Rent rent) {
 		int res = userProfileDao.updateRentStatus(rent);
-		if (res > 0 ) {
+		if (res != 0 ) {
 			logger.info("22222{}",res);
 			return true;
 		} else {
@@ -226,11 +226,33 @@ public class UserProfileServiceImpl implements UserProfileService {
 			return false; 
 		} 
 	}
+	
+	@Override
+	public boolean checkConfirm(Rent rent) {
+		
+		int confirm = userProfileDao.selectConfirm(rent);
+		logger.info("컨펌{}",confirm);
+		
+		if ( confirm == 2) {
+			return true;
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean checkCancel(Rent rent) {
+		
+		int cancel = userProfileDao.selectCancel(rent);
+		logger.info("캔슬{}",cancel);
+		if( cancel == 0) {
+			return true;
+		}
+		return false;
+	}
 
 	public User userAllSelect(User user) {
 		return userProfileDao.selectUserAll(user);
 	}
-
 
 	@Override
 	public List<Board> boardSelectById(Board board) {

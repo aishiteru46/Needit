@@ -219,11 +219,17 @@ $(function () {
 							// 모든 정보를 감싸는 DIV
 							var $info = $('<div class="info">')
 							
+							var addrLink = 'https://map.kakao.com/link/map/' + val[0].location + ',' + result[0].y  + ',' + result[0].x;
 							// 마커의 위치가 들어갈 부분
-							var $address = $('<div class="address">').text(val[0].location)
-							
+							var $address = $('<div class="address">').text(val[0].location);							
 							// 'X' 닫기 버튼 들어갈 부분 + click fucntion 들어감
 							var $close = $('<div class="close" title="닫기" />').click(closeOverlay)
+							
+							// content에 클릭 이벤트를 추가
+							$address.on('click', function() {
+							    // 링크 이동
+							    window.open(addrLink, '_blank');
+							});
 							
 							// .img와 .desc를 감싸는 DIV
 							var $body = $('<div class="body">')
@@ -255,7 +261,15 @@ $(function () {
 							var number = Number(v.price); // 가격 저장 변수
 							var formattedNumber = number.toLocaleString(); // 가격 format 변수
 							
-							var link = "https://www.kakaocorp.com/main"
+							if( v.menu == '1' ) {
+								var link = 'http://localhost:8088/rent/view?boardNo=' + v.boardNo + '&menu=' + v.menu + '&cate=' + v.cate;
+							} else if( v.menu == '2' ) {
+								var link = 'http://localhost:8088/share/view?boardNo=' + v.boardNo + '&menu=' + v.menu + '&cate=' + v.cate;
+							} else if( v.menu == '3' ) {
+								var link = 'http://localhost:8088/please/view?boardNo=' + v.boardNo + '&menu=' + v.menu + '&cate=' + v.cate;
+							} else {
+								var link = 'http://localhost:8088/'; 
+							}
 						
 							var $content = $('<div class="content"><hr>'); // 제목을 제외한 컨텐츠 들어가는 부분
 							var $img = $('<div class="img">'); // 썸네일 들어가는 DIV 부분
@@ -290,7 +304,8 @@ $(function () {
 							}); // overlay 생성 끝
 							overlay.setMap(null) // 지도에 오버레이 안뜨게 설정
 							
-							function closeOverlay(content) { // 지도를 닫는 펑션
+							function closeOverlay(content) { // 오버레이를 닫는 함수
+								event.stopPropagation(); // 이벤트 버블링 막기
 								console.log('Closing overlay for content:', content);
 								overlay.setMap(null); 
 					        	map.setZoomable(true);
@@ -328,6 +343,7 @@ $(function () {
 	
 }); // jQuery펑션 끝
 
+
 function initMap( mapContainer, mapOption ) { // map 생성 함수
 	map = new kakao.maps.Map( mapContainer, mapOption ); // 지도 생성
 	
@@ -360,8 +376,7 @@ function moveCenter(){ // 현재 내 위치로 이동합니다
 
 <!-- 지도를 담을 DIV  -->
 <div id="mapArea" style="position: relative;">
-	<div id="map" style="width:100%;height:350px;"></div>
+	<div id="map" style="width:100%;height:500px;"></div>
 	<img id="myLoc" src="/resources/img/myLocation.png" alt="내위치" style="width: 25px; height:25px; z-index:1; position: absolute; right: 12.5px; bottom: 12.5px">
 </div>
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
-

@@ -11,7 +11,14 @@
 }
 /* footer 1:1문의 버튼 */
 #footer-report-button{
-	margin-left: -6px;
+    float: left;
+    font-size: 15px;
+    vertical-align: middle;
+    text-align: center;
+    display: inline-block;
+    position: absolute;
+    margin-top: -84px;
+    margin-left: 120px;
 	width: 80px;
 	height: 30px;
 	border-radius: 5px;
@@ -36,14 +43,13 @@
 
 #FloatMain{
 	margin: 5px 0px;
+	font-size: 13px;
 }
 
 .floating {
     position: fixed;
     bottom: 20px;
     right: 12px;
-    flex-direction: column;
-    align-items: flex-end;
 }
 
 /* 신고 확인 버튼 */
@@ -108,11 +114,11 @@ function downFunction() {
 <div style="margin-left: 40px;">
 <div style="font-size: 20px; margin-bottom: 5px;"><strong>상담 시간</strong></div>
 <div style="font-size: 12px;">평일 09:00 - 18:00</div>
-<div style="font-size: 12px; margin-bottom: 12px;">주말, 공휴일 휴뮤</div>
+<div style="font-size: 12px; margin-bottom: 12px; display: inline-block;">주말, 공휴일 휴뮤</div>
 <div style="clear: both;"><form action="/admin/chat" method="get"><button id="footer-report-button">1:1 문의</button></form></div>
 </div>
 
-<span style="float: right; font-size: 10px; color: #ccc; margin-top: -28px;">Copyright ⓒNeedit</span>
+<span style="float: right; font-size: 10px; color: #ccc; margin-top: -35px; margin-right: 42px;">Copyright ⓒNeedit</span>
 </div><!-- #fooeterStart -->
 <div style="margin-bottom: 20px;"></div>
 
@@ -128,7 +134,6 @@ function downFunction() {
       </div>
       <div class="modal-body">
 		<%@ include file="/WEB-INF/views/admin/report.jsp" %>
-        <button id="footerReportOkBtn" class="btn float-end" data-bs-target="#reportOkModal" data-bs-toggle="modal">전송</button>
 	  </div>
     </div>
   </div>
