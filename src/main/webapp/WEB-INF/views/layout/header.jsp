@@ -103,7 +103,7 @@ nav li {width: 150px; margin-right: 20px;}
 #header .nav ul.gnb li a {box-sizing: border-box;display:block;transition:.8s ease;text-transform:uppercase;}
 #header .nav ul.gnb li ul.sub{position:absolute;padding-left:0px;opacity:0;visibility: hidden;padding-top:10px;z-index: 3;width: 100%}
 #header .nav ul.gnb li ul.sub li {position: relative;}
-#header .nav ul.gnb li ul.sub li a{padding:10px;}
+#header .nav ul.gnb li ul.sub li a{padding:10px; margin-top: 8px;}
 #header .nav ul.gnb:hover li ul.sub{visibility:visible;opacity:1;transform:translateY(0px);} 
 #header .nav ul.gnb li:hover{display:inline-block;margin-bottom:0px;}
 #header .nav ul.gnb li a:hover{	background-color: #f1f1f1;
@@ -180,6 +180,12 @@ border-left: 10px solid transparent;
 border-right: 10px solid transparent; 
 border-bottom: 10px solid #ff533f;
 
+}
+
+.p-2 {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding: 0.5rem!important;
 }
 </style>
 
@@ -271,7 +277,7 @@ border-bottom: 10px solid #ff533f;
 		</div>
 	<div class=" text-center mx-auto p-4" style="width: 1200px;" >
 		<div class="mx-auto p-2">
-		<a href="/main"><img src="/resources/img/needit..png" width="500" height="100"></a>
+		<a href="/main"><img src="/resources/img/needit..png" width="350" height="70"></a>
 		</div>
 	</div>
 	
@@ -281,7 +287,7 @@ border-bottom: 10px solid #ff533f;
 	
 		<nav class="nav justify-content-center">
             <ul class="gnb">
-                <li><label id="needitFont" style="font-size: 30px;">대여해요</label>
+                <li><label id="needitFont" style="font-size: 28px;">대여해요</label>
                     <ul class="sub">
                         <li><a href="/rent/list?menu=1&cate=1">물품</a></li>
                         <li><a href="/rent/list?menu=1&cate=2">인력</a></li>
@@ -289,7 +295,7 @@ border-bottom: 10px solid #ff533f;
                     </ul>
                 </li>
                 
-                <li><label id="needitFont" style="font-size: 30px;">나눔해요</label>
+                <li><label id="needitFont" style="font-size: 28px;">나눔해요</label>
                      <ul class="sub">
                         <li><a href="/share/list?menu=2&cate=1">물품</a></li>
                         <li><a href="/share/list?menu=2&cate=2">인력</a></li>
@@ -297,7 +303,7 @@ border-bottom: 10px solid #ff533f;
                     </ul>
                 </li>
                 
-                <li><label id="needitFont" style="font-size: 30px;">해주세요</label>
+                <li><label id="needitFont" style="font-size: 28px;">해주세요</label>
                      <ul class="sub">
                     	<li><a href="/please/list?menu=3&cate=1">물품</a>
 						<li><a href="/please/list?menu=3&cate=2">인력</a>
@@ -305,7 +311,7 @@ border-bottom: 10px solid #ff533f;
                     </ul>
                 </li>
                 
-                <li><label id="needitFont" style="font-size: 30px;">커뮤니티</label>
+                <li><label id="needitFont" style="font-size: 28px;">커뮤니티</label>
                      <ul class="sub">
                			<li><a href="/community/list?menu=4&cate=1">공지사항</a>
 						<li><a href="/community/list?menu=4&cate=2">우리동네 소식</a>
@@ -314,7 +320,7 @@ border-bottom: 10px solid #ff533f;
                     </ul>
                 </li>
                 
-                <li><label id="needitFont" style="font-size: 30px;">동네업체</label>
+                <li><label id="needitFont" style="font-size: 28px;">동네업체</label>
                 	<ul class="sub">
                 		<li><a href="/menu/business/list?menu=5&cate=1">물품</a></li>
 						<li><a href="/menu/business/list?menu=5&cate=2">인력</a></li>
@@ -322,7 +328,7 @@ border-bottom: 10px solid #ff533f;
 					</ul>
                 </li>
                 
-                <li><a id="needitFont" href="/map" style="font-size: 30px;">주변지도</a></li>
+                <li><a id="needitFont" href="/map" style="font-size: 28px;">주변지도</a></li>
             </ul>
 		</nav>
 	</div>

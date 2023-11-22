@@ -89,11 +89,19 @@
 }
 </style>
 
+<%-- 전역변수 Scope --%>
+<script>
+var now = new Date(); //renderTable() 함수에서 시간표시 해주는 for문에 targetnow변수와 비교에 사용할 변수
+var clickedDate; ////renderTable() 함수에서 시간표시 해주는 for문에서 targetnow변수에 현재일자로 넣어줄 매개변수
+</script>
+
 <script type="text/javascript">
 $(function(){
+	
     // 다음 달의 날짜에 대한 클릭 이벤트 추가
     $(".Calendar").on("click", ".futureMonth", function(){
-        let clickedDate = parseInt($(this).text()); // 문자열을 숫자로 변환
+        clickedDate = parseInt($(this).text()); // 문자열을 숫자로 변환
+        console.log(clickedDate)
         let nextMonth = nowMonth.getMonth() + 1; // 현재 월에 1을 더해 다음 달로 설정
         let fullDate = new Date(nowMonth.getFullYear(), nextMonth - 1, clickedDate); // 월의 경우 1을 빼줌
         console.log("클릭한 날짜 선택", fullDate);
@@ -103,11 +111,10 @@ $(function(){
 
         $("#time").show();
         renderTable(fullDate.getTime());
-//         $("#endTime").show();
     });
 });
 
-//시간 잘못 선택시 예외처리
+//대여테이블 시간표 만들기
 function renderTable(selectedDate) {
 	
 	var startSelect = $("#startTmSelected");
@@ -115,32 +122,46 @@ function renderTable(selectedDate) {
 	var reservedTime = [];
 	var tempDate = new Date(parseInt(selectedDate));
 	
+	//예약정보 가져오기
 	<c:forEach var="sta" items="${status}">
-	var rentDate = new Date('${sta.RENT_DATE}');
-	console.log(rentDate + "\r\n " + tempDate)
-	
- 	if (rentDate.toLocaleString() ===  tempDate.toLocaleString()) {
-		for (let i=${sta.START_TIME}; i<=${sta.END_TIME}; i++) {	
-			reservedTime.push(i);
+		var rentDate = new Date('${sta.RENT_DATE}');
+		console.log(rentDate + "\r\n " + tempDate)
+		
+	 	if (rentDate.toLocaleString() ===  tempDate.toLocaleString()) {
+			for (let i=${sta.START_TIME}; i<=${sta.END_TIME}; i++) {	
+				reservedTime.push(i);
+			}
 		}
-	}
-
 	</c:forEach>
 	
+	//대여시간 테이블 랜더링
 	for (let i=1; i<=48; i++) {	
 		var time = new Date('2023-01-01 00:00:00');
 		time.setMinutes((i-1)*30);
-		if ((i-1)%6==0) {tmp += '<tr>';}
-		if (reservedTime.indexOf(i) == -1) {
-			tmp += `<td><div type="button" name='endTime' value='\${i}' onClick="timeSet(event, \${i})">\${time.toString().substring(16,21)}</div></td>`;
 		
+		//현재 날짜,시간 구하기
+	    var targetnow = new Date();
+	    targetnow.setDate(clickedDate)
+	    targetnow.setSeconds(0);
+		targetnow.setHours(Math.floor(((i-1) / 48) * 24))
+	    if (i % 2 === 0) {
+	       targetnow.setMinutes(30)
+		} else {
+			targetnow.setMinutes(0)
+		}
+		
+		//대여가능 시간 테이블 생성
+		if ((i-1)%6==0) {tmp += '<tr>';}
+		if (reservedTime.indexOf(i) == -1 && now<targetnow) {
+			tmp += `<td><div type="button" name='endTime' value='\${i}' onClick="timeSet(event, \${i})">\${time.toString().substring(16,21)}</div></td>`;				
 		} else {
 			tmp += `<td><div type="button" name='endTime' value='\${i}' class="reserved">\${time.toString().substring(16,21)}</div></td>`;
 		}
 		if (i%6==0) {tmp += '</tr>';}
 	}
+
 	startSelect.html(tmp);
-	
+
 }
 
 </script>
@@ -237,6 +258,16 @@ function renderTable(selectedDate) {
 let fromTime = 0;
 let toTime = 0;
 
+//이미 지나간 시간인지 확인하는 함수
+function isPastTime(selectedDate, timeValue) {
+    let currentTime = new Date();
+    let selectedDateTime = new Date(selectedDate);
+    selectedDateTime.setMinutes((timeValue - 1) * 30);
+
+    return selectedDateTime < currentTime;
+}
+
+//대여할 시간 선택 영역 표시, 선택된 값 저장
 function timeSet(event, t) {
 	
 	var selectedDate =  $("#selectedDate").val();
@@ -264,6 +295,8 @@ function timeSet(event, t) {
 	
 	} else {
 		toTime = t;
+		
+		//대여시간 잘못 선택시 예외처리
 		for (let i=fromTime; i<=toTime; i++) {			
 			if (reservedTime.indexOf(i) != -1) {
 				alert('선택불가한 시간입니다.');
@@ -371,7 +404,10 @@ $(document).ready(function(){
 				    <div>
 				        <div style="display: none;" id="time">
 				            <div style="margin-bottom: 5px; display: grid;">
-			            	<span>시간 선택(*선택한 시간 전까지 반납필수!)</span>
+			            	<span style="margin-bottom: 5px;">시간을 선택해주세요.</span>
+			            	<span style="margin-bottom: 5px; font-size: 15px;">*다음 대여자를 위해 장기 대여는 삼가주세요.</span>
+			            	<span style="margin-bottom: 5px; font-size: 15px;">*날짜가 넘어가면 여러번 신청해야 합니다.</span>
+			            	<span style="margin-bottom: 5px; font-size: 15px;">*선택한 시간 전까지 반납필수!</span>
 			            	<table>
 			            	<thead></thead>
 					            <tbody id="startTmSelected">

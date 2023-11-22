@@ -148,7 +148,7 @@
 	</insert>
 	
 	<!-- 댓글 조회 -->
-	<select id="selectAllComment" resultType="Comment" parameterType="Comment">
+	<select id="selectAllComment" resultType="Map" parameterType="Comment">
 		SELECT * FROM (
 		    SELECT rownum rnum, B.*, uf.THUMBNAIL_NAME 
 		    FROM (
