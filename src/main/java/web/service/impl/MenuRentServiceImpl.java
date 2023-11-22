@@ -205,7 +205,7 @@ public class MenuRentServiceImpl implements MenuRentService {
 	}
 
 	@Override
-	public List<Comment> viewComment(Comment commentParam) {
+	public List<Map<String,Object>> viewComment(Comment commentParam) {
 		return menuRentDao.selectAllComment(commentParam);
 	}
 

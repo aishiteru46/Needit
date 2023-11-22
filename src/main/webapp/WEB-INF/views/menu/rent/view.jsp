@@ -64,6 +64,10 @@ h6 {
 	display:inline;
 	color: blue;
 }
+
+.table td {
+	vertical-align: middle;
+}
 </style>
 
 <script type="text/javascript">
@@ -89,27 +93,30 @@ function loadComments() {
 	        for (var i = 0; i < res.commentList.length; i++) {
 	
 	            var boardMaster = "${board.writerNick }" //게시글 작성자
-	            var commentWriter = res.commentList[i].writerNick //댓글 작성자
-	
+	            var commentWriter = res.commentList[i].WRITER_NICK//댓글 작성자
+			
+	            console.log("res.commentList[i].thumbnailName :" , res.commentList[i].THUMBNAIL_NAME);
+	            
+	            
 	            commentListHtml += '<hr>'; 
 	            commentListHtml += '<div class="media mb-4">';
-	            commentListHtml += '  <img style="width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/${' + res.commentList[i].THUMBNAIL_NAME} + '}">';
+	            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
 	            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
 	            //댓글 작성자 구분 처리                                                                                    
 	            if (commentWriter === boardMaster && commentWriter === nick) { 
-	                commentListHtml += '    <h6>' + res.commentList[i].writerNick + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
 	            } else if (commentWriter === nick) {
-	                commentListHtml += '    <h6>' + res.commentList[i].writerNick + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
 	            } else if (commentWriter === boardMaster) {
-	                commentListHtml += '    <h6>' + res.commentList[i].writerNick + '<div class="cmtWriter">작성자</div>' + '</h6>';
+	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter">작성자</div>' + '</h6>';
 	            } else {
-	                commentListHtml += '    <h6>' + res.commentList[i].writerNick + '</h6>';
+	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '</h6>';
 	            }
-	            commentListHtml += '    <h5 class="text-start">' + res.commentList[i].content + '</h5>';
+	            commentListHtml += '    <h5 class="text-start">' + res.commentList[i].CONTENT + '</h5>';
 	            commentListHtml += '    <p style="font-size: 13px; display: inline-block;">' + formatDate(new Date(res.commentList[i].writeDate)) + '</p>';
 	            //본인 댓글 삭제가능 처리
-	            if (id && id == res.commentList[i].writerId) {
-	                commentListHtml += '    <button id="del" onclick="deleteComment(' + res.commentList[i].cmtNo + ');">';
+	            if (id && id == res.commentList[i].WRITER_ID) {
+	                commentListHtml += '    <button id="del" onclick="deleteComment(' + res.commentList[i].CMT_NO + ');">';
 	                commentListHtml += '	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">';
 	                commentListHtml += '	<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>';
 	                commentListHtml += '	</svg>'
@@ -262,9 +269,8 @@ $(()=>{
 		}); //ajax end
 	}); //$("#btnLike").click() End.
 	
-	//미로그인 상태 대여요청 클릭
-	$("#noLogin").click(function(){
-		alert("로그인 후 요청이 가능합니다.")
+	$("#selfRent").click(function () {
+		alert("작성자 본인은 대여신청이 불가합니다.");
 	});
 	
 }); //jQuery Function End.
@@ -321,7 +327,7 @@ $(()=>{
 	//이건 인포윈도우로 따로 만들어둬서 돼서 핵심 XXXX
 	     // 인포윈도우로 장소에 대한 설명을 표시합니다
 	     var infowindow = new kakao.maps.InfoWindow({
-	         content: '<div style="width:150px;text-align:center;padding:6px 0;">대여가능 위치</div>'
+	         content: '<div style="width:150px;text-align:center;padding:6px 0;">대여가능 위치<br><div style="font-size: 10px;">${board.location}<div></div>'
 	     });
 	     infowindow.open(map, marker);
 	
@@ -352,30 +358,18 @@ $(()=>{
 			<div class="btn" id="btnLike"></div>
 		</div>
 		</c:if>		
+		<c:if test="${not isLogin }">
+		<div style="text-align: center;">
+			<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><div class="btn" id="btnLike"></div></a>
+		</div>
+		</c:if>		
 	</td><td id="like"><div id="likeNo">${cntLike }</div>명이 이 게시글을 좋아합니다.</td>
 </tr>
 <tr>
 	<td class="table-info">닉네임</td><td>${board.writerNick }</td>
 	<td class="table-info">가격</td><td><fmt:formatNumber value="${board.price }" pattern="#,###" />원</td>
 </tr>
-<tr>
-	<td class="table-info">대여하기</td>
-	<td>
-		<!-- Button trigger modal -대여 -->
-		<c:if test="${isLogin }">
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rentModal" >대여하고싶어요</button>
-		</c:if>
-		<c:if test="${not isLogin }">
-			<button type="button" class="btn btn-primary" id="noLogin" data-bs-toggle="modal" >대여하고싶어요</button>
-		</c:if>
-		<%-- Modal.대여 --%>
-		<c:import url="./rent.jsp"/>
-	</td>
-	<td class="table-info">예약하기</td>
-	<td>
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#bookModal" >예약하고싶어요</button>
-	</td>
-</tr>
+
 <tr>
 	<td class="table-info">조회수</td><td>${board.hit }</td>
 	<td class="table-info">작성일</td>
@@ -393,7 +387,22 @@ $(()=>{
 	</td>
 </tr>
 <tr>
-	<td class="table-info">제목</td><td colspan="3">${board.title }</td>
+	<td class="table-info">제목</td><td>${board.title }</td>
+	<td class="table-info">대여하기</td>
+	<td>
+		<!-- Button trigger modal -대여 -->
+		<c:if test="${isLogin and (id ne board.writerId) }">
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rentModal" >대여하고싶어요</button>
+		</c:if>
+		<c:if test="${not isLogin }">
+			<a class="btn btn-danger" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">대여하고싶어요</a>
+		</c:if>
+		<c:if test="${id eq board.writerId }">
+			<button class="btn btn-primary" id="selfRent" >대여하고싶어요</button>
+		</c:if>
+		<%-- Modal.대여 --%>
+		<c:import url="./rent.jsp"/>
+	</td>
 </tr>
 <tr>
 	<td class="table-info">첨부파일</td>

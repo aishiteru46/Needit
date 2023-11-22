@@ -32,10 +32,11 @@ public class MenuRentController {
 	
 	@Autowired private MenuRentService menuRentService;
 	
-	//게시판 목록 띄우기
+	//게시판 목록 그리드타입 띄우기
 	@GetMapping("/list")
 	public String list( Paging param, Model model ) {
 		logger.info("param : {}", param);
+		
 		//페이징 계산
 		Paging paging = menuRentService.getPaging(param);
 		
@@ -47,10 +48,11 @@ public class MenuRentController {
 		return "menu/rent/list";
 	}
 	
-	//게시판 목록 띄우기
+	//게시판 목록 리스트타입 띄우기
 	@GetMapping("/listType")
 	public String listType( Paging param, Model model ) {
 		logger.info("param : {}", param);
+		
 		//페이징 계산
 		Paging paging = menuRentService.getPaging(param);
 		
@@ -112,7 +114,6 @@ public class MenuRentController {
 	//대여 처리
 	@PostMapping("/rent")
 	public String rent( Rent rentParam, Model model ) {
-		logger.info("rentParam {}", rentParam);
 		
 		//대여신청 대기처리
 		menuRentService.rent(rentParam);
@@ -197,11 +198,8 @@ public class MenuRentController {
 		logger.info("commentParam: {}", commentParam);
 		
 		//댓글 목록 조회
-		List<Comment> commentList = menuRentService.viewComment(commentParam);
+		List<Map<String,Object>> commentList = menuRentService.viewComment(commentParam);
 		model.addAttribute("commentList", commentList);
-		
-		//사용자 프로필 조회
-
 		
 		return "jsonView";
 	}
