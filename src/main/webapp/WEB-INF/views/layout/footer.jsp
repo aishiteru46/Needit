@@ -128,7 +128,6 @@ function downFunction() {
       </div>
       <div class="modal-body">
 		<%@ include file="/WEB-INF/views/admin/report.jsp" %>
-        <button id="footerReportOkBtn" class="btn float-end" data-bs-target="#reportOkModal" data-bs-toggle="modal">전송</button>
 	  </div>
     </div>
   </div>

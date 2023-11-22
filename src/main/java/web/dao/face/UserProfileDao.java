@@ -141,9 +141,22 @@ public interface UserProfileDao {
 	 * @return 
 	 */
 	public int updateCancel(Rent rent);
-
-
 	
+	/**
+	 * confirm 예약 상태 조회
+	 * 
+	 * @param rent 예약 
+	 * @return true false
+	 */
+	public int selectConfirm(Rent rent);
+
+	/**
+	 * cancel 예약 상태 조회
+	 * 
+	 * @param rent rent_status
+	 * @return 
+	 */
+	public int selectCancel(Rent rent);
 
 	/**
 	 * 유저테이블 전체 조회
@@ -151,6 +164,12 @@ public interface UserProfileDao {
 	 * @return
 	 */
 	public User selectUserAll(User user);
+
+
+
+
+
+	
 
 
 //	/**
