@@ -6,26 +6,33 @@
 
 <!-- HEADER -->
 <c:import url="/WEB-INF/views/layout/header.jsp" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 
 <style type="text/css">
 
+.write {
+    margin-top: 25px;
+    margin-bottom: -22px;
+}
 .row {
     text-align: center;
 }
 
 .write-container {
-    height: 600px;
+    height: 507px;
     width: 380px;
     margin: 1em auto; 
     text-align: center; 
     border-radius: 15px;
     overflow: hidden;
-    border: 1px solid #D3D3D3;
-    border-right: 1px solid #D3D3D3;
+    border: 1px solid #343a4070;
 }
 
 .write-container:hover {
-    border-color: #ff533f;
+/*     border-color: #ff533f; */
+    box-shadow: 5px 5px 5px gray;
+    transform: scale( 1.03 );
+    transition: all 0.15s ease-in;
 }
 
 .col-md-4 {
@@ -45,34 +52,154 @@
 	background-position: center center;
 }
 
+.write-container-head {
+	width: 380px;
+	margin: 0 auto;
+}
+
 .no {
-	margin-top: 10px;
+	display: inline-block;
+	float: left;
+	position: absolute;
+    margin-left: -114px;
+    margin-top: 10px;
 }
 
 .title {
-	margin-top: 10px;
-	color: black;
-	font-weight: bold;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
+ 	width: 150px; 
+ 	color: black; 
+ 	font-weight: bold; 
+ 	overflow: hidden; 
+ 	text-overflow: ellipsis; 
+ 	white-space: nowrap; 
+	display: inline-block;
+    margin-top: 10px;
+    margin-bottom: -12px;
+    margin-left: -6px;
 }
 
+#write-conatiner-hit, #write-conatiner-like {
+	display: inline-block;
+	float: right;
+	position: absolute;
+	font-size: 14px;
+    margin-left: 45px;
+}
+#write-conatiner-hit {
+	margin-top: 25px;
+}
+#write-conatiner-like {
+	margin-top: 4px;
+}
+#write-conatiner-nick {
+    float: left;
+    position: relative;
+    font-size: 18px;
+    margin-top: -8px;
+    margin-left: 4px;
+}
+#write-conatiner-time {
+    float: left;
+    position: absolute;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-left: 4px;
+}
+#write-conatiner-price {
+	float: right;
+    margin-top: -5px;
+    margin-bottom: 19px;
+    margin-right: 6px;
+    font-size: 30px;
+    text-align: center;
+}
+#write-conatiner-loc {
+	width: 353px;
+    font-size: 19px;
+   	overflow: hidden; 
+ 	text-overflow: ellipsis; 
+ 	white-space: nowrap;
+}
+#nickIcon{
+	float: none;
+	display: inline-block;
+}
+#rentListHr:hover {
+	color: rgb(255,83,63);
+}
+#rentText1 {
+	margin-top: 37px;
+    margin-bottom: -34px;
+    font-size: 40px;
+    text-align: center;
+    color: #343a40;
+}
+#rentText2 {
+	font-size: 25px;
+	text-align: center;
+	display: inline-block;
+    color: #343a40;
+}
+#viewType {
+	margin-top: -1px;
+    margin-bottom: -2px;
+    margin-right: 17px;
+    display: inline-block;
+}
+
+.btn { 
+	--bs-btn-color: #fff;
+    --bs-btn-bg: #343a40;
+    --bs-btn-hover-border-color: unset;    
+} 
+
+</style>
+
+<style>
+.pagination {
+    --bs-pagination-active-bg: #ff533f;
+    --bs-pagination-color: #373b3e;
+	--bs-pagination-active-border-color: #ff533f;  
+    --bs-pagination-hover-color: #ff533f;	  
+}
 </style>
 
 <div class="container">
 
 <c:forEach  var="list" items="${list }" begin="0" end="0">
 	<c:if test="${list.MENU eq 3 and list.CATE eq 1 }">
-		<h1>해주세요 물품</h1>	
+		<div id="rentText1"> 해주세요
+			<div id="rentText2">물품 <img src="/resources/img/borrowIcon.png" style="width: 45px; height: 45px; margin-top: -28px;"></div>
+		</div>
 	</c:if>
 	<c:if test="${list.MENU eq 3 and list.CATE eq 2 }">
-		<h1>해주세요 인력</h1>	
+		<div id="rentText1"> 해주세요
+			<div id="rentText2">인력 <img src="/resources/img/humanpower.png" style="width: 45px; height: 45px; margin-top: -28px;"></div>
+		</div>
 	</c:if>
 	<c:if test="${list.MENU eq 3 and list.CATE eq 3 }">
-		<h1>해주세요 공간</h1>	
+		<div id="rentText1"> 해주세요
+			<div id="rentText2">공간 <img src="/resources/img/place.png" style="width: 45px; height: 45px; margin-top: -26px;"></div>
+		</div>
 	</c:if>
 </c:forEach>
+
+<div class="write">
+	<c:if test="${not empty isLogin and isLogin }">
+		<a class="btn me-2 float-end sm" href="/rent/write?menu=${param.menu }&cate=${param.cate }">✍️글쓰기</a>
+	</c:if>
+	<c:if test="${empty isLogin and not isLogin }">
+		<a class="btn me-2 float-end sm" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">✍️글쓰기</a>
+	</c:if>
+	
+	<!-- 그리드타입,리스트타입 선택 -->
+	<div class="float-end" id="viewType">
+		<a type="button" href="/rent/list?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
+		<a type="button" href="/rent/listType?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
+	</div>
+
+<small class="float-start ms-2 mt-2">total : ${paging.totalCount }</small><br><br>
+</div>
 
 <div class="gridContainer">
 <c:forEach items="${list}" var="list" varStatus="loop">
@@ -81,8 +208,13 @@
   </c:if>
   	
     <div class="write-container">
-        <h6 class="no">no. ${list.BOARD_NO}</h6>
-        <a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">제목 : ${list.TITLE }</h6></a>
+    	<div class="write-container-head">
+        	<div class="no">no. ${list.BOARD_NO}</div>
+        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">${list.TITLE }</h6></a>
+        <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>
+        <div id="write-conatiner-hit">👀  ${list.HIT}</div>
+        </div><!-- .write-container-head -->
+        <hr id="rentListHr">
         <c:if test="${ not empty list.THUMBNAIL_NAME  }">
 	        <div>
 	        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
@@ -93,12 +225,10 @@
 	        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/resources/img/noimg.png"/></a>
 	        </div>
         </c:if>
-        <h6>작성자 : ${list.WRITER_ID }</h6>
-        <h6>닉네임 : ${list.WRITER_NICK }</h6>
-        <h6>가격 : <fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</h6>
-        <h6>👀  ${list.HIT}</h6>
-        <h6>✍️  
-            <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" /> 
+        <hr id="rentListHr">
+        <div id="write-conatiner-nick"><div id="nickIcon">✍️</div>${list.WRITER_NICK }</div>
+        <div id="write-conatiner-time">🕟
+            <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
             <fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" /> 
             <c:choose> 
                 <c:when test="${writeDate lt curDate }"> 
@@ -107,10 +237,11 @@
                 <c:otherwise> 
                     <fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" /> 
                 </c:otherwise> 
-            </c:choose>                    
-        </h6>
-        <h6>❤️  ${list.LIKE_CNT }</h6>
-        <h6>🚩  ${list.LOCATION }</h6>
+            </c:choose>
+        </div><!-- #write-conatiner-time -->                    
+       	<div id="write-conatiner-price">💸<fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</div>
+      	
+   	    <div id="write-conatiner-loc" ><i style="color: rgb(255,83,63)" class="bi bi-geo-alt-fill"></i>${list.LOCATION } </div>
     </div><!-- .write-container -->
     
   <c:if test="${loop.index % 3 == 2 || loop.index + 1 == yourList.size()}">
