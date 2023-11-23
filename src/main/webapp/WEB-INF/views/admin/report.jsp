@@ -88,23 +88,23 @@ $(document).ready(function() {
 <div id="report">
 <div id="reportIn">
 	<div>
-	<input class="reportBtn" id="reportBtn1" value="광고성" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
+	<input class="reportBtn" id="reportBtn1" type="button" value="광고성" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
 	</div>
 	
 	<div>
-	<input class="reportBtn" id="reportBtn2" value="음란물" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" >
+	<input class="reportBtn" id="reportBtn2" type="button" value="음란물" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" >
 	</div>
 	
 	<div>
-	<input class="reportBtn" id="reportBtn1" value="욕설" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" >
+	<input class="reportBtn" id="reportBtn1" type="button" value="욕설" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" >
 	</div>
 	
 	<div>
-	<input class="reportBtn" id="reportBtn2" value="불법 정보" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
+	<input class="reportBtn" id="reportBtn2" type="button" value="불법 정보" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
 	</div>
 	
 	<div>
-	<input class="reportBtn" id="reportBtn1" value="개인정보 노출" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
+	<input class="reportBtn" id="reportBtn1" type="button" value="개인정보 노출" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
 	</div>
 	
 </div><!-- .reportIn -->

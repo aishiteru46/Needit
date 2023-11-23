@@ -15,6 +15,7 @@ public class Paging {
 	private int endPage;	//화면에 보이는 끝 페이지네이션의 번호
 	private int startNo;	//화면에 보이는 게시글의 시작 번호 
 	private int endNo;		//화면에 보이는 게시글의 끝 번호
+	private String userId;
 	
 	public Paging() {}
 
@@ -176,7 +177,15 @@ public class Paging {
 	}
 
 	public void setCate(String cate) {
-		this.cate = cate;
+		this.cate= cate;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getSelectSub() {

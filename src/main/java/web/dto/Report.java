@@ -9,7 +9,6 @@ public class Report {
 	
 	private int reportNo;
 	private int boardNo;
-	private int cmtNo;
 	private String reportId;
 	private String reportType;
 	private String reportChk;

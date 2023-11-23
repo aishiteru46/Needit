@@ -19,16 +19,17 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.MenuShareDao;
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Booking;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
-import web.service.face.MenuShareFace;
+import web.service.face.MenuShareService;
 import web.util.Paging;
 
 @Service
-public class MenuShareServiceImpl implements MenuShareFace{
+public class MenuShareServiceImpl implements MenuShareService{
 	
 	//로그 객체 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -283,9 +284,21 @@ public class MenuShareServiceImpl implements MenuShareFace{
 
 	@Override
 	public void bookStatus() {
-		System.out.println("안녕");
 		
 	}
+
+
+	@Override
+	public int insert(Basket basket) {
+		return menuShareDao.insertBasket(basket);
+	}
+
+	@Override
+	public void deleteBasket(Basket basket) {
+		menuShareDao.deleteBasket(basket);
+
+	}
+
 
 	
 

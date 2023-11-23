@@ -92,7 +92,14 @@ public interface UserProfileService {
 	 * @return
 	 */
 	public User selectUserGrade(User user);
-
+	
+	/**
+	 * 업데이트된 유저 등급 조회
+	 * 
+	 * @param user
+	 * @return 등급
+	 */
+	public User gradeResult(User user);
 	
 	/**
 	 * 프로필사진 삭제
@@ -157,6 +164,7 @@ public interface UserProfileService {
 	 * @return
 	 */
 	public List<Map<String, Object>> commentSelectById(Comment comment);
+
 
 	
 
