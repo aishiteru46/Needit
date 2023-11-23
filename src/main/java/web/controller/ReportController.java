@@ -26,8 +26,6 @@ public class ReportController {
 		
 		boolean checkReport = reportService.insertReport(report);
 		
-		
-		
 		return "admin/report";
 		
 	}

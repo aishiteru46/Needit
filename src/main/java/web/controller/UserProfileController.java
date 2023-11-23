@@ -77,19 +77,20 @@ public class UserProfileController {
         // 사용자의 프로필 이미지 정보 가져오기
         UserFile  img = userProfileService.imgSelect(userId);
         
-        //회원등급 조회
-        User userGrade = userProfileService.selectUserGrade(user);
-        logger.info("등급나와라잇{}",userGrade);
-        
         //추천수 조회
         int likeCount = userProfileService.cntLike(user);
         logger.info("likeCount두두{}",likeCount);
+        //회원등급 조회
+        User userGrade = userProfileService.selectUserGrade(user);
+        logger.info("등급나와라잇{}",userGrade.getGrade());
         //회원등업
         if( (boolean)session.getAttribute("isLogin") == true) {
         	
 		userProfileService.updateGrade(likeCount, userGrade);
-		model.addAttribute("userGrade",userGrade.getGrade());
-        } 
+        }
+        User userGradeResult = userProfileService.gradeResult(userGrade);
+        logger.info("reudd{}",userGradeResult);
+        model.addAttribute("userGrade",userGradeResult.getGrade());
         
         //모델에 이미지 정보 추가
         model.addAttribute("img", img);

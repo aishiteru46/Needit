@@ -61,13 +61,13 @@
 	
 	<!-- 추천수 조회 -->
 	<select id="selectLikeByBoardNo" resultType="int" parameterType="User">
-	    SELECT 
-	        COUNT(l.like_id) AS like_count
-	    FROM board b
-	    LEFT JOIN liketb l ON b.board_no = l.board_no
-	    <where>
-	        b.writer_id = #{id}
-	    </where>
+		SELECT 
+		    COUNT(l.like_id) AS like_count
+		FROM board b
+		LEFT JOIN liketb l ON b.board_no = l.board_no
+		<where>
+		    b.writer_id = #{id}
+		</where>
 	
 	</select>
 	
@@ -117,11 +117,10 @@
 	</update>
 	
 	<select id="selectGrade" resultType="User" parameterType="User">
-		SELECT grade FROM usertb
+		SELECT grade,id FROM usertb
 		<where>
 			id = #{id}
 		</where>
-	
 	</select>
 	
 	<!-- 자기소개 수정	 -->

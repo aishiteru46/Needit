@@ -187,18 +187,27 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	public void updateGrade(int likeCount, User userGrade) {
+		logger.info("추천수 나오나?{}",likeCount);
+		logger.info("추천수 나오나?{}",userGrade);
+		
 		
 		if (likeCount >= 5 && likeCount < 10) {
 		    userProfileDao.updateCrackEgg(userGrade);
 		} else if (likeCount >= 10 && likeCount < 20) {
-		    userProfileDao.updateChick(userGrade);
+			 userProfileDao.updateChick(userGrade);
 		} else if (likeCount >= 20 && likeCount <= 30) {
-		    userProfileDao.updateChicken(userGrade);
+			 userProfileDao.updateChicken(userGrade);
 		} else if (likeCount > 30) {
-		    userProfileDao.updateFriedChicken(userGrade);
+			 userProfileDao.updateFriedChicken(userGrade);
 		}
 		
 	}
+	
+	@Override
+	public User gradeResult(User user) {
+		return userProfileDao.selectGrade(user);
+	}
+
 
 	@Override
 	public boolean updateRentStatus(Rent rent) {
@@ -264,5 +273,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public List<Map<String, Object>> commentSelectById(Comment comment) {
 		return userProfileDao.selectCommentById(comment);
 	}
+
+
 
 }

@@ -156,6 +156,7 @@ $(function(){
 <div class="container">
 <h1>마이페이지</h1>
 <hr>
+${userGrade }
 <c:choose>
 	<c:when test="${userGrade eq 1}">
 		<img src="/resources/img/계란.png"/>

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Booking;
 import web.dto.Comment;
@@ -12,7 +13,7 @@ import web.dto.FileTb;
 import web.dto.Like;
 import web.util.Paging;
 
-public interface MenuShareFace {
+public interface MenuShareService {
 
 	/**
 	 * 페이징 계산
@@ -139,6 +140,21 @@ public interface MenuShareFace {
 	public boolean checkBooking(Booking book);
 
 	public void bookStatus();
+	
+	/**
+	 * 찜 정보 삽입
+	 * 
+	 * @param basket 찜 정보
+	 * @return 삽입 여부
+	 */
+	public int insert(Basket basket);
+	
+	/**
+	 * 찜 정보 삭제
+	 * 
+	 * @param basket 찜정보
+	 */
+	public void deleteBasket(Basket basket);
 	
 	
 	

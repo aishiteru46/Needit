@@ -7,6 +7,69 @@
 <!-- HEADER -->
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
+<script type="text/javascript">
+$(function(){
+	  $(".star").click(function(){
+	    var id = this.id;
+	    var boardNoMenuCate = id.replace('star', '');
+	    var parts = boardNoMenuCate.split('+');
+	    var boardNo = parts[0];
+	    var menu = parts[1];
+	    var cate = parts[2];
+	    var starImg = $(this);
+
+	    $.ajax({
+	      type: "post",
+	      url: "/share/basket",
+	      data: { 
+	        boardNo: boardNo,
+	        menu: menu,
+	        cate: cate
+	      },
+	      dataType: "json",
+	      success: function(res) {
+	        if (res.check < 0) {
+	          console.log("니얼굴얼굴거룩ㄹ");
+	          // 클릭된 상태로 변경
+	          starImg.attr("src", "/resources/img/emptyStar.png");
+	          starImg.data("clicked", true);
+	        } else {
+	          console.log("삭제제제제제ㅔ제");
+	          // 클릭되지 않은 상태로 변경
+	          starImg.attr("src", "/resources/img/star.png");
+	          starImg.data("clicked", false);
+	          
+	          // deleteBasket 함수 호출 시 boardNo 전달
+	          deleteBasket(boardNo,starImg, true);
+	         
+	        }
+	      },
+	      error: function() {
+	        console.log("AJAX 실패");
+	      }
+	    });
+	  });
+
+	  // deleteBasket 함수에 boardNo 파라미터 추가
+	  function deleteBasket(boardNo, starImg, clicked){
+	    $.ajax({
+	      type: "post",
+	      url: "/share/deletebasket",
+	      data: { 
+	        boardNo: boardNo
+	      },
+	      dataType: "json",
+	      success: function(res) {
+	    	  starImg.attr("src", clicked ? "/resources/img/star.png" : "/resources/img/emptyStar.png");
+	      },
+	      error: function() {
+	        console.log("AJAX 실패");
+	      }
+	    });
+	  }
+	});
+</script>
+
 <style type="text/css">
 
 
@@ -56,9 +119,11 @@
 	font-weight: bold;
 }
 .heart {
-	margin-right: 7px;
-	margin-top: 5px;
-	font-size: 30px;
+	float: right;
+    position: absolute;
+    display: inline-block;
+    margin-top: 333px;
+    margin-left: 135px;
 	
 }
 
@@ -66,20 +131,29 @@
 	color: red;
 }
 
+.star {
+	width: 30px;
+	height: 30px;
+	margin-left: -5px;
+	margin-bottom: 30px; 
+}
+
+
+
 
 </style>
 
 <div class="container">
 
 <c:forEach  var="list" items="${list }" begin="0" end="0">
-	<c:if test="${list.MENU == 1 or list.CATE == 1 }">
-		<h3>대여해요 / 물품</h3>	
+	<c:if test="${list.MENU == 2 and list.CATE == 1 }">
+		<h3>나눔해요 / 물품</h3>	
 	</c:if>
-	<c:if test="${list.MENU == 1 or list.CATE == 2 }">
-		<h3>대여해요 / 인력</h3>	
+	<c:if test="${list.MENU == 2 and list.CATE == 2 }">
+		<h3>나눔해요 / 인력</h3>	
 	</c:if>
-	<c:if test="${list.MENU == 1 or list.CATE == 3 }">
-		<h3>대여해요 / 공간</h3>	
+	<c:if test="${list.MENU == 2 and list.CATE == 3 }">
+		<h3>나눔해요 / 공간</h3>	
 	</c:if>
 </c:forEach>
 
@@ -89,9 +163,17 @@
   </c:if>
   	
     <div class="write-container">
-        <span class="float-end clearfix heart">♡</span>
+    
+    	${list.BASKET_STATUS }
+        	<c:if test="${list.BASKET_STATUS eq 0 }">
+	        	<span class="heart"><img class="star" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/emptyStar.png"></span>
+        	</c:if>
+        	<c:if test="${list.BASKET_STATUS eq 1 }">
+	       	 	<span class="heart"><img class="star" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}" src="/resources/img/star.png"></span>
+        	</c:if>
+        
         <h6 class="no">no. ${list.BOARD_NO}</h6>
-        <a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">제목 : ${list.TITLE }</h6></a>
+        <a class = "boardNo" href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}" board_no="${list.BOARD_NO }"><h6 class="title">제목 : ${list.TITLE }</h6></a>
         <c:if test="${ not empty list.THUMBNAIL_NAME  }">
 	        <div>
 	        	<a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>

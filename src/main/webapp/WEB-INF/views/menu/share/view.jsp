@@ -17,8 +17,8 @@ $(() => {
 })
 
 
+
 $(function(){
-	
 	//추천 버튼 변경
 	if(${isLike}) {
 		console.log('추천 이미 함')

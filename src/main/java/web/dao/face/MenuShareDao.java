@@ -3,6 +3,7 @@ package web.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Booking;
 import web.dto.Comment;
@@ -167,6 +168,22 @@ public interface MenuShareDao {
 	 * @return 전체 추천 수
 	 */
 	public int selectTotalCntLike(Like like);
+	
+	/**
+	 * 찜 테이블 삽입
+	 * 
+	 * @param basket 찜 정보
+	 * @return 삽입
+	 */
+	public int insertBasket(Basket basket);
+	
+	/**
+	 * 찜 테이블 삭제
+	 * 
+	 * @param basket 찜 정ㅂ
+	 */
+	public void deleteBasket(Basket basket);
+
 	
 
 }

@@ -10,23 +10,22 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Booking;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
-import web.service.face.MenuShareFace;
+import web.service.face.MenuShareService;
 import web.util.Paging;
 
 @Controller
@@ -37,17 +36,19 @@ public class MenuShareController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	
-	@Autowired MenuShareFace menuShareFace;
+	@Autowired MenuShareService menuShareFace;
 	
 	@GetMapping("/list")
 	public String list(
 			Board board, Paging param
 			, Model model,FileTb file
-			, Like like) {
+			, Like like, Basket basket
+			, HttpSession session) {
 		logger.info("list get");
 		
 		//페이징 계산
 		Paging paging = menuShareFace.getPaging(param);
+		paging.setUserId((String)session.getAttribute("id"));
 		
 		//나눔 게시판 조회
 		List<Map<String, Object>> list = menuShareFace.selectBoardStatus(paging, board);
@@ -56,10 +57,10 @@ public class MenuShareController {
 		model.addAttribute("list",list);
 		model.addAttribute("paging",paging);
 		
-		file.setBoardNo(board.getBoardNo());	
 		
 		logger.info("메뉴{}",paging);
 		logger.info("카테고리 들어오나?{}",param.getCate());
+
 		
 		return "menu/share/list";
 	}
@@ -70,13 +71,13 @@ public class MenuShareController {
 			, Model model
 			) {
 		Board view = menuShareFace.view(board);
+		logger.info("보드넘버{}",view);
+		model.addAttribute("view", view);
 		
 		//첨부파일 정보 전달
 		List<FileTb> boardfile = menuShareFace.getAttachFile( board );
 		model.addAttribute("boardfile", boardfile);
 		
-		logger.info("보드넘버{}",view);
-		model.addAttribute("view", view);
 		
 		//추천 상태 조회
 		Like like = new Like();
@@ -255,6 +256,32 @@ public class MenuShareController {
 		model.addAttribute("check",check);
 		
 		return check;
+		
+	}
+	
+	
+	@PostMapping("/basket")
+	public String basket(
+			Basket basket, Model model
+			, HttpSession session) {
+		
+		basket.setBasketId((String)session.getAttribute("id"));
+		
+		int check = menuShareFace.insert(basket);
+		logger.info("찜 여부{}", basket);
+		model.addAttribute("check",check);
+		return "jsonView";
+	}
+	
+	@PostMapping("/deletebasket")
+	public String deleteBasket( 
+			Basket basket , Model model
+			, HttpSession session ) {
+		basket.setBasketId((String)session.getAttribute("id"));
+
+		menuShareFace.deleteBasket(basket);
+		
+		return "jsonView";
 		
 	}
 	
