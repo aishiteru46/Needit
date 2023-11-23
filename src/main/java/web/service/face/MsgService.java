@@ -20,6 +20,6 @@ public interface MsgService {
 
 	public Msg getNewRoom(Msg msg);
 
-	public int checkNewRoom(Map<String, Object> map);
+	public Integer checkNewRoom(Map<String, Object> map);
 
 }

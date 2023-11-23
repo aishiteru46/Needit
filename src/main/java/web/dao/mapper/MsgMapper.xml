@@ -6,41 +6,46 @@
   
   <mapper namespace = "web.dao.face.MsgDao">
   
-  <resultMap id="egomap" type="map">
+<resultMap id="egomap" type="map">
     <result property="roomNo" column="ROOM_NO"/>
     <result property="otherUserId" column="OTHER_USER_ID"/>
     <result property="lastMessageTime" column="LAST_MESSAGE_TIME"/>
-    <!-- CLOB 데이터를 String으로 매핑 -->
-    <result property="messagePreview" column="MESSAGE_PREVIEW" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
+    <result property="messagePreview" column="MESSAGE_PREVIEW"/>
     <result property="msgStatus" column="MSG_STATUS"/>
+    <!-- 수정: 상대방의 닉네임을 other_nick_id로 가져옴 -->
+    <result property="otherUserNick" column="OTHER_NICK_ID"/>
 </resultMap>
 
 <select id="selectRoomNo" parameterType="user" resultMap="egomap">
-SELECT 
-    r.ROOM_NO,
-    CASE 
-        WHEN r.ROOM_id1 = #{id} THEN r.ROOM_id2
-        ELSE r.ROOM_id1
-    END AS OTHER_USER_ID,
-    m.POST_DATE AS LAST_MESSAGE_TIME,
-    m.CONTENT AS MESSAGE_PREVIEW,
-    CASE
-        WHEN EXISTS (
-            SELECT 1
-            FROM msgTB
-            WHERE RECEIVER_ID = #{id} AND MSG_STATUS = 0 AND ROOM_NO = r.ROOM_NO
-        )
-        THEN 1
-        ELSE 0
-    END AS MSG_STATUS
-FROM 
-    roomTB r
-JOIN 
-    (SELECT ROOM_NO, WRITER_ID, RECEIVER_ID, CONTENT, POST_DATE,
-            ROW_NUMBER() OVER (PARTITION BY ROOM_NO ORDER BY POST_DATE DESC) AS rn
-     FROM msgTB) m ON r.ROOM_NO = m.ROOM_NO AND m.rn = 1
-WHERE 
-    #{id} IN (r.room_id1, r.room_id2)
+    SELECT 
+        r.ROOM_NO,
+        CASE 
+            WHEN r.ROOM_id1 = #{id} THEN r.ROOM_id2
+            ELSE r.ROOM_id1
+        END AS OTHER_USER_ID,
+        m.POST_DATE AS LAST_MESSAGE_TIME,
+        m.CONTENT AS MESSAGE_PREVIEW,
+        CASE
+            WHEN EXISTS (
+                SELECT 1
+                FROM msgTB
+                WHERE RECEIVER_ID = #{id} AND MSG_STATUS = 0 AND ROOM_NO = r.ROOM_NO
+            )
+            THEN 1
+            ELSE 0
+        END AS MSG_STATUS,
+        u.NICK AS OTHER_NICK_ID
+    FROM 
+        roomTB r
+    JOIN 
+        (SELECT ROOM_NO, WRITER_ID, RECEIVER_ID, CONTENT, POST_DATE,
+                ROW_NUMBER() OVER (PARTITION BY ROOM_NO ORDER BY POST_DATE DESC) AS rn
+         FROM msgTB) m ON r.ROOM_NO = m.ROOM_NO AND m.rn = 1
+    JOIN
+        usertb u ON u.id = CASE WHEN r.ROOM_id1 = #{id} THEN r.ROOM_id2 ELSE r.ROOM_id1 END
+    WHERE 
+        #{id} IN (r.room_id1, r.room_id2)
+    ORDER BY LAST_MESSAGE_TIME DESC
 </select>
     
 <select id="selectByRoomNo" parameterType="Msg">

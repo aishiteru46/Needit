@@ -53,8 +53,9 @@ public class MsgController {
 			map.put("newCate",cate);
 			map.put("newWriterId", user.getId());
 			
-			Integer checkRoom = msgService.checkNewRoom(map);
-			if(checkRoom != 0) {
+			Integer checkRoom = 0;
+			if(msgService.checkNewRoom(map) != null) {
+				checkRoom = msgService.checkNewRoom(map);
 				model.addAttribute("targetRoomNo",checkRoom);
 			}else {
 				ObjectMapper objectMapper = new ObjectMapper(); // 객체 간의 매핑을 도와준다
