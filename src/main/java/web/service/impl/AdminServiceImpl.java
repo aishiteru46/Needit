@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dao.face.AdminDao;
 import web.dto.Banner;
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.User;
 import web.service.face.AdminService;
@@ -122,6 +123,36 @@ public class AdminServiceImpl implements AdminService {
 	public List<Map<String, Object>> emailList() {
 		
 		return adminDao.selectAllEmail();
+	}
+
+	//게시글 신고 목록
+	@Override
+	public List<Map<String, Object>> getBoardReportInfo() {
+
+		return adminDao.selectReportBoard();
+	}
+	
+	//댓글 신고 목록
+	@Override
+	public List<Map<String, Object>> getCmtReportInfo() {
+
+		return adminDao.selectCmtBoard();
+	}
+	
+	//게시글 신고 삭제
+	@Override
+	public void deleteBoardCmt(Board board, Comment cmt) {
+		//게시글 삭제를 위해 필요한 것들(FK)
+		adminDao.deleteFile(board);
+		adminDao.deleteCmt(board);
+		adminDao.deleteLike(board);
+		adminDao.deleteBasket(board);
+		
+		//게시글 삭제
+		adminDao.deleteBoard(board);
+		
+		//댓글 삭제
+		adminDao.deleteComment(cmt);
 	}
 	
 	

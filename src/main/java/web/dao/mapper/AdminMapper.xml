@@ -48,6 +48,65 @@
 		FROM usertb
 		ORDER BY email
 	</select>
+	
+	<!-- 신고된 게시글 목록 -->
+	<select id="selectReportBoard" resultType="Map">
+		SELECT 
+		    b.board_no,
+		    b.title, 
+		    b.writer_id, 
+		    b.write_date,
+		    r.report_no, 
+		    r.board_no,
+		    r.report_id, 
+		    r.report_type, 
+		    r.report_chk, 
+			TO_CHAR(r.report_date, 'YYYY-MM-DD') AS REPORT_DATE
+		FROM 
+		    board b
+		INNER JOIN 
+		    report r ON b.board_no = r.board_no
+	</select>
+	
+	<!-- 신고된 댓글 목록 -->
+<!-- 	<select id="selectCmtBoard"> -->
+		
+<!-- 	</select> -->
+	
+	<!-- 사진 삭제 -->
+	<delete id="deleteFile" parameterType="Board">
+		DELETE FROM filetb
+		WHERE board_no = #{boardNo}
+	</delete>
+
+	<!-- 게시글에 있는 댓글 삭제 -->
+	<delete id="deleteCmt" parameterType="Board">
+		DELETE FROM commenttb
+		WHERE board_no = #{boardNo}
+	</delete>
+	
+	<!-- 장바구니 삭제 -->
+	<delete id="deleteBasket" parameterType="Board">
+		DELETE FROM basket
+		WHERE board_no = #{boardNo}
+	</delete>
+
+	<!-- 추천 삭제 -->
+	<delete id="deleteLike" parameterType="Board">
+		DELETE FROM liketb
+		WHERE board_no = #{boardNo}
+	</delete>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="Board">
+		DELETE FROM board
+		WHERE board_no = #{boardNo}
+	</delete>
+	
+	<delete id="deleteComment" parameterType="Comment">
+		DELETE FROM commenttb
+		WHERE cmt_no = #{cmtNo}
+	</delete>
 
 
 </mapper>

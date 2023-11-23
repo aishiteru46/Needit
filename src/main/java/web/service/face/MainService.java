@@ -60,14 +60,7 @@ public interface MainService {
 	 * @param query - 검색값
 	 * @return 페이징 계산
 	 */
-	public Paging getPaging(Paging param, String query);
+	public List<Map<String, Object>> list(Paging paging);
 
-	/**
-	 * 검색용
-	 * @param paging - 페이징
-	 * @return 검색결과
-	 */
-	public List<Board> getList(Paging paging);
-	
 
 }

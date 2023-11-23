@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Banner;
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.User;
 
 public interface AdminService {
@@ -48,6 +49,32 @@ public interface AdminService {
 	 * @return 이메일 목록
 	 */
 	public List<Map<String, Object>> emailList();
+
+	/**
+	 * 게시글 신고 목록 조회
+	 * 
+	 * @return 게시글 신고 목록
+	 */
+	public List<Map<String, Object>> getBoardReportInfo();
+
+	/**
+	 * 댓글 신고 목록 조회
+	 * 
+	 * @return 댓글 신고 목록
+	 */
+	public List<Map<String, Object>> getCmtReportInfo();
+
+	/**
+	 * 게시글, 댓글을 삭제한다
+	 * 
+	 * @param board - 게시글 정보 객체
+	 */
+	public void deleteBoardCmt(Board board, Comment cmt);
+
+
+
+	
+
 
 
 }

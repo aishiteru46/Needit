@@ -66,24 +66,18 @@ public class MainServiceImpl implements MainService {
 		
 		int totalCount = mainDao.selectCntAll(param);
 		
-		Paging paging = new Paging(param.getMenu(), param.getCate(), totalCount, param.getCurPage(),10,10);
+		Paging paging = new Paging(param.getMenu(), param.getCate(), totalCount, param.getCurPage(),12,10);
 		
 		return paging;
 	}
-	
-	
-	
-	@Override
-	public Paging getPaging(Paging param, String query) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	public List<Board> getList(Paging paging) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Map<String, Object>> list(Paging paging) {
+		return mainDao.selectAll(paging);
 	}
+	
+	
+	
 
 	
 }
