@@ -59,6 +59,29 @@ public class MenuPleaseController {
    
  	
  	
+ 	//게시판 목록 리스트타입 띄우기
+ 	@GetMapping("/listType")
+ 	public String listType( Paging param, Model model ) {
+ 		logger.info("param : {}", param);
+ 		
+ 		//페이징 계산
+ 		Paging paging = menuPleaseService.getPaging(param);
+ 		
+ 		//게시글 목록 조회
+ 		List<Map<String, Object>> list = menuPleaseService.list(paging); 
+ 		model.addAttribute("paging", paging);
+ 		logger.info("list: {}", list);
+ 		model.addAttribute("list", list);
+ 		
+ 		for (Map<String, Object> map : list) {
+ 		    logger.info("CATE value in list: {}", map.get("CATE"));
+ 		}
+ 		
+ 		return "menu/please/listType";
+ 	}
+ 	
+ 	
+ 	
  	//게시판 상세 조회
 	@RequestMapping("/view")
 	public String view( Board board, Model model, HttpSession session ) {
@@ -195,7 +218,7 @@ public class MenuPleaseController {
 	   
 	   menuPleaseService.delete(deleteParam);
 	   
-	   return "redirect:./list?menu=" + deleteParam.getMenu();
+	   return "redirect:./list?menu=" + deleteParam.getMenu() + "&cate=" + deleteParam.getCate();
    }
    
    
@@ -224,7 +247,7 @@ public class MenuPleaseController {
  	public String viewComment(Comment commentParam, Model model) {
  		logger.info("commentParam: {}", commentParam);
  		
- 		List<Comment> commentList = menuPleaseService.viewComment(commentParam);
+ 		List<Map<String, Object>> commentList = menuPleaseService.viewComment(commentParam);
  		
  		model.addAttribute("commentList", commentList);
  		
@@ -239,12 +262,8 @@ public class MenuPleaseController {
  		menuPleaseService.commentInsert(commentParam);
  		
  		return "redirect:/please/view?boardNo=" + commentParam.getBoardNo();
-	   
- 		
  	}
    
-   
- 	
  	
  	//댓글 삭제
  	@GetMapping("/comment/delete")
@@ -258,6 +277,16 @@ public class MenuPleaseController {
    
    
 
+ 	//대댓글
+ 	@RequestMapping("/comment/reply")
+ 	public String reply(Comment commentReply) {
+ 		
+ 		menuPleaseService.commentReplyInsert(commentReply);
+ 		
+
+ 		return "redirect:/please/view?boardNo=" + commentReply.getBoardNo();
+ 	}
+ 	
    
    
    

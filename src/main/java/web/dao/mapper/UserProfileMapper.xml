@@ -51,6 +51,12 @@
 	    VALUES( #{id}, #{profileImgno}, #{originName}, #{storedName}, #{thumbnailName}, #{fileType} )
 	</insert>
 
+	<!-- 회원프로필사진 삭제 -->
+	<delete id="deleteImg" parameterType="UserFile">
+		DELETE FROM user_file
+		where id = #{id}
+	
+	</delete>
 
 	<!-- 유저프로필사진 조회 -->
 	<select id="selectImg" resultType="UserFile" parameterType="String">
@@ -58,6 +64,10 @@
 		FROM user_file
         WHERE id = #{userId}
 	</select>
+	
+	
+	
+	
 	
 	<!-- 추천수 조회 -->
 	<select id="selectLikeByBoardNo" resultType="int" parameterType="User">
@@ -132,16 +142,6 @@
 	</update>
 	
 	
-	<!-- 회원프로필사진 삭제 -->
-	<update id="deleteImg" parameterType="User">
-		UPDATE usertb
-		SET 
-			ORIGIN_NAME = NULL,
-		    STORED_NAME = NULL,
-		    THUMBNAIL_NAME = NULL,
-		    FILE_TYPE = NULL
-		WHERE id = #{id}
-	</update>
 	
 	
 	<update id="updateRentStatus" parameterType="Rent">
@@ -218,6 +218,8 @@
 		 	b.menu
 		FROM commenttb c
 		LEFT JOIN board b ON c.board_no = b.board_no
+		
+		WHERE c.writer_id = #{writerId}
 		ORDER BY cmt_no DESC
 	
 	</select>

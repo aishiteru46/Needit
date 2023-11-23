@@ -172,7 +172,7 @@ public interface MenuPleaseDao {
 	 * @param commentParam
 	 * @return
 	 */
-	public List<Comment> selectAllComment(Comment commentParam);
+	public List<Map<String, Object>> selectAllComment(Comment commentParam);
 
 
 	/**
@@ -181,6 +181,13 @@ public interface MenuPleaseDao {
 	 * @param commnetDelete
 	 */
 	public void deleteComment(Comment commnetDelete);
+
+
+	/**
+	 * 
+	 * @param commentReply
+	 */
+	public void insertCommentReply(Comment commentReply);
 
 	
 	
