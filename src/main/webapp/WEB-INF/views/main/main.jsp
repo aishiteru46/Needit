@@ -11,37 +11,48 @@
 	--imgMargin : 3.5px 0px -2px 2.6px;
 }
 
+/* selectBox */
+#mainSelectBox{
+    width: 89px;
+    height: 40px;
+	float: right;
+    position: absolute;
+    margin-left: -92px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
 /* 검색 */ 
 #MainSearchDiv {
-	margin-left: 169px;
-	margin-top: 3em;
-	margin-bottom: -10px;
+    position: absolute;
+    margin-top: -37px;
+    margin-left: 800px;
 }
-.search-container {
-	position: relative;
-	display: inline-block;
+#MainSearchDiv1{
+    position: absolute;
+    margin-top: -57px;
+    margin-left: 780px;
 }
 /* 검색input */
 #MainSearch {
-	width: 800px;
-	height: 40px;
-	border: 1px solid #ccc;
-	border-right: none;
-	border-radius: 5px;
+    position: inherit;
+    width: 355px;
+    border: 1px solid #ccc;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 /* 검색버튼 */
 #MainBtnSearch {
-	height: 40px;
-	position: absolute;
-	top: 0;
-	right: 0;
-	border: none;
-	border-top-right-radius: 5px; 
-	border-bottom-right-radius: 5px; 
+    position: inherit;
+    margin-left: -7px;
+    border: 1px solid #ccc;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
-
-
-
+/* 검색버튼 focus 없애기 */
+#MainSearch:focus, #MainBtnSearch:focus{
+	outline: none;
+}
 /* 썸네일 div */
 #Thumbnail{
 	border:1px solid #ccc;
@@ -284,16 +295,35 @@
 <!-- <div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div> -->
 <!-- </button> -->
 
+<c:if test="${not empty isLogin }">
 <!-- 검색 -->
 <div id="MainSearchDiv">
-  <form action="/main" method="get" id="searchForm">
-    <div class="search-container">
-      <input type="text" id="MainSearch" value="${param.search}" placeholder="필요한 것을 검색해보세요." />
-      <button id="MainBtnSearch" type="submit">검색</button>
-    </div>
+  <form action="/mainSearch" method="get" id="searchForm">
+    <div>
+    	<div>
+			<input type="text" id="MainSearch" value="${param.search}" placeholder=" 필요한 것을 검색해보세요." />
+			<button id="MainBtnSearch">검색</button>
+		</div>
+	</div>
   </form>
 </div>
+</c:if>
 
+<c:if test="${empty isLogin }">
+<!-- 검색 -->
+<div id="MainSearchDiv1">
+  <form action="/mainSearch" method="get" id="searchForm">
+    <div>
+    	<div>
+			<input type="text" id="MainSearch" value="${param.search}" placeholder=" 필요한 것을 검색해보세요." />
+			<button id="MainBtnSearch">검색</button>
+		</div>
+	</div>
+  </form>
+</div>
+</c:if>
+
+<div style="margin-bottom: 82px;"></div>
 <!-- 썸네일 -->
 <!-- 저장 경로를 img폴더로 지정, src에 storedname EL문으로 불러오기 -->
 <div id="Thumbnail">

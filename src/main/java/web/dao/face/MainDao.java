@@ -53,6 +53,13 @@ public interface MainDao {
 	 * @return 글 제목, 글 내용
 	 */
 	public List<Map<String, Object>> selectLikeCommuBoard();
+
+	/**
+	 * 검색결과를 페이징 해서 불러온다
+	 * @param paging- 페이징
+	 * @return 검색결과 리스트
+	 */
+	public List<Map<String, Object>> selectAll(Paging paging);
 	
 
 }

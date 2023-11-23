@@ -5,6 +5,7 @@ import java.util.Map;
 
 import web.dto.Banner;
 import web.dto.Board;
+import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.User;
 import web.util.Paging;
@@ -59,6 +60,63 @@ public interface AdminDao {
 	 * @return 이메일 목록
 	 */
 	public List<Map<String, Object>> selectAllEmail();
+
+	/**
+	 * 신고된 게시글 목록을 불러온다
+	 * 
+	 * @return 신고된 게시글 목록
+	 */
+	public List<Map<String, Object>> selectReportBoard();
+
+	/**
+	 * 신고된 댓글 목록을 불러온다
+	 * 
+	 * @return 신고된 댓글 목록
+	 */
+	public List<Map<String, Object>> selectCmtBoard();
+
+	/**
+	 * 사진 삭제
+	 * @param board - 사진 삭제
+	 */
+	public void deleteFile(Board board);
+	
+	/**
+	 * 댓글 삭제
+	 * 
+	 * @param board - 댓글 삭제
+	 */
+	public void deleteCmt(Board board);
+
+	/**
+	 * 장바구니 삭제
+	 * 
+	 * @param board - 장바구니 삭제
+	 */
+	public void deleteBasket(Board board);
+	
+	/**
+	 * 추천 삭제
+	 * 
+	 * @param board - 추천 삭제
+	 */
+	public void deleteLike(Board board);
+
+	/**
+	 * 게시글 삭제
+	 * 
+	 * @param board - 추천 삭제
+	 */
+	public void deleteBoard(Board board);
+
+	/**
+	 * 해당 댓글 삭제
+	 * 
+	 * @param cmt - 댓글만 삭제
+	 */
+	public void deleteComment(Comment cmt);
+
+
 	
 
 	
