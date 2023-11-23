@@ -34,7 +34,15 @@ public interface MenuRentService {
 	 * @return 게시글 목록
 	 */
 	public List<Map<String, Object>> list(Paging paging);
-
+	
+	/**
+	 * 게시글 검색
+	 * 
+	 * @param paging
+	 * @return
+	 */
+	public List<Map<String, Object>> searchList(Paging paging);
+	
 	/**
 	 * 게시글 상세보기
 	 * 
@@ -128,6 +136,7 @@ public interface MenuRentService {
 	 * 
 	 */
 	public List<Map<String, Object>> getStatus(Board board);
+
 
 
 

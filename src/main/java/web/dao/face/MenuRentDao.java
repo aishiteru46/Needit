@@ -30,6 +30,14 @@ public interface MenuRentDao {
 	public List<Map<String, Object>> selectAll(Paging paging);
 
 	/**
+	 * 검색요청 목록 조회
+	 * 
+	 * @param paging
+	 * @return
+	 */
+	public List<Map<String, Object>> selectSearch(Paging paging);
+	
+	/**
 	 * 
 	 * 
 	 * @param board
@@ -139,6 +147,7 @@ public interface MenuRentDao {
 	 * @return
 	 */
 	public List<Map<String, Object>> chkRentStatus(Board board);
+
 
 
 

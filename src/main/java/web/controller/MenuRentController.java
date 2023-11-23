@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -64,7 +65,49 @@ public class MenuRentController {
 		return "menu/rent/listType";
 	}
 
-	//게시판 상세 조회
+	//검색한 게시판 목록 그리드타입 띄우기
+	@GetMapping("/search")
+	public String search( Board board, Model model, Paging param ) {
+		logger.info("검색주제 : {}", param.getSelectSub());
+		logger.info("검색어 : {}", param.getSearchText());
+		logger.info("검색한 메뉴 : {}", param.getMenu());
+		logger.info("검색한 카테 : {}", param.getCate());
+		
+		//페이징 계산
+		Paging paging = menuRentService.getPaging(param);
+		logger.info("검색된 게시글 수  : {}", paging.getTotalCount());
+		
+		List<Map<String, Object>> list = menuRentService.searchList(paging);
+		logger.info("검색된 게시글 내용  : {}", list);
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		
+		return "menu/rent/searchList";
+	}
+	
+	//검색한 게시판 목록 리스트타입 띄우기
+	@GetMapping("/searchType")
+	public String searchType( Board board, Model model, Paging param ) {
+		logger.info("검색주제 : {}", param.getSelectSub());
+		logger.info("검색어 : {}", param.getSearchText());
+		logger.info("검색한 메뉴 : {}", param.getMenu());
+		logger.info("검색한 카테 : {}", param.getCate());
+		
+		//페이징 계산
+		Paging paging = menuRentService.getPaging(param);
+		logger.info("검색된 게시글 수  : {}", paging.getTotalCount());
+		
+		List<Map<String, Object>> list = menuRentService.searchList(paging);
+		logger.info("검색된 게시글 내용  : {}", list);
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		
+		return "menu/rent/searchType";
+	}
+	
+	//게시글 상세 조회
 	@GetMapping("/view")
 	public String view( Board board, Model model, HttpSession session ) {
 

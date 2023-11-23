@@ -11,7 +11,7 @@
 <style type="text/css">
 .write {
 	float: right;
-    padding-top: 18px;
+	padding-top: 18px;
 }
 .row {
     text-align: center;
@@ -201,7 +201,7 @@
 }
 #selectSub:focus
 ,#searchText:focus {
- 	outline: none;
+	outline: none;
 }
 #rentText1
 ,.search-container
@@ -219,7 +219,6 @@ form {
     margin-left: -20px;
 }
 </style>
-
 <div class="container">
 
 <c:forEach  var="list" items="${list }" begin="0" end="0">
@@ -261,11 +260,11 @@ form {
 </div>
 
 <div class="write">
-	
+
 	<!-- 그리드타입,리스트타입 선택 -->
 	<div id="viewType">
-		<a type="button" href="/rent/list?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
-		<a type="button" href="/rent/listType?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
+		<a type="button" href="/rent/search?selectSub=${param.selectSub}&searchText=${param.searchText}&menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
+		<a type="button" href="/rent/searchType?selectSub=${param.selectSub}&searchText=${param.searchText}&menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
 	</div>
 
 	<c:if test="${not empty isLogin and isLogin }">
@@ -326,8 +325,7 @@ form {
   </c:if>
 </c:forEach>
 
-<small class="float-end" style=" margin-right: 8px; margin-top: -10px; margin-bottom: 20px;">total : ${paging.totalCount }</small>
-
+<small class="float-end" style="margin-right: 8px; margin-top: -10px;">total : ${paging.totalCount }</small>
 
 </div> <!-- .container -->
 <br>
