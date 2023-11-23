@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <style type="text/css">
 /* footer 이용약관들 밑줄제거 글씨 까만색 */
@@ -17,8 +19,24 @@
     text-align: center;
     display: inline-block;
     position: absolute;
-    margin-top: -84px;
-    margin-left: 120px;
+	margin-top: -103px;
+    margin-left: 89px;
+	width: 80px;
+	height: 30px;
+	border-radius: 5px;
+	background-color: rgb(255,83,63);
+	border: 0;
+	color: white;
+}
+#footer-report-button1{
+    float: left;
+    font-size: 15px;
+    vertical-align: middle;
+    text-align: center;
+    display: inline-block;
+    position: absolute;
+	margin-top: -83px;
+    margin-left: 108px;
 	width: 80px;
 	height: 30px;
 	border-radius: 5px;
@@ -115,10 +133,20 @@ function downFunction() {
 <div style="font-size: 20px; margin-bottom: 5px;"><strong>상담 시간</strong></div>
 <div style="font-size: 12px;">평일 09:00 - 18:00</div>
 <div style="font-size: 12px; margin-bottom: 12px; display: inline-block;">주말, 공휴일 휴뮤</div>
-<div style="clear: both;"><form action="/admin/chat" method="get"><button id="footer-report-button">1:1 문의</button></form></div>
+<c:if test="${not empty isLogin }">
+	<div style="clear: both;"><form action="/admin/chat" method="get"><button id="footer-report-button1">1:1 문의</button></form></div>
+</c:if>
+<c:if test="${empty isLogin }">
+	<div style="clear: both;"><form action="/admin/chat" method="get"><button id="footer-report-button">1:1 문의</button></form></div>
+</c:if>
 </div>
 
-<span style="float: right; font-size: 10px; color: #ccc; margin-top: -35px; margin-right: 42px;">Copyright ⓒNeedit</span>
+<c:if test="${not empty isLogin }">
+	<span style="float: right; font-size: 10px; color: #ccc; margin-top: -38px; margin-right: 44px;">Copyright ⓒNeedit</span>
+</c:if>
+<c:if test="${empty isLogin }">
+	<span style="float: right; font-size: 10px; color: #ccc; margin-top: -75px; margin-right: 42px;">Copyright ⓒNeedit</span>
+</c:if>
 </div><!-- #fooeterStart -->
 <div style="margin-bottom: 20px;"></div>
 

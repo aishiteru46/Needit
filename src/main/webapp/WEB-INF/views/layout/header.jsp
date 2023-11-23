@@ -80,6 +80,7 @@ $(document).ready(function(){
 	            dropdownContent.hide();
 	        }
 	    });	
+	
 });
 
 
@@ -195,7 +196,7 @@ border-bottom: 10px solid #ff533f;
 
 	<div class="float-end" style="margin-top: 30px; width: 90px; height: 40px; text-align: right; ">
 		<%-- 비로그인 --%>
-		<c:if test="${empty isLogin }">
+		<c:if test="${not isLogin }">
 		
 			<div class="dropdown">
 				<img id="dropdownBtn" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
@@ -227,7 +228,7 @@ border-bottom: 10px solid #ff533f;
 						<div class="dropdown-content">
 							<div class="dropdown-title">${nick }</div>
 							<a href="/admin">관리자 페이지</a>
-			                <a href="#">내 채팅</a>
+			                <a href="/message/list">내 채팅</a>
 			                <a href="#">빌린거/빌려준거</a>
 			                <a href="#">장바구니</a>
 			                <a href="#">고객센터</a>
@@ -254,25 +255,6 @@ border-bottom: 10px solid #ff533f;
 			</div>
             </c:otherwise>
         </c:choose>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-			
-	
-			
-			
-			
-			
-			
-		
 			</c:if>
 		</div>
 	<div class=" text-center mx-auto p-4" style="width: 1200px;" >

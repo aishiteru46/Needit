@@ -154,8 +154,7 @@
 	
 	
 	
-	
-	
+	<!-- 수정 -->
 	<update id="update" parameterType="Board">
 		UPDATE board
 		<set>
@@ -170,7 +169,7 @@
 		</where>
 	</update>
 	
-	
+	<!--삭제 -->
 	<delete id="deleteFiles" parameterType="int[]">
 		DELETE filetb
 		<where>
@@ -196,24 +195,37 @@
 	</delete>
 	
  	
+	<!-- 댓글 삽입 -->
  	<insert id="insertComment" parameterType="Comment">
  		INSERT INTO commentTB (cmt_no, board_no, writer_id, writer_nick, content)
  		VALUES (commentTb_seq.nextval, #{boardNo}, #{writerId}, #{writerNick}, #{content} )
  	</insert>
  	
  	
- 	<select id="selectAllComment" resultType="Comment" parameterType="Comment">
- 		SELECT cmt_no, content, board_no, writer_id, writer_nick, write_date
- 		FROM commentTb
- 		<where>
- 			board_no = #{boardNo}
- 		</where>
+	<!--  댓글 조회 -->
+ 	<select id="selectAllComment" resultType="Map" parameterType="Comment">
+ 		SELECT * FROM (
+ 		
+ 			SELECT rownum rnum, B.*, uf.THUMBNAIL_NAME
+ 			FROM (
+ 				SELECT
+ 					cmt_no, board_no, writer_id, writer_nick, content,
+ 					CAST(write_date AS DATE) AS "writeDate"
+ 				FROM commentTb
+		        WHERE board_no = #{boardNo}
+		        ORDER BY write_date DESC
+ 			) B
+ 			LEFT JOIN user_file uf ON B.writer_id = uf.id
+ 		)
+ 		ORDER BY rnum
  	</select>
  	
+	<!--  댓글 삭제 -->
  	<delete id="deleteComment" parameterType="Comment">
  		DELETE commentTb
  		<where>
- 			cmt_no = #{cmtNo}
+ 			AND cmt_no = #{cmtNo}
+ 			AND board_no = #{boardNo}
  		</where>
  	</delete>
   

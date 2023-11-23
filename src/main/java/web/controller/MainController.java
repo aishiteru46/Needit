@@ -75,37 +75,29 @@ public class MainController {
 	
 	
 	//검색
-//	@PostMapping("/search")
-//	   public String searchProc( 
-//	         Model model,
-//	         Paging param, 
-//	         @RequestParam(value = "query", required = false) String query 
-//	         ) {
-//	      logger.info("query : {}", query);
-//	      logger.info("param : {}", param);
-//	      
-//	      Paging paging = mainService.getPaging(param, query);
-//	      
-//	      boolean hasData = false;
-//	      if( paging.getTotalCount() > 0 ) {
-//	         hasData = true; 
-//	      }
-//	      logger.info("paging : {}", paging);
-//	      logger.info("hasData : {}", hasData);
-//	      
-//	      List<Board> list = mainService.getList(paging);
-//	      
-//	      logger.info("list : {}", list);
-//	      
-//	      model.addAttribute("paging", paging);
-//	      model.addAttribute("hasData", hasData);
-//	      model.addAttribute("list", list);
-//	      
-//	      return "main/result";
-//	   }
+	@PostMapping("/list")
+	public String list( Paging param, Model model ) {
+		logger.info("param : {}", param);
+		
+		//페이징 계산
+		Paging paging = mainService.getPaging(param);
+		
+		//게시글 목록 조회
+		List<Map<String, Object>> list = mainService.list(paging); 
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		
+		return "menu/rent/list";
+	}
 	
-	
+	//전체검색 목록
+    @GetMapping("/mainSearch")
+    public String mainSearch() {
+    	return "main/mainSearch";
+    }
     
+	
+	
     
 	//내 주변지도
 	@GetMapping("/admin/mainpageMap")

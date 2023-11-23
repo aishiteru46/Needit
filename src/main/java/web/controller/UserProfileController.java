@@ -74,8 +74,6 @@ public class UserProfileController {
 		// 세션에서 사용자 ID 가져오기
         String userId = (String) session.getAttribute("id");
         
-        // 사용자의 프로필 이미지 정보 가져오기
-        UserFile  img = userProfileService.imgSelect(userId);
         
         //추천수 조회
         int likeCount = userProfileService.cntLike(user);
@@ -92,8 +90,11 @@ public class UserProfileController {
         logger.info("reudd{}",userGradeResult);
         model.addAttribute("userGrade",userGradeResult.getGrade());
         
-        //모델에 이미지 정보 추가
+        // 사용자의 프로필 이미지 정보 가져오기
+        UserFile  img = userProfileService.imgSelect(userId);
+        logger.info("이미지 {} : ", img);
         model.addAttribute("img", img);
+        //모델에 이미지 정보 추가
 
         //--------------------------------------------------------------
         //이걸로 user테이블 정보 다 가져올게요
@@ -210,11 +211,13 @@ public class UserProfileController {
 
 	//프로필사진 삭제
 	@PostMapping("/imgdelete")
-	public String imgDelete(UserFile userFile) {
-		
+	public String imgDelete(UserFile userFile, HttpSession session) {
+		logger.info("userFile 프로필삭제:{}", userFile);
+		userFile.setId((String) session.getAttribute("id"));
 		userProfileService.imgDelete(userFile);
 		
-		return "/profile";
+		
+		return "jsonView";
 	}
 	
 	//자기소개

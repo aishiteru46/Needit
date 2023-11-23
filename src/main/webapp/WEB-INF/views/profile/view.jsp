@@ -31,6 +31,40 @@ function setThumbnail(event) {
 }// .setThumbnail() End
 
 
+
+//프로필사진바로삭제
+$(function(){
+	$("#deleteBtn").click(function(){
+ 		var deleteBtn = $(this);
+ 		$.ajax({
+ 	         type: "post"
+ 	         , url: "/profile/imgdelete"
+ 	         , data: {
+ 	        	 
+ 	        	originName : ${img.originName}
+ 	        	,storedName : ${img.storedName}
+ 	        	,thumbnailName : ${img.thumbnailName}
+ 	        	,fileType : ${img.fileType}
+ 	        	 
+ 	        	 
+ 	         }
+ 	         , dataType: "json"
+ 	         , success: function( res ) {  
+
+ 	            console.log("AJAX 성공")
+
+ 	         }
+	         , error: function() {
+ 	            console.log("AJAX 실패")
+
+ 	         }
+ 	      })
+ })
+ })
+
+
+
+
 //예약 승인 
 $(function(){
 	$(".confirmBtn").click(function(){
@@ -196,7 +230,7 @@ ${userGrade }
 
 <div class="panel panel-default">
    <div class="panel-body">
-      <form action="./imgupdate" method="post" enctype="multipart/form-data">
+      <form id="uploadForm" action="./imgupdate" method="post" enctype="multipart/form-data">
          <input type="hidden" name="id" value="${id}"/>
          <table class="table table-bordered" style="text-align: center; border: 1px solid #dddddd;">
             <tr>
@@ -224,18 +258,33 @@ ${userGrade }
                <td style="width: 150px; vertical-align: middle;">사진 업로드</td>
                <td colspan="2">
                   <span class="btn btn-default">
-                     이미지를 업로드하세요.<input type="file" name="file" onchange="setThumbnail(event);"/>
+                     이미지를 업로드하세요.<input type="file" name="file" id="thumbnailFile" onchange="setThumbnail(event);"/>
                   </span>
                </td>            
             </tr>      
             <tr>
-               <td colspan="2" style="text-align: left;">
+            	<td colspan="2" style="text-align: left;">
+            	
                	<!-- 썸네일 미리보기를 담을 div 추가 -->
                	<div id="thumbnail_container"></div>
+               	
                   <input type="submit" class="btn btn-primary btn-sm pull-right" value="등록"/>
                    <!-- 이미지 삭제 버튼 -->
-                   <button type="button" class="btn btn-danger btn-sm pull-right" onclick="deleteImg()">이미지 삭제</button>
+                   <button type="button" class="btn btn-danger btn-sm pull-right" id="deleteBtn">이미지 삭제</button>
                </td>
+<!--                <td colspan="2" style="text-align: left;"> -->
+<!--                	썸네일 미리보기를 담을 div 추가 -->
+<!--                	<div id="thumbnail_container"></div> -->
+<%--                   등록된 이미지가 있을 때는 삭제 버튼 보이기 --%>
+<%--                   <c:if test="${not empty img.thumbnailName}"> --%>
+<!--                      <button type="button" class="btn btn-danger btn-sm pull-right deleteBtn" onclick="deleteImg()">이미지 삭제</button> -->
+<%--                   </c:if> --%>
+
+<%--                   등록된 이미지가 없을 때는 등록 버튼 보이기 --%>
+<%--                   <c:if test="${empty img.thumbnailName}"> --%>
+<!--                      <input type="submit" class="btn btn-primary btn-sm pull-right insertBtn" value="등록"/> -->
+<%--                   </c:if> --%>
+<!--                </td> -->
                
             </tr>
          </table>
@@ -246,29 +295,11 @@ ${userGrade }
 </div>
 
 
-<script>
-    // 이미지 삭제 함수
-    function deleteImg() {
-        if (confirm('이미지를 삭제하시겠습니까?')) {
-            // Ajax를 이용하여 서버에 이미지 삭제 요청을 보냅니다.
-            var xhr = new XMLHttpRequest();
-            
-            // 아래 URL은 서버 측의 이미지 삭제를 처리하는 엔드포인트로 변경해야 합니다.
-            var url = "./imgdelete";
-            
-            xhr.open("POST", url, true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            
-            // 여기에서 필요한 경우에 따라 데이터를 전송합니다.
-            var formData = "id=" + encodeURIComponent(document.getElementById("id").value);
-            xhr.send(formData);
 
-            // 이미지를 화면에서 감추는 부분
-            var thumbnailContainer = document.getElementById("thumbnail_container");
-            thumbnailContainer.innerHTML = ""; // 썸네일을 비우거나 다른 방식으로 감추세요.
-        }
-    }
-</script>
+
+
+
+
 
 <hr>
 
@@ -365,7 +396,7 @@ function confirmAndSubmit(userId) {
 	
 </c:forEach>
 </table>
-		$
+		
 <hr>
 
 <h1>빌린 예약 목록</h1>
@@ -401,6 +432,11 @@ function confirmAndSubmit(userId) {
 <h1>내가 쓴 글</h1>
 
 <table id="boardTable">
+	<tr>
+		<th>게시글 번호</th>
+		<th>제목</th>
+		<th>날짜</th>
+	</tr>
 <c:forEach items="${board }" var="board" begin="0" end="10">
 
 	<tr>
@@ -431,8 +467,13 @@ function confirmAndSubmit(userId) {
 <h1>내가 쓴 댓글</h1>
 
 <table id="commentTable">
+	<tr>
+		<th>댓글 번호</th>
+		<th>내용</th>
+		<th>날짜</th>
+	</tr>
+	
 <c:forEach items="${comment }" var="comment" begin="0" end="10">
-
 	<tr>
 		<td>${comment.CMT_NO }</td>
 		<td>
@@ -455,9 +496,7 @@ function confirmAndSubmit(userId) {
 </table>
 
 
-<hr>
 
-<h1>회원리뷰</h1>
 
 
 

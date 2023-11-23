@@ -121,5 +121,15 @@
 	)
     </select>
  	
+ 	<!-- 해당 메뉴 게시글 조회 -->
+	<select id="selectAll" resultType="Map" parameterType="web.util.Paging">
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				<include refid="selectBoard"/>
+				ORDER BY board_no DESC
+          	) B
+      	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
+	</select>
+ 	
  	
  </mapper>

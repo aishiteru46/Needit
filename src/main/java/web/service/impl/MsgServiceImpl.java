@@ -129,7 +129,7 @@ public class MsgServiceImpl implements MsgService {
 	}
 
 	@Override
-	public int checkNewRoom(Map<String, Object> map) {
+	public Integer checkNewRoom(Map<String, Object> map) {
 		return msgDao.selectNewRoomByMap(map);
 	}
 

@@ -7,7 +7,7 @@
 <style>
 @import url('https://fonts.googleapis.com/css?family=Questrial&display=swap');
 
-.modal {
+#rentModal {
 	--bs-modal-width: 560px;
 }
 

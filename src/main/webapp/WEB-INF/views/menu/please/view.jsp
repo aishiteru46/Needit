@@ -7,6 +7,8 @@
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1b5f231240cb73d46a6f0aa5b0d4c5e1&libraries=services"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 <!-- HEADER -->    
 <c:import url="/WEB-INF/views/layout/header.jsp" />    
 <style type="text/css">
@@ -25,8 +27,46 @@
 	margin: 0 auto;
 }
 
+#del {
+	border: none;
+	border-radius: 10px;
+}
+
 .file {
     color: blue;
+}
+.cmtWriter {
+	display: inline-block;
+    text-align: center;
+    width: 42px;
+    border-radius: 10px;
+    color: white; 
+    background-color: rgb(255,83,63);
+    font-size: 11px;
+    margin-left: 4px;
+}
+h5 {
+	font-size: 15px;
+
+}
+h6 {
+    font-weight: bolder;
+}
+.bi-suit-heart-fill::before {
+    color: red;
+    content: "\f59d";
+}
+.bi-suit-heart::before {
+    color: red;
+    content: "\f59e";
+}
+#likeNo {
+	display:inline;
+	color: blue;
+}
+
+.table td {
+	vertical-align: middle;
 }
 </style>
 
@@ -48,31 +88,54 @@ function loadComments() {
                 var commentListHtml = "";
          		
          		const id = '${id}'
+        	    const nick = '${nick}' //세션 닉네임
+
+         		
                 for (var i = 0; i < res.commentList.length; i++) {
                 	
-                    commentListHtml += '<tr data-cmtNo="' + res.commentList[i].cmtNo + '">';
-                    commentListHtml += '<td>' + res.commentList[i].cmtNo + '</td>';
-                    commentListHtml += '<td>' + res.commentList[i].writerNick + '</td>';
-                    commentListHtml += '<td class="text-start">' + res.commentList[i].content + '</td>';
-                    commentListHtml += '<td>' + formatDate(new Date(res.commentList[i].writeDate)) + '</td>';
-                    commentListHtml += '<td>';
-                    if( id && id == res.commentList[i].writerId ) {
-	                    commentListHtml += '	<button class="btn btn-danger btn-xs" onclick="deleteComment(' + res.commentList[i].cmtNo + ');">삭제</button>';
-                    }
-                    commentListHtml += '</td>';
-                    commentListHtml += '</tr>';
-                    
-                }
-				
-                // 렌더링된 HTML을 해당 <tbody>에 추가
-                $("#commentList tbody").html(commentListHtml);
-         		
-	         }
-	         , error: function() {
-    	        console.log("댓글창 반응 실패")
-	         }
-	
-	})	
+                	var boardMaster = "${board.writerNick }" //게시글 작성자
+        	        var commentWriter = res.commentList[i].WRITER_NICK//댓글 작성자
+                	
+    	            console.log("res.commentList[i].thumbnailName :" , res.commentList[i].THUMBNAIL_NAME);
+
+                	commentListHtml += '<hr>'; 
+     	            commentListHtml += '<div class="media mb-4">';
+     	            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
+     	            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
+     	            
+     	         	//댓글 작성자 구분 처리                                                                                    
+    	            if (commentWriter === boardMaster && commentWriter === nick) { 
+    	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+    	            } else if (commentWriter === nick) {
+    	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+    	            } else if (commentWriter === boardMaster) {
+    	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter">작성자</div>' + '</h6>';
+    	            } else {
+    	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '</h6>';
+    	            }
+    	            commentListHtml += '    <h5 class="text-start">' + res.commentList[i].CONTENT + '</h5>';
+    	            commentListHtml += '    <p style="font-size: 13px; display: inline-block;">' + formatDate(new Date(res.commentList[i].writeDate)) + '</p>';
+    	            //본인 댓글 삭제가능 처리
+    	            if (id && id == res.commentList[i].WRITER_ID) {
+    	                commentListHtml += '    <button id="del" onclick="deleteComment(' + res.commentList[i].CMT_NO + ');">';
+    	                commentListHtml += '	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">';
+    	                commentListHtml += '	<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>';
+    	                commentListHtml += '	</svg>'
+    	                commentListHtml += '    </button>';
+    	            }
+    	            commentListHtml += '  </div>';
+    	            commentListHtml += '</div>';
+    	        }
+    	
+    	        // 렌더링된 HTML을 추가
+    	        $("#commentList").html(commentListHtml);
+    	
+    	    },
+    	    error: function () {
+    	        console.log("댓글창 반응 실패");
+    	    }
+    	
+    	});	
 	
 	function formatDate(date) {
 	    var curDate = new Date();
@@ -139,6 +202,7 @@ $(()=>{
          		writerId : "${id }",
          		writerNick : "${nick }",
          		menu : "${param.menu }",
+         		cate : "${param.cate }",
          		content : $("#commentContent").val()
          	}
          	, success: function( res ) {
@@ -162,13 +226,13 @@ $(()=>{
 	if(${isLike}) {
 		console.log('추천 이미 함')
 		$("#btnLike")
-			.addClass("btn-warning")
-			.html('추천 취소');
+			.addClass("bi bi-suit-heart-fill")
+			.html('좋아요 취소');
 	} else {
 		console.log('추천 아직 안함')
 		$("#btnLike")
-			.addClass("btn-primary")
-			.html('추천');
+			.addClass("bi bi-suit-heart")
+			.html('좋아요');
 	}// 추천 버튼 End.
 	
 	//추천, 취소 요청Ajax
@@ -185,20 +249,21 @@ $(()=>{
 	
 				if( data.result ) { //추천 성공
 					$("#btnLike")
-					.removeClass("btn-primary")
-					.addClass("btn-warning")
-					.html('추천 취소');
+					.removeClass("bi bi-suit-heart")
+					.addClass("bi bi-suit-heart-fill")
+					.html('좋아요 취소');
 				
 				} else { //추천 취소 성공
 					$("#btnLike")
-					.removeClass("btn-warning")
-					.addClass("btn-primary")
-					.html('추천');
+					.removeClass("bi bi-suit-heart-fill")
+					.addClass("bi bi-suit-heart")
+					.html('좋아요');
 				
 				}
 				
 				//추천수 적용
-				$("#like").html(data.cnt);
+				$("#like")
+				.html('<div id="likeNo">' + data.cnt + '</div>명이 이 게시글을 좋아합니다');
 				
 			}
 			, error: function() {
@@ -206,6 +271,11 @@ $(()=>{
 			}
 		}); //ajax end
 	}); //$("#btnLike").click() End.
+	
+	$("#selfRent").click(function () {
+		alert("작성자 본인은 대여신청이 불가합니다.");
+	});
+	
 	
 }); //jQuery Function End.
 
@@ -241,6 +311,8 @@ $(()=>{
 	var geocoder = new kakao.maps.services.Geocoder();
 	
 	var location = '${board.location}';
+	console.log("게시글 위치", location);
+
 	
 	//주소로 좌표를 검색합니다
 	geocoder.addressSearch( location, function(result, status) {
@@ -290,11 +362,23 @@ $(()=>{
 
 <tr>
 	<td class="table-info">글번호</td><td>${board.boardNo }</td>
-	<td class="table-info">추천수</td><td id="like">${cntLike }</td>
+	
+	<td class="table-info">
+		<c:if test="${isLogin }">
+		<div style="text-align: center;">
+			<div class="btn" id="btnLike"></div>
+		</div>
+		</c:if>
+		<c:if test="${not isLogin }">
+		<div style="text-align: center;">
+			<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><div class="btn" id="btnLike"></div></a>
+		</div>
+		</c:if>
+	</td><td id="like"><div id="likeNo">${cntLike }</div>명이 이 게시글을 좋아합니다</td>
 </tr>
 <tr>
-	<td class="table-info">아이디</td><td>${board.writerId }</td>
 	<td class="table-info">닉네임</td><td>${board.writerNick }</td>
+	<td class="table-info">가격</td><td><fmt:formatNumber value="${board.price }" pattern="#,###"/>원</td>
 </tr>
 <tr>
 	<td class="table-info">조회수</td><td>${board.hit }</td>
@@ -312,10 +396,9 @@ $(()=>{
 		</c:otherwise>
 	</c:choose>
 	</td>
-	
 </tr>
 <tr>
-	<td class="table-info">제목</td><td colspan="3">${board.title }</td>
+	<td class="table-info">제목</td><td>${board.title }</td>
 </tr>
 
 <tr>
@@ -327,7 +410,6 @@ $(()=>{
 	</td>
 </tr>
 
-
 <tr>
 	<td class="table-info" colspan="4">본문</td>
 </tr>
@@ -337,7 +419,6 @@ $(()=>{
 		<div class="content">
 		${board.content }
 		</div>
-		
 	</td>
 </tr>
 
@@ -347,68 +428,72 @@ $(()=>{
 <div id="map" style="width:350px; height:350px;"></div><br>
 
 <%-- 추천버튼 --%>
-<div style="text-align: center;">
-		<button class="btn" id="btnLike"></button>
-</div><br>
+<!-- <div style="text-align: center;"> -->
+<!-- 		<button class="btn" id="btnLike"></button> -->
+<!-- </div><br> -->
 
-
+<!-- 목록 수정 삭제 -->
 <div class="text-center">
 	<a href="/please/list?menu=${board.menu}&cate=${board.cate}" class="btn btn-secondary">목록</a>
 	
 	<c:if test="${id eq board.writerId }">
 		<a href="/please/update?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate}" class="btn btn-primary">수정</a>
-		<a href="./delete?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate}" class="btn btn-danger">삭제</a>
+		<a href="/please/delete?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate}" class="btn btn-danger">삭제</a>
 	</c:if>
-</div>
+</div><br>
 
 
+</div><!-- .container -->
 
-
-
-
-
-<!-- 댓글 처리 -->
+<%-- 댓글 영역 --%>
+<div class="comment_container">
 	
-<!-- 로그인상태 -->
-<c:if test="${isLogin }">
-<!-- 댓글 입력 -->
-	<div class="row text-center justify-content-around align-items-center">
-		<div class="col col-2">
-			<input type="text" class="form-control" id="commentWriter" value="${nick }" readonly="readonly"/>
+	<%-- 로그인 상태 --%>
+	<c:if test="${isLogin }">
+		<%-- 댓글작성 --%>
+		<div class="row text-center justify-content-around align-items-center">
+			<div class="col col-2">
+				<input style="background-color: white;" type="text" class="form-control" id="commentWriter" value="${nick }" readonly="readonly"/>
+			</div>
+			<div class="col col-9">
+				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;"></textarea>
+			</div>
+			<button id="btnCommInsert" class="btn btn-primary col-1">작성</button>
 		</div>
-		<div class="col col-9">
-			<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;"></textarea>
+		
+		
+		<!-- 대댓글 작성 폼 -->
+		<div class="row text-center justify-content-around align-items-center" style="display: none;" id="replyForm">
+		    <div class="col col-2">
+		        <input type="text" class="form-control" id="replyWriter" readonly="readonly"/>
+		    </div>
+		    <div class="col col-9">
+		        <textarea class="form-control" id="replyContent" style="resize: none; height: 15px;"></textarea>
+		    </div>
+		    <button class="btn btn-primary col-1" id="btnReplyInsert">작성</button>
 		</div>
-		<button id="btnCommInsert" class="btn btn-primary col-1">작성</button>
-	</div>	<!-- 댓글 입력 end -->
-</c:if><br>
+		
+		
+	</c:if><br>
 
-<!-- 댓글 리스트 -->
-<div id="commentList">
+	<%-- 비로그인 상태 --%>
+	<c:if test="${not isLogin }">
+		<div class="row text-center justify-content-around align-items-center">
+			<div class="col col-2">
+				<input type="text" class="form-control" id="commentWriter" value="unknown" readonly="readonly"/>
+			</div>
+			<div class="col col-9">
+				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;" readonly="readonly" placeholder="로그인 후 댓글 작성 가능"></textarea>
+			</div>
+<%-- 				<a class="btn btn-danger col-1" href="/user/login?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate }&type=rent">로그인</a> --%>
+				<a class="btn btn-danger col-1" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">로그인</a>
+		</div>
+	</c:if><br>
+
+	<%-- 댓글 목록 --%>
+	<div id="commentList"></div>
 	
-	<table class="table table-condensed text-center">
-	<colgroup>
-		<col style="width: 10%;">
-		<col style="width: 10%;">
-		<col style="width: 50%;">
-		<col style="width: 20%;">
-		<col style="width: 10%;">
-	</colgroup>
-	<thead>
-	<tr>
-		<th>번호</th>
-		<th>작성자</th>
-		<th>댓글</th>
-		<th>작성일</th>
-		<th></th>
-	</tr>
-	</thead>
-	<tbody id="commentBody">
-	</table><!-- 댓글 리스트 end -->
-
-</div><!-- 댓글 처리 end -->
-
-
+</div><!-- .comment_container End. -->
 
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

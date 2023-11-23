@@ -279,7 +279,7 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 	}
 
 	@Override
-	public List<Comment> viewComment(Comment commentParam) {
+	public List<Map<String, Object>> viewComment(Comment commentParam) {
 		
 		
 		return menuPleaseDao.selectAllComment(commentParam);
@@ -289,6 +289,11 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 	public void delete(Comment commnetDelete) {
 		menuPleaseDao.deleteComment(commnetDelete);
 		
+	}
+
+	@Override
+	public void commentReplyInsert(Comment commentReply) {
+		menuPleaseDao.insertCommentReply(commentReply);
 	}
 
 

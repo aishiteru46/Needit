@@ -4,6 +4,8 @@ public class Paging {
 	
 	private String menu;	//조회할 메뉴
 	private String cate;	//조회할 카테고리
+	private String selectSub; 	//선택된 검색주제
+	private String searchText; 	//입력받은 검색값
 	private int curPage;	//현재 페이지 번호
 	private int totalCount;	//총 게시글 수
 	private int listCount;	//한 페이지 당 보여질 게시글 수
@@ -31,6 +33,20 @@ public class Paging {
 	public Paging(String menu, String cate, int totalCount, int curPage, int listCount, int pageCount) {
 		setMenu(menu);
 		setCate(cate);
+		setTotalCount(totalCount);
+		setCurPage(curPage);
+		setListCount(listCount);
+		setPageCount(pageCount);
+		
+		makePaging();
+	}
+	
+	//총 게시글수, 현재 페이지 번호, 보여질 게시글수, 보여질 페이지 수 를 입력하는 생성자
+	public Paging(String menu, String cate, String selectSub, String searchText, int totalCount, int curPage, int listCount, int pageCount) {
+		setMenu(menu);
+		setCate(cate);
+		setSelectSub(selectSub);
+		setSearchText(searchText);
 		setTotalCount(totalCount);
 		setCurPage(curPage);
 		setListCount(listCount);
@@ -68,14 +84,17 @@ public class Paging {
 
 	@Override
 	public String toString() {
-		return "Paging [menu=" + menu + ", curPage=" + curPage + ", totalCount=" + totalCount + ", listCount="
-				+ listCount + ", totalPage=" + totalPage + ", pageCount=" + pageCount + ", startPage=" + startPage
-				+ ", endPage=" + endPage + ", startNo=" + startNo + ", endNo=" + endNo + "]";
+		return "Paging [menu=" + menu + ", cate=" + cate + ", curPage=" + curPage + ", totalCount=" + totalCount
+				+ ", listCount=" + listCount + ", totalPage=" + totalPage + ", pageCount=" + pageCount + ", startPage="
+				+ startPage + ", endPage=" + endPage + ", startNo=" + startNo + ", endNo=" + endNo + ", selectSub="
+				+ selectSub + ", searchText=" + searchText + "]";
 	}
+	
 
 	public int getCurPage() {
 		return curPage;
 	}
+
 
 	public void setCurPage(int curPage) {
 		this.curPage = curPage;
@@ -151,8 +170,8 @@ public class Paging {
 
 	public void setMenu(String menu) {
 		this.menu = menu;
-	}	
-	
+	}
+
 	public String getCate() {
 		return cate;
 	}
@@ -167,6 +186,22 @@ public class Paging {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getSelectSub() {
+		return selectSub;
+	}
+
+	public void setSelectSub(String selectSub) {
+		this.selectSub = selectSub;
+	}
+
+	public String getSearchText() {
+		return searchText;
+	}
+
+	public void setSearchText(String searchText) {
+		this.searchText = searchText;
 	}	
-	
+
 }

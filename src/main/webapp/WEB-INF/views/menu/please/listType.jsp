@@ -14,6 +14,7 @@
     margin-top: 25px;
     margin-bottom: -22px;
 }
+
 .row {
     text-align: center;
 }
@@ -40,16 +41,19 @@
 }
 
 .preview {
-	margin: 15px auto 15px auto;
- 	width: 350px;
- 	height: 300px;
-	display: flex;
-	object-fit: cover;
+	float: left;
+	position: absolute;
+ 	width: 70px;
+ 	height: 70px;
+	margin-top: 14px;
+    margin-left: 5px;
+    
+    display: flex;
     justify-content: center;
-	align-items: center;
-    background-size: cover; 
+    align-items: center;
+    background-size: contain;
     background-repeat: no-repeat;
-	background-position: center center;
+    background-position: center center;
 }
 
 .write-container-head {
@@ -69,13 +73,30 @@
  	width: 150px; 
  	color: black; 
  	font-weight: bold; 
- 	overflow: hidden; 
- 	text-overflow: ellipsis; 
- 	white-space: nowrap; 
 	display: inline-block;
     margin-top: 10px;
     margin-bottom: -12px;
     margin-left: -6px;
+}
+.titlebox {
+	width:420px; 
+	height:99px; 
+	margin-left:65px;
+}
+#title {
+	width: 100%;
+	margin-left: -18px;
+    padding: 36px;
+  	overflow: hidden;
+ 	text-overflow: ellipsis; 
+ 	white-space: nowrap; 
+}
+
+#locationBox {
+	width: 116px;
+  	overflow: hidden;
+ 	text-overflow: ellipsis; 
+ 	white-space: nowrap; 
 }
 
 #write-conatiner-hit, #write-conatiner-like {
@@ -132,13 +153,11 @@
     margin-bottom: -34px;
     font-size: 40px;
     text-align: center;
-    color: #343a40;
 }
 #rentText2 {
 	font-size: 25px;
 	text-align: center;
 	display: inline-block;
-    color: #343a40;
 }
 #viewType {
 	margin-top: -1px;
@@ -147,21 +166,41 @@
     display: inline-block;
 }
 
+th {
+	background-color: rgb(255,83,64);
+}
+
+.listType tr td,
+.listType tr th {
+	font-weight: normal;
+	font-size: 16px;
+	text-align: center;
+	border-bottom: 1px solid #ccc;
+}
+
+.listType tr th {
+	color: white;
+	font-weight: bold;
+	height: 40px;
+}
+
+.thumbnail {
+	display:inline-block;
+	float: left;
+
+}
+
+.table-container {
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
 .btn { 
 	--bs-btn-color: #fff;
     --bs-btn-bg: #343a40;
-    --bs-btn-hover-border-color: unset;    
+    --bs-btn-hover-border-color: unset;
 } 
 
-</style>
-
-<style>
-.pagination {
-    --bs-pagination-active-bg: #ff533f;
-    --bs-pagination-color: #373b3e;
-	--bs-pagination-active-border-color: #ff533f;  
-    --bs-pagination-hover-color: #ff533f;	  
-}
 </style>
 
 <div class="container">
@@ -183,7 +222,6 @@
 		</div>
 	</c:if>
 </c:forEach>
-
 <div class="write">
 	<c:if test="${not empty isLogin and isLogin }">
 		<a class="btn me-2 float-end sm" href="/please/write?menu=${param.menu }&cate=${param.cate }">✍️글쓰기</a>
@@ -201,63 +239,78 @@
 <small class="float-start ms-2 mt-2">total : ${paging.totalCount }</small><br><br>
 </div>
 
-<div class="gridContainer">
-<c:forEach items="${list}" var="list" varStatus="loop">
-  <c:if test="${loop.index % 3 == 0}">
-  <div class="row">
-  </c:if>
-  	
-    <div class="write-container">
-    	<div class="write-container-head">
-        	<div class="no">no. ${list.BOARD_NO}</div>
-        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">${list.TITLE }</h6></a>
-        <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>
-        <div id="write-conatiner-hit">👀  ${list.HIT}</div>
-        </div><!-- .write-container-head -->
-        <hr id="pleaseListHr">
-        <c:if test="${ not empty list.THUMBNAIL_NAME  }">
-	        <div>
-	        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
-	        </div>
-        </c:if>
-        <c:if test="${ empty list.THUMBNAIL_NAME  }">
-	        <div>
-	        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/resources/img/noimg.png"/></a>
-	        </div>
-        </c:if>
-        <hr id="pleaseListHr">
-        <div id="write-conatiner-nick"><div id="nickIcon">✍️</div>${list.WRITER_NICK }</div>
-        <div id="write-conatiner-time">🕟
-            <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
-            <fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" /> 
-            <c:choose> 
-                <c:when test="${writeDate lt curDate }"> 
-                    <fmt:formatDate value="${list.WRITE_DATE }" pattern="yyyy-MM-dd" /> 
-                </c:when> 
-                <c:otherwise> 
-                    <fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" /> 
-                </c:otherwise> 
-            </c:choose>
-        </div><!-- #write-conatiner-time -->                    
-       	<div id="write-conatiner-price">💸<fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</div>
-      	
-   	    <div id="write-conatiner-loc" ><i style="color: rgb(255,83,63)" class="bi bi-geo-alt-fill"></i>${list.LOCATION } </div>
-    </div><!-- .write-container -->
-    
-  <c:if test="${loop.index % 3 == 2 || loop.index + 1 == yourList.size()}">
-  </div>
-  </c:if>
-</c:forEach>
-
-
-
-<small class="float-end mb-3">total : ${paging.totalCount }</small><br>
+<div class="listContainer">
+	
+	<div class="table-container">
+		<table class="listType">
+		
+		<colgroup>
+			<col style="width:5%;">
+			<col style="width:45%;">
+			<col style="width:10%;">
+			<col style="width:10%;">
+			<col style="width:10%;">
+			<col style="width:15%;">
+			<col style="width:5%;">
+		</colgroup>
+		
+		<thead>
+			<tr>
+				<th style="border-top-left-radius: 8px;">No.</th><th>제목</th><th>가격(30분)</th><th>위치</th><th>작성자</th><th>작성일</th><th style="border-top-right-radius: 8px;">조회</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+		<c:forEach var="list" items="${list }">
+			<tr>
+				<td>${list.BOARD_NO }</td>
+				<td>
+					<div>
+				        <c:if test="${ not empty list.THUMBNAIL_NAME  }">
+					        <div class="thumbnail">
+					        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
+					        </div>
+				        </c:if>
+				        <c:if test="${ empty list.THUMBNAIL_NAME  }">
+					        <div class="thumbnail">
+					        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/resources/img/noimg.png"/></a>
+					        </div>
+				        </c:if>
+				        <div class="titlebox">					
+							<a href="/please/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE }</div></a>
+						</div>
+					</div>
+				</td>
+				<td><fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</td>
+				<td><div id="locationBox">${list.LOCATION }</div></td>
+				<td>${list.WRITER_NICK }</td>
+				<td>
+					<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
+					<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" />
+					<c:choose>
+						<c:when test="${writeDate lt curDate }">
+							<fmt:formatDate value="${list.WRITE_DATE }" pattern="yyyy-MM-dd" />
+						</c:when>
+						<c:otherwise>
+							<fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" />
+						</c:otherwise>
+					</c:choose>				
+				</td>
+				<td>${list.HIT}</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+		
+		</table>
+	</div>
 
 </div> <!-- .container -->
 <br>
-</div><!-- .gridContainer -->
-
-<c:import url="/WEB-INF/views/layout/pagination.jsp" />
+<!-- </div>.listContainer -->
 
 
+
+<c:import url="/WEB-INF/views/layout/paginationForList.jsp" />
+
+<!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

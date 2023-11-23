@@ -23,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Banner;
 import web.dto.Board;
+import web.dto.Comment;
+import web.dto.Like;
 import web.dto.Report;
 import web.dto.User;
 import web.service.face.AdminService;
@@ -90,10 +92,6 @@ public class AdminController {
 	@GetMapping("/admin/dayVisit")
 	public void dayVisit() {}
 
-	//관리자 신고접수 목록
-	@GetMapping("/admin/reportList")
-	public void reportList() {}
-	
 	//관리자 업체요청 목록 
 	@GetMapping("/admin/businessReq")
 	public void businessReq() {}
@@ -129,7 +127,11 @@ public class AdminController {
 	
 	//관리자 공지조회
 	@GetMapping("/admin/noticeUpdate")
-	public void noticeUpdate() {}
+	public void noticeUpdate(Model model, Board board) {
+		
+//		List<Map<String, Object>> noticeList = adminService.noticeList();
+//		model.addAttribute("noticeList", noticeList);
+	}
 	
 	//관리자 공지등록
 	@PostMapping("/admin/noticeUpdate")
@@ -218,20 +220,34 @@ public class AdminController {
 	}
 	
 	//신고버튼 클릭시
-	@GetMapping("/admin/report")
-	public void report() {}
-	
-	//신고 접수
-	//추후 수정
-	@PostMapping("/admin/report")
-	public String reportUpdate(Report reportNo, HttpSession session) {
-		logger.info("report [POST]");
-		logger.info("{}", reportNo);
-		
-		reportNo.setReportId(session.getId());
-		
-		return "redirect:/main";
+	@GetMapping("/admin/reportList")
+	public void report(
+			Model model,
+			HttpSession session,
+			Board board,
+			Report report,
+			Comment comment,
+			Like like
+			) {
+//		logger.info("가리겟get");
+		//게시글 신고 목록
+		List<Map<String, Object>> reportBoardList = adminService.getBoardReportInfo();
+//		logger.info("신고목록{}",reportBoardList);
+		model.addAttribute("reportBoardList", reportBoardList);
+
+		//댓글 신고 목록
+		List<Map<String, Object>> reportCmtList = adminService.getCmtReportInfo();
+		model.addAttribute("reportCmtList", reportCmtList);
 	}
+	
+	@PostMapping("/admin/reportList")
+	public String deleteReport(Board board, Comment cmt) {
+		
+		adminService.deleteBoardCmt(board, cmt);
+		
+		return "redirect:/admin/reportList";
+	}
+	
 	
 	//-------------------------------------
 

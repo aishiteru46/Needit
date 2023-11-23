@@ -1,7 +1,7 @@
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
@@ -70,8 +70,8 @@ h6 {
 }
 </style>
 
+<%-- 추천, 댓글, 대여상태 --%>
 <script type="text/javascript">
-
 // 댓글목록 불러오기
 function loadComments() {
 	$.ajax({
@@ -276,9 +276,8 @@ $(()=>{
 }); //jQuery Function End.
 </script>
 
+<%-- Kakao Map API --%>
 <script type="text/javascript">
-
-//Kakao Map API
 $(()=>{
 	
 	// 지도 객체 설정

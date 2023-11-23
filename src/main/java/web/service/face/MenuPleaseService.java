@@ -161,7 +161,7 @@ public interface MenuPleaseService {
 	 * @param commentParam
 	 * @return
 	 */
-	public List<Comment> viewComment(Comment commentParam);
+	public List<Map<String, Object>> viewComment(Comment commentParam);
 
 
 
@@ -171,6 +171,15 @@ public interface MenuPleaseService {
 	 * @param commnetDelete
 	 */
 	public void delete(Comment commnetDelete);
+
+
+
+	/**
+	 * 대댓글 입력
+	 * 
+	 * @param commentReply
+	 */
+	public void commentReplyInsert(Comment commentReply);
 
 
 
