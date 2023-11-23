@@ -40,8 +40,8 @@ public class MenuRentServiceImpl implements MenuRentService {
 		int totalCount = menuRentDao.selectCntAll(param);
 		
 		//페이징 객체 생성(페이징 계산)
-		Paging paging = new Paging( param.getMenu(), param.getCate(),totalCount, param.getCurPage(), 12, 10 );
-		
+		Paging paging = new Paging( param.getMenu(), param.getCate(), param.getSelectSub(), param.getSearchText(),totalCount, param.getCurPage(), 12, 10 );
+
 		return paging;
 	}
 
@@ -50,6 +50,11 @@ public class MenuRentServiceImpl implements MenuRentService {
 		return menuRentDao.selectAll(paging);
 	}
 
+	@Override
+	public List<Map<String, Object>> searchList(Paging paging) {
+		return menuRentDao.selectSearch(paging);
+	}
+	
 	@Override
 	public Board view(Board board) {
 		
@@ -223,5 +228,6 @@ public class MenuRentServiceImpl implements MenuRentService {
 	public List<Map<String, Object>> getStatus(Board board) {
 		return menuRentDao.chkRentStatus(board);
 	}
+
 
 }
