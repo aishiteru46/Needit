@@ -12,7 +12,6 @@
 	
 
 }
-
 </style>
 
 
@@ -25,6 +24,7 @@ function setThumbnail(event) {
     reader.onload = function (event) {
         var thumbnailContainer = document.querySelector("#thumbnail_container");
         thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
+        document.getElementById("previewSection").style.display = "block"; // 파일 선택 시 보이도록 설정
     };
 
     reader.readAsDataURL(event.target.files[0]);
@@ -34,116 +34,86 @@ function setThumbnail(event) {
 
 //프로필사진바로삭제
 $(function(){
-	$("#deleteBtn").click(function(){
- 		var deleteBtn = $(this);
- 		$.ajax({
- 	         type: "post"
- 	         , url: "/profile/imgdelete"
- 	         , data: {
- 	        	 
- 	        	originName : ${img.originName}
- 	        	,storedName : ${img.storedName}
- 	        	,thumbnailName : ${img.thumbnailName}
- 	        	,fileType : ${img.fileType}
- 	        	 
- 	        	 
- 	         }
- 	         , dataType: "json"
- 	         , success: function( res ) {  
-
- 	            console.log("AJAX 성공")
-
- 	         }
-	         , error: function() {
- 	            console.log("AJAX 실패")
-
- 	         }
- 	      })
- })
- })
-
-
-
-
-//예약 승인 
-$(function(){
-	$(".confirmBtn").click(function(){
-		var confirmBtn = $(this);
-		  $.ajax({
-		         type: "post"
-		         , url: "/profile/confirm"
-		         , data: {
-		        	 rentNo: confirmBtn.data("rent_no"),
-		             boardNo: confirmBtn.data("board_no")
-		         }
-		         , dataType: "json"
-		         , success: function( res ) {
-			      	confirmBtn.html("승인완료").prop("disabled", true);
-
-		            console.log("AJAX 성공")
-
-		         }
-		         , error: function() {
-		            console.log("AJAX 실패")
-
-		         }
-		      })
+	$("#imgDelete").click(function(){
+		console.log("프로필사진 삭제 작동")
+		
+		$.ajax({
+			 type: "get"
+			 , url: "/profile/imgdelete"
+			 , data: {}
+			 , dataType: "json"
+			 , success: function( res ) {  
+			    console.log("AJAX 성공")
+				location.reload()
+				
+			 }
+			, error: function() {
+			    console.log("AJAX 실패")
+			
+			 }
+		})
 	})
-})
+	
+});
 
-//예약 취소
+//프로필사진 등록
 $(function(){
-	$(".cancelBtn").click(function(){
-		var cancelBtn = $(this);
-		  $.ajax({
-		         type: "post"
-		         , url: "/profile/cancel"
-		         , data: {
-		        	 rentNo: cancelBtn.data("rent_no"),
-		             boardNo: cancelBtn.data("board_no")
-		         }
-		         , dataType: "json"
-		         , success: function( res ) {
-		        	 cancelBtn.html("취소완료").prop("disabled", true);
-
-		            console.log("AJAX 성공")
-
-		         }
-		         , error: function() {
-		            console.log("AJAX 실패")
-
-		         }
-		      })
+	$("#imgUpdate").click(function(){
+		console.log("프로필사진 업데이트 작동")
+		
+		var formData = new FormData($("#uploadForm")[0]);
+		
+		$.ajax({
+			 type: "post"
+			 , url: "/profile/imgupdate"
+			 , data: formData
+			 , processData: false  // 필수
+	            , contentType: false  // 필수
+			 , dataType: "json"
+			 , success: function( res ) {  
+			    console.log("AJAX 성공")
+				location.reload()
+				
+			 }
+			, error: function() {
+			    console.log("AJAX 실패")
+			
+			 }
+		})
 	})
-})
+	
+});
 
+
+
+//자기소개 수정
 $(function(){
+	$("#introUpdate").click(function(){
+		console.log("자기소개 업데이트 작동")
+		
+		$.ajax({
+			 type: "post"
+			 , url: "/profile/introduce"
+			 , data: {
+				 
+				 id : "${id}"
+				 , intro : $("#intro").val()
+				 
+				 
+			 }
+			 , dataType: "json"
+			 , success: function( res ) {  
+			    console.log("자기소개 업데이트 성공")
+				
+			 }
+			, error: function() {
+			    console.log("AJAX 실패")
+			
+			 }
+		})
+	})
 	
-	 var checkCon = ${checkCon}
-	 var checkCan = ${checkCan}
-	 
-	if(checkCon) {
-		$(".confirmBtn")
-		.addClass("btn-warning")
-		.html('승인완료');
-	} else {
-		console.log('추천 아직 안함')
-		$(".confirmBtn")
-			.addClass("btn-primary")
-			.html('승인');
-	}
-	if(checkCan) {
-		$(".cancelBtn")
-		.addClass("btn-warning")
-		.html('취소');
-	} else {
-		console.log('추천 아직 안함')
-		$(".cancelBtn")
-			.addClass("btn-primary")
-			.html('취소 완료');
-	}
-	
-})
+});
 
 
 </script>
@@ -166,8 +136,6 @@ $(function(){
 }
 
 </style>
-
-
 
 <style>
     #profileImageContainer {
@@ -210,9 +178,6 @@ ${userGrade }
 
 </c:choose>
 
-
-
-
 <div id="profileImageContainer">
     <c:if test="${not empty img}">
         <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
@@ -222,15 +187,15 @@ ${userGrade }
     </c:if>
 </div>
 
-
-
-
+<!-- 이미지 삭제 버튼 -->
+<div class="btn btn-danger btn-sm pull-right" id="imgDelete" >이미지 삭제</div>
 
 <h3>${nick}님의 프로필사진</h3>
 
 <div class="panel panel-default">
    <div class="panel-body">
       <form id="uploadForm" action="./imgupdate" method="post" enctype="multipart/form-data">
+<!--       <form  enctype="multipart/form-data"> -->
          <input type="hidden" name="id" value="${id}"/>
          <table class="table table-bordered" style="text-align: center; border: 1px solid #dddddd;">
             <tr>
@@ -252,7 +217,17 @@ ${userGrade }
             <tr>
                <td style="width: 150px; vertical-align: middle;">주소</td>
                <td>${user.addr1 }<br>${user.addr2 }</td>
-               
+            </tr>
+            <tr>
+               <td style="width: 150px; vertical-align: middle;">이메일 수신</td>
+               <c:choose>
+        			<c:when test="${user.emailAgr eq 1}">
+                		<td>동의</td>
+                	</c:when>
+        			<c:when test="${user.emailAgr eq 0}">
+                		<td>미동의</td>
+                	</c:when>
+                </c:choose>
             </tr>
             <tr>
                <td style="width: 150px; vertical-align: middle;">사진 업로드</td>
@@ -262,30 +237,15 @@ ${userGrade }
                   </span>
                </td>            
             </tr>      
-            <tr>
+            <tr id="previewSection" style="display: none;">
             	<td colspan="2" style="text-align: left;">
             	
                	<!-- 썸네일 미리보기를 담을 div 추가 -->
                	<div id="thumbnail_container"></div>
                	
-                  <input type="submit" class="btn btn-primary btn-sm pull-right" value="등록"/>
-                   <!-- 이미지 삭제 버튼 -->
-                   <button type="button" class="btn btn-danger btn-sm pull-right" id="deleteBtn">이미지 삭제</button>
+                   <!-- 이미지 등록 버튼 -->
+                   <div class="btn btn-primary btn-sm pull-right" id="imgUpdate" >등록</div>
                </td>
-<!--                <td colspan="2" style="text-align: left;"> -->
-<!--                	썸네일 미리보기를 담을 div 추가 -->
-<!--                	<div id="thumbnail_container"></div> -->
-<%--                   등록된 이미지가 있을 때는 삭제 버튼 보이기 --%>
-<%--                   <c:if test="${not empty img.thumbnailName}"> --%>
-<!--                      <button type="button" class="btn btn-danger btn-sm pull-right deleteBtn" onclick="deleteImg()">이미지 삭제</button> -->
-<%--                   </c:if> --%>
-
-<%--                   등록된 이미지가 없을 때는 등록 버튼 보이기 --%>
-<%--                   <c:if test="${empty img.thumbnailName}"> --%>
-<!--                      <input type="submit" class="btn btn-primary btn-sm pull-right insertBtn" value="등록"/> -->
-<%--                   </c:if> --%>
-<!--                </td> -->
-               
             </tr>
          </table>
       </form> 
@@ -294,37 +254,25 @@ ${userGrade }
    </div>
 </div>
 
-
-
-
-
-
-
-
 <hr>
 
 <div class="container mt-5">
     <h2>자기소개</h2>
     
     <!-- 자기소개글을 입력하는 텍스트박스 -->
-    <form action="./introduce" method="post">
-            <input type="text" id="id" name="id" value="${id}">
+    <div>
+            <input type="text" id="id" name="id" value="${nick}" readonly="readonly">
         <div class="mb-3">
-            <textarea class="form-control" id="intro" name="intro" rows="5" maxlength="100" value="안녕하세요 이주현입니다">${user.intro }</textarea>
+            <textarea class="form-control" id="intro" name="intro" rows="5" maxlength="100">${user.intro }</textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">저장</button>
-    </form>
+        <button type="submit" class="btn btn-primary" id="introUpdate">저장</button>
+    </div>
 </div>
-
 
 <hr>
 
-<a href="infoupdate" class="btn btn-success">회원정보 수정</a>
-
-
-
-
+<a href="infoupdate" class="btn btn-success" >회원정보 수정</a>
 
 <hr>
 
@@ -390,7 +338,7 @@ function confirmAndSubmit(userId) {
 		<td>${list.END_TIME }</td>
 		<td>${checkCon }</td>
 		<td>${checkCan }</td>
-		<td><button class="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }"></button></td>
+		<td><button class="confirmBtn"data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }"></button></td>
 		<td><button class="cancelBtn"data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }"></button></td>
 	</tr>
 	
@@ -429,8 +377,9 @@ function confirmAndSubmit(userId) {
 <hr>
 
 
-<h1>내가 쓴 글</h1>
+<h1 onclick="toggleSection('boardSection')">내가 쓴 글</h1>
 
+<div id="boardSection" class="hidden">
 <table id="boardTable">
 	<tr>
 		<th>게시글 번호</th>
@@ -452,6 +401,12 @@ function confirmAndSubmit(userId) {
 	            <c:when test="${board.menu eq 3}">
 	                <a href="/please/view?boardNo=${board.boardNo}">${board.title}</a>
 	            </c:when>
+	            <c:when test="${board.menu eq 4}">
+	                <a href="/community/view?boardNo=${board.boardNo}">${board.title}</a>
+	            </c:when>
+	            <c:when test="${board.menu eq 5}">
+	                <a href="/business/view?boardNo=${board.boardNo}">${board.title}</a>
+	            </c:when>
 	        </c:choose>
         </td>
 		<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.writeDate }"/></td>
@@ -460,12 +415,13 @@ function confirmAndSubmit(userId) {
 	
 </c:forEach>
 </table>
-
+</div>
 
 <hr>
 
-<h1>내가 쓴 댓글</h1>
+<h1 onclick="toggleSection('commentSection')">내가 쓴 댓글</h1>
 
+<div id="commentSection" class="hidden">
 <table id="commentTable">
 	<tr>
 		<th>댓글 번호</th>
@@ -487,6 +443,13 @@ function confirmAndSubmit(userId) {
 	            <c:when test="${comment.MENU eq 3}">
 	                <a href="/please/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
 	            </c:when>
+	            <c:when test="${comment.MENU eq 4}">
+	                <a href="/community/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+	            </c:when>
+	            <c:when test="${comment.MENU eq 5}">
+	                <a href="/business/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+	            </c:when>
+	            
 	        </c:choose>
         </td>
 		<td><fmt:formatDate pattern="yyyy-MM-dd" value="${comment.writeDate}"/></td>
@@ -494,9 +457,14 @@ function confirmAndSubmit(userId) {
 
 </c:forEach>
 </table>
+</div>
 
-
-
+<script>
+    function toggleSection(sectionId) {
+        var section = document.getElementById(sectionId);
+        section.classList.toggle('hidden');
+    }
+</script>
 
 
 

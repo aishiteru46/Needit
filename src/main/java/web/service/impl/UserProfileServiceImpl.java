@@ -275,5 +275,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 
+	@Override
+	public int emailSubUpdate(User user) {
+		return userProfileDao.updateEmailSub(user);
+	}
+
+
 
 }

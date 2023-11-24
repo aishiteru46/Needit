@@ -165,6 +165,15 @@ public interface UserProfileService {
 	 */
 	public List<Map<String, Object>> commentSelectById(Comment comment);
 
+	/**
+	 * 이메일수신 동의누르면1 미동의누르면0으로 업데이트
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public int emailSubUpdate(User user);
+
+
 
 	
 

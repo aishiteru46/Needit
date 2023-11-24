@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import lombok.Setter;
 import web.dto.Board;
 import web.dto.Comment;
 import web.dto.Like;
@@ -195,7 +197,7 @@ public class UserProfileController {
 	
 	@PostMapping("/imgupdate")
 	
-	public String imgUpdateProc(@RequestParam("file") MultipartFile file, HttpSession session) {
+	public String imgUpdateProc(@RequestPart("file") MultipartFile file, HttpSession session, Model model) {
 		
 		
 		// 사용자 ID 가져오기
@@ -203,15 +205,24 @@ public class UserProfileController {
         
         // 프로필 사진 업로드 및 데이터베이스에 저장
         userProfileService.imgUpdate(file, userId);
+        
+     // 사용자의 프로필 이미지 정보 가져오기
+        UserFile img = userProfileService.imgSelect(userId);
+        logger.info("프로필이미지ajax {} : ", img);
+        model.addAttribute("img", img);
+        //모델에 이미지 정보 추가
+        
+        
 
-		return "redirect:/profile";
+        return "jsonView";
 	}
 	
 	
 
 	//프로필사진 삭제
-	@PostMapping("/imgdelete")
+	@GetMapping("/imgdelete")
 	public String imgDelete(UserFile userFile, HttpSession session) {
+		
 		logger.info("userFile 프로필삭제:{}", userFile);
 		userFile.setId((String) session.getAttribute("id"));
 		userProfileService.imgDelete(userFile);
@@ -225,23 +236,28 @@ public class UserProfileController {
 	public String intoduce(User user, Model model) {
 		
 		User intro = userProfileService.userAllSelect(user);
+		
 		logger.info("인트로{}",intro.getIntro());
 		
 		model.addAttribute("user", intro);
 		
-		return "/profile/view";
+		return "/profile/introduce";
 	}
 
 
 	@PostMapping("/introduce")
 	public String introduceProc(User user, Model model) {
 
+		logger.info("자기소개 업데이트 : {}",user);
 		//자기소개 업데이트
 		userProfileService.introduceUpdate(user);
 		
-		model.addAttribute("user", user);
+		User intro = userProfileService.userAllSelect(user);
 		
-		return "redirect:/profile/view";
+		
+		model.addAttribute("user", intro);
+		
+		return "jsonView";
 	}
 	
 	@RequestMapping("/basket")
@@ -287,6 +303,8 @@ public class UserProfileController {
 		return "jsonView";
 
 	}
+	
+	
 	
 	
 	
