@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import web.dto.Board;
+import web.dto.FileTb;
 import web.dto.Msg;
 import web.dto.User;
 import web.service.face.MsgService;
@@ -56,6 +58,7 @@ public class MsgController {
 			Integer checkRoom = 0;
 			if(msgService.checkNewRoom(map) != null) {
 				checkRoom = msgService.checkNewRoom(map);
+				logger.info("새방 : {}", checkRoom);
 				model.addAttribute("targetRoomNo",checkRoom);
 			}else {
 				ObjectMapper objectMapper = new ObjectMapper(); // 객체 간의 매핑을 도와준다
@@ -70,14 +73,25 @@ public class MsgController {
 	
 	@GetMapping("/msgload") // 채팅방의 메시지 불러오기
 	@ResponseBody
-	public List<Msg> msgload(Msg roomNo, @RequestParam("currentUserId") String currentUserId) {
+	public Map<String, Object> msgload(Msg roomNo, @RequestParam("currentUserId") String currentUserId) {
 		logger.info( "currentUserId : {}", currentUserId ); // 현재 세션의 유저 id
 		logger.info( "roomNo.toString() : {}", roomNo.toString() ); // roomNo
 
 		List<Msg> msgload = new ArrayList<Msg>();
 		msgload = msgService.getMsgLoad(roomNo, currentUserId);
+		
+		int boardNo = msgload.get(0).getBoardNo();
+		Board boardload = msgService.getBoardLoad( boardNo );
+		
+		List<Map<String, Object>> thumbnail = msgService.getThumnail( boardNo );
+		
+		Map<String, Object> response = new HashMap<>();
+		
+	    response.put("messages", msgload);
+	    response.put("boardInfo", boardload);
+	    response.put("thumbnail", thumbnail);
 
 		logger.info(msgload.toString()); // log
-		return msgload;
+		return response;
 	}
 }

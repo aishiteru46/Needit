@@ -45,7 +45,7 @@ pageEncoding="UTF-8"%>
 	border: 1px solid;
 	width: 798px;
 	height: 150px;
-	background: #ccc;
+	background: #ff533f;
 /*   flex-grow: 1; */
 }
 
@@ -210,6 +210,46 @@ pageEncoding="UTF-8"%>
 .msgObject-username, .messagePreview {
   white-space: nowrap; /* 텍스트가 넘칠 경우 줄바꿈 없이 처리 */
 }
+
+.profileImg {
+	background: white;
+    width: 135px;
+    height: 135px;
+    position: relative;
+    top: 5px;
+    left: 5px;
+}
+
+.profileImg img {
+    width: 135px;
+    height: 135px;
+}
+
+.profileDesc {
+    position: relative;
+    margin: -120px 0px 0px 180px;
+    width: 600px;
+    height: 120px;
+}
+
+.profileTitle {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space:nowrap;
+    height: 95px;
+    font-size: 1.5em;
+    color: white;
+}
+
+.profilePrice {
+    font-size: 1em;
+    color: wheat;
+    position: relative;
+    bottom: 5px;
+}
+
+.profi
+
 </style>
 <script >
 var roomNo;
@@ -280,12 +320,69 @@ $(function() {
 			url: './msgload',
 			type: 'GET',
 			data: { RoomNo: roomNo, currentUserId: currentUserId }
-		, success: function(messages){
+		, success: function(res){
 			$('.messages-container').empty(); // 이전 채팅방 메시지들 비우기
-	
-			console.log('ajax 데이터 : ' + messages)
+			$(".msgProfile").empty();
+			console.log(res)
 			
+			var messages = res.messages;
+			var boardInfo = res.boardInfo;
+			var thumbnail = res.thumbnail;
+			
+			
+			var number = Number(boardInfo.price); // 가격 저장 변수
+			var formattedNumber = number.toLocaleString(); // 가격 format 변수
+			var price = formattedNumber + "원";
+			
+			console.log( formattedNumber )
+			
+			var thumbnailName
+			var thumbnailTitle
+			
+			thumbnail.forEach(function(thumbnail) {
+				console.log( thumbnail.THUMBNAIL_NAME )
+				thumbnailName = thumbnail.THUMBNAIL_NAME
+				return thumbnailName;
+			});
+			
+			thumbnail.forEach(function(thumbnail) {
+				console.log( thumbnail.TITLE )
+				thumbnailTitle = thumbnail.TITLE
+				return thumbnailTitle;
+			});
+			
+			console.log( thumbnailName )
+			console.log('여기옴11111??')
+			
+			var $body = $('<div class="profileBody">') // .img와 .desc를 감싸는 DIV
+			var $img = $('<div class="profileImg">')
+			
+			console.log('여기옴1111122222222222??')
+			var $imgContent;
+			
+			if( thumbnailName != null ) {
+				$imgContent = $('<img  alt="' + thumbnailTitle + '" src="/upload/' + thumbnailName + '">');
+// 				$imgContent = $('<img alt="사진이 없습니다" src="/resources/img/noimg.png">');
+			} else {
+				$imgContent = $('<img alt="사진이 없습니다" src="/resources/img/noimg.png">')
+			}
+			
+			console.log( $imgContent )
+			console.log('여기옴1111333333333333331??')
+			
+			var $desc = $('<div class="profileDesc">'); // 글제목, 가격, 링크 들어가는 부분을 감싸는 DIV 
+			var $title = $('<div class="profileTitle">').text(boardInfo.title); // 글 제목이 들어갈 부분
+			var $price = $('<div class="profilePrice">').text(price); // 가격이 들어갈 부분
+			
+			console.log('여기옴111114444444444444444??')
+			$('.msgProfile').append($body);
+			$body.append($img).append($desc)
+			$img.append($imgContent)
+			$desc.append($title).append($price)
+			
+			console.log('여기옴22222222222222222??')
 			messages.forEach(function(message) { // 페이지에 메시지 반복 추가
+				console.log('여기옴3333333333333333333??')
 				var msgElement, wrapperElement, timeElement;
 				console.log('받는 사람 : ' + message.receiverId)
 				
@@ -334,6 +431,7 @@ $(function() {
 			subscribeToReceiverId(receiverId) // 받는 사람에게 구독
 			}, error: function(error){ console.log("AJAX request failed"); }
 		}); // ajax 끝
+				console.log('여기옴4444444444444444444444??');
 	
 		connectToRoom(roomNo); // 방 연결 함수
 		var userId = '<c:out value="${sessionScope.id}"/>' // 현재 접속 세션 아이디
@@ -353,6 +451,8 @@ $(function() {
         console.log(newRoom.newCate);
         console.log(newRoom.newBoardNo);
         console.log(newRoom.newReceiverId);
+        console.log(newRoom.newReceiverNick);
+        console.log(newRoom.newWriterNick);
 
         makingRoom = true; // 새로운 방을 만든 상태를 알려주는 플래그
         $('.msgInput input').attr('placeholder', '메시지를 입력하면 새로운 채팅이 시작됩니다.'); // 새로 생성한 채팅방의 인풋에 들어가는 placeholder
@@ -433,7 +533,18 @@ function sendMessage(event){ // 메시지 전송 함수
 			writerId: currentUserId,
 			content: messageContent
 		}
+	
+		console.log( '현재 메세지를 받는사람은 누구일까요?!!?!!', receiverId)
+		
 		stompClient.send("/pub/chat/" + roomNo + "/sendMessage",{},JSON.stringify(chatMessage)) // object Json으로 파싱
+		
+		$.post( "/alert/sendnotification", { 
+        	id: receiverId
+        	, sender: currentUserId
+        	, content: 5
+        	, menu: 6
+        }); // $.post 끝
+		
 	}
 } // sendMessage(event) 끝
 
@@ -514,6 +625,7 @@ function onReceivedId(payload){
 	console.log("onReceivedId 함수 시작")
 	newChatMsg = JSON.parse(payload.body);
 	var testMsg = JSON.parse(payload.body)
+	console.log("testMsg = ", testMsg)
 	if(testMsg.msgStatus === 3){
 		if(testMsg.writerId == currentUserId){
 		roomNo = testMsg.roomNo;
@@ -649,14 +761,16 @@ function formatDate(timestamp) {
 			<!-- 보내는 사람 메시지 -->
 			<div class="msgInput">
 				<form method="post"> <!-- 나중에 action 속성 추가 예정 -->
-					<input type="text" placeholder="메세지를 입력해주세요" name="message"  autocomplete="off"  style="width: 80%; padding: 10px; margin-right: 10px; border-radius: 5px; border: 1px solid #ccc;
-					height: 140px;">
+					<input type="text" placeholder="메세지를 입력해주세요" name="message"  autocomplete="off">
 					<button type="submit" style="padding: 10px 20px; border-radius: 5px; border: none; background-color: #ff533f; color: white;">보내기</button>
 				</form>
 			</div><!-- .msgInput -->
 		</div><!-- .msgContent-hidden -->
+		<div style="clear: both;"></div>
 	</div><!-- .msgMain  -->
+	<div style="clear: both;"></div>
 </div><!-- .container -->
+<div style="clear: both;"></div>
 
 
 <c:import url="../layout/footer.jsp" />

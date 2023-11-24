@@ -3,6 +3,7 @@ package web.service.face;
 import java.util.List;
 import java.util.Map;
 
+import web.dto.Board;
 import web.dto.Msg;
 import web.dto.User;
 
@@ -21,5 +22,10 @@ public interface MsgService {
 	public Msg getNewRoom(Msg msg);
 
 	public Integer checkNewRoom(Map<String, Object> map);
+
+	public Board getBoardLoad(int boardNo);
+
+	public List<Map<String, Object>> getThumnail(int boardNo);
+
 
 }

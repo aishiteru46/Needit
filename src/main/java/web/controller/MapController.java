@@ -20,12 +20,12 @@ public class MapController {
 	@Autowired private MapService mapService;
 	
 	@GetMapping("/map")
-	public String map() {
+	public String map() { // map을 띄울 페이지 매핑
 		return "map/map";
 	}
 	
 	@GetMapping("/map/list")
-	public String list( Model model ) {
+	public String list( Model model ) { // map에 보내줄 정보
 		List<List<Board>> board = mapService.list();
 		model.addAttribute("board", board);
 		return "jsonView";
