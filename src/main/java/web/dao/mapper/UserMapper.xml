@@ -7,8 +7,8 @@
 <mapper namespace="web.dao.face.UserDao">
 
 	<insert id="insertJoin" parameterType="User">
-		INSERT INTO usertb ( id,pw,name,nick,birth,email,gender,phone,addr1,addr2)
-		VALUES (#{id}, #{pw}, #{name}, #{nick}, #{birth}, #{email}, #{gender}, #{phone}, #{addr1}, #{addr2})
+		INSERT INTO usertb ( id,pw,name,nick,birth,email,gender,phone,addr1,addr2,emailAgr,socialId)
+		VALUES (#{id}, #{pw}, #{name}, #{nick}, #{birth}, #{email}, #{gender}, #{phone}, #{addr1}, #{addr2},#{emailAgr},#{socialId})
 	</insert>
 	
 	<select id="selectCntByIdPw" resultType="int" parameterType="User">
@@ -50,4 +50,13 @@
 		)
 	</select>
 
+	<select id="selectCntBySocialId" resultType="int" parameterType="User">
+		SELECT count(*) FROM (
+			SELECT *
+			FROM usertb
+			<where>
+				AND socialId = #{socialId}		
+			</where>
+		)
+	</select>
 </mapper>

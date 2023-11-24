@@ -19,5 +19,8 @@ public interface UserDao {
 	//닉네임 중복체크
 	public int selectCntByNick(User user);
 
+	//소셜 로그인
+	public int selectCntBySocialId(User user);
+
 
 }

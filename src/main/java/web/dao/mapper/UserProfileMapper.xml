@@ -230,10 +230,15 @@
 		ORDER BY cmt_no DESC
 	</select>
 
+
 	<select id="basketList" resultType="Map" parameterType="Basket">
 	</select>
 
-
-
+	<!-- 이메일수신 수정 -->
+	<update id="updateEmailSub" parameterType="User">
+		UPDATE usertb
+		SET email_agr = #{emailAgr}
+		WHERE id = #{id}
+	</update>
 
  </mapper>

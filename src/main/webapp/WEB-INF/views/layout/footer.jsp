@@ -133,20 +133,20 @@ function downFunction() {
 <div style="font-size: 20px; margin-bottom: 5px;"><strong>상담 시간</strong></div>
 <div style="font-size: 12px;">평일 09:00 - 18:00</div>
 <div style="font-size: 12px; margin-bottom: 12px; display: inline-block;">주말, 공휴일 휴뮤</div>
-<c:if test="${not empty isLogin }">
+<%-- <c:if test="${not empty isLogin }"> --%>
 	<div style="clear: both;"><form action="/admin/chat" method="get"><button id="footer-report-button1">1:1 문의</button></form></div>
-</c:if>
-<c:if test="${empty isLogin }">
-	<div style="clear: both;"><form action="/admin/chat" method="get"><button id="footer-report-button">1:1 문의</button></form></div>
-</c:if>
+<%-- </c:if> --%>
+<%-- <c:if test="${empty isLogin }"> --%>
+<%-- 	<div style="clear: both;"><form action="/admin/chat" method="get"><button id="footer-report-button">1:1 문의</button></form></div> --%>
+<%-- </c:if> --%>
 </div>
 
-<c:if test="${not empty isLogin }">
+<%-- <c:if test="${not empty isLogin }"> --%>
 	<span style="float: right; font-size: 10px; color: #ccc; margin-top: -38px; margin-right: 44px;">Copyright ⓒNeedit</span>
-</c:if>
-<c:if test="${empty isLogin }">
-	<span style="float: right; font-size: 10px; color: #ccc; margin-top: -75px; margin-right: 42px;">Copyright ⓒNeedit</span>
-</c:if>
+<%-- </c:if> --%>
+<%-- <c:if test="${empty isLogin }"> --%>
+<!-- 	<span style="float: right; font-size: 10px; color: #ccc; margin-top: -75px; margin-right: 42px;">Copyright ⓒNeedit</span> -->
+<%-- </c:if> --%>
 </div><!-- #fooeterStart -->
 <div style="margin-bottom: 20px;"></div>
 

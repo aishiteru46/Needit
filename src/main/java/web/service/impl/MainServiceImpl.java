@@ -64,19 +64,21 @@ public class MainServiceImpl implements MainService {
 	@Override
 	public Paging getPaging(Paging param) {
 		
+		//총 게시글 수 조회
 		int totalCount = mainDao.selectCntAll(param);
 		
-		Paging paging = new Paging(param.getMenu(), param.getCate(), totalCount, param.getCurPage(),12,10);
-		
+		//페이징 객체 생성(페이징 계산)
+		Paging paging = new Paging( param.getMenu(), param.getCate(), param.getSelectSub(), param.getSearchText(),totalCount, param.getCurPage(), 12, 10 );
+
 		return paging;
 	}
 
+	
 	@Override
-	public List<Map<String, Object>> list(Paging paging) {
-		return mainDao.selectAll(paging);
+	public List<Map<String, Object>> searchList(Paging paging) {
+
+		return mainDao.selectSearch(paging);
 	}
-	
-	
 	
 
 	

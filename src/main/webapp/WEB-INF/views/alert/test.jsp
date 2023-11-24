@@ -191,7 +191,7 @@ function loadAlert() { // 알림을 로드하는 함수
 		<option value="3">불가</option>
 		<option value="4">댓글</option>
 		<option value="5">채팅</option>
-		<option value="5">추천</option>
+		<option value="6">추천</option>
 	</select>
 	<label for="sender">알림보낸사람</label>
 	<input type="text" name="sender" placeholder="보낸사람">

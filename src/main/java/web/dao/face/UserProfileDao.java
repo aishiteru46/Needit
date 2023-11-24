@@ -201,7 +201,13 @@ public interface UserProfileDao {
 	 */
 	public List<Map<Board, Object>> basketList(Basket basket);
 
+	/**
+	 * 이메일 수신 동의 미동의 업데이트
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public int updateEmailSub(User user);
 
-	
 
 }

@@ -10,6 +10,11 @@
 	background-color: #ff8108;
 	width: 302px;
 }
+.table tr td{
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 </style>
 
 <script type="text/javascript">
@@ -36,27 +41,32 @@ function deleteBoard(boardNo) {
 <!-- 안쪽 내용 -->
 <div id="AdminContent">
 
+<!-- 게시글 신고 목록 -->
 <div id="reportBoard">
 <table class="table table-striped table-hover table-sm">
 
 <colgroup>
-	<col style="width: 10%;">
-	<col style="width: 30%;">
+	<col style="width: 16%;">
+	<col style="width: 24%;">
+	<col style="width: 6%;">
+	<col style="width: 6%;">
+	<col style="width: 13%;">
+	
 	<col style="width: 15%;">
-
 	<col style="width: 15%;">
-	<col style="width: 20%;">
-	<col style="width: 10%;">
+	<col style="width: 5%;">
 </colgroup>
 
 <thead>
 	<tr class="table-danger">
 		<th>게시글번호</th>
 		<th>제목</th>
+		<th>메뉴</th>
+		<th>카테고리</th>
 		<th>작성자</th>
 
 		<th>신고종류</th>
-		<th>작성일</th>
+		<th>신고날짜</th>
 		<th>삭제</th>
 	</tr>
 </thead>
@@ -66,6 +76,8 @@ function deleteBoard(boardNo) {
 	<tr>
 		<td>${list.BOARD_NO }</td>
 		<td>${list.TITLE }</td>
+		<td>${list.MENU }</td>
+		<td>${list.CATE }</td>
 		<td>${list.WRITER_ID }</td>
 		<td>${list.REPORT_TYPE }</td>
 		<td>${list.REPORT_DATE }</td>
@@ -78,37 +90,42 @@ function deleteBoard(boardNo) {
 
 <hr>
 
+
+<!-- 댓글 신고 목록 -->
 <div id="reportComment">
 <table class="table table-striped table-hover table-sm">
 
 <colgroup>
-	<col style="width: 10%;">
-	<col style="width: 30%;">
-	<col style="width: 15%;">
+	<col style="width: 8%;">
+	<col style="width: 8%;">
+	<col style="width: 36%;">
+	<col style="width: 13%;">
 
 	<col style="width: 15%;">
-	<col style="width: 20%;">
-	<col style="width: 10%;">
+	<col style="width: 15%;">
+	<col style="width: 5%;">
 </colgroup>
 
 <thead>
 	<tr class="table-danger">
+		<th>게시글번호</th>
 		<th>댓글번호</th>
-		<th>내용</th>
+		<th>댓글내용</th>
 		<th>작성자</th>
 
 		<th>신고종류</th>
-		<th>작성일</th>
+		<th>신고날짜</th>
 		<th>삭제</th>
 	</tr>
 </thead>
 
 <tbody>
-<c:forEach var="list" items="${reportBoardList }">
+<c:forEach var="list" items="${reportCmtList }">
 	<tr>
 		<td>${list.BOARD_NO }</td>
-		<td>${list.TITLE }</td>
-		<td>${list.WRITER_ID }</td>
+		<td>${list.CMT_NO }</td>
+		<td>${list.CONTENT }</td>
+		<td>${list.WRITER_NICK }</td>
 		<td>${list.REPORT_TYPE }</td>
 		<td>${list.REPORT_DATE }</td>
         <td><button class="delete_btn" onclick="deleteBoard(${list.BOARD_NO})">삭제</button></td>

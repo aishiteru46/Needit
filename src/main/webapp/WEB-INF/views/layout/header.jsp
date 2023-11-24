@@ -7,17 +7,37 @@
 <head>
 <meta charset="UTF-8">
 <title>Needit</title>
-
+<link rel="icon" href="resources/img/favicon.png" type="image/x-icon">
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
 <script type="text/javascript">
-
+$(() => {
+	   $("#title").focus()
+	   
+	   $("#content").summernote({
+	      height: 300,
+	      toolbar: [
+	          ['fontname', ['fontname']],
+	          ['fontsize', ['fontsize']],
+	          ['style', ['bold', 'italic', 'underline', 'clear']],
+	          ['color', ['forecolor','color']],
+	          ['table', ['table']],
+	          ['para', ['ul', 'ol', 'paragraph']],
+	          ['height', ['height']],
+	          ['insert',['picture','link']],
+	          ['view', ['fullscreen', 'help']]
+	        ],
+	      fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+	      fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+	   })
+	})
 $(document).ready(function(){
 	$('.menu_btn').click(function(){
 	$('.menu_btn').toggleClass('lijo');
@@ -59,16 +79,7 @@ $(document).ready(function(){
 	    $(this).removeClass('active');
 	});
 	
-	$("#logout_button").click(function(){
-	      //alert("버튼 작동");
-	      $.ajax({
-	          type:"POST",
-	          url:"/user/logout",
-	          success:function(data){
-	              document.location.reload();     
-	          } 
-	      }); // ajax 
-	  });
+
 	 $('#dropdownBtn').click(function () {
           // Toggle the visibility of the dropdown content
           $('.dropdown-content').toggle();
@@ -81,6 +92,26 @@ $(document).ready(function(){
 	        }
 	    });	
 	
+	  $("#logout_button").click(function(){
+		    //alert("버튼 작동");
+		    $.ajax({
+		        type: "POST",
+		        url: "/user/logout",
+		        success: function(data){
+		            // 현재 페이지 URL을 가져옴
+		            var currentPageUrl = window.location.href;
+		            
+		            // 만약 현재 페이지가 마이페이지라면 메인 페이지로 리다이렉트
+		            if (currentPageUrl.indexOf("/profile/view") !== -1) {
+		                window.location.href = "/main";
+		            } else {
+		                // 다른 페이지에서는 이전 동작(기존에는 이전 페이지로 돌아가는 동작)
+		                document.location.reload();
+		            }
+		        } 
+		    }); // ajax 
+		});
+	  
 });
 
 
@@ -89,7 +120,7 @@ $(document).ready(function(){
 <style type="text/css">
 
 #needitFont{color: #ff533f;}
-a {text-decoration: none; color: #333;}
+a {text-decoration: none; color: #343a40;}
 li {list-style: none; }
 nav {list-style: none; padding: 0; display: flex;}
 nav li {width: 150px; margin-right: 20px;}
@@ -112,7 +143,7 @@ nav li {width: 150px; margin-right: 20px;}
 #header.open .hd_bg{position: absolute;width: 100%;background: #fff;z-index: 1;transition: all .3s;border-top: 1px solid #dcdcdc; opacity: 95%;}
 #header .nav ul.gnb li ul.sub li a{text-align: center}
 #header .nav .active  {position: relative}
-#header .nav .active:hover:after{content: '';display: block;width: 100%;height: 2px;background: #000;position: absolute;left: 0;bottom: 0}
+#header .nav .active:hover:after{content: '';display: block;width: 100%;height: 2px;background: #000;position: absolute;left: 0;bottom: 0; background-color: #ccc}
 
 
 

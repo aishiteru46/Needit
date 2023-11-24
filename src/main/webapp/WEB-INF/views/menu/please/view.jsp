@@ -347,6 +347,13 @@ $(()=>{
 
 
 
+<button type="button" style="width: 30px; height: 30px; float: right;" id="report" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">
+<div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div>
+</button>
+
+
+
+
 
 <div class="container">
 

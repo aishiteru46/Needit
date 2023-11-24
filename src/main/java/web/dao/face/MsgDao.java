@@ -3,6 +3,7 @@ package web.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import web.dto.Board;
 import web.dto.Msg;
 import web.dto.User;
 
@@ -62,6 +63,11 @@ public interface MsgDao {
 	public void makeNewRoom(Msg msg);
 
 	public Integer selectNewRoomByMap(Map<String, Object> map);
+
+	public Board selectByBoardNo(int boardNo);
+	
+	public List<Map<String, Object>> selectThumbnail(int boardNo);
+
 
 
 

@@ -62,5 +62,16 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
+	@Override
+	public boolean social(User user) {
+		int result = userDao.selectCntBySocialId(user);
+		
+		if( result > 0) {
+			return true;
+		}
+		
+		return false;
+	}
+
 
 }

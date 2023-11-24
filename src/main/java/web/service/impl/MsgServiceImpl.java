@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import oracle.sql.TIMESTAMP;
 import web.dao.face.MsgDao;
+import web.dto.Board;
 import web.dto.Msg;
 import web.dto.Room;
 import web.dto.User;
@@ -131,6 +132,16 @@ public class MsgServiceImpl implements MsgService {
 	@Override
 	public Integer checkNewRoom(Map<String, Object> map) {
 		return msgDao.selectNewRoomByMap(map);
+	}
+
+	@Override
+	public Board getBoardLoad(int boardNo) {
+		return msgDao.selectByBoardNo( boardNo );
+	}
+
+	@Override
+	public List<Map<String, Object>> getThumnail(int boardNo) {
+		return msgDao.selectThumbnail(boardNo);
 	}
 
 }

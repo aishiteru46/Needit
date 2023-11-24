@@ -59,7 +59,15 @@ public interface MainDao {
 	 * @param paging- 페이징
 	 * @return 검색결과 리스트
 	 */
-	public List<Map<String, Object>> selectAll(Paging paging);
+//	public List<Map<String, Object>> selectAll(Paging paging);
+
+	/**
+	 * 검색요청 목록 조회
+	 * 
+	 * @param paging
+	 * @return
+	 */
+	public List<Map<String, Object>> selectSearch(Paging paging);
 	
 
 }

@@ -291,8 +291,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 
-	
-
+	public int emailSubUpdate(User user) {
+		return userProfileDao.updateEmailSub(user);
+	}
 
 
 }
