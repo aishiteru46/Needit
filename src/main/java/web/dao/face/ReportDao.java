@@ -10,6 +10,6 @@ public interface ReportDao {
 	 * @param report 예약 정보
 	 * @return 1 삽입 성공 2 실패
 	 */
-	int insert(Report report);
-
+	public int insert(Report report);
+	
 }

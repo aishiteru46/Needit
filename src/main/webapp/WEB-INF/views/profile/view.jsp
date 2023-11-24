@@ -34,6 +34,56 @@ function setThumbnail(event) {
 
 //프로필사진바로삭제
 $(function(){
+
+   $("#imgDelete").click(function(){
+      console.log("프로필사진 삭제 작동")
+      
+      $.ajax({
+          type: "get"
+          , url: "/profile/imgdelete"
+          , data: {}
+          , dataType: "json"
+          , success: function( res ) {  
+             console.log("AJAX 성공")
+            location.reload()
+            
+          }
+         , error: function() {
+             console.log("AJAX 실패")
+         
+          }
+      })
+   })
+   
+});
+
+
+
+
+
+//예약 승인 
+$(function(){
+	$("#confirmBtn").click(function(){
+		var confirmBtn = $(this);
+		  $.ajax({
+		         type: "post"
+		         , url: "/profile/confirm"
+		         , data: {
+		        	 rentNo: confirmBtn.data("rent_no")
+		             , boardNo: confirmBtn.data("board_no")
+		         }
+		         , dataType: "json"
+		         , success: function( res ) {
+		            console.log("AJAX 성공")
+		            location.reload()
+
+		         }
+		         , error: function() {
+		            console.log("AJAX 실패")
+
+		         }
+		      })
+    
 	$("#imgDelete").click(function(){
 		console.log("프로필사진 삭제 작동")
 		
@@ -52,12 +102,40 @@ $(function(){
 			
 			 }
 		})
+
 	})
 	
 });
 
-//프로필사진 등록
+
 $(function(){
+
+	$(".cancelBtn").click(function(){
+		var cancelBtn = $(this);
+		  $.ajax({
+		         type: "post"
+		         , url: "/profile/cancel"
+		         , data: {
+		        	 rentNo: cancelBtn.data("rent_no")
+		             , boardNo: cancelBtn.data("board_no")
+		         }
+		         , dataType: "json"
+		         , success: function( res ) {
+		            console.log("AJAX 성공")
+		            location.reload()
+
+		         }
+		         , error: function() {
+		            console.log("AJAX 실패")
+
+		         }
+		      })
+    })
+});
+    
+$(function(){
+  
+  //프로필사진 등록
 	$("#imgUpdate").click(function(){
 		console.log("프로필사진 업데이트 작동")
 		
@@ -80,10 +158,10 @@ $(function(){
 			
 			 }
 		})
+
 	})
 	
 });
-
 
 
 //자기소개 수정
@@ -114,8 +192,6 @@ $(function(){
 	})
 	
 });
-
-
 </script>
 
 
@@ -242,7 +318,7 @@ ${userGrade }
             	
                	<!-- 썸네일 미리보기를 담을 div 추가 -->
                	<div id="thumbnail_container"></div>
-               	
+
                    <!-- 이미지 등록 버튼 -->
                    <div class="btn btn-primary btn-sm pull-right" id="imgUpdate" >등록</div>
                </td>
@@ -336,14 +412,25 @@ function confirmAndSubmit(userId) {
 		<td>${list.RENT_DATE }</td>
 		<td>${list.START_TIME }</td>
 		<td>${list.END_TIME }</td>
-		<td>${checkCon }</td>
-		<td>${checkCan }</td>
-		<td><button class="confirmBtn"data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }"></button></td>
-		<td><button class="cancelBtn"data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }"></button></td>
+    
+		<c:if test="${list.RENT_STATUS eq 1 }">
+			<td><button id="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
+		</c:if>
+		<c:if test="${list.RENT_STATUS eq 2 }">
+			<td><button disabled="disabled">승인 완료</button></td>
+		</c:if>
+		<c:if test="${list.RENT_STATUS eq 1 }">
+			<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
+		</c:if>
+		<c:if test="${list.RENT_STATUS eq 0 }">
+			<td><button disabled="disabled">취소 완료</button></td>
+		</c:if>
+    
 	</tr>
 	
 </c:forEach>
 </table>
+<c:import url="/WEB-INF/views/layout/pagination.jsp" />
 		
 <hr>
 
@@ -368,8 +455,12 @@ function confirmAndSubmit(userId) {
 		<td>${list.RENT_DATE }</td>
 		<td>${list.START_TIME }</td>
 		<td>${list.END_TIME }</td>
-		<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
-	</tr>
+		<c:if test="${list.RENT_STATUS eq 1 }">
+			<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
+		</c:if>
+		<c:if test="${list.RENT_STATUS eq 0 }">
+			<td><button disabled="disabled">취소 완료</button></td>
+		</c:if>
 </c:forEach>
 </table>
 

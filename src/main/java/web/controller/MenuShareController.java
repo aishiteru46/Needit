@@ -259,31 +259,36 @@ public class MenuShareController {
 		
 	}
 	
-	
-	@PostMapping("/basket")
+	@RequestMapping("/basket")
 	public String basket(
 			Basket basket, Model model
 			, HttpSession session) {
+		logger.info("바스켓이다옹{}",basket);
 		
 		basket.setBasketId((String)session.getAttribute("id"));
 		
-		int check = menuShareFace.insert(basket);
-		logger.info("찜 여부{}", basket);
-		model.addAttribute("check",check);
+		boolean bas = menuShareFace.checkBasket(basket);
+		logger.info("찜여부{}",bas);
+		model.addAttribute("check", bas);
+		
+		return "jsonView";
+	}
+	@RequestMapping("/deletebasket")
+	public String deletebasket(
+			Basket basket, Model model
+			, HttpSession session) {
+		
+		boolean bas = menuShareFace.checkBasket(basket);
+		logger.info("찜여부{}",bas);
+		model.addAttribute("deleteCheck", bas);
+		
 		return "jsonView";
 	}
 	
-	@PostMapping("/deletebasket")
-	public String deleteBasket( 
-			Basket basket , Model model
-			, HttpSession session ) {
-		basket.setBasketId((String)session.getAttribute("id"));
 
-		menuShareFace.deleteBasket(basket);
-		
-		return "jsonView";
-		
-	}
+	
+	
+	
 	
 	
 	

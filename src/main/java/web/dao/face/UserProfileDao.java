@@ -3,12 +3,14 @@ package web.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Comment;
 import web.dto.Like;
 import web.dto.Rent;
 import web.dto.User;
 import web.dto.UserFile;
+import web.util.Paging;
 
 public interface UserProfileDao {
 
@@ -27,13 +29,21 @@ public interface UserProfileDao {
 	 * @param userId
 	 */
 	public void deleteUser(String userId);
+	
+	/**
+	 * 페이징
+	 * 
+	 * @param param 페이징
+	 * @return 페이징
+	 */
+	public int selectCntAll(Paging param);
 
 	/**
 	 * 예약 정보 확인
 	 * 
 	 * @param rent 예약 정보
 	 */
-	public List<Map<String,Object>> selectMyRentList(User user);
+	public List<Map<String,Object>> selectMyRentList(Paging paging);
 	
 	/**
 	 * 내가 예약한 정보 확인
@@ -183,6 +193,13 @@ public interface UserProfileDao {
 	 */
 	public List<Map<String, Object>> selectCommentById(Comment comment);
 
+	/**
+	 * 내가 찜한 목록 가져오기
+	 * 
+	 * @param basket 찜 목록
+	 * @return 찜 목록
+	 */
+	public List<Map<Board, Object>> basketList(Basket basket);
 
 	/**
 	 * 이메일 수신 동의 미동의 업데이트
@@ -191,5 +208,6 @@ public interface UserProfileDao {
 	 * @return
 	 */
 	public int updateEmailSub(User user);
+
 
 }

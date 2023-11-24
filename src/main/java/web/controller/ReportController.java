@@ -19,7 +19,8 @@ public class ReportController {
 	@Autowired ReportService reportService;
 	
 	@RequestMapping("/report")
-	public String reportProc(Report report, HttpSession session) {
+	public String reportProc(
+			Report report, HttpSession session) {
 		logger.info("신고{}", report);
 		
 		report.setReportId((String)session.getAttribute("id"));

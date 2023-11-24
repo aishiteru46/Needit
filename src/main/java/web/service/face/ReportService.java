@@ -10,6 +10,7 @@ public interface ReportService {
 	 * @param report 신고 정보
 	 * @return true false
 	 */
-	boolean insertReport(Report report);
+	public boolean insertReport(Report report);
+	
 
 }

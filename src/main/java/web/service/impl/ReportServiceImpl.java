@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dao.face.ReportDao;
+import web.dto.Board;
 import web.dto.Report;
 import web.service.face.ReportService;
 
