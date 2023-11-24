@@ -21,5 +21,6 @@ public class User {
 	private String grade;
 	private String intro;
 	private int businessNo;
+	private int emailAgr;
 	
 }

@@ -183,4 +183,13 @@ public interface UserProfileDao {
 	 */
 	public List<Map<String, Object>> selectCommentById(Comment comment);
 
+
+	/**
+	 * 이메일 수신 동의 미동의 업데이트
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public int updateEmailSub(User user);
+
 }

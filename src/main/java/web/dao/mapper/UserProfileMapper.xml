@@ -223,7 +223,12 @@
 	
 	</select>
 
-	
+	<!-- 이메일수신 수정 -->
+	<update id="updateEmailSub" parameterType="User">
+		UPDATE usertb
+		SET email_agr = #{emailAgr}
+		WHERE id = #{id}
+	</update>
 
 
 
