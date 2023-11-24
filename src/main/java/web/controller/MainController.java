@@ -38,8 +38,8 @@ public class MainController {
 		logger.info("메인화면 진입");
 		
 		//페이징 계산-검색용
-		Paging paging = mainService.getPaging(param);
-		logger.info("{}", paging);
+//		Paging paging = mainService.getPaging(param);
+//		logger.info("{}", paging);
 
 		
 		//배너 조회,출력
@@ -73,30 +73,49 @@ public class MainController {
 		return "main/main";
 	}//@Get main() End.
 	
+	//전체검색 목록
+//    @GetMapping("/mainSearch")
+//    public String mainSearch() {
+//    	return "main/mainSearch";
+//    }
+
+	//----------------------------------------------------
 	
 	//검색
-	@PostMapping("/list")
-	public String list( Paging param, Model model ) {
-		logger.info("param : {}", param);
+	//게시판 목록 그리드타입 띄우기
+//	@PostMapping("/mainSearch")
+//	public String list( Paging param, Model model ) {
+//		logger.info("param : {}", param);
+//		
+//		//페이징 계산
+//		Paging paging = mainService.getPaging(param);
+//		
+//		//게시글 목록 조회
+//		List<Map<String, Object>> list = mainService.list(paging); 
+//		model.addAttribute("paging", paging);
+//		model.addAttribute("list", list);
+//		
+//		return "main/mainSearch";
+//	}
+    
+	//검색한 게시판 목록 리스트타입 띄우기
+	@GetMapping("/mainSearch")
+	public String mainSearch( Board board, Model model, Paging param ) {
+		logger.info("mainSeacrh[GET]");
+		logger.info("검색어 : {}", param.getSearchText());
 		
 		//페이징 계산
 		Paging paging = mainService.getPaging(param);
+		logger.info("검색된 게시글 수  : {}", paging.getTotalCount());
 		
-		//게시글 목록 조회
-		List<Map<String, Object>> list = mainService.list(paging); 
+		List<Map<String, Object>> list = mainService.searchList(paging);
+		logger.info("검색된 게시글 내용  : {}", list);
+		
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
-		return "menu/rent/list";
+		return "main/mainSearch";
 	}
-	
-	//전체검색 목록
-    @GetMapping("/mainSearch")
-    public String mainSearch() {
-    	return "main/mainSearch";
-    }
-    
-	
 	
     
 	//내 주변지도

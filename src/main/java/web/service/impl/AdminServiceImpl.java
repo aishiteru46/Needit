@@ -104,18 +104,32 @@ public class AdminServiceImpl implements AdminService {
 	
 	//공지사항 작성
 	@Override
-	public void writeNotice(Board writeParamNotice) {
+	public void writeNotice(Board board) {
 
-		//글작성 
-		adminDao.insertBoard(writeParamNotice);
+		adminDao.insertNotice(board);
 	}
 	
 	
-	//공지사항 list 조회
+	//메인에서 공지사항 list 조회
 	@Override
 	public List<Board> noticeList() {
 
-		return adminDao.selectAll();
+		return adminDao.selectAllNotice();
+	}
+
+	//관리자에서 공지사항 list 조회
+	@Override
+	public List<Map<String, Object>> adminNoticeList() {
+
+		return adminDao.adminSelectAllNotice();
+	}
+	
+	//공지삭제
+	@Override
+	public void deleteNotice(Board board) {
+		
+		adminDao.deleteNoticeFile(board);
+		adminDao.deleteNotice(board);
 	}
 
 	//DB에서 이메일 불러오기

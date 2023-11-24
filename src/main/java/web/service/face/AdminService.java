@@ -27,21 +27,36 @@ public interface AdminService {
 	public List<Banner> getBannerNo();
 
 	/**
+	 * 메인에서 공지 목록 조회
+	 * 
+	 * @return 공지 목록
+	 */
+	public List<Board> noticeList();
+
+	/**
+	 * 관리자에서 공지 조회
+	 * 
+	 * @return 공지 목록
+	 */
+	public List<Map<String, Object>> adminNoticeList();
+	
+	/**
 	 * 게시글 작성 처리
 	 *  + 첨부 파일을 처리한다
 	 *  (첨부 파일은 여러 개 가능)
 	 * 
-	 * @param writeParam - 게시글 정보 객체
+	 * @param board - 게시글 정보 객체
 	 * @param file - 첨부 파일 리스트
 	 */
-	public void writeNotice(Board writeParamNotice);
-
+	public void writeNotice(Board board);
+	
 	/**
-	 * 게시글 목록 조회
+	 * 공지 삭제
 	 * 
-	 * @return 게시글 목록
+	 * @param board - 게시글 정보 객체
 	 */
-	public List<Board> noticeList();
+	public void deleteNotice(Board board);
+
 
 	/**
 	 * 메일 전송을 위해 DB에서 이메일을 불러온다
@@ -70,6 +85,9 @@ public interface AdminService {
 	 * @param board - 게시글 정보 객체
 	 */
 	public void deleteBoardCmt(Board board, Comment cmt);
+
+
+
 
 
 

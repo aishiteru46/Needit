@@ -33,18 +33,39 @@ public interface AdminDao {
 	public List<Banner> getStoredName();
 
 	/**
-	 * 게시글 정보를 삽입한다
+	 * 공지사항 작성
 	 * 
-	 * @param writeParamNotice - 삽입할 게시글 정보
+	 * @param board - 삽입할 게시글 정보
 	 */
-	public void insertBoard(Board writeParamNotice);
+	public void insertNotice(Board board);
 
 	/**
-	 * 공지 게시글 목록 조회
+	 * 메인에서 공지 게시글 목록 조회
 	 * 
-	 * @return 게시글 목록
+	 * @return 공지 목록
 	 */
-	public List<Board> selectAll();
+	public List<Board> selectAllNotice();
+	
+	/**
+	 * 관지자에서 공지 게시글 목록 조회
+	 * 
+	 * @return 공지 목록
+	 */
+	public List<Map<String, Object>> adminSelectAllNotice();
+	
+	/**
+	 * 공지 삭제를 위한 파일 삭제
+	 * 
+	 * @param writeNotice - 공지
+	 */
+	public void deleteNoticeFile(Board board);
+
+	/**
+	 * 공지 삭제
+	 * 
+	 * @param writeNotice - 공지
+	 */
+	public void deleteNotice(Board board);
 
 	/**
 	 * 전체 게시글 수를 조회한다
@@ -115,6 +136,9 @@ public interface AdminDao {
 	 * @param cmt - 댓글만 삭제
 	 */
 	public void deleteComment(Comment cmt);
+
+
+
 
 
 	

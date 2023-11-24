@@ -153,7 +153,7 @@ li:hover{
 <!-- 목록 -->
 <div id="AdminList">
 <ul id="AdminUl">
-<li id="AdminDayVisit"><a href="/admin/dayVisit">방문자수 조회</a></li>
+<!-- <li id="AdminDayVisit"><a href="/admin/dayVisit">방문자수 조회</a></li> -->
 <li id="AdminChat"><a href="/admin/chat">1:1 채팅문의 목록</a></li>
 <li id="AdminReport"><a href="/admin/reportList">신고접수 목록</a></li>
 <li id="AdminBusiness"><a href="/admin/businessReq">업체요청 목록</a></li>
