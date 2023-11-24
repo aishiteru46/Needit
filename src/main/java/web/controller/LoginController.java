@@ -77,6 +77,7 @@ public class LoginController {
 		user = userService.infoNick(user);
 		session.setAttribute("isLogin", islogin);
 		
+		
 		if(islogin) {
 			logger.info("로그인 성공 {}",user);
 			session.setAttribute("id", user.getId());
@@ -89,8 +90,35 @@ public class LoginController {
 			
 			return ResponseEntity.ok("fail"); // 로그인 페이지로 리다이렉트
 		}
-	}
 	
+		
+	}
+	@GetMapping("/social")
+	public void social() {}
+	
+	@PostMapping("/social")
+	public ResponseEntity<String> socialProc( User user, HttpSession session) {
+		
+		boolean socialId = userService.social(user);
+		user = userService.infoNick(user);
+		session.setAttribute("isLogin", socialId);
+		
+		
+		if(socialId) {
+			logger.info("로그인 성공 {}",user);
+			session.setAttribute("id", user.getId());
+			session.setAttribute("nick", user.getNick());
+			session.setAttribute("addr1", user.getAddr1());
+			
+			return ResponseEntity.ok("success");
+		} else {
+			logger.info("회원가입");
+			
+			return ResponseEntity.ok("fail"); // 로그인 페이지로 리다이렉트
+		}
+	
+		
+	}
 	@PostMapping("/logout")
 	@ResponseBody
     public void logoutPOST(HttpServletRequest request) throws Exception{
