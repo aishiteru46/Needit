@@ -10,14 +10,37 @@
 	background-color: #ff8108;
 	width: 302px;
 }
+#longText{
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+}
 </style>
 
 <script type="text/javascript">
-$(() => {
-	$("#title").focus()
+// $(() => {
+// 	$("#title").focus()
 	
-	})
-})
+// 	})
+// })
+
+/* 삭제 버튼 */
+function deleteBoard(boardNo) {
+    if (confirm('정말로 삭제하시겠습니까?')) {
+        $.ajax({
+            type: "POST",
+            url: "/admin/reportList",
+            data: { boardNo: boardNo },
+            success: function (response) {
+                location.reload();
+            },
+            error: function (e) {
+                console.log("에러 발생: ", e);
+            }
+        });
+    }
+}
+
 </script>
 
 <!-- 안쪽 내용 -->
@@ -48,6 +71,53 @@ $(() => {
 
 </form>
 </div><!-- .col-10 mx-auto -->
+
+<hr>
+
+<!-- 작성한 공지 목록 -->
+<div>
+
+<table class="table table-striped table-hover table-sm" style="table-layout: fixed">
+
+<colgroup>
+	<col style="width: 10%;">
+	<col style="width: 20%;">
+	<col style="width: 50%;">
+	
+	<col style="width: 15%;">
+	<col style="width: 15%;">
+</colgroup>
+
+<thead>
+	<tr class="table-danger">
+		<th>게시글번호</th>
+		<th>제목</th>
+		<th>내용</th>
+
+		<th>작성날짜</th>
+		<th>삭제</th>
+	</tr>
+</thead>
+
+<tbody>
+<c:forEach var="list" items="${noticeList }">
+	<tr>
+		<td>${list.BOARD_NO }</td>
+		<td id="longText">${list.TITLE }</td>
+		<td id="longText">${list.CONTENT }</td>
+		<td>${list.WRITE_DATE}</td>
+        <td><button class="delete_btn" onclick="deleteBoard(${list.BOARD_NO})">삭제</button></td>
+	</tr>
+</c:forEach>
+</tbody>
+</table>
+
+
+</div>
+
+
+
+
 
 
 </div><!-- .AdminContent -->

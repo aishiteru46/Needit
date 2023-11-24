@@ -112,4 +112,27 @@ SELECT room_no FROM msgtb
 	</where>
 GROUP BY room_no
 </select>
+
+<select id="selectByBoardNo">
+	SELECT * FROM board
+	WHERE board_no = #{boardNo}
+</select>
+
+<select id="selectThumbnail" resultType="Map">
+   SELECT *
+   FROM (
+       SELECT
+           B.board_no, B.title, F.thumbnail_name, B.menu, B.cate
+       FROM
+           board B
+       LEFT JOIN
+           filetb F ON B.board_no = F.board_no
+       WHERE
+       B.board_no = #{boardNo}
+       ORDER BY
+       B.board_no DESC
+   )
+</select>    
+
+
   </mapper>

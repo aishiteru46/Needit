@@ -292,7 +292,9 @@ form {
 #label1{
 	display: none;
 }
-
+#socialId{
+	display: none;
+}
 </style>
 </head>
 <body>
@@ -366,8 +368,8 @@ form {
     		<input type="text" class="form-control form-control-lg mb-3" id="phone" name="phone" placeholder="전화번호를 입력해주세요" >
     		
     		<div class="position-relative">
-    		<label class="fs-3 fw-bold">*이메일</label> 
-    		<input class=" position-absolute top-50 end-0 translate-middle-y btn btn-danger" type="button" value="인증코드 발송" onclick="sendEmail()">
+    		<label class="fs-3 fw-bold">*이메일</label>  <input type="checkbox" id="emailAgr" value="1">이메일 수신 동의
+    		<input id="needit" class=" position-absolute top-50 end-0 translate-middle-y btn btn-danger" type="button" value="인증코드 발송" onclick="sendEmail()">
     		</div>
    	 		<input type="email" class="form-control form-control-lg mb-3" name="email" id="email" placeholder="이메일을 입력해주세요" required="required">
    	 		
@@ -375,16 +377,17 @@ form {
   			<label class="fs-3 fw-bold">*인증번호</label>
   			<span class="position-absolute top-50 end-0 translate-middle-y" id="codecheck_blank" style="font-size: 15px;"></span>
     		</div>
-			<input type="text" class="form-control form-control-lg mb-3" id="codeInput" placeholder="인증번호 입력"  required="required" disabled="disabled">
+			<input  type="text" class="form-control form-control-lg mb-3" id="codeInput" placeholder="인증번호 입력"  required="required" disabled="disabled">
   		</div>
   		
 	</div>
 </div>
 
-
-	<div>
-	<button id="needit1"class=" col-12 btn btn-danger btn-lg" >회원가입</button>
 	
+	<div>
+	<button id="needit"class=" col-12 btn btn-danger btn-lg" >회원가입</button>
+	
+	<input type="text" id="socialId">
 	</div>
 </form>
 </div>

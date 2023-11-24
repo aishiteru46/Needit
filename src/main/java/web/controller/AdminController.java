@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dto.Banner;
 import web.dto.Board;
 import web.dto.Comment;
+import web.dto.FileTb;
 import web.dto.Like;
 import web.dto.Report;
 import web.dto.User;
@@ -125,30 +126,7 @@ public class AdminController {
 	}
 	
 	
-	//관리자 공지조회
-	@GetMapping("/admin/noticeUpdate")
-	public void noticeUpdate(Model model, Board board) {
-		
-//		List<Map<String, Object>> noticeList = adminService.noticeList();
-//		model.addAttribute("noticeList", noticeList);
-	}
-	
-	//관리자 공지등록
-	@PostMapping("/admin/noticeUpdate")
-	public String noticeUpdateProc(
-			Board writeNotice,
-			HttpSession session
-			) {
-		
-		writeNotice.setWriterId((String) session.getAttribute("id"));
-		writeNotice.setWriterNick((String) session.getAttribute("nick"));
-		
-		adminService.writeNotice(writeNotice);
-		
-		return "redirect:/admin/noticeUpdate";
-	}
-	
-	//공지사항 list 조회
+	//메인에서 공지사항 list 조회
 	@GetMapping("/admin/noticeList")
 	public void noticeList(Model model, HttpSession session) {
 		
@@ -157,6 +135,31 @@ public class AdminController {
 //		session.setAttribute("noticeList", noticeList);
 		
 //		logger.info("공지사항 목록 : {}", noticeList);
+	}
+	
+	
+	//관리자 공지조회
+	@GetMapping("/admin/noticeUpdate")
+	public void noticeUpdate(Model model, Board board) {
+		
+		List<Map<String, Object>> noticeList = adminService.adminNoticeList();
+		model.addAttribute("noticeList", noticeList);
+	}
+	
+	//관리자 공지등록
+	@PostMapping("/admin/noticeUpdate")
+	public String noticeUpdateProc(
+			Board board,
+			HttpSession session
+			) {
+		
+		board.setWriterId((String) session.getAttribute("id"));
+		board.setWriterNick((String) session.getAttribute("nick"));
+		
+		adminService.writeNotice(board);
+		adminService.deleteNotice(board);
+		
+		return "redirect:/admin/noticeUpdate";
 	}
 	
 	
@@ -219,7 +222,7 @@ public class AdminController {
         return "forward:/admin/emailSend";
 	}
 	
-	//신고버튼 클릭시
+	//신고목록
 	@GetMapping("/admin/reportList")
 	public void report(
 			Model model,
@@ -240,6 +243,7 @@ public class AdminController {
 		model.addAttribute("reportCmtList", reportCmtList);
 	}
 	
+	//신고목록 삭제
 	@PostMapping("/admin/reportList")
 	public String deleteReport(Board board, Comment cmt) {
 		

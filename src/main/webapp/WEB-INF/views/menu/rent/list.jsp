@@ -8,6 +8,26 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 
+<script type="text/javascript">
+$(()=>{
+	
+    <%-- 검색버튼 CSS적용 --%>
+	$("#searchBtn").mouseover(function(){
+		$("#searchBtn")	
+			.css("color", "white")
+			.css("background-color", "rgb(255,83,63)")
+			.text("Needit")
+	}).mouseout(function () {
+        $(this)
+        .css("color", "")  // 원래 색으로 돌아가기 위해 빈 문자열로 설정
+        .css("background-color", "")
+        .text("Search");
+	});
+	
+
+});
+</script>
+
 <style type="text/css">
 .write {
 	float: right;
@@ -163,6 +183,7 @@
 	margin-left: 10px;
 }
 #searchText {
+	vertical-align:top;
     height: 30px;
     font-size: 15px; 
     border: 1px solid #ccc;
@@ -170,20 +191,21 @@
     border-bottom-right-radius: 10px;
 }
 #searchText::placeholder {
+	vertical-align:top;
 	font-style: italic;
 	font-size: 13px;
+	margin: 2px;
 }
-#searchBtn:hover {
-	color: white;
-	background-color: rgb(255,83,63);
-}
+/* #searchBtn:hover { */
+/* 	color: white; */
+/* 	background-color: rgb(255,83,63); */
+/* } */
 #searchBtn {
 	float: right;
     height: 20px;
-    vertical-align: middle;
     font-size: 12px;
     margin-left: -53px;
-    margin-top: 7px;
+    margin-top: 5px;
     position: absolute;
     border: 0;
     border-radius: 15px;
@@ -191,13 +213,18 @@
     color: white;
 }
 #selectSub {
+	text-align: center;
+	vertical-align:top;
     height: 30px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
     position: relative;
-    margin-right: -9px;
+    margin-right: -8.5px;
+    appearance: none;
+	-webkit-appearance: none;
+ 	-moz-appearance: none;
 }
 #selectSub:focus
 ,#searchText:focus {
@@ -217,6 +244,7 @@ form {
     width: 450px;
     padding: 20px;
     margin-left: -20px;
+    margin-top: 4px;
 }
 </style>
 
@@ -246,17 +274,20 @@ form {
 <!--게시글 검색-->
 <div class="search-container">
 	<form action="/rent/search" method="get">
-    <select name="selectSub" id="selectSub">
+    <select name="selectSub" id="selectSub" required="required">
+    	<option value="" selected disabled hidden>선택&#129047;</option>
     	<option value="title">제목</option>
     	<option value="content">내용</option>
     	<option value="writerNick">작성자</option>
-    	<option value="location" selected="selected">지역</option>
+    	<option value="location">지역</option>
     </select>
     
-    <input type="text" name="searchText" id="searchText" placeholder=" Need it Now!">
+    <input type="text" name="searchText" id="searchText" placeholder=" Need it Now!" 
+    	required required oninvalid="this.setCustomValidity('검색어를 입력해주세요')" 
+    	oninput="this.setCustomValidity('')">
     <input type="hidden" name="menu" value="${param.menu }">
     <input type="hidden" name="cate" value="${param.cate }">
-    <button id="searchBtn">Needit</button>
+    <button type="submit" id="searchBtn">Search</button>
     </form>
 </div>
 

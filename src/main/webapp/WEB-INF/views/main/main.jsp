@@ -25,18 +25,21 @@
 /* 검색 */ 
 #MainSearchDiv {
     position: absolute;
-    margin-top: -37px;
+    vertical-align: top;
+    margin-top: -46px;
     margin-left: 800px;
 }
-#MainSearchDiv1{
-    position: absolute;
-    margin-top: -57px;
-    margin-left: 780px;
-}
+/* #MainSearchDiv1{ */
+/*     position: absolute; */
+/*     margin-top: -57px; */
+/*     margin-left: 780px; */
+/* } */
 /* 검색input */
 #MainSearch {
     position: inherit;
+    vertical-align: top;
     width: 355px;
+    height: 35px;
     border: 1px solid #ccc;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -44,6 +47,8 @@
 /* 검색버튼 */
 #MainBtnSearch {
     position: inherit;
+    vertical-align: top;
+    height: 35px;
     margin-left: -7px;
     border: 1px solid #ccc;
     border-top-right-radius: 5px;
@@ -166,6 +171,8 @@
 	font-size: 17px;
 	font-weight: bold;
 	margin-top: 5px;
+	
+	/* 긴내용 자르고 뒤에... */
 	overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -275,10 +282,28 @@
 #textMargin{
 	margin-bottom: 2.5em;
 }
+
+.modal-content{
+	width: 300px;
+    margin: 0 auto;
+}
+#searchAlert{
+	text-align: center;
+}
+
 </style>
 
 
+<script type="text/javascript">
+
+
+</script>
+
 <div id="container">
+
+
+
+
 
 <!-- 이미지 불러오기 -->
 <%-- <img alt="asd" src="/resources/banner/${모델값(컨트롤러가 보내줌) }"> --%>
@@ -295,35 +320,17 @@
 <!-- <div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div> -->
 <!-- </button> -->
 
-<c:if test="${not empty isLogin }">
-<!-- 검색 -->
+<!-- 검색버튼 -->
+
 <div id="MainSearchDiv">
   <form action="/mainSearch" method="get" id="searchForm">
-    <div>
-    	<div>
-			<input type="text" id="MainSearch" value="${param.search}" placeholder=" 필요한 것을 검색해보세요." />
-			<button id="MainBtnSearch">검색</button>
-		</div>
-	</div>
+	<input type="text" name="searchText" id="MainSearch" placeholder=" 필요한 것을 검색해보세요."
+		required oninvalid="this.setCustomValidity('제목을 입력해주세요')" oninput="this.setCustomValidity('')"/>
+	<button id="MainBtnSearch">검색</button>
   </form>
-</div>
-</c:if>
+</div><!-- #MainSearchDiv -->
 
-<c:if test="${empty isLogin }">
-<!-- 검색 -->
-<div id="MainSearchDiv1">
-  <form action="/mainSearch" method="get" id="searchForm">
-    <div>
-    	<div>
-			<input type="text" id="MainSearch" value="${param.search}" placeholder=" 필요한 것을 검색해보세요." />
-			<button id="MainBtnSearch">검색</button>
-		</div>
-	</div>
-  </form>
-</div>
-</c:if>
-
-<div style="margin-bottom: 82px;"></div>
+<div style="margin-bottom: 90px;"></div>
 <!-- 썸네일 -->
 <!-- 저장 경로를 img폴더로 지정, src에 storedname EL문으로 불러오기 -->
 <div id="Thumbnail">
@@ -364,7 +371,7 @@
 			<c:if test="${not empty boardRentInfo.THUMBNAIL_NAME }">
 				<div><img src="/upload/${boardRentInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></div>
 			</c:if>
-			<c:if test="${empty boardRentInfo.THUMBNAIL_NAME }">			
+			<c:if test="${empty boardRentInfo.THUMBNAIL_NAME }">	
 				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
 			</c:if>
 		</a>

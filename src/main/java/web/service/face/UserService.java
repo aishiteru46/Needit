@@ -22,5 +22,8 @@ public interface UserService {
 	//닉네임 체크
 	public boolean ncikCheck(User user);
 
+	//소셜 아이디 체크
+	public boolean social(User user);
+
 
 }

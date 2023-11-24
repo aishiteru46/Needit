@@ -9,11 +9,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
-<!-- HEADER -->
+<%-- Header --%>
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
+<%-- Style --%>
 <style type="text/css">
-
 #map-container {
     overflow: hidden;
     height: 0;
@@ -338,6 +338,7 @@ $(()=>{
 }); //Kakao Map API End.
 </script>
 
+<%-- Body --%>
 <div class="container">
 
 <table class="table table-bordered">

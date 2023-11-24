@@ -22,5 +22,6 @@ public class User {
 	private String intro;
 	private int businessNo;
 	private int emailAgr;
-	
+	private String socialId;
+
 }
