@@ -2,8 +2,44 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script> -->
+<%-- 결제CDN --%>
+<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
+<%-- 결제요청 처리 --%>
+<script type="text/javascript">
+
+var IMP = window.IMP;
+IMP.init("imp47417351");
+
+function requestPay() {
+ 
+  IMP.request_pay(
+    {
+      pg: "html5_inicis",
+      pay_method: "card",
+      merchant_uid: "57008833-330045",
+      name: "${board.title}",
+      amount: ${board.price },
+      buyer_email: "xl7923@naver.com",
+      buyer_name: "장기흥",
+      buyer_tel: "010-2698-7923",
+      buyer_addr: "서울특별시 강남구 삼성동",
+      buyer_postcode: "123-456"
+    },
+    function (rsp) {
+      // callback
+      //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
+    	if(rsp.success){
+    		alert("결제성공");
+    	} else {
+    		alert("결제실패");
+    	}
+    }
+  );
+}
+</script>
+
+<%-- Style --%>
 <style>
 @import url('https://fonts.googleapis.com/css?family=Questrial&display=swap');
 
@@ -95,77 +131,7 @@ var now = new Date(); //renderTable() 함수에서 시간표시 해주는 for문
 var clickedDate; ////renderTable() 함수에서 시간표시 해주는 for문에서 targetnow변수에 현재일자로 넣어줄 매개변수
 </script>
 
-<script type="text/javascript">
-$(function(){
-	
-    // 다음 달의 날짜에 대한 클릭 이벤트 추가
-    $(".Calendar").on("click", ".futureMonth", function(){
-        clickedDate = parseInt($(this).text()); // 문자열을 숫자로 변환
-        console.log(clickedDate)
-        let nextMonth = nowMonth.getMonth() + 1; // 현재 월에 1을 더해 다음 달로 설정
-        let fullDate = new Date(nowMonth.getFullYear(), nextMonth - 1, clickedDate); // 월의 경우 1을 빼줌
-        console.log("클릭한 날짜 선택", fullDate);
-        
-        // 선택한 날짜를 hidden input에 설정
-        $("#selectedDate").val(fullDate.getTime());
-
-        $("#time").show();
-        renderTable(fullDate.getTime());
-    });
-});
-
-//대여테이블 시간표 만들기
-function renderTable(selectedDate) {
-	
-	var startSelect = $("#startTmSelected");
-	var tmp = "";
-	var reservedTime = [];
-	var tempDate = new Date(parseInt(selectedDate));
-	
-	//예약정보 가져오기
-	<c:forEach var="sta" items="${status}">
-		var rentDate = new Date('${sta.RENT_DATE}');
-		console.log(rentDate + "\r\n " + tempDate)
-		
-	 	if (rentDate.toLocaleString() ===  tempDate.toLocaleString()) {
-			for (let i=${sta.START_TIME}; i<=${sta.END_TIME}; i++) {	
-				reservedTime.push(i);
-			}
-		}
-	</c:forEach>
-	
-	//대여시간 테이블 랜더링
-	for (let i=1; i<=48; i++) {	
-		var time = new Date('2023-01-01 00:00:00');
-		time.setMinutes((i-1)*30);
-		
-		//현재 날짜,시간 구하기
-	    var targetnow = new Date();
-	    targetnow.setDate(clickedDate)
-	    targetnow.setSeconds(0);
-		targetnow.setHours(Math.floor(((i-1) / 48) * 24))
-	    if (i % 2 === 0) {
-	       targetnow.setMinutes(30)
-		} else {
-			targetnow.setMinutes(0)
-		}
-		
-		//대여가능 시간 테이블 생성
-		if ((i-1)%6==0) {tmp += '<tr>';}
-		if (reservedTime.indexOf(i) == -1 && now<targetnow) {
-			tmp += `<td><div type="button" name='endTime' value='\${i}' onClick="timeSet(event, \${i})">\${time.toString().substring(16,21)}</div></td>`;				
-		} else {
-			tmp += `<td><div type="button" name='endTime' value='\${i}' class="reserved">\${time.toString().substring(16,21)}</div></td>`;
-		}
-		if (i%6==0) {tmp += '</tr>';}
-	}
-
-	startSelect.html(tmp);
-
-}
-
-</script>
-
+<%-- 캘린더 생성 --%>
 <script>
     window.onload = function () { buildCalendar(); }    // 웹 페이지가 로드되면 buildCalendar 실행
 
@@ -252,7 +218,79 @@ function renderTable(selectedDate) {
     }
 </script>
 
-<!-- 대여 시간 -->
+<%-- 대여날짜,시간 선택 --%>
+<script type="text/javascript">
+$(function(){
+	
+    // 다음 달의 날짜에 대한 클릭 이벤트 추가
+    $(".Calendar").on("click", ".futureMonth", function(){
+        clickedDate = parseInt($(this).text()); // 문자열을 숫자로 변환
+        console.log(clickedDate)
+        let nextMonth = nowMonth.getMonth() + 1; // 현재 월에 1을 더해 다음 달로 설정
+        let fullDate = new Date(nowMonth.getFullYear(), nextMonth - 1, clickedDate); // 월의 경우 1을 빼줌
+        console.log("클릭한 날짜 선택", fullDate);
+        
+        // 선택한 날짜를 hidden input에 설정
+        $("#selectedDate").val(fullDate.getTime());
+
+        $("#time").show();
+        renderTable(fullDate.getTime());
+    });
+});
+
+//대여테이블 시간표 만들기
+function renderTable(selectedDate) {
+	
+	var startSelect = $("#startTmSelected");
+	var tmp = "";
+	var reservedTime = [];
+	var tempDate = new Date(parseInt(selectedDate));
+	
+	//예약정보 가져오기
+	<c:forEach var="sta" items="${status}">
+		var rentDate = new Date('${sta.RENT_DATE}');
+		console.log(rentDate + "\r\n " + tempDate)
+		
+	 	if (rentDate.toLocaleString() ===  tempDate.toLocaleString()) {
+			for (let i=${sta.START_TIME}; i<=${sta.END_TIME}; i++) {	
+				reservedTime.push(i);
+			}
+		}
+	</c:forEach>
+	
+	//대여시간 테이블 랜더링
+	for (let i=1; i<=48; i++) {	
+		var time = new Date('2023-01-01 00:00:00');
+		time.setMinutes((i-1)*30);
+		
+		//현재 날짜,시간 구하기
+	    var targetnow = new Date();
+	    targetnow.setDate(clickedDate)
+	    targetnow.setSeconds(0);
+		targetnow.setHours(Math.floor(((i-1) / 48) * 24))
+	    if (i % 2 === 0) {
+	       targetnow.setMinutes(30)
+		} else {
+			targetnow.setMinutes(0)
+		}
+		
+		//대여가능 시간 테이블 생성
+		if ((i-1)%6==0) {tmp += '<tr>';}
+		if (reservedTime.indexOf(i) == -1 && now<targetnow) {
+			tmp += `<td><div type="button" name='endTime' value='\${i}' onClick="timeSet(event, \${i})">\${time.toString().substring(16,21)}</div></td>`;				
+		} else {
+			tmp += `<td><div type="button" name='endTime' value='\${i}' class="reserved">\${time.toString().substring(16,21)}</div></td>`;
+		}
+		if (i%6==0) {tmp += '</tr>';}
+	}
+
+	startSelect.html(tmp);
+
+}
+
+</script>
+
+<%-- 대여 신청 --%>
 <script type="text/javascript">
 
 let fromTime = 0;
@@ -367,7 +405,7 @@ $(document).ready(function(){
 });
 </script>
 
-<!-- Modal, 대여 -->
+<!-- Modal, 대여창 -->
 <div class="modal fade" id="rentModal" tabindex="-1" aria-labelledby="rentModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -414,6 +452,10 @@ $(document).ready(function(){
 					            </tbody>
 			            	</table>
 			            	<br>
+			            	
+							<div>
+							<button onclick="requestPay()">결제하기</button>
+							</div>
 						    <button type="button" name="makeRent" id="makeRent" class="btn float-end">대여신청</button>
 				            </div>
 				        </div>
