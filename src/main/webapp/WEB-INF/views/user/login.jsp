@@ -11,13 +11,16 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-<script src="https://apis.google.com/js/platform.js" async defer></script>
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 
-<meta name="google-signin-client_id" content="802470395014-41r2ji3pfdpgnpl13tgfdgo6v8bv5ue5.apps.googleusercontent.com">
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+
+
+
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	$("#id").click(function () {
+	$("#id").mousedown(function () {
 		 $("#label1")
      	.text("")
 	});
@@ -25,7 +28,7 @@ $(document).ready(function(){
     // 세션 스토리지에 현재 페이지의 URL 저장
     sessionStorage.setItem('previousUrl', window.location.href);
     var previousUrl = sessionStorage.getItem('previousUrl');
-    $("#login").click(function () {
+    function loginUser() {
         $.ajax({
             type: "POST",
             url: "/user/login",
@@ -46,12 +49,15 @@ $(document).ready(function(){
 	                window.location.href = '/main'
 	           		}
                     
-                } else {
-                    console.log("로그인 실패")
+                } else if(response === "singup"){
+                	
+                	 window.location.href = '/user/singup'
+                	 
+                } else{
+                	console.log("로그인 실패")
 
                     $("#label1")
                     	.text("ID/PW 가 올바르지 않습니다.")
-                   	$("#id").focus()
 
                 }
             },
@@ -61,21 +67,27 @@ $(document).ready(function(){
                 alert("로그인 요청에 실패했습니다.")
             }
         });
-    });
+    };
     
+ // 엔터키 이벤트 처리
+	$("#pw").keypress(function (e) {
+		if (e.which === 13) {
+			loginUser();
+		}
+	});
+
+	$("#login").click(function () {
+		loginUser();
+	});
 });
 
-// function goBack() {
-//     // 이전 페이지로 이동
-//     var previousUrl = sessionStorage.getItem('previousUrl');
 
-// }
 
 
 </script>
 <style type="text/css">
 
-a {text-decoration: none; color: #333;}
+a {text-decoration: none; color: #343a40;}
 
 
 .card {
@@ -105,6 +117,10 @@ a {text-decoration: none; color: #333;}
     color: red;
     display: block;
 }
+
+#social{margin-bottom: 5px;}
+#naver{float: left;}
+#kakao{float: right;}
 </style>
 </head>
 <body>
@@ -130,15 +146,113 @@ a {text-decoration: none; color: #333;}
 				<a>  비밀번호찾기</a>
 			</div>
 		</div>
-		<div>
-		<a id="needit"class=" col-12 btn btn-danger"href="/user/signup">회원가입</a>
+		<div id="social">
+		
+			<a id="naverIdLogin_loginButton" href="javascript:void(0)"><img id="naver" src="/resources/img/naver.png"></a>
+
+      		<a href="javascript:void(0)" onclick="kakaoLogin();"><img id="kakao" src="/resources/img/kakao.png"></a>
+		
 		</div>
+			<a id="needit"class=" col-12 btn btn-danger"href="/user/signup">회원가입</a>
+		
+		
+		
+		
 	</div>
 </div>
 <div class="col-6 mx-auto">
 
 </div>
+<script type="text/javascript">
 
+//네이버
+var naverLogin = new naver.LoginWithNaverId(
+		{
+			clientId: "If3wwgFKrS1NdGdbpSB4", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
+			callbackUrl: "http://localhost:8088/user/social", // 내 애플리케이션 API설정의 Callback URL 을 입력해줍니다.
+			isPopup: false,
+			callbackHandle: true
+		}
+	);	
+
+naverLogin.init();
+
+window.addEventListener('load', function () {
+	naverLogin.getLoginStatus(function (status) {
+		if (status) {
+			var email = naverLogin.user.getEmail(); // 필수로 설정할것을 받아와 아래처럼 조건문을 줍니다.
+    		
+			console.log(naverLogin.user); 
+    		
+            if( email == undefined || email == null) {
+				alert("이메일은 필수정보입니다. 정보제공을 동의해주세요.");
+				naverLogin.reprompt();
+				return;
+			}
+		} else {
+			console.log("callback 처리에 실패하였습니다.");
+		}
+	});
+});
+
+
+var testPopUp;
+function openPopUp() {
+    testPopUp= window.open("https://nid.naver.com/nidlogin.logout", "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,width=1,height=1");
+}
+function closePopUp(){
+    testPopUp.close();
+}
+
+function naverLogout() {
+	openPopUp();
+	setTimeout(function() {
+		closePopUp();
+		}, 1000);
+	
+	
+}
+//---------------------------------------------------
+
+Kakao.init('a52e48853ec86f2933366f08010630db'); //발급받은 키 중 javascript키를 사용해준다.
+//카카오로그인
+function kakaoLogin() {
+    Kakao.Auth.login({
+      success: function (response) {
+        Kakao.API.request({
+          url: '/v2/user/me',
+          success: function (response) {
+        	  console.log(response)
+          },
+          fail: function (error) {
+            console.log(error)
+          },
+        })
+      },
+      fail: function (error) {
+        console.log(error)
+      },
+    })
+  }
+//카카오로그아웃  
+function kakaoLogout() {
+    if (Kakao.Auth.getAccessToken()) {
+      Kakao.API.request({
+        url: '/v1/user/unlink',
+        success: function (response) {
+        	console.log(response)
+        },
+        fail: function (error) {
+          console.log(error)
+        },
+      })
+      Kakao.Auth.setAccessToken(undefined)
+    }
+  }  
+
+
+
+</script>
 
 </body>
 </html>
