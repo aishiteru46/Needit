@@ -7,6 +7,17 @@
   
  <mapper namespace="web.dao.face.UserProfileDao">
  
+ 	<sql id="rentList">
+ 		SELECT 
+ 			rent_no, board_no , renter_id, rent_date
+ 			, start_time, end_time, rent_status
+ 		FROM rent
+ 		<where>
+ 			renter_id = #{userId}
+ 		</where>
+ 			
+ 	</sql>
+ 
 	<!--  회원정보수정  -->
  	<update id="infoUpdate" parameterType="User">
  		UPDATE usertb 
@@ -22,22 +33,28 @@
  		WHERE id = #{id}
  	</delete>
  	
+ 	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
+		SELECT count(*) FROM (
+			<include refid="rentList" />
+		)
+	</select>
+ 	
  	<!-- 예약 목록 -->
- 	<select id="selectMyRentList" resultType="Map" parameterType="User">
-	 	SELECT B.board_no, A.renter_id, A.rent_no,A.rent_date, A.start_time, A.end_time,A.rent_status
+ 	<select id="selectMyRentList" resultType="Map" parameterType="web.util.Paging">
+	 	SELECT B.board_no, A.renter_id, A.rent_no, A.rent_date, A.start_time, A.end_time, A.rent_status
 		FROM rent A
 		INNER JOIN board B ON B.board_no = A.board_no
-		WHERE B.writer_id = #{id}
-		ORDER BY board_no, rent_no DESC
+		WHERE B.writer_id = #{userId}
+		ORDER BY B.board_no, A.rent_no DESC
  	</select>
  	
  	<!-- 내가 예약한 목록 -->
  	<select id="selectRentList" resultType="Map" parameterType="User">
- 		SELECT B.board_no, A.renter_id, A.rent_no, A.rent_date, A.start_time, A.end_time,A.rent_status
- 		FROM rent A
+ 		SELECT B.board_no, A.renter_id, A.rent_no, A.rent_date, A.start_time, A.end_time, A.rent_status
+		FROM rent A
 		INNER JOIN board B ON B.board_no = A.board_no
 		WHERE A.renter_id = #{id}
-		ORDER BY board_no, rent_no DESC
+		ORDER BY B.board_no, A.rent_no DESC
 		 	
  	</select>
   
@@ -64,10 +81,6 @@
 		FROM user_file
         WHERE id = #{userId}
 	</select>
-	
-	
-	
-	
 	
 	<!-- 추천수 조회 -->
 	<select id="selectLikeByBoardNo" resultType="int" parameterType="User">
@@ -140,9 +153,6 @@
 		WHERE id = #{id}
 	</update>
 	
-	
-	
-	
 	<update id="updateRentStatus" parameterType="Rent">
 		UPDATE rent
 		<set>
@@ -194,7 +204,6 @@
 	
 	</select>
 	
-	
 	<!-- 내가 쓴 글 조회 -->
 	<select id="selectBoardById" resultType="Board" parameterType="Board">
 		SELECT *
@@ -203,7 +212,6 @@
 		ORDER BY board_no DESC
 	
 	</select>
-	
 	
 	<!-- 내가 쓴 댓글 조회 -->
 	<select id="selectCommentById" resultType="Map" parameterType="Comment">
@@ -220,10 +228,10 @@
 		
 		WHERE c.writer_id = #{writerId}
 		ORDER BY cmt_no DESC
-	
 	</select>
 
-	
+	<select id="basketList" resultType="Map" parameterType="Basket">
+	</select>
 
 
 

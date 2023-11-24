@@ -19,13 +19,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.UserProfileDao;
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Comment;
-import web.dto.Like;
 import web.dto.Rent;
 import web.dto.User;
 import web.dto.UserFile;
 import web.service.face.UserProfileService;
+import web.util.Paging;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
@@ -139,10 +140,19 @@ public class UserProfileServiceImpl implements UserProfileService {
 		
 		
 	}	
+	
 	@Override
-	public List<Map<String,Object>> myRentList(User user) {
+	public Paging getPaging(Paging param) {
+		int totalCount = userProfileDao.selectCntAll(param);
 		
-		return userProfileDao.selectMyRentList(user);
+		Paging paging = new Paging( param.getMenu(), param.getCate(),totalCount, param.getCurPage(), 9, 10 );
+		return paging;
+	}
+	
+	@Override
+	public List<Map<String,Object>> myRentList(Paging paging, User user) {
+		
+		return userProfileDao.selectMyRentList(paging);
 	}
 	
 	@Override
@@ -273,6 +283,15 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public List<Map<String, Object>> commentSelectById(Comment comment) {
 		return userProfileDao.selectCommentById(comment);
 	}
+
+
+	@Override
+	public List<Map<Board, Object>> selectBasketList(Basket basket) {
+		return userProfileDao.basketList(basket);
+	}
+
+
+	
 
 
 

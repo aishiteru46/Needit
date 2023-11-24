@@ -142,19 +142,21 @@ public interface MenuShareService {
 	public void bookStatus();
 	
 	/**
-	 * 찜 정보 삽입
+	 * 찜이 된상태인지 안된상태인지 확인
 	 * 
 	 * @param basket 찜 정보
-	 * @return 삽입 여부
+	 * @return true 찜 가능 false 찜 불가능
 	 */
-	public int insert(Basket basket);
+	public boolean checkBasket(Basket basket);
 	
 	/**
-	 * 찜 정보 삭제
+	 * 찜이 된 상태면 삭제
 	 * 
-	 * @param basket 찜정보
+	 * @param basket boardNo , menu, cate
 	 */
-	public void deleteBasket(Basket basket);
+	public boolean deleteBasket(Basket basket);
+	
+	
 	
 	
 	

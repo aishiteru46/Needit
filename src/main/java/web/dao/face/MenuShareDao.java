@@ -170,20 +170,30 @@ public interface MenuShareDao {
 	public int selectTotalCntLike(Like like);
 	
 	/**
-	 * 찜 테이블 삽입
+	 * 찜 여부 조회 
 	 * 
-	 * @param basket 찜 정보
-	 * @return 삽입
+	 * @param basket 찜여부
+	 * @return 1 찜불가능 0 찜 가능
+	 */
+	public int basketInfo(Basket basket);
+	
+	/**
+	 * 찜 가능하면 insert
+	 * 
+	 * @param basket
+	 * @return
 	 */
 	public int insertBasket(Basket basket);
 	
 	/**
-	 * 찜 테이블 삭제
+	 * 한번더 클릭시 delete
 	 * 
-	 * @param basket 찜 정ㅂ
+	 * @param basket 
+	 * @return 삭제
 	 */
-	public void deleteBasket(Basket basket);
-
+	public int deleteBasket(Basket basket);
+	
+	
 	
 
 }

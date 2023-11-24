@@ -5,12 +5,14 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Comment;
 import web.dto.Like;
 import web.dto.Rent;
 import web.dto.User;
 import web.dto.UserFile;
+import web.util.Paging;
 
 public interface UserProfileService {
 
@@ -30,12 +32,22 @@ public interface UserProfileService {
 	public void userDelete(String userId);
 	
 	/**
+	 * 페이징 계산
+	 * 
+	 * @param param 페이징 계산
+	 * @return 페이징
+	 */
+	public Paging getPaging(Paging param);
+
+	
+	/**
 	 * 예약 목록
+	 * @param paging 
 	 * 
 	 * @param book 예약 정보
 	 * @return 
 	 */
-	public List<Map<String,Object>> myRentList(User user);
+	public List<Map<String,Object>> myRentList(Paging param, User user);
 	
 	/**
 	 * 내가 예약한 리스트
@@ -164,7 +176,16 @@ public interface UserProfileService {
 	 * @return
 	 */
 	public List<Map<String, Object>> commentSelectById(Comment comment);
+	
+	/**
+	 * 내 찜 목록 보여주기
+	 * 
+	 * @param basket 찜 정보
+	 * @return 찜 목록
+	 */
+	public List<Map<Board, Object>> selectBasketList(Basket basket);
 
+	
 
 	
 

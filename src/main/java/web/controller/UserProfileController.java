@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Comment;
 import web.dto.Like;
@@ -25,6 +25,7 @@ import web.dto.Rent;
 import web.dto.User;
 import web.dto.UserFile;
 import web.service.face.UserProfileService;
+import web.util.Paging;
 
 @Controller
 @RequestMapping("/profile")
@@ -53,7 +54,8 @@ public class UserProfileController {
 			, Like like
 			, Board board
 			, Comment comment
-			
+			, Paging param
+			, Basket basket
 			) {
 		
 		user.setId((String)session.getAttribute("id"));
@@ -61,14 +63,17 @@ public class UserProfileController {
 		if((boolean)session.getAttribute("isLogin") == false) {
 			return "redirect:/user/login";
 		}
+		
+		Paging paging = userProfileService.getPaging(param);
+		paging.setUserId((String)session.getAttribute("id"));
 
-		List<Map<String,Object>> myList = userProfileService.myRentList(user);
+		//내 게시물에 예약한 정보
+		List<Map<String,Object>> myList = userProfileService.myRentList(paging,user);
 		model.addAttribute("myList",myList);
+		
+		//내가 예약한 정보
 		List<Map<String,Object>> list = userProfileService.rentList(user);
 		model.addAttribute("list",list);
-		
-		
-		
 		
 		//----------------------------------
 		// 세션에서 사용자 ID 가져오기
@@ -93,15 +98,14 @@ public class UserProfileController {
         // 사용자의 프로필 이미지 정보 가져오기
         UserFile  img = userProfileService.imgSelect(userId);
         logger.info("이미지 {} : ", img);
-        model.addAttribute("img", img);
         //모델에 이미지 정보 추가
+        model.addAttribute("img", img);
 
         //--------------------------------------------------------------
         //이걸로 user테이블 정보 다 가져올게요
         User profile = userProfileService.userAllSelect(user);
 		
 		model.addAttribute("user", profile);
-        
         
 		//--------------------------------------------------------------
 		
@@ -122,17 +126,13 @@ public class UserProfileController {
 		
 		List<Map<String, Object>> commentList = userProfileService.commentSelectById(comment);
 		logger.info("내가쓴댓글목록: {}", commentList);
-		
-		
 		model.addAttribute("comment", commentList);
+		
+		//내 찜 목록
+		List<Map<Board, Object>> basketList = userProfileService.selectBasketList(basket);
 		
 		return "profile/view";
 		//---------------------------------------------------------------
-		
-		
-		
-		
-		
 		
 		
 	}
@@ -254,6 +254,8 @@ public class UserProfileController {
 	public String confirm(Rent rent, Model model,HttpSession session) {
 		logger.info("렌트 번호{}",rent);
 		
+		rent.setRenterId((String)session.getAttribute("id"));
+		
 		//업데이트 여부 확인 confirm
         boolean confirmStatus = userProfileService.updateRentStatus(rent);
         logger.info("성공{}",confirmStatus);
@@ -271,7 +273,7 @@ public class UserProfileController {
 	
 	@RequestMapping("/cancel")
 	public String cancel(Rent rent, Model model, HttpSession session) {
-		logger.info("렌트 번호2{}",rent);
+		logger.info("렌트 번호캔슬{}",rent);
 		
 		//업데이트 여부 확인 cancel
 		boolean cancelStatus = userProfileService.updateRentCancel(rent);

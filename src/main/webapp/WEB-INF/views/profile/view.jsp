@@ -34,53 +34,47 @@ function setThumbnail(event) {
 
 //프로필사진바로삭제
 $(function(){
-	$("#deleteBtn").click(function(){
- 		var deleteBtn = $(this);
- 		$.ajax({
- 	         type: "post"
- 	         , url: "/profile/imgdelete"
- 	         , data: {
- 	        	 
- 	        	originName : ${img.originName}
- 	        	,storedName : ${img.storedName}
- 	        	,thumbnailName : ${img.thumbnailName}
- 	        	,fileType : ${img.fileType}
- 	        	 
- 	        	 
- 	         }
- 	         , dataType: "json"
- 	         , success: function( res ) {  
+   $("#imgDelete").click(function(){
+      console.log("프로필사진 삭제 작동")
+      
+      $.ajax({
+          type: "get"
+          , url: "/profile/imgdelete"
+          , data: {}
+          , dataType: "json"
+          , success: function( res ) {  
+             console.log("AJAX 성공")
+            location.reload()
+            
+          }
+         , error: function() {
+             console.log("AJAX 실패")
+         
+          }
+      })
+   })
+   
+});
 
- 	            console.log("AJAX 성공")
-
- 	         }
-	         , error: function() {
- 	            console.log("AJAX 실패")
-
- 	         }
- 	      })
- })
- })
 
 
 
 
 //예약 승인 
 $(function(){
-	$(".confirmBtn").click(function(){
+	$("#confirmBtn").click(function(){
 		var confirmBtn = $(this);
 		  $.ajax({
 		         type: "post"
 		         , url: "/profile/confirm"
 		         , data: {
-		        	 rentNo: confirmBtn.data("rent_no"),
-		             boardNo: confirmBtn.data("board_no")
+		        	 rentNo: confirmBtn.data("rent_no")
+		             , boardNo: confirmBtn.data("board_no")
 		         }
 		         , dataType: "json"
 		         , success: function( res ) {
-			      	confirmBtn.html("승인완료").prop("disabled", true);
-
 		            console.log("AJAX 성공")
+		            location.reload()
 
 		         }
 		         , error: function() {
@@ -99,14 +93,13 @@ $(function(){
 		         type: "post"
 		         , url: "/profile/cancel"
 		         , data: {
-		        	 rentNo: cancelBtn.data("rent_no"),
-		             boardNo: cancelBtn.data("board_no")
+		        	 rentNo: cancelBtn.data("rent_no")
+		             , boardNo: cancelBtn.data("board_no")
 		         }
 		         , dataType: "json"
 		         , success: function( res ) {
-		        	 cancelBtn.html("취소완료").prop("disabled", true);
-
 		            console.log("AJAX 성공")
+		            location.reload()
 
 		         }
 		         , error: function() {
@@ -115,34 +108,6 @@ $(function(){
 		         }
 		      })
 	})
-})
-
-$(function(){
-	
-	 var checkCon = ${checkCon}
-	 var checkCan = ${checkCan}
-	 
-	if(checkCon) {
-		$(".confirmBtn")
-		.addClass("btn-warning")
-		.html('승인완료');
-	} else {
-		console.log('추천 아직 안함')
-		$(".confirmBtn")
-			.addClass("btn-primary")
-			.html('승인');
-	}
-	if(checkCan) {
-		$(".cancelBtn")
-		.addClass("btn-warning")
-		.html('취소');
-	} else {
-		console.log('추천 아직 안함')
-		$(".cancelBtn")
-			.addClass("btn-primary")
-			.html('취소 완료');
-	}
-	
 })
 
 
@@ -270,7 +235,7 @@ ${userGrade }
                	
                   <input type="submit" class="btn btn-primary btn-sm pull-right" value="등록"/>
                    <!-- 이미지 삭제 버튼 -->
-                   <button type="button" class="btn btn-danger btn-sm pull-right" id="deleteBtn">이미지 삭제</button>
+  				  <div class="btn btn-danger btn-sm pull-right" id="imgDelete" >이미지 삭제</div>
                </td>
 <!--                <td colspan="2" style="text-align: left;"> -->
 <!--                	썸네일 미리보기를 담을 div 추가 -->
@@ -293,12 +258,6 @@ ${userGrade }
       
    </div>
 </div>
-
-
-
-
-
-
 
 
 <hr>
@@ -388,14 +347,23 @@ function confirmAndSubmit(userId) {
 		<td>${list.RENT_DATE }</td>
 		<td>${list.START_TIME }</td>
 		<td>${list.END_TIME }</td>
-		<td>${checkCon }</td>
-		<td>${checkCan }</td>
-		<td><button class="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }"></button></td>
-		<td><button class="cancelBtn"data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }"></button></td>
+		<c:if test="${list.RENT_STATUS eq 1 }">
+			<td><button id="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
+		</c:if>
+		<c:if test="${list.RENT_STATUS eq 2 }">
+			<td><button disabled="disabled">승인 완료</button></td>
+		</c:if>
+		<c:if test="${list.RENT_STATUS eq 1 }">
+			<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
+		</c:if>
+		<c:if test="${list.RENT_STATUS eq 0 }">
+			<td><button disabled="disabled">취소 완료</button></td>
+		</c:if>
 	</tr>
 	
 </c:forEach>
 </table>
+<c:import url="/WEB-INF/views/layout/pagination.jsp" />
 		
 <hr>
 
@@ -420,8 +388,12 @@ function confirmAndSubmit(userId) {
 		<td>${list.RENT_DATE }</td>
 		<td>${list.START_TIME }</td>
 		<td>${list.END_TIME }</td>
-		<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
-	</tr>
+		<c:if test="${list.RENT_STATUS eq 1 }">
+			<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
+		</c:if>
+		<c:if test="${list.RENT_STATUS eq 0 }">
+			<td><button disabled="disabled">취소 완료</button></td>
+		</c:if>
 </c:forEach>
 </table>
 
