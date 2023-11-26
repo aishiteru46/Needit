@@ -210,4 +210,12 @@ public interface UserProfileDao {
 	public int updateEmailSub(User user);
 
 
+	/**
+	 * 회원정보수정할때 로그인된아이디 회원정보 가져오기
+	 * @param user
+	 * @return
+	 */
+	public User selectLoginUser(User user);
+
+
 }

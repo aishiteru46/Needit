@@ -21,6 +21,38 @@ $(()=>{
         .css("background-color", "")
         .text("Search");
 	});
+	
+    $.ajax({
+        type: "post"
+        , url: "/share/basket"
+        , data: {
+        boardNo : boardNo
+        , menu : menu
+        , cate : cate
+        }
+        , dataType: "json"
+        , success: function( res ) {
+           console.log("AJAX 성공")
+           console.log(res)
+           console.log(res.check)
+            if( res.check == 'true' ) {
+               $(".a").css("display", "block")
+               $(".b").css("display", "none")
+               location.reload()
+               
+            } else {
+               $(".b").css("display", "block")
+               $(".a").css("display", "none")
+               location.reload()
+            }
+        }
+        , error: function() {
+           console.log("AJAX 실패")
+
+        }
+        
+        
+     })
 });
 </script>
 
@@ -242,6 +274,21 @@ form {
     margin-left: -20px;
     margin-top: 4px;
 }
+
+.heart {
+   float: right;
+    position: absolute;
+    display: inline-block;
+    margin-top: 333px;
+    margin-left: 135px;
+   
+}
+.star {
+   width: 30px;
+   height: 30px;
+   margin-left: 106px;
+   margin-bottom: 8px; 
+}
 </style>
 <div class="container">
 
@@ -312,6 +359,13 @@ form {
     <div class="write-container">
  		<div class="write-container-head">
 <%-- 	        <div class="no">no.${list.BOARD_NO}</div> --%>
+	        <c:if test="${list.BASKET_STATUS eq 1}">
+                <span class="heart"><img class="star a" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/star.png"></span>
+            </c:if>
+            <c:if test="${list.BASKET_STATUS eq 0}">
+                <span class="heart"><img class="star b" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/emptyStar.png"></span>
+            </c:if>
+	        
 	        <div class="no">Title.</div>
 	        <a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE }</div></a>
         <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>

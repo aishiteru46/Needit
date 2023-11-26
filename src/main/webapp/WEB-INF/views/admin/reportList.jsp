@@ -60,9 +60,9 @@ function deleteBoard(boardNo) {
 
 <colgroup>
 	<col style="width: 16%;">
-	<col style="width: 24%;">
+	<col style="width: 22%;">
 	<col style="width: 6%;">
-	<col style="width: 6%;">
+	<col style="width: 8%;">
 	
 	<col style="width: 13%;">
 	<col style="width: 15%;">
@@ -113,9 +113,9 @@ function deleteBoard(boardNo) {
 <colgroup>
 	<col style="width: 8%;">
 	<col style="width: 8%;">
-	<col style="width: 24%;">
+	<col style="width: 22%;">
 	<col style="width: 6%;">
-	<col style="width: %;">
+	<col style="width: 8%;">
 
 
 	<col style="width: 13%;">

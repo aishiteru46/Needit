@@ -149,17 +149,27 @@ public class UserProfileController {
 	
 	//회원정보수정
 	@GetMapping("/infoupdate")
-	public String infoUpdate(User user, Model model) {
+	public String infoUpdate(User user, Model model, HttpSession session) {
+		
+		user.setId((String) session.getAttribute("id"));
 		
 		
+		User loginUser = userProfileService.loginUserSelect(user);
+		logger.info("loginUser: {}", loginUser);
+		model.addAttribute("user", loginUser);
 		
 		return "profile/userUpdate";
 	}
 
 	@PostMapping("/infoupdate")
-	public String infoUpdateProc(User user, HttpSession session) {
+	public String infoUpdateProc(User user, HttpSession session, Model model) {
 		
 		logger.info("회원정보업데이트 : {}", user);
+		
+		User loginUser = userProfileService.loginUserSelect(user);
+		logger.info("loginUser: {}", loginUser);
+		
+		model.addAttribute("user", loginUser);
 		
 		userProfileService.updateInfo(user);
 		

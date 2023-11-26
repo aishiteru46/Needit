@@ -60,9 +60,7 @@ function onPaymentTypeChange() {
 
 // 이벤트 핸들러 등록
 $(document).ready(function () {
-	
 	randomMerchantUid = generateRandomMerchantUid()*1;
-    console.log('일로오니 시발련아??? zxcscweqqweqwe', randomMerchantUid)
 	$("#paymentType").change(onPaymentTypeChange);
 });
 
@@ -71,8 +69,6 @@ IMP.init("imp47417351");
 
 
 function requestPay() {
-    console.log('일로오니 시발련아??? sadxzczxccx', randomMerchantUid)
-
   IMP.request_pay(
     {
       pg: "html5_inicis",
@@ -459,29 +455,56 @@ function updatePayInfo() {
 	
     // 동적으로 payInfo 업데이트
     var payInfo = "";
-    if (selectedCount > 0 && selectedCount != 2) {
-        // 총 시간과 분 계산
-        var hours = Math.floor(selectedCount / 2)-1;
-        var minutes = (selectedCount % 2) * 30;
+   	var hours;
+   	var minutes;
+   	
+    if( selectedCount > 2) {
+    	if( (selectedCount%2) == 1 ){ // 홀수칸 일때 == 시간만 나와야함
+    		if(selectedCount == 3) {
+    			hours = 1;
+    			minutes = 0;
 
-        // 총 대여시간 표시
-        if (hours > 0) {
-            payInfo += "<p>총 대여시간 : " + hours + "시간";
-            if (minutes > 0) {
-                payInfo += " " + minutes + "분</p>";
-            } else {
-                payInfo += "</p>";
-            }
-        }
+    			payInfo = "";
+    			payInfo += "<p>총 대여시간 : " + hours + "시간</p>";
+	   	        payInfo += "<p>총 금액 : " + formatNumber(totalPrice - ${board.price}) + "원</p>";
+	   	        
+    			console.log("시간",hours)
+    			console.log("분",minutes)
+    		} else {
+    			hours = Math.floor( (selectedCount-1) / 2 );
+	    		minutes = 0;
 
-        // 총 금액 표시
-        payInfo += "<p>총 금액 : " + formatNumber(totalPrice - ${board.price}) + "원</p>";
-    } else {
-        // selectedCount가 0 또는 2일 때 고정된 30분 표시
-        payInfo += "<p>총 대여시간 : 30분</p>";
+    			payInfo = "";
+    			payInfo += "<p>총 대여시간 : " + hours*1 + "시간</p>";
+	   	        payInfo += "<p>총 금액 : " + formatNumber(totalPrice - ${board.price}) + "원</p>";
+
+    			console.log("시간",hours)
+    			console.log("분",minutes)
+    		}
+    	} else { // 짝수 일 때 == 시간 분 나와야 함
+   			hours = Math.floor( (selectedCount / 2) - 1);
+   			minutes = 30;
+	        payInfo = "";
+		    payInfo += "<p>총 대여시간 : " + hours*1 + "시간" + " " + minutes*1 + "분</p>";
+   	        payInfo += "<p>총 금액 : " + formatNumber(totalPrice - ${board.price}) + "원</p>";
+		    console.log("시간",hours)
+   			console.log("분",minutes)
+    	} 
+    	
+    } else if( selectedCount == 2) {
+    	hours = 0;
+    	minutes = 30;
+    	
+        payInfo = "";
+	    payInfo += "<p>총 대여시간 : " + minutes*1 + "분</p>";
         payInfo += "<p>총 금액 : " + formatNumber(${board.price}) + "원</p>";
+    
+	    console.log("시간",hours)
+  		console.log("분",minutes)
+    } else {
+       payInfo = "";
     }
-
+    
     $(".payInfo").html(payInfo);
 }
 
@@ -516,17 +539,6 @@ $(document).ready(function(){
 		return false;  
       }
 	
-     console.log('일로오니 시발련아??? jaxaxjaax', randomMerchantUid)
-     console.log('페이먼트 타입 개쓰기 전', $("#paymentType").val())
-     var $paymentType = $("#paymentType").val()*1;	
-     console.log('페이먼트 타입 개쓰기 후', $paymentType)
-     
-     console.log('rentDate 이 개스키도 잘 드가나? 전', new Date(parseInt(selectedDate)))
-     var $rentDate = new Date(parseInt(selectedDate));
-     console.log('rentDate 이 개스키도 잘 드가나? 후', $rentDate)
-     
-     console.log('화장실감 실행해보쇼')
-     
     // 대여신청 정보를 서버로 전송
 	    $.ajax({
 	        type: "POST",
@@ -534,21 +546,29 @@ $(document).ready(function(){
 	        , data: {
 	        	boardNo: "${board.boardNo }",
 	        	renterId: "${id }",
-	        	rentDate: $rentDate,
+	        	rentDate: new Date(parseInt(selectedDate)),
 	        	startTime: startTime,
 	            endTime: endTime,
 	            rentStatus : 1,
-	            paymentType : $paymentType,
+	            paymentType : $("#paymentType").val()
 	        }
 	    	,dataType: "json"
-	    	
 	        // 대여신청 성공 시 추가 작업 수행
 	        , success: function (res) {
 	            console.log("대여신청 성공:", res);
 	            
 	           // 대여신청 성공 시 알림창 띄우기
 	           alert("대여신청이 성공적으로 완료되었습니다. \n승인을 기다려주세요.");
-	           	 
+	           
+			   <%-- 알림보내기 --%>	          
+	           $.post( "/alert/sendnotification", { 
+	        		id: "${id}"
+        	        , sender: "${board.writerNick}" 
+        	        , content: 2
+        	        , menu: "${param.menu}"
+	        		, boardNo: "${board.boardNo}"
+	        	});// $.post 끝
+	           
 	           // 페이지 새로고침
 	           location.reload();
 	            

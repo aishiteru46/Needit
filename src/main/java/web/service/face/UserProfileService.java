@@ -194,4 +194,11 @@ public interface UserProfileService {
 	 */
 	public int emailSubUpdate(User user);
 
+	/**
+	 * 회원정보수정할때 현재로그인된거 불러옴
+	 * @param user
+	 * @return
+	 */
+	public User loginUserSelect(User user);
+
 }

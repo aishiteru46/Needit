@@ -252,6 +252,47 @@ $(function(){
 </style>
 
 
+<style type="text/css">
+   #boardSection {
+      margin-top: 25px;
+      margin-bottom: -22px;
+   }
+
+   .listType {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 25px;
+   }
+
+   .listType th,
+   .listType td {
+      text-align: center;
+      border-bottom: 1px solid #ccc;
+      padding: 10px;
+   }
+
+   .listType th {
+      background-color: rgb(255, 83, 64);
+      color: white;
+      font-weight: bold;
+      height: 40px;
+   }
+
+   .listType a {
+      text-decoration: none;
+      color: black;
+   }
+
+   .listType tr:hover {
+      background-color: #f5f5f5;
+   }
+   
+   .listType th.title {
+      
+      width: 50%; /* 원하는 넓이로 조절 */
+   }
+</style>
+
 <div class="container">
 <h1>마이페이지</h1>
 <hr>
@@ -275,7 +316,7 @@ ${userGrade }
 
 </c:choose>
 
-<div id="profileImageContainer" onclick="triggerFileInput();">
+<div id="profileImageContainer" >
     <c:if test="${not empty img}">
         <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
     </c:if>
@@ -283,9 +324,10 @@ ${userGrade }
         <img id="profileImage" src="/resources/img/defaultProfile.png" alt="User Profile Image">
     </c:if>
 </div>
-
+<c:if test="${not empty img}">
+	<div class="btn btn-danger btn-sm pull-right" id="imgDelete" >이미지 삭제</div>
+</c:if>
 <!-- 이미지 삭제 버튼 -->
-<div class="btn btn-danger btn-sm pull-right" id="imgDelete" >이미지 삭제</div>
 
 <h3>${nick}님의 프로필</h3>
 
@@ -326,18 +368,8 @@ ${userGrade }
                 	</c:when>
                 </c:choose>
             </tr>
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">사진 업로드</td>
-               <td colspan="2">
-                  <span class="btn btn-default">
-                  
-					<!-- 숨겨진 파일 입력(input type="file") 요소 -->
-                     <input type="file" name="file" id="thumbnailFile" style="display: none;" onchange="setThumbnail(event);"/>
-                  </span>
-               </td>            
-            </tr>      
-<!--             <tr id="previewSection" style="display: none;"> -->
-            <tr id="previewSection" >
+            <c:if test="${empty img}">
+            <tr id="previewSection"  style="display: none;">
             	<td colspan="2" style="text-align: left;">
             	
                	<!-- 썸네일 미리보기를 담을 div 추가 -->
@@ -347,6 +379,17 @@ ${userGrade }
                    <div class="btn btn-primary btn-sm pull-right" id="imgUpdate" >등록</div>
                </td>
             </tr>
+            <tr>
+               <td style="width: 150px; vertical-align: middle;">사진 업로드</td>
+               <td colspan="2">
+                  <span class="btn btn-default">
+                  
+					<!-- 숨겨진 파일 입력(input type="file") 요소 -->
+                     <input type="file" name="file" id="thumbnailFile" onchange="setThumbnail(event);"/>
+                  </span>
+               </td>            
+            </tr>      
+            </c:if>
          </table>
       </form> 
       
@@ -468,46 +511,62 @@ ${userGrade }
 
 <h1 onclick="toggleSection('boardSection')">
    내가 쓴 글
-    <span id="boardSectionArrow" style="float: right;">▼</span>
+   <span id="boardSectionArrow" style="float: right;">▼</span>
 </h1>
 
 <div id="boardSection" class="hidden">
-<table id="boardTable">
-
-   <tr>
-      <th>No.</th>
-      <th>제목</th>
-      <th>작성일</th>
-   </tr>
-<c:forEach items="${board }" var="board" begin="0" end="10">
-
-   <tr>
-      <td>${board.boardNo }</td>
-      <td>
-         <c:choose>
-               <c:when test="${board.menu eq 1}">
-                   <a href="/rent/view?boardNo=${board.boardNo}">${board.title}</a>
-               </c:when>
-               <c:when test="${board.menu eq 2}">
-                   <a href="/share/view?boardNo=${board.boardNo}">${board.title}</a>
-               </c:when>
-               <c:when test="${board.menu eq 3}">
-                   <a href="/please/view?boardNo=${board.boardNo}">${board.title}</a>
-               </c:when>
-               <c:when test="${board.menu eq 4}">
-                   <a href="/community/view?boardNo=${board.boardNo}">${board.title}</a>
-               </c:when>
-               <c:when test="${board.menu eq 5}">
-                   <a href="/business/view?boardNo=${board.boardNo}">${board.title}</a>
-               </c:when>
-           </c:choose>
-        </td>
-      <td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.writeDate }"/></td>
-   </tr>
-   
-   
-</c:forEach>
-</table>
+   <table class="listType">
+      <thead>
+         <tr>
+            <th>No.</th>
+            <th class="title">제목</th>
+            <th>가격(30분)</th>
+            
+            <th>작성일</th>
+            <th>조회</th>
+         </tr>
+      </thead>
+      <tbody>
+         <c:forEach items="${board }" var="board">
+            <tr>
+               <td>${board.boardNo }</td>
+               <td>
+				    <c:choose>
+				        <c:when test="${board.menu eq 1}">
+				            <a href="/rent/view?boardNo=${board.boardNo}">${board.title}</a>
+				        </c:when>
+				        <c:when test="${board.menu eq 2}">
+				            <a href="/share/view?boardNo=${board.boardNo}">${board.title}</a>
+				        </c:when>
+				        <c:when test="${board.menu eq 3}">
+				            <a href="/please/view?boardNo=${board.boardNo}">${board.title}</a>
+				        </c:when>
+				        <c:when test="${board.menu eq 4}">
+				            <a href="/community/view?boardNo=${board.boardNo}">${board.title}</a>
+				        </c:when>
+				        <c:when test="${board.menu eq 5}">
+				            <a href="/business/view?boardNo=${board.boardNo}">${board.title}</a>
+				        </c:when>
+				    </c:choose>
+				</td>
+               <td><fmt:formatNumber value="${board.price}" pattern="#,###" />원</td>
+               <td>
+                  <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
+                  <fmt:formatDate var="writeDate" value="${board.writeDate }" pattern="yyyyMMdd" />
+                  <c:choose>
+                     <c:when test="${writeDate lt curDate }">
+                        <fmt:formatDate value="${board.writeDate }" pattern="yyyy-MM-dd" />
+                     </c:when>
+                     <c:otherwise>
+                        <fmt:formatDate value="${board.writeDate }" pattern="HH:mm" />
+                     </c:otherwise>
+                  </c:choose>
+               </td>
+               <td>${board.hit}</td>
+            </tr>
+         </c:forEach>
+      </tbody>
+   </table>
 </div>
 
 <hr>
@@ -516,6 +575,7 @@ ${userGrade }
    내가 쓴 댓글
    <span id="commentSectionArrow" style="float: right;">▼</span>
 </h1>
+
 
 <div id="commentSection" class="hidden">
 <table id="commentTable">

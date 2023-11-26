@@ -69,8 +69,7 @@ function setThumbnail(event) {
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="price">가격</label>
-	<input type="text" class="form-control" name="price" id="price">
+	<label class="form-label" for="price">0원</label>
 </div>
 
 <div class="form-group mb-3">

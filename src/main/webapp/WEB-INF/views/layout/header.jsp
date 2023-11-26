@@ -398,6 +398,7 @@ border-bottom: 10px solid #ff533f;
 		 <c:choose>
             <c:when test="${id eq 'admin'}">
                 <!-- 사용자가 'admin' 역할을 가지고 있는 경우의 코드 -->
+              
 				<div class="dropdown">
 					<img id="dropdownBtn" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
 						<div class="dropdown-content">
@@ -410,6 +411,7 @@ border-bottom: 10px solid #ff533f;
 				
             </c:when>
             <c:otherwise>
+
            <div class="dropdown">
 				<img id="dropdownBtn1" src="/resources/img/jong.png" class="dropbtn" style="height: 40px; width: 40px;">
 					<div class="dropdown-content1">

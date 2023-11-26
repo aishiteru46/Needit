@@ -193,6 +193,14 @@ public interface MenuShareDao {
 	 */
 	public int deleteBasket(Basket basket);
 	
+	/**
+	 * 검색한 리스트
+	 * 
+	 * @param paging 페이징
+	 * @return 리스트 
+	 */
+	public List<Map<String, Object>> selectSearch(Paging paging);
+	
 	
 	
 
