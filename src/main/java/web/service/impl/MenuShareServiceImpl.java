@@ -42,13 +42,18 @@ public class MenuShareServiceImpl implements MenuShareService{
 		
 		int totalCount = menuShareDao.selectCntAll(param);
 		
-		Paging paging = new Paging( param.getMenu(), param.getCate(),totalCount, param.getCurPage(), 12, 10 );
+		Paging paging = new Paging( param.getMenu(), param.getCate(), param.getSelectSub(), param.getSearchText(),totalCount, param.getCurPage(), 12, 10 );
 		return paging;
 	}
 	
 	@Override
 	public List<Map<String, Object>> selectBoardStatus(Paging paging, Board board) {
 		return menuShareDao.selectAll(paging);
+	}
+	
+	@Override
+	public List<Map<String, Object>> searchList(Paging paging) {
+		return menuShareDao.selectSearch(paging);
 	}
 
 	@Override

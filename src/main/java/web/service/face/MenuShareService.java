@@ -149,6 +149,13 @@ public interface MenuShareService {
 	 */
 	public boolean checkBasket(Basket basket);
 	
+	/**
+	 * 검색한 리스트
+	 * @param paging
+	 * @return
+	 */
+	public List<Map<String, Object>> searchList(Paging paging);
+	
 	
 	
 	

@@ -65,6 +65,65 @@ public class MenuShareController {
 		return "menu/share/list";
 	}
 	
+	//게시판 목록 리스트타입 띄우기
+	@GetMapping("/listType")
+	public String listType( 
+			Paging param, Model model
+			, Board board) {
+		logger.info("param : {}", param);
+		
+		//페이징 계산
+		Paging paging = menuShareFace.getPaging(param);
+		
+		//게시글 목록 조회
+		List<Map<String, Object>> list = menuShareFace.selectBoardStatus(paging, board); 
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		
+		return "menu/share/listType";
+	}
+	//검색한 게시판 목록 그리드타입 띄우기
+		@GetMapping("/search")
+		public String search( Board board, Model model, Paging param ) {
+			logger.info("검색주제 : {}", param.getSelectSub());
+			logger.info("검색어 : {}", param.getSearchText());
+			logger.info("검색한 메뉴 : {}", param.getMenu());
+			logger.info("검색한 카테 : {}", param.getCate());
+			
+			//페이징 계산
+			Paging paging = menuShareFace.getPaging(param);
+			logger.info("검색된 게시글 수  : {}", paging.getTotalCount());
+			
+			List<Map<String, Object>> list = menuShareFace.searchList(paging);
+			logger.info("검색된 게시글 내용  : {}", list);
+			
+			model.addAttribute("paging", paging);
+			model.addAttribute("list", list);
+			
+			return "menu/share/searchList";
+		}
+		
+		//검색한 게시판 목록 리스트타입 띄우기
+		@GetMapping("/searchType")
+		public String searchType( Board board, Model model, Paging param ) {
+			logger.info("검색주제 : {}", param.getSelectSub());
+			logger.info("검색어 : {}", param.getSearchText());
+			logger.info("검색한 메뉴 : {}", param.getMenu());
+			logger.info("검색한 카테 : {}", param.getCate());
+			
+			//페이징 계산
+			Paging paging = menuShareFace.getPaging(param);
+			logger.info("검색된 게시글 수  : {}", paging.getTotalCount());
+			
+			List<Map<String, Object>> list = menuShareFace.searchList(paging);
+			logger.info("검색된 게시글 내용  : {}", list);
+			
+			model.addAttribute("paging", paging);
+			model.addAttribute("list", list);
+			
+			return "menu/share/searchType";
+		}
+	
 	@RequestMapping("/view")
 	public String view(
 			Board board, HttpSession session

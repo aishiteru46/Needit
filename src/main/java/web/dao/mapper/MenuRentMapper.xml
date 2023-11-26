@@ -13,7 +13,8 @@
 		    hit, menu, cate, title, price, content, location,
 		    CAST(write_date AS DATE) AS write_date, 
 		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
-		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
+		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name,
+		    (SELECT count(*) FROM basket WHERE basket.board_no = B.board_no AND basket.basket_id=#{userId} ) AS basket_status
 		FROM board B
 		<where>
 			AND menu = #{menu }
@@ -65,7 +66,8 @@
 	                hit, menu, cate, title, price, content, location,
 	                CAST(write_date AS DATE) AS write_date, 
 	                (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
-	                (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
+	                (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name,
+	                (SELECT count(*) FROM basket WHERE basket.board_no = B.board_no AND basket.basket_id=#{userId} ) AS basket_status
 	            FROM board B
 	            WHERE
 	                menu = #{menu}
