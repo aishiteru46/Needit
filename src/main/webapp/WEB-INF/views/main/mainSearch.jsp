@@ -7,7 +7,7 @@
 
 <style>
 /* 검색 */ 
-#MainSearchDiv {
+#MainSearchDiv{
     position: absolute;
     margin-top: -46px;
     margin-left: 800px;

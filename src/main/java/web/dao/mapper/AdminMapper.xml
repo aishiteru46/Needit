@@ -81,8 +81,9 @@
 	
 	<!-- DB에서 이메일 받아오기 -->
 	<select id="selectAllEmail" resultType="Map">
-		SELECT email
+		SELECT email, nick
 		FROM usertb
+		WHERE email_agr = 1 
 		ORDER BY email
 	</select>
 	
