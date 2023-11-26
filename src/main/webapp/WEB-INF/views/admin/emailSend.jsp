@@ -25,7 +25,9 @@
     vertical-align: top;
     margin-right: 20px;
 }
+#emailDiv{
 
+}
 </style>
 
 <script type="text/javascript">
@@ -94,6 +96,7 @@ function showCheckboxes() {
 }
 
 
+
 </script>
 
 <!-- 안쪽 내용 -->
@@ -127,6 +130,7 @@ function showCheckboxes() {
     </div>
 </div><br>
 
+<div id="emailDiv">
 <form id="emailForm" action="/admin/emailSend" method="post">
   
 <!-- 제목 -->
@@ -136,13 +140,20 @@ function showCheckboxes() {
 
 <!-- 내용 -->
 <div align="center">
-	<textarea name="content" id="emailContent" cols="120" rows="12" style="width: 100%; resize: none" placeholder="내용" class="form-control"></textarea>
-</div><br>
+	<textarea name="content" id="emailContent" cols="120" rows="12" style="width: 100%; height: 100px; resize: none;" placeholder="내용" class="form-control"></textarea>
+</div>
 
-<div align="center">
-	<input type="submit" value="메일 보내기" class="btn btn-warning" onclick="sendEmail()">
+<div>
+	<input type="submit" value="메일 보내기" class="btn btn-warning mt-1" onclick="sendEmail()">
 </div>
 </form>
+</div><!-- #emailDiv -->
+
+<div id="emailDiv">
+<input type="checkbox" id="selectSend" name="selectSend">
+<label for="selectSend" >제목</label><br>
+<label for="selectSend" >내용</label><br>
+</div><!-- #emailDiv -->
 
 </div><!-- .AdminContent -->
 

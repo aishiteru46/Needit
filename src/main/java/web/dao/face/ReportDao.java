@@ -11,5 +11,13 @@ public interface ReportDao {
 	 * @return 1 삽입 성공 2 실패
 	 */
 	public int insert(Report report);
+
+	
+	/**
+	 * 
+	 * @param report
+	 * @return
+	 */
+	public int cmtReportInsert(Report report);
 	
 }

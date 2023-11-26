@@ -9,7 +9,6 @@ import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
-import web.dto.Rent;
 import web.util.Paging;
 
 public interface MenuCommunityService {
@@ -34,7 +33,15 @@ public interface MenuCommunityService {
 	 * @return 게시글 목록
 	 */
 	public List<Map<String, Object>> list(Paging paging);
-
+	
+	/**
+	 * 게시글 검색
+	 * 
+	 * @param paging
+	 * @return
+	 */
+	public List<Map<String, Object>> searchList(Paging paging);
+	
 	/**
 	 * 게시글 상세보기
 	 * 
@@ -107,7 +114,7 @@ public interface MenuCommunityService {
 	 * @param commentParam - id, content, boardNo
 	 * @return - 조회된 댓글 목록
 	 */
-	public List<Comment> viewComment(Comment commentParam);
+	public List<Map<String, Object>> viewComment(Comment commentParam);
 
 	/**
 	 * 댓글 삭제

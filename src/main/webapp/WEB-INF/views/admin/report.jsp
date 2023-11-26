@@ -15,6 +15,7 @@ $(function(){
 		         , data: {
 		        	 reportType: reportType
 		        	 , boardNo : ${param.boardNo}
+		   			
 		         }
 		         , dataType: "json"
 		         , success: function( res  ) {

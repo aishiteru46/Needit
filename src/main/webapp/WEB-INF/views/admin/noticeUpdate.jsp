@@ -10,37 +10,39 @@
 	background-color: #ff8108;
 	width: 302px;
 }
-#longText{
-	text-overflow:ellipsis;
-	overflow:hidden;
-	white-space:nowrap;
+
+#tableWrapper{
+	overflow-x: hidden;
+	overflow-y: scroll;
+	height: 300px;
+}
+#tableWrapper th{
+	position: sticky;
+    top: 0px;
 }
 </style>
 
 <script type="text/javascript">
-// $(() => {
-// 	$("#title").focus()
-	
-// 	})
-// })
+$(() => {
+    $("#title").focus();
 
-/* 삭제 버튼 */
-function deleteBoard(boardNo) {
-    if (confirm('정말로 삭제하시겠습니까?')) {
-        $.ajax({
-            type: "POST",
-            url: "/admin/reportList",
-            data: { boardNo: boardNo },
-            success: function (response) {
-                location.reload();
-            },
-            error: function (e) {
-                console.log("에러 발생: ", e);
-            }
-        });
+    //신고 삭제용
+    window.deleteBoard = function(boardNo) {
+        if (confirm('삭제하시겠습니까?')) {
+            $.ajax({
+                type: "POST",
+                url: "/admin/reportList",
+                data: { boardNo: boardNo },
+                success: function(response) {
+                    location.reload();
+                },
+                error: function(e) {
+                    console.log("에러: ", e);
+                }
+            });
+        }
     }
-}
-
+});
 </script>
 
 <!-- 안쪽 내용 -->
@@ -75,9 +77,9 @@ function deleteBoard(boardNo) {
 <hr>
 
 <!-- 작성한 공지 목록 -->
-<div>
+<div id="tableWrapper">
 
-<table class="table table-striped table-hover table-sm" style="table-layout: fixed">
+<table id="noticeTable" class="table table-striped table-sm">
 
 <colgroup>
 	<col style="width: 10%;">
@@ -113,7 +115,7 @@ function deleteBoard(boardNo) {
 </table>
 
 
-</div>
+</div><!-- #tableWrapper -->
 
 
 

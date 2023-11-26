@@ -13,9 +13,6 @@
 
 }
 </style>
-
-
-
 <script type="text/javascript">
 //썸네일 미리보기
 function setThumbnail(event) {
@@ -83,7 +80,7 @@ $(function(){
 
 
 $(function(){
-   
+
    //프로필사진 등록
     $("#imgUpdate").click(function(){
        console.log("프로필사진 업데이트 작동")
@@ -161,8 +158,6 @@ function toggleSection(sectionId) {
   }
 }
 
-
-
 </script>
 
 <script type="text/javascript">
@@ -182,7 +177,6 @@ $(function(){
 	         , success: function( res ) {
 	            console.log("AJAX 성공")
 	            location.reload()
-	
 	         }
 	         , error: function() {
 	            console.log("AJAX 실패")
@@ -220,9 +214,6 @@ $(function(){
 
 </script>
 
-
-
-
 <style type="text/css">
 
 #thumbnail_container{
@@ -254,7 +245,11 @@ $(function(){
     }
 </style>
 
-
+<style>
+        .hidden {
+            display: none;
+        }
+</style>
 
 
 <div class="container">
@@ -280,7 +275,7 @@ ${userGrade }
 
 </c:choose>
 
-<div id="profileImageContainer">
+<div id="profileImageContainer" onclick="triggerFileInput();">
     <c:if test="${not empty img}">
         <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
     </c:if>
@@ -292,7 +287,7 @@ ${userGrade }
 <!-- 이미지 삭제 버튼 -->
 <div class="btn btn-danger btn-sm pull-right" id="imgDelete" >이미지 삭제</div>
 
-<h3>${nick}님의 프로필사진</h3>
+<h3>${nick}님의 프로필</h3>
 
 <div class="panel panel-default">
    <div class="panel-body">
@@ -335,11 +330,14 @@ ${userGrade }
                <td style="width: 150px; vertical-align: middle;">사진 업로드</td>
                <td colspan="2">
                   <span class="btn btn-default">
-                     이미지를 업로드하세요.<input type="file" name="file" id="thumbnailFile" onchange="setThumbnail(event);"/>
+                  
+					<!-- 숨겨진 파일 입력(input type="file") 요소 -->
+                     <input type="file" name="file" id="thumbnailFile" style="display: none;" onchange="setThumbnail(event);"/>
                   </span>
                </td>            
             </tr>      
-            <tr id="previewSection" style="display: none;">
+<!--             <tr id="previewSection" style="display: none;"> -->
+            <tr id="previewSection" >
             	<td colspan="2" style="text-align: left;">
             	
                	<!-- 썸네일 미리보기를 담을 div 추가 -->
@@ -355,6 +353,7 @@ ${userGrade }
       
    </div>
 </div>
+
 
 <hr>
 
@@ -474,6 +473,7 @@ ${userGrade }
 
 <div id="boardSection" class="hidden">
 <table id="boardTable">
+
    <tr>
       <th>No.</th>
       <th>제목</th>

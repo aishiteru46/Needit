@@ -237,7 +237,7 @@ public class AdminController {
 		List<Map<String, Object>> reportBoardList = adminService.getBoardReportInfo();
 //		logger.info("신고목록{}",reportBoardList);
 		model.addAttribute("reportBoardList", reportBoardList);
-
+		
 		//댓글 신고 목록
 		List<Map<String, Object>> reportCmtList = adminService.getCmtReportInfo();
 		model.addAttribute("reportCmtList", reportCmtList);
@@ -246,7 +246,7 @@ public class AdminController {
 	//신고목록 삭제
 	@PostMapping("/admin/reportList")
 	public String deleteReport(Board board, Comment cmt) {
-		
+
 		adminService.deleteBoardCmt(board, cmt);
 		
 		return "redirect:/admin/reportList";

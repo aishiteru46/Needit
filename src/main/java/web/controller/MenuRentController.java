@@ -157,6 +157,8 @@ public class MenuRentController {
 	//대여 처리
 	@PostMapping("/rent")
 	public String rent( Rent rentParam, Model model ) {
+		logger.info("결제파라미터 : {}", rentParam);
+		
 		
 		//대여신청 대기처리
 		menuRentService.rent(rentParam);

@@ -43,31 +43,6 @@ function setThumbnail(event) {
     reader.readAsDataURL(event.target.files[0]);
 }// .setThumbnail() End
 
-//가격란에 문자,높은 금액, 0원 입력 방지
-$(document).ready(function() {
-    $("#price").on("keyup", function() {
-        var checkType = $("#price").val();
-
-        if (isNaN(checkType)) {
-            alert("숫자만 입력 가능합니다");
-            $("#price").val("");
-            $("#price").focus();
-        }
-
-        if ( checkType > 1000000) {
-            alert("가격은 30분에 1,000,000원 보다 높을 수 없습니다.");
-            $("#price").val("");
-            $("#price").focus();
-        }
-    
-        if ( checkType == 0 ) {
-            alert("가격은 0원 보다 높아야 합니다.");
-            $("#price").val("");
-            $("#price").focus();
-        }
-
-    });
-});
 </script>
 
 <style type="text/css">
@@ -90,7 +65,7 @@ $(document).ready(function() {
 <br><br>
 
 <div class="col-10 mx-auto">
-<form action="/rent/write" method="post" enctype="multipart/form-data">
+<form action="/community/write" method="post" enctype="multipart/form-data">
 
 <input type="hidden" id="menu" name="menu" value="${param.menu }" />
 <input type="hidden" id="cate" name="cate" value="${param.cate }" />
@@ -103,16 +78,6 @@ $(document).ready(function() {
 <div class="form-group mb-3">
    <label class="form-label" for="title">제목</label>
    <input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해주세요" required>
-</div>
-
-<div class="form-group mb-3">
-   <label class="form-label" for="location">위치</label>
-   <input type="text" class="form-control" readonly="readonly" name="location" value="${addr1 }" id="location">
-</div>
-
-<div class="form-group mb-3">
-   <label class="form-label" for="price">가격</label>
-   <input type="text" class="form-control" name="price" id="price" placeholder="30분당 가격을 입력해주세요" required>
 </div>
 
 <div class="form-group mb-3">

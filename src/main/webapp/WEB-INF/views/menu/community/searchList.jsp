@@ -10,8 +10,6 @@
 
 <script type="text/javascript">
 $(()=>{
-	
-    <%-- 검색버튼 CSS적용 --%>
 	$("#searchBtn").mouseover(function(){
 		$("#searchBtn")	
 			.css("color", "white")
@@ -23,8 +21,6 @@ $(()=>{
         .css("background-color", "")
         .text("Search");
 	});
-	
-
 });
 </script>
 
@@ -146,7 +142,7 @@ $(()=>{
 #communityListHr:hover {
 	color: rgb(255,83,63);
 }
-#comuText1 {
+#communityText1 {
     font-size: 30px;
     color: #343a40;
 }
@@ -196,10 +192,10 @@ $(()=>{
 	font-size: 13px;
 	margin: 2px;
 }
-/* #searchBtn:hover { */
-/* 	color: white; */
-/* 	background-color: rgb(255,83,63); */
-/* } */
+#searchBtn:hover {
+	color: white;
+	background-color: rgb(255,83,63);
+}
 #searchBtn {
 	float: right;
     height: 20px;
@@ -223,14 +219,14 @@ $(()=>{
     position: relative;
     margin-right: -8.5px;
     appearance: none;
-	-webkit-appearance: none;
- 	-moz-appearance: none;
+	-webkit-appearance: none; 
+ 	-moz-appearance: none; 
 }
 #selectSub:focus
 ,#searchText:focus {
  	outline: none;
 }
-#comuText1
+#communityText1
 ,.search-container
 ,.write {
 	display: inline-block;
@@ -247,7 +243,6 @@ form {
     margin-top: 4px;
 }
 </style>
-
 <div class="container">
 
 <c:forEach  var="list" items="${list }" begin="0" end="0">
@@ -292,16 +287,16 @@ form {
     	oninput="this.setCustomValidity('')">
     <input type="hidden" name="menu" value="${param.menu }">
     <input type="hidden" name="cate" value="${param.cate }">
-    <button type="submit" id="searchBtn">Search</button>
+    <button id="searchBtn">Search</button>
     </form>
 </div>
 
 <div class="write">
-	
+
 	<!-- 그리드타입,리스트타입 선택 -->
 	<div id="viewType">
-		<a type="button" href="/community/list?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
-		<a type="button" href="/community/listType?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
+		<a type="button" href="/community/search?selectSub=${param.selectSub}&searchText=${param.searchText}&menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
+		<a type="button" href="/community/searchType?selectSub=${param.selectSub}&searchText=${param.searchText}&menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
 	</div>
 
 	<c:if test="${not empty isLogin and isLogin }">
@@ -359,8 +354,7 @@ form {
   </c:if>
 </c:forEach>
 
-<small class="float-end" style=" margin-right: 8px; margin-top: -10px; margin-bottom: 20px;">total : ${paging.totalCount }</small>
-
+<small class="float-end" style="margin-right: 8px; margin-top: -10px;">total : ${paging.totalCount }</small>
 
 </div> <!-- .container -->
 <br>

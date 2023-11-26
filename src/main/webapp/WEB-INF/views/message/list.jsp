@@ -10,8 +10,10 @@ pageEncoding="UTF-8"%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <style>
-.container {
+.msgContainer {
   width: 1200px;
+  margin-left: -10px;
+  margin-right: 0px;
 }
 
 .msgMain {
@@ -33,7 +35,7 @@ pageEncoding="UTF-8"%>
 /*   flex-shrink: 0; */
 	float: left;
 	border: 1px solid;
-	width: 400px;
+	width: 397px;
 	padding-bottom: 10px;
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -67,11 +69,6 @@ pageEncoding="UTF-8"%>
 	overflow-y: auto; /* Allow scrolling */
 	height: 600px; /* Adjust this value as needed */
 	width: 796px;
-}
-
-.container {
-  margin-left: -10px;
-  margin-right: 0px;
 }
 
 .msgInput {
@@ -247,8 +244,6 @@ pageEncoding="UTF-8"%>
     position: relative;
     bottom: 5px;
 }
-
-.profi
 
 </style>
 <script >
@@ -703,7 +698,7 @@ function formatDate(timestamp) {
 
 </script>
 
-<div class="container">
+<div class="msgContainer">
 	<div class="pageTitle">
 	<h3 id="pageTitle">채팅</h3>
 	<hr style="width: 1200px;">
@@ -769,7 +764,7 @@ function formatDate(timestamp) {
 		<div style="clear: both;"></div>
 	</div><!-- .msgMain  -->
 	<div style="clear: both;"></div>
-</div><!-- .container -->
+</div><!-- .msgContainer -->
 <div style="clear: both;"></div>
 
 

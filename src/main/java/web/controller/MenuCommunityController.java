@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,10 +32,11 @@ public class MenuCommunityController {
 	
 	@Autowired private MenuCommunityService menuCommunityService;
 	
-	//게시판 목록 띄우기
+	//게시판 목록 그리드타입 띄우기
 	@GetMapping("/list")
 	public String list( Paging param, Model model ) {
 		logger.info("param : {}", param);
+		
 		//페이징 계산
 		Paging paging = menuCommunityService.getPaging(param);
 		
@@ -45,7 +48,65 @@ public class MenuCommunityController {
 		return "menu/community/list";
 	}
 	
-	//게시판 상세 조회
+	//게시판 목록 리스트타입 띄우기
+	@GetMapping("/listType")
+	public String listType( Paging param, Model model ) {
+		logger.info("param : {}", param);
+		
+		//페이징 계산
+		Paging paging = menuCommunityService.getPaging(param);
+		
+		//게시글 목록 조회
+		List<Map<String, Object>> list = menuCommunityService.list(paging); 
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		
+		return "menu/community/listType";
+	}
+
+	//검색한 게시판 목록 그리드타입 띄우기
+	@GetMapping("/search")
+	public String search( Board board, Model model, Paging param ) {
+		logger.info("검색주제 : {}", param.getSelectSub());
+		logger.info("검색어 : {}", param.getSearchText());
+		logger.info("검색한 메뉴 : {}", param.getMenu());
+		logger.info("검색한 카테 : {}", param.getCate());
+		
+		//페이징 계산
+		Paging paging = menuCommunityService.getPaging(param);
+		logger.info("검색된 게시글 수  : {}", paging.getTotalCount());
+		
+		List<Map<String, Object>> list = menuCommunityService.searchList(paging);
+		logger.info("검색된 게시글 내용  : {}", list);
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		
+		return "menu/community/searchList";
+	}
+	
+	//검색한 게시판 목록 리스트타입 띄우기
+	@GetMapping("/searchType")
+	public String searchType( Board board, Model model, Paging param ) {
+		logger.info("검색주제 : {}", param.getSelectSub());
+		logger.info("검색어 : {}", param.getSearchText());
+		logger.info("검색한 메뉴 : {}", param.getMenu());
+		logger.info("검색한 카테 : {}", param.getCate());
+		
+		//페이징 계산
+		Paging paging = menuCommunityService.getPaging(param);
+		logger.info("검색된 게시글 수  : {}", paging.getTotalCount());
+		
+		List<Map<String, Object>> list = menuCommunityService.searchList(paging);
+		logger.info("검색된 게시글 내용  : {}", list);
+		
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		
+		return "menu/community/searchType";
+	}
+	
+	//게시글 상세 조회
 	@GetMapping("/view")
 	public String view( Board board, Model model, HttpSession session ) {
 
@@ -73,6 +134,11 @@ public class MenuCommunityController {
 		model.addAttribute("isLike", isLike);
 		model.addAttribute("cntLike", menuCommunityService.getTotalCntLike(like));
 		
+		//대여상태 조회
+		List<Map<String, Object>> status = menuCommunityService.getStatus(board);
+		logger.info("status : {}", status);
+		model.addAttribute("status", status);
+		
 		return "menu/community/view";
 	}
 
@@ -86,7 +152,7 @@ public class MenuCommunityController {
 		
 		return "down";
 	}
-
+	
 	//게시글 작성 폼
 	@GetMapping("/write")
 	public String write() {
@@ -155,9 +221,8 @@ public class MenuCommunityController {
 	public String viewComment(Comment commentParam, Model model) {
 		logger.info("commentParam: {}", commentParam);
 		
-		List<Comment> commentList = menuCommunityService.viewComment(commentParam);
-		logger.info("저장된 댓글:" + commentList.toString());
-		
+		//댓글 목록 조회
+		List<Map<String,Object>> commentList = menuCommunityService.viewComment(commentParam);
 		model.addAttribute("commentList", commentList);
 		
 		return "jsonView";

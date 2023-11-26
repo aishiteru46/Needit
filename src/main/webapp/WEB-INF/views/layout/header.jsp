@@ -17,6 +17,8 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
+
+
 <script type="text/javascript">
 $(() => {
 	   $("#title").focus()
@@ -103,9 +105,13 @@ $(document).ready(function(){
 		            
 		            // 만약 현재 페이지가 마이페이지라면 메인 페이지로 리다이렉트
 		            if (currentPageUrl.indexOf("/profile/view") !== -1) {
+		            	naverLogout();
+		            	kakaoLogout();
 		                window.location.href = "/main";
 		            } else {
 		                // 다른 페이지에서는 이전 동작(기존에는 이전 페이지로 돌아가는 동작)
+		                naverLogout();
+		                kakaoLogout();
 		                document.location.reload();
 		            }
 		        } 
@@ -133,14 +139,14 @@ nav li {width: 150px; margin-right: 20px;}
 #header .nav ul.gnb{margin-bottom:0px;padding-left:0px;display: flex;}
 #header .nav ul.gnb li{margin-bottom:0px;color:#000;text-align: center;position: relative;}
 #header .nav ul.gnb li a {box-sizing: border-box;display:block;transition:.8s ease;text-transform:uppercase;}
-#header .nav ul.gnb li ul.sub{position:absolute;padding-left:0px;opacity:0;visibility: hidden;padding-top:10px;z-index: 3;width: 100%}
+#header .nav ul.gnb li ul.sub{position:absolute;padding-left:0px;opacity:0;visibility: hidden;padding-top:10px;z-index: 4;width: 100%}
 #header .nav ul.gnb li ul.sub li {position: relative;}
 #header .nav ul.gnb li ul.sub li a{padding:10px; margin-top: 8px;}
 #header .nav ul.gnb:hover li ul.sub{visibility:visible;opacity:1;transform:translateY(0px);} 
 #header .nav ul.gnb li:hover{display:inline-block;margin-bottom:0px;}
 #header .nav ul.gnb li a:hover{	background-color: #f1f1f1;
 }
-#header.open .hd_bg{position: absolute;width: 100%;background: #fff;z-index: 1;transition: all .3s;border-top: 1px solid #dcdcdc; opacity: 95%;}
+#header.open .hd_bg{position: absolute;width: 100%;background: #fff;z-index: 1;transition: all .3s;border-top: 1px solid #dcdcdc; opacity: 95%; z-index: 3;}
 #header .nav ul.gnb li ul.sub li a{text-align: center}
 #header .nav .active  {position: relative}
 #header .nav .active:hover:after{content: '';display: block;width: 100%;height: 2px;background: #000;position: absolute;left: 0;bottom: 0; background-color: #ccc}
@@ -156,7 +162,7 @@ nav li {width: 150px; margin-right: 20px;}
 .dropdown {
     position: relative;
     display: inline-block;
-    z-index: 2;
+    z-index: 5;
 }
 
 .dropdown-content {
@@ -169,6 +175,7 @@ nav li {width: 150px; margin-right: 20px;}
     text-align: center;
     right: -50px;
     border-radius: 20px;
+    z-index: 5;
 }
 .dropdown-content:after{
 content:""; 
@@ -219,13 +226,24 @@ border-bottom: 10px solid #ff533f;
     margin-bottom: 20px;
     padding: 0.5rem!important;
 }
+.header{
+	z-index: 300;
+}
+.p-4 {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+
+}
 </style>
 
 </head>
 <body>
 <div class="wrap">
 
-	<div class="float-end" style="margin-top: 30px; width: 90px; height: 40px; text-align: right; ">
+<div class="header">
+	<div class="float-end" style="margin-bottom: -70px; margin-top: 30px; width: 90px; height: 40px; text-align: right; ">
 		<%-- 비로그인 --%>
 		<c:if test="${not isLogin }">
 		
@@ -288,9 +306,9 @@ border-bottom: 10px solid #ff533f;
         </c:choose>
 			</c:if>
 		</div>
-	<div class=" text-center mx-auto p-4" style="width: 1200px;" >
+	<div class="mx-auto p-4" style="width: 1200px;" >
 		<div class="mx-auto p-2">
-		<a href="/main"><img src="/resources/img/needit..png" width="350" height="70"></a>
+		<a class="logo" href="/main"><img src="/resources/img/needit..png" width="350" height="70"></a>
 		</div>
 	</div>
 	
@@ -348,5 +366,5 @@ border-bottom: 10px solid #ff533f;
 	<hr>
 	
 <div class="hd_bg"></div>
-	
 </header>
+</div>

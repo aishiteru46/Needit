@@ -83,6 +83,8 @@ public class LoginController {
 			session.setAttribute("id", user.getId());
 			session.setAttribute("nick", user.getNick());
 			session.setAttribute("addr1", user.getAddr1());
+			session.setAttribute("email", user.getEmail());
+			session.setAttribute("name", user.getName());
 			
 			return ResponseEntity.ok("success");
 		} else {
@@ -93,14 +95,14 @@ public class LoginController {
 	
 		
 	}
-	@GetMapping("/social")
-	public void social() {}
+	@GetMapping("/naver")
+	public void naver() {}
 	
-	@PostMapping("/social")
-	public ResponseEntity<String> socialProc( User user, HttpSession session) {
+	@PostMapping("/naver")
+	public ResponseEntity<String> naverProc( User user, HttpSession session) {
 		
 		boolean socialId = userService.social(user);
-		user = userService.infoNick(user);
+		user = userService.socialinfo(user);
 		session.setAttribute("isLogin", socialId);
 		
 		
@@ -109,14 +111,43 @@ public class LoginController {
 			session.setAttribute("id", user.getId());
 			session.setAttribute("nick", user.getNick());
 			session.setAttribute("addr1", user.getAddr1());
+			session.setAttribute("email", user.getEmail());
+			session.setAttribute("name", user.getName());
 			
 			return ResponseEntity.ok("success");
 		} else {
 			logger.info("회원가입");
 			
-			return ResponseEntity.ok("fail"); // 로그인 페이지로 리다이렉트
+			return ResponseEntity.ok("signup"); // 로그인 페이지로 리다이렉트
 		}
 	
+		
+	}
+	@GetMapping("/kakao")
+	public void kakao() {}
+	
+	@PostMapping("/kakao")
+	public ResponseEntity<String> kakaoProc( User user, HttpSession session) {
+		
+		boolean socialId = userService.social(user);
+		user = userService.socialinfo(user);
+		session.setAttribute("isLogin", socialId);
+		
+		if(socialId) {
+			logger.info("로그인 성공 {}",user);
+			session.setAttribute("id", user.getId());
+			session.setAttribute("nick", user.getNick());
+			session.setAttribute("addr1", user.getAddr1());
+			session.setAttribute("email", user.getEmail());
+			session.setAttribute("name", user.getName());
+			
+			return ResponseEntity.ok("success");
+		} else {
+			logger.info("회원가입");
+			
+			return ResponseEntity.ok("signup"); // 로그인 페이지로 리다이렉트
+		}
+		
 		
 	}
 	@PostMapping("/logout")

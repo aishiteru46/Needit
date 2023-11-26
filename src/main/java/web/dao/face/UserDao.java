@@ -22,5 +22,8 @@ public interface UserDao {
 	//소셜 로그인
 	public int selectCntBySocialId(User user);
 
+	//소셜 정보
+	public User selectByInfo(User user);
+
 
 }
