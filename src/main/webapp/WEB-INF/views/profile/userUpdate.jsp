@@ -128,7 +128,12 @@ $(document).ready(function() {
 			nickCheck = false;
 			return false;
 		}
+
 		
+		// 닉네임이 변경된 경우에만 중복 검사 수행
+        if (nick !== "${nick}") {
+        	
+        
     	//Ajax로 전송
     	$.ajax({
     		url : '/user/nickCheck',
@@ -151,6 +156,10 @@ $(document).ready(function() {
     			}
     		}
     	}); //End Ajax
+        } else {
+            // 닉네임이 변경되지 않은 경우에는 중복 검사를 수행하지 않고 기존 결과를 사용
+            nickCheck = true;
+        }
 	});
     // 비밀번호 일치 여부 확인
     $("#pw1").on("input focusin focusout",function(){
@@ -321,14 +330,14 @@ form {
   			<label class="fs-3 fw-bold">*비밀번호</label>
   			<span class="position-absolute top-50 end-0 translate-middle-y" id="label2" style="font-size: 15px;"></span>
    	 		</div>
-    		<input type="password" class="form-control form-control-lg mb-3" id="pw1" name="pw" placeholder="비밀번호를 입력해주세요" required="required">
+    		<input type="password" class="form-control form-control-lg mb-3" id="pw1" name="pw" value="${user.pw }" placeholder="비밀번호를 입력해주세요" required="required">
    	 		<span  id="pwLimit" style="font-size: 15px;"></span>
     		
     		<div class="position-relative">
   			<label class="fs-3 fw-bold">*비밀번호 확인</label>
     		<span class="position-absolute top-50 end-0 translate-middle-y" id="label4" style="font-size: 15px;"></span>
     		</div>
-    		<input type="password" class="form-control form-control-lg mb-3" id="pw2" placeholder="비밀번호를 입력해주세요" required="required">
+    		<input type="password" class="form-control form-control-lg mb-3" id="pw2" value="${user.pw }"  placeholder="비밀번호를 입력해주세요" required="required">
     		
      		<div class="position-relative"> 
   			<label class="fs-3 fw-bold">*닉네임</label> 
@@ -347,7 +356,7 @@ form {
   			<input type="text" class="form-control form-control-lg mb-3" name="addr1" value="${addr1 }" id="sample5_address" required="required">
     		
     		<label class="fs-3 fw-bold">상세주소</label>
-    		<input type="text" class="form-control form-control-lg mb-3" name="addr2" value="${addr2 }">
+    		<input type="text" class="form-control form-control-lg mb-3" name="addr2" value="${user.addr2 }">
    	 		
   		</div>
   		
