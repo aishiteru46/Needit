@@ -134,11 +134,6 @@ public class MenuCommunityController {
 		model.addAttribute("isLike", isLike);
 		model.addAttribute("cntLike", menuCommunityService.getTotalCntLike(like));
 		
-		//대여상태 조회
-		List<Map<String, Object>> status = menuCommunityService.getStatus(board);
-		logger.info("status : {}", status);
-		model.addAttribute("status", status);
-		
 		return "menu/community/view";
 	}
 
