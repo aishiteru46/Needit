@@ -45,13 +45,13 @@
 	<select id="adminSelectAllNotice" resultMap="egomap">
 	    SELECT *
 	    FROM (
-	        SELECT board_no, title, content, write_date
+	        SELECT board_no, title, content,
+	        TO_CHAR(WRITE_DATE, 'YYYY-MM-DD') AS WRITE_DATE
 	        FROM board
 	        WHERE menu = 4
 	          AND cate = 1
 	        ORDER BY board_no DESC
 	    )
-	    WHERE ROWNUM &lt;= 13
 	    ORDER BY board_no DESC
 	</select>
 	
@@ -60,7 +60,7 @@
 	    <result property="BOARD_NO" column="BOARD_NO"/>
 	    <result property="TITLE" column="TITLE"/>
 	    <result property="CONTENT" column="CONTENT" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler" />
-	    <result property="WRITE_DATE" column="WRITE_DATE"/>
+	    <result property="WRITE_DATE" column="WRITE_DATE" javaType="java.lang.String"/>
 	    <result property="messagePreview" column="MESSAGE_PREVIEW" javaType="java.lang.String" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
 	</resultMap>
 	
@@ -97,8 +97,8 @@
 		    b.write_date,
 		    r.report_no, 
 		    r.board_no,
-		    r.report_id, 
-		    r.report_type, 
+		    r.report_id,
+		    r.report_type,
 		    r.report_chk, 
 			TO_CHAR(r.report_date, 'YYYY-MM-DD') AS REPORT_DATE
 		FROM 
@@ -109,21 +109,21 @@
 	</select>
 	
 	<!-- 신고된 댓글 목록 -->
-	<select id="selectCmtBoard">
+	<select id="selectCmtBoard" resultType="Map">
 		SELECT
-			c.board_no,
-		    c.cmt_no,
-		    c.content,
-		    c.writer_nick, 
-		    r.board_no,
-		    r.report_id,
-		    r.report_type, 
-		    r.report_chk, 
+			r.board_no,
+			b.menu,
+			b.cate,
+			b.writer_id,
+			r.cmt_no,
+			c.content,
+			r.report_type,
 			TO_CHAR(r.report_date, 'YYYY-MM-DD') AS REPORT_DATE
-		FROM 
-		    commenttb c
-		INNER JOIN 
-		    report r ON c.cmt_no = r.board_no
+		FROM report r
+		INNER JOIN
+			board b ON r.board_no = b.board_no
+		INNER JOIN
+			commenttb c ON r.cmt_no = c.cmt_no
 	</select>
 	
 	<!-- 사진 삭제 -->
@@ -155,6 +155,12 @@
 		DELETE FROM board
 		WHERE board_no = #{boardNo}
 	</delete>
+	
+	<!-- report테이블에서도 삭제해부릴까 고민중 -->
+<!-- 	<delete id="deleteReport" parameterType="Report"> -->
+<!-- 		DELETE FROM reporttb -->
+<!-- 		WHERE board_no = #{boardNo} -->
+<!-- 	</delete> -->
 	
 	<!-- 신고된 댓글 삭제 -->
 	<delete id="deleteComment" parameterType="Comment">

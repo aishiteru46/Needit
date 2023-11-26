@@ -23,7 +23,7 @@
 /* 로고 크기 */
 #AdminImg{
 	float: left;
- 	position: relative;
+ 	position: fixed;
 	z-index: 1;
 	width: 300px;
 	height: 105px;
@@ -36,7 +36,7 @@
 	position: relative;
 	z-index:2;
 	margin-right:17px;
-	margin-top:30px;
+	margin-top:16px;
 	border: 0px solid;
 	border-radius: 5px;
 	width: 82px;
@@ -62,7 +62,7 @@ li:hover{
 /* 위쪽 배경 */
 #AdminTop{
 	border: 0px solid rgb(255,83,63);
-	width: 1620px;
+	width: 100%;
 	height: 100px;
 	background: rgb(255,83,63);
 	position: fixed;
@@ -70,13 +70,21 @@ li:hover{
 	z-index: 3;
 }
 
+/* 메인, 로그아웃 버튼 */
+#mainButton{
+	position: relative;
+    width: 85%;
+    right: 145px;
+}
+
+
 /* 왼쪽 배경 */
 #AdminLeft{
 	float: left;
 	position: fixed;
 	border: 0px solid rgb(255,83,63);
 	width: 300px;
-	height: 910px;
+	height: 100%;
 	background: rgb(255,83,63);
 }
 
@@ -93,7 +101,7 @@ li:hover{
 #AdminContent {
     float: left;
     position: fixed;
-	width: 1620px;
+    width: 80%;
     margin-left: 300px;
     margin-top: 128px;
 }
@@ -110,10 +118,10 @@ li:hover{
 }
 /* 로그인중일때 */
 #ifLogin{
-	float: right;
+ 	float: right;
     position: relative;
-    margin-right: -185px;
-    margin-top: 25px;
+    margin-right: -88px;
+    margin-top: 10px;
     z-index: 5;
     width: 12px;
     height: 12px;
@@ -126,7 +134,7 @@ li:hover{
 </head>
 <body>
 
-
+<div id="AdminAll" style="width: 1200px;">
 <!-- 니딧 로고 -->
 <a href="/admin">
 	<img alt="니딧로고" src="/resources/img/needitAdmin_white.png" id="AdminImg">
@@ -136,14 +144,16 @@ li:hover{
 <!-- 위쪽 배경 -->
 <div id="AdminTop">
 <!-- 로그아웃 버튼 -->
-<form action="/main" method="post">
-<button id="AdminBtn">로그아웃</button>
-<button id="AdminBtn">메인으로</button>
-<c:if test="${not empty isLogin}">
-	<div id="ifLogin"></div>
-</c:if>
-</form>
-</div>
+	<div id="mainButton">
+	<form action="/main" method="post">
+	<button id="AdminBtn">로그아웃</button>
+	<c:if test="${not empty isLogin}">
+		<div id="ifLogin"></div>
+	</c:if>
+	</form>
+	<a href="/main"><button id="AdminBtn">메인으로</button></a>
+	</div><!-- #mainButton -->
+</div><!-- #AdminTop -->
 
 
 <!-- 왼쪽 배경 -->
@@ -164,6 +174,7 @@ li:hover{
 </ul>
 </div>
 
+</div><!-- #AdminAll -->
 
 </body>
 </html>

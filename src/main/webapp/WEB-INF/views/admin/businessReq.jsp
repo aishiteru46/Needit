@@ -10,13 +10,27 @@
 	background-color: #ff8108;
 	width: 302px;
 }
+
+#tableWrapper th{
+	position: sticky;
+    top: 0px;
+}
+#tableWrapper{
+	overflow-x: hidden;
+	overflow-y: scroll;
+	height: 213px;
+}
+
+#AdminContent{
+	width: 80%;
+}
 </style>
 
 <!-- 안쪽 내용 -->
 <div id="AdminContent">
 
-
-<table class="table table-striped table-hover table-sm">
+<div id="tableWrapper">
+<table class="table table-striped table-sm">
 
 <colgroup>
 	<col style="width: 10%;">
@@ -55,8 +69,8 @@
 </tbody>
 </table>
 
-</div><!-- .AdminContent -->
-
+</div><!-- #tableWrapper -->
+</div><!-- #AdminContent -->
 
 </body>
 </html>
