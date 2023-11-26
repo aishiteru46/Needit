@@ -296,4 +296,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 
+	@Override
+	public User loginUserSelect(User user) {
+		return userProfileDao.selectLoginUser(user);
+	}
+
+
 }
