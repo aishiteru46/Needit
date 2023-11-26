@@ -75,11 +75,14 @@ $(function() {
 	function loadAlert() { // 알림을 로드하는 함수
 	    $.ajax({
 	        type: "get"
-	        , url: "/alert/list"
+	        , url: "/alert/jong"
 	        , data: {}
 	        , dataType: "html"
 	        , success: function( res ) { // Alert객체를 받아넣어준 list JSP를 HTML 타입으로 불러온다
 	           console.log("AJAX 성공")
+			           
+				
+	           
 	         $("#alert").html(res)
 	        }
 	        , error: function() {
@@ -151,15 +154,30 @@ $(document).ready(function(){
 	});
 	
 
-	 $('#dropdownBtn').click(function () {
+	 $('#dropdownBtn1').click(function () {
           // Toggle the visibility of the dropdown content
-          $('.dropdown-content').toggle();
+          $('.dropdown-content1').toggle();
+          $('.dropdown-content2').hide();
           event.stopPropagation();
       });
 	  $(document).click(function(event) {
-	        var dropdownContent = $('.dropdown-content');
+	        var dropdownContent = $('.dropdown-content1');
 	        if (!dropdownContent.is(event.target) && dropdownContent.has(event.target).length === 0) {
 	            dropdownContent.hide();
+	          
+	        }
+	    });	
+	 $('#dropdownBtn2').click(function () {
+          // Toggle the visibility of the dropdown content
+          $('.dropdown-content2').toggle();
+          $('.dropdown-content1').hide();
+          event.stopPropagation();
+      });
+	  $(document).click(function(event) {
+	        var dropdownContent = $('.dropdown-content2');
+	        if (!dropdownContent.is(event.target) && dropdownContent.has(event.target).length === 0) {
+	            dropdownContent.hide();
+	            $('.dropdown-content1').hide();
 	        }
 	    });	
 	
@@ -223,7 +241,11 @@ nav li {width: 150px; margin-right: 20px;}
 
 
 /* Style The Dropdown Button */
-.dropbtn {
+.dropbtn1 {
+    border: none;
+    cursor: pointer;
+}
+.dropbtn2 {
     border: none;
     cursor: pointer;
 }
@@ -234,7 +256,42 @@ nav li {width: 150px; margin-right: 20px;}
     z-index: 5;
 }
 
-.dropdown-content {
+.dropdown-content1 {
+	margin-top: 15px;
+	display: none; 
+    position: absolute;
+    background-color: #f1f1f1;
+  	width : 240px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    text-align: left;
+    right: -50px;
+    border-radius: 20px;
+    z-index: 5;
+}
+.dropdown-content1:after{
+content:""; 
+position: absolute; 
+top: -10px; 
+border-left: 10px solid transparent; 
+border-right: 10px solid transparent; 
+border-bottom: 10px solid #f1f1f1;
+
+}
+
+.dropdown-content1 .alertData {
+/*     color: black; */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    
+}
+
+.dropdown-content1 .alertData:hover {
+	background-color: #ccc;
+	position: relative;
+	border-radius: 20px;
+}
+.dropdown-content2 {
 	margin-top: 15px;
 	display: none; 
     position: absolute;
@@ -246,7 +303,7 @@ nav li {width: 150px; margin-right: 20px;}
     border-radius: 20px;
     z-index: 5;
 }
-.dropdown-content:after{
+.dropdown-content2:after{
 content:""; 
 position: absolute; 
 top: -10px; 
@@ -256,7 +313,7 @@ border-bottom: 10px solid #f1f1f1;
 
 }
 
-.dropdown-content a {
+.dropdown-content2 a {
 /*     color: black; */
     padding: 12px 16px;
     text-decoration: none;
@@ -264,7 +321,7 @@ border-bottom: 10px solid #f1f1f1;
     
 }
 
-.dropdown-content a:hover {
+.dropdown-content2 a:hover {
 	background-color: #ccc;
 	position: relative;
 	border-radius: 20px;
@@ -305,6 +362,8 @@ border-bottom: 10px solid #ff533f;
     align-items: center;
 
 }
+
+.alertData
 </style>
 
 </head>
@@ -317,8 +376,8 @@ border-bottom: 10px solid #ff533f;
 		<c:if test="${not isLogin }">
 		
 			<div class="dropdown">
-				<img id="dropdownBtn" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
-					<div class="dropdown-content">
+				<img id="dropdownBtn1" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
+					<div class="dropdown-content1">
 						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"> 로그인 </a>
 					</div>
 			</div>
@@ -339,9 +398,7 @@ border-bottom: 10px solid #ff533f;
 		 <c:choose>
             <c:when test="${id eq 'admin'}">
                 <!-- 사용자가 'admin' 역할을 가지고 있는 경우의 코드 -->
-				<a href=""><img src="/resources/img/jong.png" style="height: 40px; width: 40px;"></a>
-				
-				
+              
 				<div class="dropdown">
 					<img id="dropdownBtn" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
 						<div class="dropdown-content">
@@ -354,12 +411,21 @@ border-bottom: 10px solid #ff533f;
 				
             </c:when>
             <c:otherwise>
-           	
-			<a href=""><img src="/resources/img/jong.png" style="height: 40px; width: 40px;"></a>
+
+           <div class="dropdown">
+				<img id="dropdownBtn1" src="/resources/img/jong.png" class="dropbtn" style="height: 40px; width: 40px;">
+					<div class="dropdown-content1">
+						<div class="dropdown-title" style="text-align: center;">알림</div>
+							<a id="new-icon">
+								<label id="new-icon-text">NEW</label>
+							</a>
+							<a id="alert"></a> 
+					</div>
+			</div>
 			
 			<div class="dropdown">
-				<img id="dropdownBtn" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
-					<div class="dropdown-content">
+				<img id="dropdownBtn2" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
+					<div class="dropdown-content2">
 						<div class="dropdown-title">${nick }</div>
 						<a href="/profile">마이페이지</a>
 		                <a href="/message/list">내 채팅</a>
