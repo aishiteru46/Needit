@@ -52,7 +52,7 @@
 	          AND cate = 1
 	        ORDER BY board_no DESC
 	    )
-	    ORDER BY board_no DESC
+	    ORDER BY board_no
 	</select>
 	
 	<resultMap id="egomap" type="map">
