@@ -30,6 +30,7 @@ window.addEventListener('load', function () {
         	  var queryString = Object.keys(data).map(function(key) {
 				  return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
 				}).join('&');
+			  var previousUrl = sessionStorage.getItem('previousUrl');
         	  $.ajax({
      	         type: "POST",
      	         url: "/user/kakao",
