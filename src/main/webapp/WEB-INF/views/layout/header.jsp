@@ -341,6 +341,7 @@ border-bottom: 10px solid #ff533f;
                 <!-- 사용자가 'admin' 역할을 가지고 있는 경우의 코드 -->
 				<a href=""><img src="/resources/img/jong.png" style="height: 40px; width: 40px;"></a>
 				
+				
 				<div class="dropdown">
 					<img id="dropdownBtn" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
 						<div class="dropdown-content">
@@ -353,7 +354,7 @@ border-bottom: 10px solid #ff533f;
 				
             </c:when>
             <c:otherwise>
-           
+           	
 			<a href=""><img src="/resources/img/jong.png" style="height: 40px; width: 40px;"></a>
 			
 			<div class="dropdown">
