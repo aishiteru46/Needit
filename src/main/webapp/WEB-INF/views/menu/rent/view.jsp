@@ -217,6 +217,14 @@ $(()=>{
 	
 		})
 		
+		$.post( "/alert/sendnotification", { 
+				id: "${board.writerId}"
+		        , sender: "${nick }"
+		        , content: 4
+		        , menu: ${param.menu}
+				, boradNo: ${board.boardNo}
+		}); // $.post 끝
+		
 	})
 	
 	//추천 버튼 변경
@@ -249,6 +257,7 @@ $(()=>{
 					.removeClass("bi bi-suit-heart")
 					.addClass("bi bi-suit-heart-fill")
 					.html('좋아요 취소');
+					sendNofiLike()
 				
 				} else { //추천 취소 성공
 					$("#btnLike")
@@ -274,6 +283,16 @@ $(()=>{
 	});
 	
 }); //jQuery Function End.
+
+function sendNofiLike() {
+	$.post( "/alert/sendnotification", { 
+		id: "${board.writerId}"
+        , sender: "${nick}"
+        , content: 6
+        , menu: "${param.menu}" 
+		, boradNo: "${board.boardNo}"
+	}); // $.post 끝
+}
 </script>
 
 <%-- Kakao Map API --%>
@@ -340,6 +359,8 @@ $(()=>{
 
 <%-- Body --%>
 <div class="container">
+
+<a class="btn btn-primary" href="/message/list?boardNo=${param.boardNo }&menu=${board.menu}&cate=${board.cate}&receiverId=${board.writerId}">채팅하기</a>
 
 <table class="table table-bordered">
 
@@ -432,7 +453,7 @@ $(()=>{
 <!-- <div style="text-align: center;"> -->
 <!-- 	<div class="btn" id="btnLike"></div> -->
 <!-- </div><br> -->
-<%-- </c:if> --%>
+<%-- </c:if> --%
 
 <%-- 목록,수정,삭제 --%>
 <div class="text-center">
