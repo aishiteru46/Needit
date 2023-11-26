@@ -10,8 +10,6 @@
 
 <script type="text/javascript">
 $(()=>{
-	
-    <%-- 검색버튼 CSS적용 --%>
 	$("#searchBtn").mouseover(function(){
 		$("#searchBtn")	
 			.css("color", "white")
@@ -23,130 +21,62 @@ $(()=>{
         .css("background-color", "")
         .text("Search");
 	});
-	
-
 });
 </script>
 
 <style type="text/css">
+
 .write {
 	float: right;
     padding-top: 18px;
 }
-.row {
-    text-align: center;
-}
-
-.write-container {
-    height: 507px;
-    width: 380px;
-    margin: 1em auto; 
-    text-align: center; 
-    border-radius: 15px;
-    overflow: hidden;
-    border: 1px solid #343a4070;
-}
-
-.write-container:hover {
-    box-shadow: 5px 5px 5px gray;
-    transform: scale( 1.03 );
-    transition: all 0.15s ease-in;
-}
- 
-.col-md-4 {
-    margin-right: 30px;
-}
 
 .preview {
-	margin: 15px auto 15px auto;
- 	width: 350px;
- 	height: 300px;
-	display: flex;
-	object-fit: cover;
+	float: left;
+	position: absolute;
+ 	width: 70px;
+ 	height: 70px;
+	margin-top: 14px;
+    margin-left: 5px;
+    
+    display: flex;
     justify-content: center;
-	align-items: center;
-    background-size: cover; 
+    align-items: center;
+    background-size: contain;
     background-repeat: no-repeat;
-	background-position: center center;
-}
-
-.write-container-head {
-	width: 380px;
-	margin: 0 auto;
-}
-
-.no {
-    font-size: 15px;
-    display: inline-block;
-    float: left;
-    position: absolute;
-    margin-left: -70px;
-    margin-top: 14px;
+    background-position: center center;
 }
 
 .title {
-	font-size: 18px;
- 	width: 245px; 
-	color: rgb(255,83,63);
+ 	width: 150px; 
+ 	color: black; 
  	font-weight: bold; 
- 	overflow: hidden; 
- 	text-overflow: ellipsis; 
- 	white-space: nowrap; 
 	display: inline-block;
     margin-top: 10px;
     margin-bottom: -12px;
-    margin-left: -15px;
+    margin-left: -6px;
 }
-#write-conatiner-hit
-,#write-conatiner-like {
-	display: inline-block;
-	float: right;
-	position: absolute;
-	font-size: 14px;
+.titlebox {
+	width:420px; 
+	height:99px; 
+	margin-left:65px;
 }
-#write-conatiner-hit {
-    margin-top: 23px;
-}
-#write-conatiner-like {
-	margin-top: 4px;
-}
-#write-conatiner-nick {
-    float: left;
-    position: relative;
-    font-size: 18px;
-    margin-top: -8px;
-    margin-left: 4px;
-}
-#write-conatiner-time {
-    float: left;
-    position: absolute;
-    font-size: 18px;
-    margin-top: 20px;
-    margin-left: 4px;
-}
-#write-conatiner-price {
-	float: right;
-    margin-top: -5px;
-    margin-bottom: 19px;
-    margin-right: 6px;
-    font-size: 30px;
-    text-align: center;
-}
-#write-conatiner-loc {
-	width: 353px;
-    font-size: 19px;
-   	overflow: hidden; 
+#title {
+	width: 100%;
+	margin-left: -18px;
+    padding: 36px;
+  	overflow: hidden;
  	text-overflow: ellipsis; 
- 	white-space: nowrap;
+ 	white-space: nowrap; 
 }
-#nickIcon{
-	float: none;
-	display: inline-block;
+
+#locationBox {
+	width: 116px;
+  	overflow: hidden;
+ 	text-overflow: ellipsis; 
+ 	white-space: nowrap; 
 }
-#communityListHr:hover {
-	color: rgb(255,83,63);
-}
-#comuText1 {
+#communityText1 {
     font-size: 30px;
     color: #343a40;
 }
@@ -164,7 +94,52 @@ $(()=>{
     display: inline-block;
 }
 
-.btn {
+th {
+	background-color: rgb(255,83,64);
+}
+
+.listType tr td,
+.listType tr th {
+	font-weight: normal;
+	font-size: 16px;
+	text-align: center;
+	border-bottom: 1px solid #ccc;
+}
+
+.listType tr th {
+	color: white;
+	font-weight: bold;
+	height: 40px;
+}
+
+.thumbnail {
+	display:inline-block;
+	float: left;
+
+}
+
+.table-container {
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+#communityText1 {
+    font-size: 30px;
+    color: #343a40;
+}
+#communityText2 {
+    vertical-align: text-top;
+	font-size: 25px;
+	text-align: center;
+	display: inline-block;
+    color: #343a40;
+}
+#viewType {
+	margin-top: -1px;
+    margin-bottom: -2px;
+    margin-right: 17px;
+    display: inline-block;
+}
+.btn { 
     --bs-btn-line-height: 1.3;
 	--bs-btn-color: #fff;
     --bs-btn-bg: #343a40;
@@ -173,7 +148,6 @@ $(()=>{
 
 .pagination {
 	margin-bottom: 50px;
-   	margin-left: 100px; 
     --bs-pagination-active-bg: #ff533f;
     --bs-pagination-color: #373b3e;
 	--bs-pagination-active-border-color: #ff533f;  
@@ -191,15 +165,13 @@ $(()=>{
     border-bottom-right-radius: 10px;
 }
 #searchText::placeholder {
-	vertical-align:top;
 	font-style: italic;
 	font-size: 13px;
-	margin: 2px;
 }
-/* #searchBtn:hover { */
-/* 	color: white; */
-/* 	background-color: rgb(255,83,63); */
-/* } */
+#searchBtn:hover {
+	color: white;
+	background-color: rgb(255,83,63);
+}
 #searchBtn {
 	float: right;
     height: 20px;
@@ -228,9 +200,9 @@ $(()=>{
 }
 #selectSub:focus
 ,#searchText:focus {
- 	outline: none;
+	outline: none;
 }
-#comuText1
+#communityText1
 ,.search-container
 ,.write {
 	display: inline-block;
@@ -239,7 +211,9 @@ $(()=>{
 	margin-bottom: -25px;
 	margin-right: 2px;
 }
-
+.listContainer {
+	margin-top: 20px;
+}
 form {
     width: 450px;
     padding: 20px;
@@ -292,16 +266,16 @@ form {
     	oninput="this.setCustomValidity('')">
     <input type="hidden" name="menu" value="${param.menu }">
     <input type="hidden" name="cate" value="${param.cate }">
-    <button type="submit" id="searchBtn">Search</button>
+    <button id="searchBtn">Search</button>
     </form>
 </div>
 
 <div class="write">
-	
+
 	<!-- 그리드타입,리스트타입 선택 -->
 	<div id="viewType">
-		<a type="button" href="/community/list?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
-		<a type="button" href="/community/listType?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
+		<a type="button" href="/community/list?menu=1&cate=1"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
+		<a type="button" href="/community/listType?menu=1&cate=1"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
 	</div>
 
 	<c:if test="${not empty isLogin and isLogin }">
@@ -313,60 +287,76 @@ form {
 
 </div>
 
-<div class="gridContainer">
-<c:forEach items="${list}" var="list" varStatus="loop">
-  <c:if test="${loop.index % 3 == 0}">
-  <div class="row">
-  </c:if>
-  	
-    <div class="write-container">
- 		<div class="write-container-head">
-<%-- 	        <div class="no">no.${list.BOARD_NO}</div> --%>
-	        <div class="no">Title.</div>
-	        <a href="/community/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE }</div></a>
-        <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>
-        <div id="write-conatiner-hit">👀  ${list.HIT}</div>
-        </div><!-- .write-container-head -->
-        <hr id="communityListHr">
-        <c:if test="${ not empty list.THUMBNAIL_NAME  }">
-	        <div>
-	        	<a href="/community/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
-	        </div>
-        </c:if>
-        <c:if test="${ empty list.THUMBNAIL_NAME  }">
-	        <div>
-	        	<a href="/community/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/resources/img/noimg.png"/></a>
-	        </div>
-        </c:if>
-        <hr id="communityListHr">
-        <div id="write-conatiner-nick"><div id="nickIcon">✍️</div>${list.WRITER_NICK }</div>
-        <div id="write-conatiner-time">🕟
-            <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" /> 
-            <fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" /> 
-            <c:choose> 
-                <c:when test="${writeDate lt curDate }"> 
-                    <fmt:formatDate value="${list.WRITE_DATE }" pattern="yyyy-MM-dd" /> 
-                </c:when> 
-                <c:otherwise> 
-                    <fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" /> 
-                </c:otherwise> 
-            </c:choose>                    
-        </div><!-- #write-conatiner-time -->
-    </div><!-- .write-container -->
-    
-  <c:if test="${loop.index % 3 == 2 || loop.index + 1 == yourList.size()}">
-  </div>
-  </c:if>
-</c:forEach>
+<div class="listContainer">
+	
+	<div class="table-container">
+		<table class="listType">
+		
+		<colgroup>
+			<col style="width:5%;">
+			<col style="width:45%;">
+			<col style="width:10%;">
+			<col style="width:15%;">
+			<col style="width:5%;">
+		</colgroup>
+		
+		<thead>
+			<tr>
+				<th style="border-top-left-radius: 8px;">No.</th><th>제목</th><th>작성자</th><th>작성일</th><th style="border-top-right-radius: 8px;">조회</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+		<c:forEach var="list" items="${list }">
+			<tr>
+				<td>${list.BOARD_NO }</td>
+				<td>
+					<div>
+				        <c:if test="${ not empty list.THUMBNAIL_NAME  }">
+					        <div class="thumbnail">
+					        	<a href="/community/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
+					        </div>
+				        </c:if>
+				        <c:if test="${ empty list.THUMBNAIL_NAME  }">
+					        <div class="thumbnail">
+					        	<a href="/community/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/resources/img/noimg.png"/></a>
+					        </div>
+				        </c:if>
+				        <div class="titlebox">					
+							<a href="/community/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE }</div></a>
+						</div>
+					</div>
+				</td>
+				<td>${list.WRITER_NICK }</td>
+				<td>
+					<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
+					<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" />
+					<c:choose>
+						<c:when test="${writeDate lt curDate }">
+							<fmt:formatDate value="${list.WRITE_DATE }" pattern="yyyy-MM-dd" />
+						</c:when>
+						<c:otherwise>
+							<fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" />
+						</c:otherwise>
+					</c:choose>				
+				</td>
+				<td>${list.HIT}</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+		
+		</table>
+	</div><br>
 
-<small class="float-end" style=" margin-right: 8px; margin-top: -10px; margin-bottom: 20px;">total : ${paging.totalCount }</small>
+<small class="float-end" style="margin-right: 8px; margin-top: -10px;">total : ${paging.totalCount }</small>
 
+<br>
+</div><!-- .listContainer -->
 
 </div> <!-- .container -->
-<br>
-</div><!-- .gridContainer -->
 
-<c:import url="/WEB-INF/views/layout/pagination.jsp" />
+
+<c:import url="/WEB-INF/views/layout/paginationForList.jsp" />
 
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
