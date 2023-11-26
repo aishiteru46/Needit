@@ -112,7 +112,7 @@ $(document).ready(function() {
 
 <div class="form-group mb-3">
    <label class="form-label" for="price">가격</label>
-   <input type="text" class="form-control" name="price" id="price" required>
+   <input type="text" class="form-control" name="price" id="price" placeholder="30분당 가격을 입력해주세요" required>
 </div>
 
 <div class="form-group mb-3">

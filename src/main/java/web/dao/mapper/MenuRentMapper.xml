@@ -224,8 +224,8 @@
 	
 	<!-- 대여 처리 -->
 	<insert id="makeRent" parameterType="Rent">
-		INSERT INTO rent ( rent_no, board_no, renter_id, rent_status, rent_date, start_time, end_time )
-		VALUES ( rent_seq.nextval, #{boardNo }, #{renterId }, #{rentStatus }, #{rentDate }, #{startTime }, #{endTime } )
+		INSERT INTO rent ( rent_no, board_no, renter_id, rent_status, payment_type, rent_date, start_time, end_time )
+		VALUES ( rent_seq.nextval, #{boardNo }, #{renterId }, #{rentStatus }, #{paymentType }, #{rentDate }, #{startTime }, #{endTime } )
 	</insert>
 	
 	<!-- 대여 상태 확인 -->
