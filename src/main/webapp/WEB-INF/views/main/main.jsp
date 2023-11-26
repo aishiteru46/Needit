@@ -303,8 +303,6 @@
 
 
 
-
-
 <!-- 이미지 불러오기 -->
 <%-- <img alt="asd" src="/resources/banner/${모델값(컨트롤러가 보내줌) }"> --%>
 <!-- <img alt="1" src="/resources/banner/cat1.jpeg143f681e3fb5"> --><!-- TEST -->
@@ -321,7 +319,6 @@
 <!-- </button> -->
 
 <!-- 검색버튼 -->
-
 <div id="MainSearchDiv">
   <form action="/mainSearch" method="get" id="searchForm">
 	<input type="text" name="searchText" id="MainSearch" placeholder=" 필요한 것을 검색해보세요."
