@@ -325,7 +325,7 @@ form {
 	display: none;
 }
  #socialId{ 
- 	display: none; 
+ 	display: none;  
  } 
 </style>
 </head>
