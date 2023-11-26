@@ -20,6 +20,75 @@
 
 
 <script type="text/javascript">
+$(function() {
+	   hasNew() //페이지 로드 시 'hashNew' 함수를 호출하여 새로운 알림을 확인
+	   loadAlert()    
+	   var urlEndPoint = "/alert/get?id=" + "${id}" //Sse세션 생성 시 접속한 세션의 id를 보내준다
+	   var eventSource = new EventSource(urlEndPoint) //SSE를 위한 'EventSource'를 생성
+	   console.log(urlEndPoint)
+	   console.log('왜안돼?')
+	   
+	   eventSource.onmessage = function (event) { // sendNotification 발생시 생기는 메소드
+	      console.log(event)
+	       var data = JSON.parse(event.data) // sendNotification에서 보내준 data { hasNew : hasNew, alert : alert }
+	       console.log(data)
+	       
+	       var hasNew = data.hasNew
+	       var alert = data.alert
+	      
+	       console.log("hasNew :" + hasNew)
+	       console.log("alert :" + alert)
+
+	       $("#new-icon").show() // new 알림표시 표시
+	       $("#new-alert").html(hasNew).show() // 새로온 알림 갯수 표시
+	       
+	      loadAlert() //알림을 로드하는 함수를 호출
+	   }
+	})// 제이쿼리 펑션 끝
+
+
+	function hasNew() { // 새로운 알림 확인 함수
+	   $.ajax({
+	      type: "get"
+	      , url: "/alert/new"
+	      , data: {
+	      }
+	      , dataType: "json" // int타입인 hasNew를 받아옴
+	      , success: function( res ) {
+	         console.log("AJAX 성공")
+	         console.log("hasNew() 실행")
+	         
+	         if( res.hasNew == 0 ) { //hasNew 값이 0이면 알람을 숨긴다
+	            $("#new-alert").hide()
+	            $("#new-icon").hide()
+	         } else { // 0이 아니면 알림을 보여준다
+	            $("#new-alert").text(res.hasNew).show()
+	            $("#new-icon").show()
+	         }
+	      }
+	      , error: function() {
+	         console.log("AJAX 실패")
+	      }
+	   })
+	} // hasNew 함수 끝
+
+	function loadAlert() { // 알림을 로드하는 함수
+	    $.ajax({
+	        type: "get"
+	        , url: "/alert/list"
+	        , data: {}
+	        , dataType: "html"
+	        , success: function( res ) { // Alert객체를 받아넣어준 list JSP를 HTML 타입으로 불러온다
+	           console.log("AJAX 성공")
+	         $("#alert").html(res)
+	        }
+	        , error: function() {
+	           console.log("AJAX 실패")
+	        }
+	     })
+	} // loadAlert 함수 끝
+
+
 $(() => {
 	   $("#title").focus()
 	   
@@ -102,16 +171,16 @@ $(document).ready(function(){
 		        success: function(data){
 		            // 현재 페이지 URL을 가져옴
 		            var currentPageUrl = window.location.href;
-		            
-		            // 만약 현재 페이지가 마이페이지라면 메인 페이지로 리다이렉트
+		            console.log(currentPageUrl.indexOf("/profile/view"))
+// 		            만약 현재 페이지가 마이페이지라면 메인 페이지로 리다이렉트
 		            if (currentPageUrl.indexOf("/profile/view") !== -1) {
-		            	naverLogout();
-		            	kakaoLogout();
+// 		            	naverLogout();
+// 		            	kakaoLogout();
 		                window.location.href = "/main";
 		            } else {
 		                // 다른 페이지에서는 이전 동작(기존에는 이전 페이지로 돌아가는 동작)
-		                naverLogout();
-		                kakaoLogout();
+// 		                naverLogout();
+// 		                kakaoLogout();
 		                document.location.reload();
 		            }
 		        } 
@@ -278,9 +347,6 @@ border-bottom: 10px solid #ff533f;
 							<div class="dropdown-title">${nick }</div>
 							<a href="/admin">관리자 페이지</a>
 			                <a href="/message/list">내 채팅</a>
-			                <a href="#">빌린거/빌려준거</a>
-			                <a href="#">장바구니</a>
-			                <a href="#">고객센터</a>
 			                <a href=""id="logout_button">로그아웃</a>
 						</div>
 				</div>
@@ -295,7 +361,7 @@ border-bottom: 10px solid #ff533f;
 					<div class="dropdown-content">
 						<div class="dropdown-title">${nick }</div>
 						<a href="/profile">마이페이지</a>
-		                <a href="#">내 채팅</a>
+		                <a href="/message/list">내 채팅</a>
 		                <a href="#">빌린거/빌려준거</a>
 		                <a href="#">장바구니</a>
 		                <a href="#">고객센터</a>

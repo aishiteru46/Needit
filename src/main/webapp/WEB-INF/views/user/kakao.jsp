@@ -26,6 +26,10 @@ window.addEventListener('load', function () {
         	  console.log(response)
         	  var socialId = response.id
         	  
+        	  var data = {socialId : socialId}
+        	  var queryString = Object.keys(data).map(function(key) {
+				  return encodeURIComponent(key) + '=' + encodeURIComponent(data[key]);
+				}).join('&');
         	  $.ajax({
      	         type: "POST",
      	         url: "/user/kakao",
@@ -48,7 +52,7 @@ window.addEventListener('load', function () {
      	                 
      	             } else if(response === "signup"){
      	            	 alert("아이디가 없으므로 회원가입을 진행합니다.")
-     	             	 window.location.href = '/user/signup';
+     	             	 window.location.href = '/user/signup?' + queryString;
      	             	 
      	             } else{
      	             	console.log("로그인 실패")
