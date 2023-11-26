@@ -222,7 +222,7 @@ $(()=>{
 		        , sender: "${nick }"
 		        , content: 4
 		        , menu: ${param.menu}
-				, boradNo: ${board.boardNo}
+				, boardNo: ${board.boardNo}
 		}); // $.post 끝
 		
 	})
@@ -290,7 +290,7 @@ function sendNofiLike() {
         , sender: "${nick}"
         , content: 6
         , menu: "${param.menu}" 
-		, boradNo: "${board.boardNo}"
+		, boardNo: "${board.boardNo}"
 	}); // $.post 끝
 }
 </script>
