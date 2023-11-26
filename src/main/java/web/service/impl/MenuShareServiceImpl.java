@@ -290,24 +290,16 @@ public class MenuShareServiceImpl implements MenuShareService{
 	@Override
 	public boolean checkBasket(Basket basket) {
 		int res = menuShareDao.basketInfo(basket);
-		if( res > 0) {
-			menuShareDao.insertBasket(basket);
+		logger.info("res{}",res);
+		if(  res > 0) {
+			menuShareDao.deleteBasket(basket);
 			return true;
-		}
+		} else {
+		menuShareDao.insertBasket(basket);
 		return false; 
+		}
 	}
 
-	@Override
-	public boolean deleteBasket(Basket basket) {
-		int res = menuShareDao.basketInfo(basket);
-		
-		if( res > 0) {
-			 menuShareDao.deleteBasket(basket);
-			return true;
-		}
-		return false; 
-		
-	}
 	
 
 

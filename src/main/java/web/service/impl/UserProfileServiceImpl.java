@@ -286,8 +286,8 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 
 	@Override
-	public List<Map<Board, Object>> selectBasketList(Basket basket) {
-		return userProfileDao.basketList(basket);
+	public List<Map<Board, Object>> selectBasketList(Board board) {
+		return userProfileDao.basketList(board);
 	}
 
 

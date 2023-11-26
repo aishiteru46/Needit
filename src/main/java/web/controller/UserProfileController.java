@@ -65,7 +65,7 @@ public class UserProfileController {
 			, Paging param
 			, Basket basket
 			) {
-		
+		board.setWriterId((String)session.getAttribute("id"));
 		user.setId((String)session.getAttribute("id"));
 		like.setLikeId((String)session.getAttribute("id"));
 		if((boolean)session.getAttribute("isLogin") == false) {
@@ -136,11 +136,13 @@ public class UserProfileController {
 		logger.info("내가쓴댓글목록: {}", commentList);
 		model.addAttribute("comment", commentList);
 		
-		//내 찜 목록
-		List<Map<Board, Object>> basketList = userProfileService.selectBasketList(basket);
-		
-		return "profile/view";
 		//---------------------------------------------------------------
+		
+		//내 찜 목록
+		List<Map<Board, Object>> basketList = userProfileService.selectBasketList(board);
+		logger.info("바스켓또{}",basketList);
+		model.addAttribute("basketList",basketList);
+		return "profile/view";
 		
 		
 	}
@@ -266,11 +268,7 @@ public class UserProfileController {
 		return "jsonView";
 	}
 	
-	@RequestMapping("/basket")
-	public String basket() {
-		
-		return null;
-	}
+	
 	
 	@RequestMapping("/confirm")
 	public String confirm(Rent rent, Model model,HttpSession session) {

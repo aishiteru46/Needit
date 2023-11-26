@@ -183,7 +183,7 @@ public interface UserProfileService {
 	 * @param basket 찜 정보
 	 * @return 찜 목록
 	 */
-	public List<Map<Board, Object>> selectBasketList(Basket basket);
+	public List<Map<Board, Object>> selectBasketList(Board board);
 
 
 	/**

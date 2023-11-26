@@ -13,152 +13,182 @@
 
 }
 </style>
-
-
-
 <script type="text/javascript">
 //썸네일 미리보기
 function setThumbnail(event) {
-    var reader = new FileReader();
+  var reader = new FileReader();
 
-    reader.onload = function (event) {
-        var thumbnailContainer = document.querySelector("#thumbnail_container");
-        thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
-        document.getElementById("previewSection").style.display = "block"; // 파일 선택 시 보이도록 설정
-    };
+  reader.onload = function (event) {
+      var thumbnailContainer = document.querySelector("#thumbnail_container");
+      thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
+      document.getElementById("previewSection").style.display = "block"; // 파일 선택 시 보이도록 설정
+  };
 
-    reader.readAsDataURL(event.target.files[0]);
+  reader.readAsDataURL(event.target.files[0]);
 }// .setThumbnail() End
 
+function confirmAndSubmit(userId) {
+    var confirmYes = window.confirm("정말 탈퇴하시겠습니까?");
+    
+    if (confirmYes) {
+        // 폼 생성
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "./delete");
 
+        // hidden input 필드 추가
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "id");
+        hiddenField.setAttribute("value", userId);
+
+        // 폼에 hidden input 추가
+        form.appendChild(hiddenField);
+
+        // body에 폼 추가
+        document.body.appendChild(form);
+
+        // 폼 제출
+        form.submit();
+    }
+}
 
 //프로필사진바로삭제
 $(function(){
 
-   $("#imgDelete").click(function(){
-      console.log("프로필사진 삭제 작동")
-      
-      $.ajax({
-          type: "get"
-          , url: "/profile/imgdelete"
-          , data: {}
-          , dataType: "json"
-          , success: function( res ) {  
-             console.log("AJAX 성공")
-            location.reload()
-            
-          }
-         , error: function() {
-             console.log("AJAX 실패")
-         
-          }
-      })
-   })
-   
+ $("#imgDelete").click(function(){
+    console.log("프로필사진 삭제 작동")
+    
+    $.ajax({
+        type: "get"
+        , url: "/profile/imgdelete"
+        , data: {}
+        , dataType: "json"
+        , success: function( res ) {  
+           console.log("AJAX 성공")
+          location.reload()
+          
+        }
+       , error: function() {
+           console.log("AJAX 실패")
+       
+        }
+    })
+ })
+ 
 });
 
 
 $(function(){
-	  
-	  //프로필사진 등록
-		$("#imgUpdate").click(function(){
-			console.log("프로필사진 업데이트 작동")
-			
-			var formData = new FormData($("#uploadForm")[0]);
-			
-			$.ajax({
-				 type: "post"
-				 , url: "/profile/imgupdate"
-				 , data: formData
-				 , processData: false  // 필수
-		            , contentType: false  // 필수
-				 , dataType: "json"
-				 , success: function( res ) {  
-				    console.log("AJAX 성공")
-					location.reload()
-					
-				 }
-				, error: function() {
-				    console.log("AJAX 실패")
-				
-				 }
-			})
 
-		})
-		
-	});
+   //프로필사진 등록
+    $("#imgUpdate").click(function(){
+       console.log("프로필사진 업데이트 작동")
+       
+       var formData = new FormData($("#uploadForm")[0]);
+       
+       $.ajax({
+           type: "post"
+           , url: "/profile/imgupdate"
+           , data: formData
+           , processData: false  // 필수
+                , contentType: false  // 필수
+           , dataType: "json"
+           , success: function( res ) {  
+              console.log("AJAX 성공")
+             location.reload()
+             
+           }
+          , error: function() {
+              console.log("AJAX 실패")
+          
+           }
+       })
 
-
-	//자기소개 수정
-	$(function(){
-		$("#introUpdate").click(function(){
-			console.log("자기소개 업데이트 작동")
-			
-			$.ajax({
-				 type: "post"
-				 , url: "/profile/introduce"
-				 , data: {
-					 
-					 id : "${id}"
-					 , intro : $("#intro").val()
-					 
-					 
-				 }
-				 , dataType: "json"
-				 , success: function( res ) {  
-				    console.log("자기소개 업데이트 성공")
-					
-				 }
-				, error: function() {
-				    console.log("AJAX 실패")
-				
-				 }
-			})
-		})
-		
-	});
-	</script>
+    })
+    
+ });
 
 
-	<script>
-	    function toggleSection(sectionId) {
-	        var section = document.getElementById(sectionId);
-	        section.classList.toggle('hidden');
-	    }
-	</script>
+ //자기소개 수정
+ $(function(){
+    $("#introUpdate").click(function(){
+       console.log("자기소개 업데이트 작동")
+       
+       $.ajax({
+           type: "post"
+           , url: "/profile/introduce"
+           , data: {
+              
+              id : "${id}"
+              , intro : $("#intro").val()
+              
+              
+           }
+           , dataType: "json"
+           , success: function( res ) {  
+              console.log("자기소개 업데이트 성공")
+             
+           }
+          , error: function() {
+              console.log("AJAX 실패")
+          
+           }
+       })
+    })
+    
+ });
+ 
+ 
+function toggleSection(sectionId) {
+    var section = document.getElementById(sectionId);
+    section.classList.toggle('hidden');
+}
 
+function toggleSection(sectionId) {
+  var section = document.getElementById(sectionId);
+  var arrow = document.getElementById(sectionId + 'Arrow');
 
+  if (section.style.display === 'none') {
+    section.style.display = 'block';
+    arrow.innerHTML = '▲'; // 펼쳐진 상태에 대한 원하는 기호로 변경
+  } else {
+    section.style.display = 'none';
+    arrow.innerHTML = '▼'; // 축소된 상태에 대한 원하는 기호로 변경
+  }
+}
 
+</script>
+
+<script type="text/javascript">
 
 //예약 승인 
 $(function(){
 	$("#confirmBtn").click(function(){
 		var confirmBtn = $(this);
 		  $.ajax({
-		         type: "post"
-		         , url: "/profile/confirm"
-		         , data: {
-		        	 rentNo: confirmBtn.data("rent_no")
-		             , boardNo: confirmBtn.data("board_no")
-		         }
-		         , dataType: "json"
-		         , success: function( res ) {
-		            console.log("AJAX 성공")
-		            location.reload()
-
-		         }
-		         , error: function() {
-		            console.log("AJAX 실패")
-
-		         }
-		      })
-    
+	         type: "post"
+	         , url: "/profile/confirm"
+	         , data: {
+	        	 rentNo: confirmBtn.data("rent_no")
+	             , boardNo: confirmBtn.data("board_no")
+	         }
+	         , dataType: "json"
+	         , success: function( res ) {
+	            console.log("AJAX 성공")
+	            location.reload()
+	         }
+	         , error: function() {
+	            console.log("AJAX 실패")
 	
-});
+	         }
+	      })
+		
+	});
+})
 
 
 $(function(){
-
 	$(".cancelBtn").click(function(){
 		var cancelBtn = $(this);
 		  $.ajax({
@@ -181,11 +211,8 @@ $(function(){
 		      })
     })
 });
-    
 
-
-
-
+</script>
 
 <style type="text/css">
 
@@ -328,31 +355,6 @@ ${userGrade }
 </div>
 
 
-<script>
-    function setThumbnail(event) {
-        var thumbnailFile = event.target.files[0];
-
-        if (thumbnailFile) {
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                var profileImage = document.getElementById('profileImage');
-                profileImage.src = e.target.result;
-            };
-
-            reader.readAsDataURL(thumbnailFile);
-        }
-    }
-
-
-    function triggerFileInput() {
-        // 파일 입력(input type="file") 요소를 클릭
-        document.getElementById('thumbnailFile').click();
-    }
-
-</script>
-
-
 <hr>
 
 <div class="container mt-5">
@@ -381,34 +383,6 @@ ${userGrade }
 회원탈퇴시 글까지 삭제 되는 경우 - > DB에 cascade구문 추가 <br>
 회원탈퇴시 글은 살리는 경우 -> DB에 usertb에 is_deleted컬럼 추가해서 탈퇴시 delete로 지우지말고 update로 is_daleted true해주고 이후에 회원조회할때마다 is_deleted 상태인애들은 빼고 조회해서 탈퇴한애들 숨겨두면 됨
 둘중하나 선택해야함
-
-<script>
-function confirmAndSubmit(userId) {
-    var confirmYes = window.confirm("정말 탈퇴하시겠습니까?");
-    
-    if (confirmYes) {
-        // 폼 생성
-        var form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "./delete");
-
-        // hidden input 필드 추가
-        var hiddenField = document.createElement("input");
-        hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", "id");
-        hiddenField.setAttribute("value", userId);
-
-        // 폼에 hidden input 추가
-        form.appendChild(hiddenField);
-
-        // body에 폼 추가
-        document.body.appendChild(form);
-
-        // 폼 제출
-        form.submit();
-    }
-}
-</script>
 
 
 <hr>
@@ -484,6 +458,7 @@ function confirmAndSubmit(userId) {
 		<c:if test="${list.RENT_STATUS eq 0 }">
 			<td><button disabled="disabled">취소 완료</button></td>
 		</c:if>
+	</tr>
 </c:forEach>
 </table>
 
@@ -491,64 +466,46 @@ function confirmAndSubmit(userId) {
 <hr>
 
 
-
-<script>
-  function toggleSection(sectionId) {
-    var section = document.getElementById(sectionId);
-    var arrow = document.getElementById(sectionId + 'Arrow');
-
-    if (section.style.display === 'none') {
-      section.style.display = 'block';
-      arrow.innerHTML = '▲'; // 펼쳐진 상태에 대한 원하는 기호로 변경
-    } else {
-      section.style.display = 'none';
-      arrow.innerHTML = '▼'; // 축소된 상태에 대한 원하는 기호로 변경
-    }
-  }
-</script>
-
-
-
-
 <h1 onclick="toggleSection('boardSection')">
-	내가 쓴 글
-	 <span id="boardSectionArrow" style="float: right;">▼</span>
+   내가 쓴 글
+    <span id="boardSectionArrow" style="float: right;">▼</span>
 </h1>
 
 <div id="boardSection" class="hidden">
 <table id="boardTable">
-	<tr>
-		<th>No.</th>
-		<th>제목</th>
-		<th>작성일</th>
-	</tr>
+
+   <tr>
+      <th>No.</th>
+      <th>제목</th>
+      <th>작성일</th>
+   </tr>
 <c:forEach items="${board }" var="board" begin="0" end="10">
 
-	<tr>
-		<td>${board.boardNo }</td>
-		<td>
-			<c:choose>
-	            <c:when test="${board.menu eq 1}">
-	                <a href="/rent/view?boardNo=${board.boardNo}">${board.title}</a>
-	            </c:when>
-	            <c:when test="${board.menu eq 2}">
-	                <a href="/share/view?boardNo=${board.boardNo}">${board.title}</a>
-	            </c:when>
-	            <c:when test="${board.menu eq 3}">
-	                <a href="/please/view?boardNo=${board.boardNo}">${board.title}</a>
-	            </c:when>
-	            <c:when test="${board.menu eq 4}">
-	                <a href="/community/view?boardNo=${board.boardNo}">${board.title}</a>
-	            </c:when>
-	            <c:when test="${board.menu eq 5}">
-	                <a href="/business/view?boardNo=${board.boardNo}">${board.title}</a>
-	            </c:when>
-	        </c:choose>
+   <tr>
+      <td>${board.boardNo }</td>
+      <td>
+         <c:choose>
+               <c:when test="${board.menu eq 1}">
+                   <a href="/rent/view?boardNo=${board.boardNo}">${board.title}</a>
+               </c:when>
+               <c:when test="${board.menu eq 2}">
+                   <a href="/share/view?boardNo=${board.boardNo}">${board.title}</a>
+               </c:when>
+               <c:when test="${board.menu eq 3}">
+                   <a href="/please/view?boardNo=${board.boardNo}">${board.title}</a>
+               </c:when>
+               <c:when test="${board.menu eq 4}">
+                   <a href="/community/view?boardNo=${board.boardNo}">${board.title}</a>
+               </c:when>
+               <c:when test="${board.menu eq 5}">
+                   <a href="/business/view?boardNo=${board.boardNo}">${board.title}</a>
+               </c:when>
+           </c:choose>
         </td>
-		<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.writeDate }"/></td>
-	</tr>
-	
-	
+      <td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.writeDate }"/></td>
+   </tr>
+   
+   
 </c:forEach>
 </table>
 </div>
@@ -556,50 +513,50 @@ function confirmAndSubmit(userId) {
 <hr>
 
 <h1 onclick="toggleSection('commentSection')">
-	내가 쓴 댓글
-	<span id="commentSectionArrow" style="float: right;">▼</span>
+   내가 쓴 댓글
+   <span id="commentSectionArrow" style="float: right;">▼</span>
 </h1>
 
 <div id="commentSection" class="hidden">
 <table id="commentTable">
-	<tr>
-		<th>No.</th>
-		<th>댓글</th>
-		<th>작성일</th>
-	</tr>
-	
+   <tr>
+      <th>No.</th>
+      <th>댓글</th>
+      <th>작성일</th>
+   </tr>
+   
 <c:forEach items="${comment }" var="comment" begin="0" end="10">
-	<tr>
-		<td>${comment.CMT_NO }</td>
-		<td>
-			<c:choose>
-	            <c:when test="${comment.MENU eq 1}">
-	                <a href="/rent/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
-	            </c:when>
-	            <c:when test="${comment.MENU eq 2}">
-	                <a href="/share/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
-	            </c:when>
-	            <c:when test="${comment.MENU eq 3}">
-	                <a href="/please/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
-	            </c:when>
-	            <c:when test="${comment.MENU eq 4}">
-	                <a href="/community/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
-	            </c:when>
-	            <c:when test="${comment.MENU eq 5}">
-	                <a href="/business/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
-	            </c:when>
-	            
-	        </c:choose>
+   <tr>
+      <td>${comment.CMT_NO }</td>
+      <td>
+         <c:choose>
+               <c:when test="${comment.MENU eq 1}">
+                   <a href="/rent/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+               </c:when>
+               <c:when test="${comment.MENU eq 2}">
+                   <a href="/share/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+               </c:when>
+               <c:when test="${comment.MENU eq 3}">
+                   <a href="/please/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+               </c:when>
+               <c:when test="${comment.MENU eq 4}">
+                   <a href="/community/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+               </c:when>
+               <c:when test="${comment.MENU eq 5}">
+                   <a href="/business/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+               </c:when>
+               
+           </c:choose>
         </td>
-		<td><fmt:formatDate pattern="yyyy-MM-dd" value="${comment.writeDate}"/></td>
-	</tr>
+      <td><fmt:formatDate pattern="yyyy-MM-dd" value="${comment.writeDate}"/></td>
+   </tr>
 
 </c:forEach>
 </table>
 </div>
 
 
-
+${basketList }
 
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

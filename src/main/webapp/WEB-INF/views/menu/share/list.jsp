@@ -4,6 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <!-- HEADER -->
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
@@ -11,12 +12,16 @@
 $(function(){
 	  $(".star").click(function(){
 		var starImg = $("#star" + boardNo + "+" + menu + "+" + cate);
+		console.log(starImg);
 	    var id = this.id;
 	    var boardNoMenuCate = id.replace('star', '');
 	    var parts = boardNoMenuCate.split('+');
 	    var boardNo = parts[0];
+	    console.log(boardNo)
 	    var menu = parts[1];
+	    console.log(menu)
 	    var cate = parts[2];
+	    console.log(cate)
 	    
 	    $.ajax({
 	         type: "post"
@@ -31,11 +36,15 @@ $(function(){
 	            console.log("AJAX 성공")
 	            console.log(res)
 	            console.log(res.check)
-				if( res.check == 1 ) {
-					starImg.attr("src", "/resources/img/star.png");
+				if( res.check == 'true' ) {
+					$(".a").css("display", "block")
+					$(".b").css("display", "none")
+					location.reload()
 					
 				} else {
-					deleteBasket(boardNo, menu, cate, starImg);
+					$(".b").css("display", "block")
+					$(".a").css("display", "none")
+					location.reload()
 				}
 	         }
 	         , error: function() {
@@ -44,33 +53,7 @@ $(function(){
 	         }
 	      })
 	  });
-
-function deleteBasket(boardNo, menu, cate, starImg){
-	
-		$.ajax({
-		       type: "post"
-		       , url: "/share/deletebasket"
-		       , data: {
-				boardNo : boardNo
-				, menu : menu
-				, cate : cate
-		       }
-		       , dataType: "json"
-		       , success: function( res ) {
-		          console.log("AJAX 성공")
-		          console.log(res.deleteCheck)
-		          if ( res.deleteCheck){
-					starImg.attr("src", "/resources/img/emptyStar.png");
-		          }
-		       }
-		       , error: function() {
-		          console.log("AJAX 실패")
-		
-		       }
-		})
-
-	}
-});
+})
 </script>
 
 <style type="text/css">
@@ -166,10 +149,10 @@ function deleteBasket(boardNo, menu, cate, starImg){
     
     	${list.BASKET_STATUS }
     	<c:if test="${list.BASKET_STATUS eq 1}">
-	        <span class="heart"><img class="star" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/star.png"></span>
+	        <span class="heart"><img class="star a" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/star.png"></span>
     	</c:if>
     	<c:if test="${list.BASKET_STATUS eq 0}">
-	        <span class="heart"><img class="star" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/emptyStar.png"></span>
+	        <span class="heart"><img class="star b" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/emptyStar.png"></span>
     	</c:if>
         
         <h6 class="no">no. ${list.BOARD_NO}</h6>

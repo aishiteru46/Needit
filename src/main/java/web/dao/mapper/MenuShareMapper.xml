@@ -237,7 +237,7 @@
 	<delete id="deleteBasket" parameterType="Basket">
 		DELETE basket
 		<where>
-			AND basket_id = #{id}
+			AND basket_id = #{basketId}
 			AND board_no = #{boardNo}
 		</where>
 	</delete>
