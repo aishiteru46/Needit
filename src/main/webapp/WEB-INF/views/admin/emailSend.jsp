@@ -11,6 +11,9 @@
 	background-color: #ff8108;
 	width: 302px;
 }
+#AdminContent{
+	width: 80%;
+}
 
 /* 이메일 목록 */
 #emailList{
@@ -25,12 +28,14 @@
     vertical-align: top;
     margin-right: 20px;
 }
-#emailDiv {
+#emailSendList {
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: flex-start;
     gap: 30px;
+    height: 140px;
+    overflow-x: hidden;
+    overflow-y: scroll; 
 }
 </style>
 
@@ -71,6 +76,8 @@ function sendEmail(event) {
             $("#emailTitle").val('');
             $("#emailContent").val('');
             $('input[name="email"]').prop('checked', false);
+            
+            $('#emailSendList input[type="checkbox"]').prop('checked', false);
         },
         error: function () {
             alert("전송실패");
@@ -85,6 +92,7 @@ $(document).ready(function() {
         $('input[name="email"]').prop('checked', $(this).prop('checked'));
     });
     
+    
     $('input[name^="selectSend"]').click(function() {
         var container = $(this).parent('.verticalContent, .horizontalContent');
         var checkboxes = container.siblings('.verticalContent, .horizontalContent').find('input[type="checkbox"]');
@@ -93,6 +101,9 @@ $(document).ready(function() {
             checkboxes.prop('checked', false);
             var title = $(this).data('title');
             var content = $(this).data('content');
+            content = content.replace(/\\n/g, '\n');
+            content = content.replace(/\n/g, '<br>');
+            
             $('#emailTitle').val(title);
             $('#emailContent').val(content);
         }
@@ -142,12 +153,12 @@ function showCheckboxes() {
                 </div><div class="emailGroup">
             </c:if>
             <input type="checkbox" id="${list.EMAIL}" name="email" value="${list.EMAIL}">
-            <label for="${list.EMAIL}">${list.EMAIL}</label><br>
+            <label for="${list.EMAIL}">${list.EMAIL}(${list.NICK})</label><br>
         </c:forEach>
     </div>
 </div><br>
 
-<div id="emailDiv">
+<div id="emailDiv" class="ms-2">
 <form id="emailForm" action="/admin/emailSend" method="post">
   
 <!-- 제목 -->
@@ -166,19 +177,36 @@ function showCheckboxes() {
 </form>
 </div><!-- #emailDiv -->
 
-<div id="emailDiv">
+<div id="emailSendList" class="ms-2">
+   	<div class="verticalContent">
+    <input type="checkbox" id="selectSend" name="selectSend" data-title="Needit 서버점검 공지"
+    data-content="<strong>서버점검이 있을 예정입니다</strong>
+    금일 오전 10시 ~ 오후 1시 까지 서버가 작동하지 않을 수 있습니다
+    양해 부탁드립니다
+    
+    감사합니다">
+    <label for="selectSend">Needit 서버점검 공지</label><br>
+    <label for="selectSend">
+    	<strong>서버점검이 있을 예정입니다</strong><br>
+    	금일 오전 10시 ~ 오후 1시 까지 서버가 작동하지 않을 수 있습니다<br>
+    	양해 부탁드립니다<br><br>
+    	감사합니다<br>
+    </label><br>
+    </div>
+    
  	<div class="verticalContent">
-    <input type="checkbox" id="selectSend1" name="selectSend1" data-title="Needit에 오신것을 환영합니다." data-content="홈페이지 방문해주셔서 감사합니다.">
-    <label for="selectSend1">Needit에 오신것을 환영합니다.</label><br>
-    <label for="selectSend1">홈페이지 방문해주셔서 감사합니다.</label><br>
+    <input type="checkbox" id="selectSend" name="selectSend" data-title="Needit에 오신것을 환영합니다." data-content="홈페이지 방문해주셔서 감사합니다.">
+    <label for="selectSend">Needit에 오신것을 환영합니다.</label><br>
+    <label for="selectSend">홈페이지 방문해주셔서 감사합니다.</label><br>
 	</div>
 	
-	<div class="horizontalContent">
-    <input type="checkbox" id="selectSend2" name="selectSend2" data-title="Needit" data-content="신고로 인해 게시물이 삭제되었습니다.">
-    <label for="selectSend2">Needit</label><br>
-    <label for="selectSend2">신고로 인해 게시물이 삭제되었습니다.</label><br>
+	<div class="verticalContent">
+    <input type="checkbox" id="selectSend" name="selectSend" data-title="Needit" data-content="신고로 인해 게시물이 삭제되었습니다.">
+    <label for="selectSend">Needit</label><br>
+    <label for="selectSend">신고로 인해 게시물이 삭제되었습니다.</label><br>
     </div>
-</div><!-- #emailDiv -->
+    
+</div><!-- #emailSendList -->
 
 </div><!-- .AdminContent -->
 
