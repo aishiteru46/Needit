@@ -199,7 +199,7 @@ public interface UserProfileDao {
 	 * @param basket 찜 목록
 	 * @return 찜 목록
 	 */
-	public List<Map<Board, Object>> basketList(Basket basket);
+	public List<Map<Board, Object>> basketList(Board board);
 
 	/**
 	 * 이메일 수신 동의 미동의 업데이트

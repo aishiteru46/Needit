@@ -273,17 +273,6 @@ public class MenuShareController {
 		
 		return "jsonView";
 	}
-	@RequestMapping("/deletebasket")
-	public String deletebasket(
-			Basket basket, Model model
-			, HttpSession session) {
-		
-		boolean bas = menuShareFace.checkBasket(basket);
-		logger.info("찜여부{}",bas);
-		model.addAttribute("deleteCheck", bas);
-		
-		return "jsonView";
-	}
 	
 
 	

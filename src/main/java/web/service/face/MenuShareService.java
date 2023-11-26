@@ -149,14 +149,6 @@ public interface MenuShareService {
 	 */
 	public boolean checkBasket(Basket basket);
 	
-	/**
-	 * 찜이 된 상태면 삭제
-	 * 
-	 * @param basket boardNo , menu, cate
-	 */
-	public boolean deleteBasket(Basket basket);
-	
-	
 	
 	
 	

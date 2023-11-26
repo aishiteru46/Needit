@@ -231,7 +231,19 @@
 	</select>
 
 
-	<select id="basketList" resultType="Map" parameterType="Basket">
+	<select id="basketList" resultType="Map" parameterType="Board">
+		SELECT 
+	    B.board_no, B.writer_id, B.writer_nick, 
+	    B.hit, B.menu, B.cate, B.title, B.price, B.content, B.location,
+	    CAST(B.write_date AS DATE) AS write_date, 
+	    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
+	    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name,
+	    (SELECT count(*) FROM basket WHERE basket.board_no = B.board_no AND basket.basket_id = #{writerId}) AS basket_status
+		FROM board B
+		JOIN basket ON B.board_no = basket.board_no
+		<where>
+		    basket.basket_id = #{writerId}
+		</where>
 	</select>
 
 	<!-- 이메일수신 수정 -->
