@@ -25,8 +25,12 @@
     vertical-align: top;
     margin-right: 20px;
 }
-#emailDiv{
-
+#emailDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
 }
 </style>
 
@@ -80,6 +84,16 @@ $(document).ready(function() {
     $('#selectAll').click(function() {
         $('input[name="email"]').prop('checked', $(this).prop('checked'));
     });
+    
+    $('input[name^="selectSend"]').click(function() {
+        if ($(this).is(":checked")) {
+            var title = $(this).data('title');
+            var content = $(this).data('content');
+            $('#emailTitle').val(title);
+            $('#emailContent').val(content);
+        }
+    });
+    
 });
 
 var expanded = false;
@@ -150,9 +164,17 @@ function showCheckboxes() {
 </div><!-- #emailDiv -->
 
 <div id="emailDiv">
-<input type="checkbox" id="selectSend" name="selectSend">
-<label for="selectSend" >제목</label><br>
-<label for="selectSend" >내용</label><br>
+ 	<div class="verticalContent">
+    <input type="checkbox" id="selectSend1" name="selectSend1" data-title="Needit에 오신것을 환영합니다." data-content="홈페이지 방문해주셔서 감사합니다.">
+    <label for="selectSend1">Needit에 오신것을 환영합니다.</label><br>
+    <label for="selectSend1">홈페이지 방문해주셔서 감사합니다.</label><br>
+	</div>
+	
+	<div class="horizontalContent">
+    <input type="checkbox" id="selectSend2" name="selectSend2" data-title="Needit" data-content="신고로 인해 게시물이 삭제되었습니다.">
+    <label for="selectSend2">Needit</label><br>
+    <label for="selectSend2">신고로 인해 게시물이 삭제되었습니다.</label><br>
+    </div>
 </div><!-- #emailDiv -->
 
 </div><!-- .AdminContent -->

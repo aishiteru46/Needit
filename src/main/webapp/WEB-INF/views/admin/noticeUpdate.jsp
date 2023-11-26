@@ -20,6 +20,9 @@
 	position: sticky;
     top: 0px;
 }
+#AdminContent{
+	width: 80%;
+}
 </style>
 
 <script type="text/javascript">
