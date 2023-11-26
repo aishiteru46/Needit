@@ -13,8 +13,40 @@
 
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+
+
+
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+//현재 URL을 가져옵니다.
+var currentUrl = window.location.href;
+
+// URL 객체를 생성합니다.
+var url = new URL(currentUrl);
+
+// 쿼리 문자열을 가져옵니다.
+var queryString = url.search;
+
+// 쿼리 문자열을 파싱하여 객체로 변환합니다.
+var params = new URLSearchParams(queryString);
+
+// 각 매개변수를 얻습니다.
+var socialemail = params.get('email');
+var socialgender = params.get('gender');
+var socialId = params.get('socialId');
+var phone = params.get('phone');
+var socialname = params.get('name');
+var nick = params.get('nick');
+
+console.log(email);
+console.log(document.getElementById("gender"));
+
+// 얻은 값들을 출력하거나 다른 곳에 사용할 수 있습니다.
+
+
+
 //주소입력
 	var idCheck = false;
 	var pwCheck = false;
@@ -292,9 +324,9 @@ form {
 #label1{
 	display: none;
 }
-#socialId{
-	display: none;
-}
+ #socialId{ 
+ 	display: none; 
+ } 
 </style>
 </head>
 <body>
@@ -349,7 +381,7 @@ form {
   		<div class="col">
   		
     		<label class="fs-3 fw-bold">성별</label>
-    		<select name="gender"  class="form-select form-select-lg mb-3" name="gender">
+    		<select name="gender"  class="form-select form-select-lg mb-3" id="gender" >
 			    <option value="E">기타</option>
 	    		<option value="M">남자</option>
 			   	<option value="F">여자</option>
@@ -368,10 +400,10 @@ form {
     		<input type="text" class="form-control form-control-lg mb-3" id="phone" name="phone" placeholder="전화번호를 입력해주세요" >
     		
     		<div class="position-relative">
-    		<label class="fs-3 fw-bold">*이메일</label>  <input type="checkbox" id="emailAgr" value="1">이메일 수신 동의
+    		<label class="fs-3 fw-bold">*이메일</label>  <input type="checkbox" id="emailAgr" name="emailAgr" value="1">이메일 수신 동의
     		<input id="needit" class=" position-absolute top-50 end-0 translate-middle-y btn btn-danger" type="button" value="인증코드 발송" onclick="sendEmail()">
     		</div>
-   	 		<input type="email" class="form-control form-control-lg mb-3" name="email" id="email" placeholder="이메일을 입력해주세요" required="required">
+   	 		<input type="text" class="form-control form-control-lg mb-3" name="email" id="email" placeholder="이메일을 입력해주세요" required="required">
    	 		
   			<div class="position-relative">
   			<label class="fs-3 fw-bold">*인증번호</label>
@@ -387,7 +419,7 @@ form {
 	<div>
 	<button id="needit"class=" col-12 btn btn-danger btn-lg" >회원가입</button>
 	
-	<input type="text" id="socialId">
+	<input type="text" id="socialId" name="socialId">
 	</div>
 </form>
 </div>
@@ -395,7 +427,15 @@ form {
 
 </div>
 </div><%--컨테이너 --%>
+<script type="text/javascript">
+	
+document.getElementById("email").value = socialemail;
+document.getElementById("socialId").value = socialId;
+document.getElementById("phone").value = phone;
+document.getElementById("name").value = socialname;
+document.getElementById("nick").value = nick;	
 
+</script>
 
 
 

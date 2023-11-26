@@ -25,5 +25,8 @@ public interface UserService {
 	//소셜 아이디 체크
 	public boolean social(User user);
 
+	//소셜 정보
+	public User socialinfo(User user);
+
 
 }

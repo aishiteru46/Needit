@@ -7,7 +7,7 @@
 <mapper namespace="web.dao.face.UserDao">
 
 	<insert id="insertJoin" parameterType="User">
-		INSERT INTO usertb ( id,pw,name,nick,birth,email,gender,phone,addr1,addr2,emailAgr,socialId)
+		INSERT INTO usertb ( id,pw,name,nick,birth,email,gender,phone,addr1,addr2,email_agr,social_id)
 		VALUES (#{id}, #{pw}, #{name}, #{nick}, #{birth}, #{email}, #{gender}, #{phone}, #{addr1}, #{addr2},#{emailAgr},#{socialId})
 	</insert>
 	
@@ -55,8 +55,17 @@
 			SELECT *
 			FROM usertb
 			<where>
-				AND socialId = #{socialId}		
+				AND social_id = #{socialId}		
 			</where>
 		)
+	</select>
+	
+	<select id="selectByInfo" resultType="User" parameterType="User">
+		SELECT * FROM usertb
+			<where>
+				AND social_id = #{socialId}		
+			</where>
+	
+	
 	</select>
 </mapper>
