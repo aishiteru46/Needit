@@ -11,6 +11,7 @@ public class Rent {
 	private int boardNo;
 	private String renterId;
 	private int rentStatus;
+	private int paymentType;
 	private Date rentDate;
 	private int startTime;
 	private int endTime;
