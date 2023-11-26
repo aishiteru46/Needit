@@ -18,14 +18,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.MenuCommunityDao;
-import web.dao.face.MenuRentDao;
 import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
-import web.dto.Rent;
 import web.service.face.MenuCommunityService;
-import web.service.face.MenuRentService;
 import web.util.Paging;
 
 @Service
@@ -36,14 +33,14 @@ public class MenuCommunityServiceImpl implements MenuCommunityService {
 	@Autowired private ServletContext context;
 	
 	@Override
-	public Paging getPaging(Paging param) {
+	public Paging getPaging(Paging param ) {
 		
 		//총 게시글 수 조회
 		int totalCount = menuCommunityDao.selectCntAll(param);
 		
 		//페이징 객체 생성(페이징 계산)
-		Paging paging = new Paging( param.getMenu(), param.getCate(),totalCount, param.getCurPage(), 12, 10 );
-		
+		Paging paging = new Paging( param.getMenu(), param.getCate(), param.getSelectSub(), param.getSearchText(),totalCount, param.getCurPage(), 12, 10 );
+
 		return paging;
 	}
 
@@ -52,6 +49,11 @@ public class MenuCommunityServiceImpl implements MenuCommunityService {
 		return menuCommunityDao.selectAll(paging);
 	}
 
+	@Override
+	public List<Map<String, Object>> searchList(Paging paging) {
+		return menuCommunityDao.selectSearch(paging);
+	}
+	
 	@Override
 	public Board view(Board board) {
 		
@@ -207,7 +209,7 @@ public class MenuCommunityServiceImpl implements MenuCommunityService {
 	}
 
 	@Override
-	public List<Comment> viewComment(Comment commentParam) {
+	public List<Map<String,Object>> viewComment(Comment commentParam) {
 		return menuCommunityDao.selectAllComment(commentParam);
 	}
 

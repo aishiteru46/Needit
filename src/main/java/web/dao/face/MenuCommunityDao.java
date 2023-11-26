@@ -7,7 +7,6 @@ import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
-import web.dto.Rent;
 import web.util.Paging;
 
 public interface MenuCommunityDao {
@@ -29,6 +28,14 @@ public interface MenuCommunityDao {
 	 */
 	public List<Map<String, Object>> selectAll(Paging paging);
 
+	/**
+	 * 검색요청 목록 조회
+	 * 
+	 * @param paging
+	 * @return
+	 */
+	public List<Map<String, Object>> selectSearch(Paging paging);
+	
 	/**
 	 * 
 	 * 
@@ -117,7 +124,7 @@ public interface MenuCommunityDao {
 	 * @param commentParam
 	 * @return
 	 */
-	public List<Comment> selectAllComment(Comment commentParam);
+	public List<Map<String, Object>> selectAllComment(Comment commentParam);
 
 	/**
 	 * 
