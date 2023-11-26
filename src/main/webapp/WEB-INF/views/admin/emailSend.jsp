@@ -86,14 +86,17 @@ $(document).ready(function() {
     });
     
     $('input[name^="selectSend"]').click(function() {
+        var container = $(this).parent('.verticalContent, .horizontalContent');
+        var checkboxes = container.siblings('.verticalContent, .horizontalContent').find('input[type="checkbox"]');
+        
         if ($(this).is(":checked")) {
+            checkboxes.prop('checked', false);
             var title = $(this).data('title');
             var content = $(this).data('content');
             $('#emailTitle').val(title);
             $('#emailContent').val(content);
         }
     });
-    
 });
 
 var expanded = false;
