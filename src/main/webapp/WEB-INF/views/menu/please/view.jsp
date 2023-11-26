@@ -103,6 +103,11 @@ function loadComments() {
      	            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
      	            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
      	            
+     	        	// 신고 버튼 추가
+     	           commentListHtml += '    <button type="button" style="width: 30px; height: 30px; float: right;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal" onclick="report(' + res.commentList[i].CMT_NO + ');">';
+     	           commentListHtml += '        <div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div>';
+     	           commentListHtml += '    </button>';
+     	            
      	         	//댓글 작성자 구분 처리                                                                                    
     	            if (commentWriter === boardMaster && commentWriter === nick) { 
     	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';

@@ -232,6 +232,7 @@
 
 
 	<select id="basketList" resultType="Map" parameterType="Basket">
+		SELECT * FROM Basket
 	</select>
 
 	<!-- 이메일수신 수정 -->

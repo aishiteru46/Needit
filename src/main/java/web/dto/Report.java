@@ -13,5 +13,6 @@ public class Report {
 	private String reportType;
 	private String reportChk;
 	private Date reportDate;
+	private int cmtNo;
 
 }

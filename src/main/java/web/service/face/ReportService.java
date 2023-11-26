@@ -11,6 +11,14 @@ public interface ReportService {
 	 * @return true false
 	 */
 	public boolean insertReport(Report report);
+
+	
+	/**
+	 * 댓글 신고 정보 insert
+	 * @param report
+	 * @return
+	 */
+	public boolean insertCmtReport(Report report);
 	
 
 }

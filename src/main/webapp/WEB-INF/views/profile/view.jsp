@@ -58,6 +58,75 @@ $(function(){
 });
 
 
+$(function(){
+	  
+	  //프로필사진 등록
+		$("#imgUpdate").click(function(){
+			console.log("프로필사진 업데이트 작동")
+			
+			var formData = new FormData($("#uploadForm")[0]);
+			
+			$.ajax({
+				 type: "post"
+				 , url: "/profile/imgupdate"
+				 , data: formData
+				 , processData: false  // 필수
+		            , contentType: false  // 필수
+				 , dataType: "json"
+				 , success: function( res ) {  
+				    console.log("AJAX 성공")
+					location.reload()
+					
+				 }
+				, error: function() {
+				    console.log("AJAX 실패")
+				
+				 }
+			})
+
+		})
+		
+	});
+
+
+	//자기소개 수정
+	$(function(){
+		$("#introUpdate").click(function(){
+			console.log("자기소개 업데이트 작동")
+			
+			$.ajax({
+				 type: "post"
+				 , url: "/profile/introduce"
+				 , data: {
+					 
+					 id : "${id}"
+					 , intro : $("#intro").val()
+					 
+					 
+				 }
+				 , dataType: "json"
+				 , success: function( res ) {  
+				    console.log("자기소개 업데이트 성공")
+					
+				 }
+				, error: function() {
+				    console.log("AJAX 실패")
+				
+				 }
+			})
+		})
+		
+	});
+	</script>
+
+
+	<script>
+	    function toggleSection(sectionId) {
+	        var section = document.getElementById(sectionId);
+	        section.classList.toggle('hidden');
+	    }
+	</script>
+
 
 
 
@@ -84,26 +153,6 @@ $(function(){
 		         }
 		      })
     
-	$("#imgDelete").click(function(){
-		console.log("프로필사진 삭제 작동")
-		
-		$.ajax({
-			 type: "get"
-			 , url: "/profile/imgdelete"
-			 , data: {}
-			 , dataType: "json"
-			 , success: function( res ) {  
-			    console.log("AJAX 성공")
-				location.reload()
-				
-			 }
-			, error: function() {
-			    console.log("AJAX 실패")
-			
-			 }
-		})
-
-	})
 	
 });
 
@@ -133,66 +182,7 @@ $(function(){
     })
 });
     
-$(function(){
-  
-  //프로필사진 등록
-	$("#imgUpdate").click(function(){
-		console.log("프로필사진 업데이트 작동")
-		
-		var formData = new FormData($("#uploadForm")[0]);
-		
-		$.ajax({
-			 type: "post"
-			 , url: "/profile/imgupdate"
-			 , data: formData
-			 , processData: false  // 필수
-	            , contentType: false  // 필수
-			 , dataType: "json"
-			 , success: function( res ) {  
-			    console.log("AJAX 성공")
-				location.reload()
-				
-			 }
-			, error: function() {
-			    console.log("AJAX 실패")
-			
-			 }
-		})
 
-	})
-	
-});
-
-
-//자기소개 수정
-$(function(){
-	$("#introUpdate").click(function(){
-		console.log("자기소개 업데이트 작동")
-		
-		$.ajax({
-			 type: "post"
-			 , url: "/profile/introduce"
-			 , data: {
-				 
-				 id : "${id}"
-				 , intro : $("#intro").val()
-				 
-				 
-			 }
-			 , dataType: "json"
-			 , success: function( res ) {  
-			    console.log("자기소개 업데이트 성공")
-				
-			 }
-			, error: function() {
-			    console.log("AJAX 실패")
-			
-			 }
-		})
-	})
-	
-});
-</script>
 
 
 
@@ -228,7 +218,11 @@ $(function(){
     }
 </style>
 
-
+<style>
+        .hidden {
+            display: none;
+        }
+</style>
 
 
 <div class="container">
@@ -254,7 +248,7 @@ ${userGrade }
 
 </c:choose>
 
-<div id="profileImageContainer">
+<div id="profileImageContainer" onclick="triggerFileInput();">
     <c:if test="${not empty img}">
         <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
     </c:if>
@@ -266,7 +260,7 @@ ${userGrade }
 <!-- 이미지 삭제 버튼 -->
 <div class="btn btn-danger btn-sm pull-right" id="imgDelete" >이미지 삭제</div>
 
-<h3>${nick}님의 프로필사진</h3>
+<h3>${nick}님의 프로필</h3>
 
 <div class="panel panel-default">
    <div class="panel-body">
@@ -309,11 +303,14 @@ ${userGrade }
                <td style="width: 150px; vertical-align: middle;">사진 업로드</td>
                <td colspan="2">
                   <span class="btn btn-default">
-                     이미지를 업로드하세요.<input type="file" name="file" id="thumbnailFile" onchange="setThumbnail(event);"/>
+                  
+					<!-- 숨겨진 파일 입력(input type="file") 요소 -->
+                     <input type="file" name="file" id="thumbnailFile" style="display: none;" onchange="setThumbnail(event);"/>
                   </span>
                </td>            
             </tr>      
-            <tr id="previewSection" style="display: none;">
+<!--             <tr id="previewSection" style="display: none;"> -->
+            <tr id="previewSection" >
             	<td colspan="2" style="text-align: left;">
             	
                	<!-- 썸네일 미리보기를 담을 div 추가 -->
@@ -329,6 +326,32 @@ ${userGrade }
       
    </div>
 </div>
+
+
+<script>
+    function setThumbnail(event) {
+        var thumbnailFile = event.target.files[0];
+
+        if (thumbnailFile) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                var profileImage = document.getElementById('profileImage');
+                profileImage.src = e.target.result;
+            };
+
+            reader.readAsDataURL(thumbnailFile);
+        }
+    }
+
+
+    function triggerFileInput() {
+        // 파일 입력(input type="file") 요소를 클릭
+        document.getElementById('thumbnailFile').click();
+    }
+
+</script>
+
 
 <hr>
 
@@ -468,14 +491,36 @@ function confirmAndSubmit(userId) {
 <hr>
 
 
-<h1 onclick="toggleSection('boardSection')">내가 쓴 글</h1>
+
+<script>
+  function toggleSection(sectionId) {
+    var section = document.getElementById(sectionId);
+    var arrow = document.getElementById(sectionId + 'Arrow');
+
+    if (section.style.display === 'none') {
+      section.style.display = 'block';
+      arrow.innerHTML = '▲'; // 펼쳐진 상태에 대한 원하는 기호로 변경
+    } else {
+      section.style.display = 'none';
+      arrow.innerHTML = '▼'; // 축소된 상태에 대한 원하는 기호로 변경
+    }
+  }
+</script>
+
+
+
+
+<h1 onclick="toggleSection('boardSection')">
+	내가 쓴 글
+	 <span id="boardSectionArrow" style="float: right;">▼</span>
+</h1>
 
 <div id="boardSection" class="hidden">
 <table id="boardTable">
 	<tr>
-		<th>게시글 번호</th>
+		<th>No.</th>
 		<th>제목</th>
-		<th>날짜</th>
+		<th>작성일</th>
 	</tr>
 <c:forEach items="${board }" var="board" begin="0" end="10">
 
@@ -510,14 +555,17 @@ function confirmAndSubmit(userId) {
 
 <hr>
 
-<h1 onclick="toggleSection('commentSection')">내가 쓴 댓글</h1>
+<h1 onclick="toggleSection('commentSection')">
+	내가 쓴 댓글
+	<span id="commentSectionArrow" style="float: right;">▼</span>
+</h1>
 
 <div id="commentSection" class="hidden">
 <table id="commentTable">
 	<tr>
-		<th>댓글 번호</th>
-		<th>내용</th>
-		<th>날짜</th>
+		<th>No.</th>
+		<th>댓글</th>
+		<th>작성일</th>
 	</tr>
 	
 <c:forEach items="${comment }" var="comment" begin="0" end="10">
@@ -550,12 +598,7 @@ function confirmAndSubmit(userId) {
 </table>
 </div>
 
-<script>
-    function toggleSection(sectionId) {
-        var section = document.getElementById(sectionId);
-        section.classList.toggle('hidden');
-    }
-</script>
+
 
 
 

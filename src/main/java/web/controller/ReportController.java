@@ -30,4 +30,19 @@ public class ReportController {
 		return "admin/report";
 		
 	}
+	
+	
+	@RequestMapping("/cmtReport")
+	public String cmtReportProc(Report report, HttpSession session) {
+		logger.info("댓글신고 : {}", report);
+		
+		report.setReportId((String) session.getAttribute("id"));
+		
+		boolean checkReport = reportService.insertCmtReport(report);
+		
+		
+		return "admin/report";
+		
+	}
+	
 }
