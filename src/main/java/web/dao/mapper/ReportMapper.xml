@@ -6,8 +6,14 @@
 <mapper namespace="web.dao.face.ReportDao">
 
 	<insert id="insert" parameterType="Report">
-		INSERT INTO report(report_no , board_no,  report_id, report_type)
-		VALUES (report_seq.nextval, #{boardNo},  #{reportId}, #{reportType})
+		INSERT INTO report(report_no , board_no, report_id, report_type)
+		VALUES (report_seq.nextval, #{boardNo}, #{reportId}, #{reportType})
 	</insert>
+	
+	<insert id="cmtReportInsert" parameterType="Report">
+		INSERT INTO report(report_no , board_no,  cmt_no, report_id, report_type)
+		VALUES (report_seq.nextval, #{boardNo},  #{cmtNo}, #{reportId}, #{reportType})
+	</insert>
+	
 	
 </mapper>
