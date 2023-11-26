@@ -36,7 +36,7 @@ $(function(){
 	$("#likeCount").click(()=>{
 		$.ajax({
 			type: "GET"
-			, url: "/rent/like"
+			, url: "/share/like"
 			, data: {  
 				boardNo : ${board.boardNo }
 			}
