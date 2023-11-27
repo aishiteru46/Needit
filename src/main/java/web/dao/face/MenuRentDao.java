@@ -3,6 +3,7 @@ package web.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
@@ -147,6 +148,30 @@ public interface MenuRentDao {
 	 * @return
 	 */
 	public List<Map<String, Object>> chkRentStatus(Board board);
+
+	/**
+	 * 찜 여부 조회 
+	 * 
+	 * @param basket 찜여부
+	 * @return 1 찜불가능 0 찜 가능
+	 */
+	public int basketInfo(Basket basket);
+	
+	/**
+	 * 찜 가능하면 insert
+	 * 
+	 * @param basket
+	 * @return
+	 */
+	public int insertBasket(Basket basket);
+	
+	/**
+	 * 한번더 클릭시 delete
+	 * 
+	 * @param basket 
+	 * @return 삭제
+	 */
+	public int deleteBasket(Basket basket);
 
 
 

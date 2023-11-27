@@ -6,30 +6,34 @@
 <!-- HEADER -->
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
-<script type="text/javascript">
-$(() => {
-	$("#title").focus()
-	
-	$("#content").summernote({
-		height: 300,
-		toolbar: [
-		    ['fontname', ['fontname']],
-		    ['fontsize', ['fontsize']],
-		    ['style', ['bold', 'italic', 'underline', 'clear']],
-		    ['color', ['forecolor','color']],
-		    ['table', ['table']],
-		    ['para', ['ul', 'ol', 'paragraph']],
-		    ['height', ['height']],
-		    ['insert',['picture','link']],
-		    ['view', ['fullscreen', 'help']]
-		  ],
-		fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
-		fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
-	})
-})
-</script>
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 
 <script type="text/javascript">
+
+$(() => {
+   $("#title").focus()
+   $('#content').summernote('fontName', 'Arial');
+   $('#content').summernote('fontSize', 16);
+   $('#content').summernote('style', 'clear');
+   
+   $("#content").summernote({
+      height: 300,
+      toolbar: [
+          ['fontname', ['fontname']],
+          ['fontsize', ['fontsize']],
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['color', ['color']],
+          ['table', ['table']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']],
+          ['insert',['picture','link']],
+        ],
+      fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+      fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+   })
+})
 
 //썸네일 미리보기
 function setThumbnail(event) {
@@ -71,7 +75,7 @@ $(document).ready(function() {
 </script>
 
 <style type="text/css">
-   
+
 #thumbnail_container{
     border: 1px solid #ccc;
     width: 200px;
@@ -83,6 +87,16 @@ $(document).ready(function() {
     background-repeat: no-repeat;
     background-position: center center;
 }
+
+.note-editor .dropdown-toggle::after { 
+	all: unset; 
+}
+
+.note-editor .note-toolbar .note-dropdown-menu, .note-popover .popover-content .note-dropdown-menu {
+    font-size: 16px;
+    text-align: left;
+    min-width: 160px;
+/* } */
 
 </style>
 
@@ -121,9 +135,9 @@ $(document).ready(function() {
    <div id="thumbnail_container"></div>
 </div>
 
-<div class="form-group mb-3">
-   <label class="form-label" for="content">본문</label>
-   <textarea class="form-control" name="content" id="content"></textarea>
+<div style="font-weight: normal;" class="form-group mb-3">
+   <label style="font-weight: normal;" class="form-label" for="content">본문</label>
+   <textarea style="font-weight: normal;" class="form-control" name="content" id="content"></textarea>
 </div>
 
 <div class="form-group mb-3">

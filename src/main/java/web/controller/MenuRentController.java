@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
@@ -35,14 +36,16 @@ public class MenuRentController {
 	
 	//게시판 목록 그리드타입 띄우기
 	@GetMapping("/list")
-	public String list( Paging param, Model model ) {
+	public String list( Paging param, Model model, HttpSession session ) {
 		logger.info("param : {}", param);
 		
 		//페이징 계산
 		Paging paging = menuRentService.getPaging(param);
+		//각 유저가 찜한 상품목록 조회를 위한 Id 저장
+		paging.setUserId((String)session.getAttribute("id"));
 		
 		//게시글 목록 조회
-		List<Map<String, Object>> list = menuRentService.list(paging); 
+		List<Map<String, Object>> list = menuRentService.list(paging);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
@@ -67,19 +70,15 @@ public class MenuRentController {
 
 	//검색한 게시판 목록 그리드타입 띄우기
 	@GetMapping("/search")
-	public String search( Board board, Model model, Paging param ) {
-		logger.info("검색주제 : {}", param.getSelectSub());
-		logger.info("검색어 : {}", param.getSearchText());
-		logger.info("검색한 메뉴 : {}", param.getMenu());
-		logger.info("검색한 카테 : {}", param.getCate());
+	public String search( Board board, Model model, Paging param, HttpSession session ) {
 		
 		//페이징 계산
 		Paging paging = menuRentService.getPaging(param);
-		logger.info("검색된 게시글 수  : {}", paging.getTotalCount());
+		//각 유저가 찜한 상품목록 조회를 위한 Id 저장
+		paging.setUserId((String)session.getAttribute("id"));
 		
+		//게시글 목록 조회
 		List<Map<String, Object>> list = menuRentService.searchList(paging);
-		logger.info("검색된 게시글 내용  : {}", list);
-		
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
@@ -89,18 +88,12 @@ public class MenuRentController {
 	//검색한 게시판 목록 리스트타입 띄우기
 	@GetMapping("/searchType")
 	public String searchType( Board board, Model model, Paging param ) {
-		logger.info("검색주제 : {}", param.getSelectSub());
-		logger.info("검색어 : {}", param.getSearchText());
-		logger.info("검색한 메뉴 : {}", param.getMenu());
-		logger.info("검색한 카테 : {}", param.getCate());
 		
 		//페이징 계산
 		Paging paging = menuRentService.getPaging(param);
-		logger.info("검색된 게시글 수  : {}", paging.getTotalCount());
 		
+		//게시글 목록 조회
 		List<Map<String, Object>> list = menuRentService.searchList(paging);
-		logger.info("검색된 게시글 내용  : {}", list);
-		
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
@@ -159,20 +152,11 @@ public class MenuRentController {
 	public String rent( Rent rentParam, Model model ) {
 		logger.info("결제파라미터 : {}", rentParam);
 		
-		
 		//대여신청 대기처리
 		menuRentService.rent(rentParam);
 		
 		return "jsonView";
 	}
-	
-	//예약 처리
-	@PostMapping("/book")
-	public void book() {} 
-	
-	//결제 처리
-	@PostMapping("/pay")
-	public void pay() {} 
 	
 	//게시글 작성 폼
 	@GetMapping("/write")
@@ -255,6 +239,19 @@ public class MenuRentController {
 		logger.info("commentDelete : {}", commentDelete);
 		
 		menuRentService.delete(commentDelete);
+		
+		return "jsonView";
+	}
+	
+	@RequestMapping("/basket")
+	public String basket(Basket basket, Model model, HttpSession session) {
+		logger.info("바스켓이다옹{}",basket);
+		
+		basket.setBasketId((String)session.getAttribute("id"));
+		
+		boolean bas = menuRentService.checkBasket(basket);
+		logger.info("찜여부{}",bas);
+		model.addAttribute("check", bas);
 		
 		return "jsonView";
 	}

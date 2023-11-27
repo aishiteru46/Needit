@@ -8,6 +8,7 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 
+<%-- 검색버튼 동적CSS --%>
 <script type="text/javascript">
 $(()=>{
 	
@@ -25,6 +26,7 @@ $(()=>{
 	});
 	
 	$(".star").click(function(){
+		console.log("찜 클릭됨!");
         var starImg = $("#star" + boardNo + "+" + menu + "+" + cate);
         console.log(starImg);
          var id = this.id;
@@ -39,11 +41,11 @@ $(()=>{
          
          $.ajax({
               type: "post"
-              , url: "/share/basket"
+              , url: "/rent/basket"
               , data: {
-              boardNo : boardNo
-              , menu : menu
-              , cate : cate
+					boardNo : boardNo
+					, menu : menu
+					, cate : cate
               }
               , dataType: "json"
               , success: function( res ) {
@@ -74,6 +76,7 @@ $(()=>{
 });
 </script>
 
+<%-- CSS --%>
 <style type="text/css">
 .write {
 	float: right;
@@ -259,6 +262,7 @@ $(()=>{
     color: white;
 }
 #selectSub {
+    width: 50px;
 	text-align: center;
 	vertical-align:top;
     height: 30px;
@@ -286,7 +290,7 @@ $(()=>{
 	margin-right: 2px;
 }
 
-form {
+#searchForm {
     width: 450px;
     padding: 20px;
     margin-left: -20px;
@@ -294,18 +298,19 @@ form {
 }
 
 .heart {
-   float: right;
-    position: absolute;
-    display: inline-block;
-    margin-top: 333px;
-    margin-left: 135px;
+	float: right;
+	position: absolute;
+	display: inline-block;
+	margin-top: 333px;
+	margin-left: 135px;
    
 }
 .star {
-   width: 30px;
-   height: 30px;
-   margin-left: 106px;
-   margin-bottom: 8px; 
+	width: 30px;
+	height: 30px;
+	margin-left: 106px;
+	margin-bottom: 8px;
+	cursor: pointer;
 }
 </style>
 
@@ -315,28 +320,25 @@ form {
 	<c:if test="${list.MENU eq '1' && list.CATE eq '1' }">
 		<div id="rentText1"> 대여해요 
 			<div id="rentText2">[물품]</div>
-<!-- 			<img src="/resources/img/borrowIcon.png" style="width: 45px; height: 45px; margin-top: -28px;"> -->
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '1' && list.CATE eq '2' }">
 		<div id="rentText1"> 대여해요
 			<div id="rentText2">[인력]</div>
-<!-- 			 <img src="/resources/img/humanpower.png" style="width: 45px; height: 45px; margin-top: -28px;"> -->
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '1' && list.CATE eq '3' }">
 		<div id="rentText1"> 대여해요
 			<div id="rentText2">[공간]</div>
-<!-- 			 <img src="/resources/img/place.png" style="width: 45px; height: 45px; margin-top: -26px;"> -->
 		</div>
 	</c:if>
 </c:forEach>
 
-<!--게시글 검색-->
+<%-- 게시글 검색 --%>
 <div class="search-container">
-	<form action="/rent/search" method="get">
+	<form id="searchForm" action="/rent/search" method="get">
     <select name="selectSub" id="selectSub" required="required">
-    	<option value="" selected disabled hidden>선택&#129047;</option>
+    	<option value="" selected disabled hidden>선택&#9660;</option>
     	<option value="title">제목</option>
     	<option value="content">내용</option>
     	<option value="writerNick">작성자</option>
@@ -354,7 +356,7 @@ form {
 
 <div class="write">
 	
-	<!-- 그리드타입,리스트타입 선택 -->
+	<%-- 그리드타입,리스트타입 선택 --%>
 	<div id="viewType">
 		<a type="button" href="/rent/list?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
 		<a type="button" href="/rent/listType?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
@@ -370,6 +372,7 @@ form {
 </div>
 
 <div class="gridContainer">
+
 <c:forEach items="${list}" var="list" varStatus="loop">
   <c:if test="${loop.index % 3 == 0}">
   <div class="row">
@@ -377,14 +380,13 @@ form {
   	
     <div class="write-container">
  		<div class="write-container-head">
-<%-- 	        <div class="no">no.${list.BOARD_NO}</div> --%>
-	        <c:if test="${list.BASKET_STATUS eq 1}">
+ 		
+            <c:if test="${list.BASKET_STATUS eq 1}">
                 <span class="heart"><img class="star a" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/star.png"></span>
             </c:if>
             <c:if test="${list.BASKET_STATUS eq 0}">
                 <span class="heart"><img class="star b" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/emptyStar.png"></span>
             </c:if>
-	        
 	        
 	        <div class="no">Title.</div>
 	        <a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE }</div></a>
@@ -428,10 +430,10 @@ form {
 
 <small class="float-end" style=" margin-right: 8px; margin-top: -10px; margin-bottom: 20px;">total : ${paging.totalCount }</small>
 
+</div><!-- .gridContainer -->
 
 </div> <!-- .container -->
 <br>
-</div><!-- .gridContainer -->
 
 <c:import url="/WEB-INF/views/layout/pagination.jsp" />
 
