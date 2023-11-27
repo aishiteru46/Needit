@@ -16,7 +16,8 @@
 		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
 		FROM board B
 		<where>
-			menu = #{menu }
+			AND menu IN (1, 2, 3)
+			AND title LIKE '%' || #{searchText} || '%'
 		</where>
      </sql>
 
@@ -128,12 +129,12 @@
 	            SELECT 
 	                board_no, writer_id, writer_nick, 
 	                hit, menu, cate, title, price, content, location,
-	                CAST(write_date AS DATE) AS write_date, 
+	                CAST(write_date AS DATE) AS write_date,
 	                (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
 	            FROM board B
 	            WHERE
 	                menu IN (1, 2, 3)
-	                AND title LIKE '%' || #{searchText} || '%'
+                    AND title LIKE '%' || #{searchText} || '%'
 	            ORDER BY board_no DESC
 	        ) B
 	    ) WHERE rnum BETWEEN #{startNo} AND #{endNo}
@@ -149,6 +150,12 @@
 <!--           	) B -->
 <!--       	) WHERE rnum BETWEEN #{startNo} AND #{endNo} -->
 <!-- 	</select> -->
+ 	
+ 	<select id="selectAdditionalData" resultType="Map" parameterType="web.util.Paging">
+	    SELECT * FROM board
+	    WHERE menu IN (1,2,3)
+	    LIMIT #{offset}, #{limit}
+	</select>
  	
  	
  </mapper>

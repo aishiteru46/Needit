@@ -46,9 +46,10 @@
 }
 /* 검색버튼 */
 #MainBtnSearch {
-    position: inherit;
+    position: absolute;
     vertical-align: top;
     height: 35px;
+    width: 52px;
     margin-left: -7px;
     border: 1px solid #ccc;
     border-top-right-radius: 5px;
@@ -321,6 +322,11 @@
 <!-- 검색버튼 -->
 <div id="MainSearchDiv">
   <form action="/mainSearch" method="get" id="searchForm">
+<!--     <select name="selectSub" id="selectSub" required="required"> -->
+<!--     	<option value="rent">대여해요</option> -->
+<!--     	<option value="share">나눔해요</option> -->
+<!--     	<option value="please">해주세요</option> -->
+<!--     </select> -->
 	<input type="text" name="searchText" id="MainSearch" placeholder=" 필요한 것을 검색해보세요."
 		required oninvalid="this.setCustomValidity('제목을 입력해주세요')" oninput="this.setCustomValidity('')"/>
 	<button id="MainBtnSearch">검색</button>

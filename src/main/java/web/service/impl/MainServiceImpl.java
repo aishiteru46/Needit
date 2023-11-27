@@ -80,6 +80,4 @@ public class MainServiceImpl implements MainService {
 		return mainDao.selectSearch(paging);
 	}
 	
-
-	
 }
