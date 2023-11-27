@@ -8,6 +8,7 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 
+<%-- 검색버튼 동적CSS --%>
 <script type="text/javascript">
 $(()=>{
 	$("#searchBtn").mouseover(function(){
@@ -24,6 +25,7 @@ $(()=>{
 });
 </script>
 
+<%-- CSS --%>
 <style type="text/css">
 
 .write {
@@ -185,6 +187,7 @@ th {
     color: white;
 }
 #selectSub {
+    width: 50px;
 	text-align: center;
 	vertical-align:top;
     height: 30px;
@@ -214,7 +217,7 @@ th {
 .listContainer {
 	margin-top: 20px;
 }
-form {
+#searchForm {
     width: 450px;
     padding: 20px;
     margin-left: -20px;
@@ -224,32 +227,49 @@ form {
 
 <div class="container">
 
+<%-- 검색전 메뉴표시 --%>
 <c:forEach  var="list" items="${list }" begin="0" end="0">
 	<c:if test="${list.MENU eq '1' && list.CATE eq '1' }">
 		<div id="rentText1"> 대여해요 
 			<div id="rentText2">[물품]</div>
-<!-- 			<img src="/resources/img/borrowIcon.png" style="width: 45px; height: 45px; margin-top: -28px;"> -->
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '1' && list.CATE eq '2' }">
 		<div id="rentText1"> 대여해요
 			<div id="rentText2">[인력]</div>
-<!-- 			 <img src="/resources/img/humanpower.png" style="width: 45px; height: 45px; margin-top: -28px;"> -->
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '1' && list.CATE eq '3' }">
 		<div id="rentText1"> 대여해요
 			<div id="rentText2">[공간]</div>
-<!-- 			 <img src="/resources/img/place.png" style="width: 45px; height: 45px; margin-top: -26px;"> -->
 		</div>
 	</c:if>
 </c:forEach>
 
-<!--게시글 검색-->
+<%-- 검색후 메뉴표시 --%>
+<c:if test="${empty list }">
+	<c:if test="${param.menu eq '1' && param.cate eq '1' }">
+		<div id="rentText1"> 대여해요 
+			<div id="rentText2">[물품]</div>
+		</div>
+	</c:if>
+	<c:if test="${param.menu eq '1' && param.cate eq '2' }">
+		<div id="rentText1"> 대여해요
+			<div id="rentText2">[인력]</div>
+		</div>
+	</c:if>
+	<c:if test="${param.menu eq '1' && param.cate eq '3' }">
+		<div id="rentText1"> 대여해요
+			<div id="rentText2">[공간]</div>
+		</div>
+	</c:if>
+</c:if>
+
+<%-- 게시글 검색 --%>
 <div class="search-container">
-	<form action="/rent/search" method="get">
+	<form id="searchForm" action="/rent/search" method="get">
     <select name="selectSub" id="selectSub" required="required">
-    	<option value="" selected disabled hidden>선택&#129047;</option>
+    	<option value="" selected disabled hidden>선택&#9660;</option>
     	<option value="title">제목</option>
     	<option value="content">내용</option>
     	<option value="writerNick">작성자</option>
@@ -267,7 +287,7 @@ form {
 
 <div class="write">
 
-	<!-- 그리드타입,리스트타입 선택 -->
+	<%-- 그리드타입,리스트타입 선택 --%>
 	<div id="viewType">
 		<a type="button" href="/rent/search?selectSub=${param.selectSub}&searchText=${param.searchText}&menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
 		<a type="button" href="/rent/searchType?selectSub=${param.selectSub}&searchText=${param.searchText}&menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
@@ -282,6 +302,17 @@ form {
 
 </div>
 
+<%-- 검색 결과 없음표시 --%>
+<c:if test="${empty list }">
+<div class="listContainer">
+	<div style="text-align: center; font-size: 20px; margin: 125px 0;">
+		검색된 내용이 없습니다.
+	</div>
+</div>
+</c:if>
+
+<%-- 검색 결과 --%>
+<c:if test="${not empty list }">
 <div class="listContainer">
 	
 	<div class="table-container">
@@ -351,11 +382,12 @@ form {
 
 <br>
 </div><!-- .listContainer -->
+</c:if>
 
 </div> <!-- .container -->
 
 
-<c:import url="/WEB-INF/views/layout/paginationForList.jsp" />
+<c:import url="/WEB-INF/views/layout/paginationSearchList.jsp" />
 
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

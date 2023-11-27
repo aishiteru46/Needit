@@ -144,4 +144,14 @@ public class MsgServiceImpl implements MsgService {
 		return msgDao.selectThumbnail(boardNo);
 	}
 
+	@Override
+	public Map<String, Object> getInfo(int boardNo) {
+		return msgDao.selectByBoardNoInfo(boardNo);
+	}
+
+	@Override
+	public Map<String, Object> getNewChatInfo(Board param) {
+		return msgDao.selectByBoard( param );
+	}
+
 }

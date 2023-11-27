@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Banner;
 import web.dto.Board;
+import web.dto.Business;
 import web.dto.Comment;
 import web.dto.User;
 
@@ -85,6 +86,20 @@ public interface AdminService {
 	 * @param board - 게시글 정보 객체
 	 */
 	public void deleteBoardCmt(Board board, Comment cmt);
+
+	/**
+	 * 업체 요청 목록을 불러온다
+	 *  
+	 * @return - 업체 요청 목록
+	 */
+	public List<Map<String, Object>> businessList();
+
+	/**
+	 * 업체 승인 및 취소를 한다
+	 * 
+	 * @param business - 업체
+	 */
+	public void updateBusiness(Business business);
 
 
 

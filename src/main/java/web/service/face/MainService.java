@@ -76,4 +76,6 @@ public interface MainService {
 	public List<Map<String, Object>> searchList(Paging paging);
 
 
+
+
 }

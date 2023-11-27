@@ -417,13 +417,26 @@ ${userGrade }
 
 <hr>
 
-<a href="infoupdate" class="btn btn-success" >회원정보 수정</a><br>
+<h1 data-bs-toggle="collapse" data-bs-target="#userUpdateSection">
+   회원정보 수정
+   <br>
+</h1>
+<div id="userUpdateSection" class="collapse">
+	<br>
+	<a href="infoupdate" class="btn btn-success" >회원정보 수정</a>
+</div>
 
 <a href="/profile/business"><button>업체등록</button></a>
 <hr>
 
-<a href="javascript:void(0);" class="btn btn-danger" onclick="confirmAndSubmit('${id}')">회원탈퇴</a><br>
-
+<h1 data-bs-toggle="collapse" data-bs-target="#userDeleteSection">
+   회원탈퇴
+   <br>
+</h1>
+<div id="userDeleteSection" class="collapse">
+	<br>
+	<a href="javascript:void(0);" class="btn btn-danger" onclick="confirmAndSubmit('${id}')">회원탈퇴</a><br>
+</div>
 지금 usertb테이블의 id를 board테이블 에서 write_id로 사용하고 있어서 회원삭제가 안됨<br>
 회원탈퇴시 글까지 삭제 되는 경우 - > DB에 cascade구문 추가 <br>
 회원탈퇴시 글은 살리는 경우 -> DB에 usertb에 is_deleted컬럼 추가해서 탈퇴시 delete로 지우지말고 update로 is_daleted true해주고 이후에 회원조회할때마다 is_deleted 상태인애들은 빼고 조회해서 탈퇴한애들 숨겨두면 됨
@@ -568,19 +581,18 @@ ${userGrade }
 <hr>
 
 
-<h1 onclick="toggleSection('boardSection')">
+<h1 data-bs-toggle="collapse" data-bs-target="#boardSection">
    내가 쓴 글
    <span id="boardSectionArrow" style="float: right;">▼</span>
 </h1>
 
-<div id="boardSection" class="hidden">
+<div id="boardSection" class="collapse">
    <table class="listType">
       <thead>
          <tr>
             <th>No.</th>
             <th class="title">제목</th>
-            <th>가격(30분)</th>
-            
+            <th>게시판</th>
             <th>작성일</th>
             <th>조회</th>
          </tr>
@@ -608,7 +620,25 @@ ${userGrade }
 				        </c:when>
 				    </c:choose>
 				</td>
-               <td><fmt:formatNumber value="${board.price}" pattern="#,###" />원</td>
+               <td>
+               		<c:choose>
+				        <c:when test="${board.menu eq 1}">
+				            대여해요
+				        </c:when>
+				        <c:when test="${board.menu eq 2}">
+				            나눔해요
+				        </c:when>
+				        <c:when test="${board.menu eq 3}">
+				            해주세요
+				        </c:when>
+				        <c:when test="${board.menu eq 4}">
+				            커뮤니티
+				        </c:when>
+				        <c:when test="${board.menu eq 5}">
+				            동네업체
+				        </c:when>
+				    </c:choose>
+               </td>
                <td>
                   <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
                   <fmt:formatDate var="writeDate" value="${board.writeDate }" pattern="yyyyMMdd" />
@@ -630,13 +660,13 @@ ${userGrade }
 
 <hr>
 
-<h1 onclick="toggleSection('commentSection')">
+<h1 data-bs-toggle="collapse" data-bs-target="#commentSection">
    내가 쓴 댓글
    <span id="commentSectionArrow" style="float: right;">▼</span>
 </h1>
 
 
-<div id="commentSection" class="hidden">
+<div id="commentSection" class="collapse">
 <table id="commentTable">
    <tr>
       <th>No.</th>
@@ -677,5 +707,6 @@ ${userGrade }
 
 ${basketList }
 
+<%-- ${myBoardList } --%>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

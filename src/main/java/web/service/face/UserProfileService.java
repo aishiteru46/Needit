@@ -164,6 +164,7 @@ public interface UserProfileService {
 	
 	/**
 	 * 로그인세션아이디로 글찾기
+	 * @param paging 
 	 * 
 	 * @param board
 	 * @return
@@ -209,5 +210,15 @@ public interface UserProfileService {
 	 * @param user 유저테이블 업데이트
 	 */
 	public void insertBusiness(Business busi, User user);
+
+	
+	/**
+	 * 페이징 내가쓴글 목록 조회
+	 * 
+	 * @param paging - 페이징 정보 객체
+	 * @return 게시글 목록
+	 */
+	public List<Map<String, Object>> myBoardList(Paging paging);
+
 
 }

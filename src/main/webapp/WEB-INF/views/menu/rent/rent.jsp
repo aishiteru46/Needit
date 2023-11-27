@@ -563,7 +563,7 @@ $(document).ready(function(){
 			   <%-- 알림보내기 --%>	          
 	           $.post( "/alert/sendnotification", { 
 	        		id: "${id}"
-        	        , sender: "${board.writerNick}" 
+        	        , sender: "${board.writerId}" 
         	        , content: 2
         	        , menu: "${param.menu}"
 	        		, boardNo: "${board.boardNo}"

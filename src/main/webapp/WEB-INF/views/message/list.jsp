@@ -152,7 +152,7 @@ pageEncoding="UTF-8"%>
 }
 
 .msgObject:hover {
-  background-color: #f7f7f7;
+	background-color: #f38d8d; 
 }
 
 .msgPrompt {
@@ -170,8 +170,9 @@ pageEncoding="UTF-8"%>
 }
 
 .msgObject-img {
-  width: 50px;
-  height: 50px;
+  float: left;
+  width: 75px;
+  height: 75px;
   border-radius: 50%;
   margin-right: 10px;
 }
@@ -189,11 +190,14 @@ pageEncoding="UTF-8"%>
 }
 
 .messagePreview {
-  color: #555;
+	width: 275px;
+	float: left;
+ 	color: #555;
 }
 
 .lastMessageTime {
   margin-left: 10px;
+  float: left;
   color: #aaa;
 }
 
@@ -205,7 +209,9 @@ pageEncoding="UTF-8"%>
 }
 
 .msgObject-username, .messagePreview {
-  white-space: nowrap; /* 텍스트가 넘칠 경우 줄바꿈 없이 처리 */
+	width: 275px;
+	float: left;
+	white-space: nowrap; /* 텍스트가 넘칠 경우 줄바꿈 없이 처리 */
 }
 
 .profileImg {
@@ -213,8 +219,8 @@ pageEncoding="UTF-8"%>
     width: 135px;
     height: 135px;
     position: relative;
-    top: 5px;
-    left: 5px;
+    top: 6px;
+    left: 10px;
 }
 
 .profileImg img {
@@ -224,25 +230,26 @@ pageEncoding="UTF-8"%>
 
 .profileDesc {
     position: relative;
+    right: 20px;
     margin: -120px 0px 0px 180px;
-    width: 600px;
-    height: 120px;
+    width: 630px;
+    height: 100px;
 }
 
 .profileTitle {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space:nowrap;
-    height: 95px;
-    font-size: 1.5em;
+    height: 75px;
+    font-size: 2.5em;
     color: white;
 }
 
 .profilePrice {
-    font-size: 1em;
+    font-size: 1.3em;
     color: wheat;
     position: relative;
-    bottom: 5px;
+    bottom: -15px;
 }
 
 </style>
@@ -263,12 +270,14 @@ var sendNewFlag = 0;
 
 // $(document).ready(function() {
 $(function() {
+	
 	$('.msgInput form').on('submit', function(event) { // 메시지를 보낼 때
 		event.preventDefault(); // 기본 submit 동작 방지
 		var message = $(this).find('input[name="message"]').val(); // 입력 필드의 값을 가져옴
 	     
 		if(makingRoom == false){ // 방이 존재한다면 
 			sendMessage() // 메시지 보내기 
+			
 		} else if(makingRoom ==true){ // 방이 존재안하면
 			console.log("makingNewRoom start")
 			
@@ -327,8 +336,10 @@ $(function() {
 			
 			var number = Number(boardInfo.price); // 가격 저장 변수
 			var formattedNumber = number.toLocaleString(); // 가격 format 변수
+			if( formattedNumber == '-1'){
+				formattedNumber = '고객지'
+			}
 			var price = formattedNumber + "원";
-			
 			console.log( formattedNumber )
 			
 			var thumbnailName
@@ -347,37 +358,34 @@ $(function() {
 			});
 			
 			console.log( thumbnailName )
-			console.log('여기옴11111??')
 			
 			var $body = $('<div class="profileBody">') // .img와 .desc를 감싸는 DIV
 			var $img = $('<div class="profileImg">')
 			
-			console.log('여기옴1111122222222222??')
 			var $imgContent;
 			
 			if( thumbnailName != null ) {
-				$imgContent = $('<img  alt="' + thumbnailTitle + '" src="/upload/' + thumbnailName + '">');
-// 				$imgContent = $('<img alt="사진이 없습니다" src="/resources/img/noimg.png">');
+				$imgContent = $('<img  alt="' + thumbnailTitle + '" src="/upload/' + thumbnailName + '">');////
 			} else {
 				$imgContent = $('<img alt="사진이 없습니다" src="/resources/img/noimg.png">')
 			}
 			
+			if( formattedNumber == '고객지' ) {
+				$imgContent = $('<img alt="고객센터" src="/resources/img/gogakcenter.png">')
+			}
+			
 			console.log( $imgContent )
-			console.log('여기옴1111333333333333331??')
 			
 			var $desc = $('<div class="profileDesc">'); // 글제목, 가격, 링크 들어가는 부분을 감싸는 DIV 
-			var $title = $('<div class="profileTitle">').text(boardInfo.title); // 글 제목이 들어갈 부분
-			var $price = $('<div class="profilePrice">').text(price); // 가격이 들어갈 부분
+			var $title = $('<div class="profileTitle">').text(boardInfo.title); // 글 제목이 들어갈 부분 ////
+			var $price = $('<div class="profilePrice">').text(price); // 가격이 들어갈 부분 ////
 			
-			console.log('여기옴111114444444444444444??')
 			$('.msgProfile').append($body);
 			$body.append($img).append($desc)
 			$img.append($imgContent)
 			$desc.append($title).append($price)
 			
-			console.log('여기옴22222222222222222??')
 			messages.forEach(function(message) { // 페이지에 메시지 반복 추가
-				console.log('여기옴3333333333333333333??')
 				var msgElement, wrapperElement, timeElement;
 				console.log('받는 사람 : ' + message.receiverId)
 				
@@ -427,10 +435,15 @@ $(function() {
 			}, error: function(error){ console.log("AJAX request failed"); }
 		}); // ajax 끝
 				console.log('여기옴4444444444444444444444??');
-	
+		
 		connectToRoom(roomNo); // 방 연결 함수
 		var userId = '<c:out value="${sessionScope.id}"/>' // 현재 접속 세션 아이디
    
+	    // 부모 요소의 모든 자식 요소의 배경 색상 제거
+	    $('.msgObject').css('background-color', '');
+	    // 클릭된 자식 요소에만 배경 색상 적용
+	    $(this).css('background-color', '#ff533f52');
+		
 	}); // $('.msgObjects').on('click') 펑션 끝
 	
 	currentUserId = '<c:out value="${sessionScope.id}"/>';
@@ -442,17 +455,75 @@ $(function() {
 
     if(newMaking) { // newMaking이 null이 아니라면 -> 새로운 방을 만든 상태라면
         newRoom = JSON.parse(newMaking); // newMaking 파싱
+        console.log( "newRoom은 ?", newRoom )
         console.log(newRoom.newMenu);
         console.log(newRoom.newCate);
         console.log(newRoom.newBoardNo);
         console.log(newRoom.newReceiverId);
-        console.log(newRoom.newReceiverNick);
-        console.log(newRoom.newWriterNick);
-
+        
         makingRoom = true; // 새로운 방을 만든 상태를 알려주는 플래그
         $('.msgInput input').attr('placeholder', '메시지를 입력하면 새로운 채팅이 시작됩니다.'); // 새로 생성한 채팅방의 인풋에 들어가는 placeholder
         $('.msgPrompt').addClass('hidden'); // msgPrompt 숨김
         $('.msgContent, .msgProfile').removeClass('hidden'); // 숨겨놓은 msgContent, msgProfile 활성화
+       
+        var $boardNo = newRoom.newBoardNo;
+        console.log( "$boardNo = ", $boardNo )
+        console.log(typeof $boardNo);
+        
+        console.log('ajax 실행 시작')
+        $.ajax({
+           type: "GET"
+           , url: "./info"
+           , data: { boardNo : $boardNo }
+           , success: function( res ){
+				console.log("AJAX 성공")
+				console.log(res)
+				var $info = res.info
+				
+				var number = Number( $info.PRICE ); // 가격 저장 변수
+				var formattedNumber = number.toLocaleString(); // 가격 format 변수
+				if( formattedNumber == '-1'){
+					formattedNumber = '고객지'
+				}
+				var price = formattedNumber + "원";
+				console.log( formattedNumber )
+				
+				var $thumbnailTitle = $info.TITLE
+				var $thumbnailName = $info.THUMBNAIL_NAME
+				              
+				var $body = $('<div class="profileBody">') // .img와 .desc를 감싸는 DIV
+				var $img = $('<div class="profileImg">')
+				
+				var $imgContent;
+				
+				if( $thumbnailName != null ) {
+					$imgContent = $('<img  alt="' + $thumbnailTitle + '" src="/upload/' + $thumbnailName + '">');
+				} else {
+					$imgContent = $('<img alt="사진이 없습니다" src="/resources/img/noimg.png">')
+				}
+				
+				if( formattedNumber == '고객지' ) {
+					$imgContent = $('<img alt="고객센터" src="/resources/img/gogakcenter.png">')
+				}
+				
+				console.log( $imgContent )
+				
+				var $desc = $('<div class="profileDesc">'); // 글제목, 가격, 링크 들어가는 부분을 감싸는 DIV 
+				var $title = $('<div class="profileTitle">').text($info.TITLE); // 글 제목이 들어갈 부분
+				var $price = $('<div class="profilePrice">').text(price); // 가격이 들어갈 부분
+				
+				$('.msgProfile').append($body);
+				$body.append($img).append($desc)
+				$img.append($imgContent)
+				$desc.append($title).append($price)
+			
+           }
+           , error: function(){
+              console.log("AJAX 실패")
+           }
+        })
+        console.log('ajax 실행 끝')
+        
     }
 
     var targetRoomNo = '<c:out value="${targetRoomNo}" escapeXml="false"/>'
@@ -640,23 +711,74 @@ function onReceivedId(payload){
 	    }else{
 	    	var ID = testMsg.writerId
 	    }
+	    
+	    var $boardNo = testMsg.boardNo;
 	    var formattedDate = dateFormatter.format(date);
-	    var chatRoomDiv = $('<div>')
-        .addClass('msgObject')
-        .attr('room_no',  testMsg.roomNo.toString())
-        .append(
-            $('<img>').attr('src', '/resources/img/chunsic.png').addClass('msgObject-img'),
-            $('<div>').addClass('msgObject-content')
-                .append(
-                    $('<div>').addClass('msgObject-username').text(ID),
-                    $('<div>').addClass('messagePreview').text(messagePreview)
-                ),
-            $('<div>').addClass('lastMessageTime').text(formattedDate)
-        );
-	    $('.msgObjects').prepend(chatRoomDiv);
+
+	    $.ajax({
+		    type: "GET"
+		    , url: "./getNick"
+		    , data: { writerId : ID, boardNo : $boardNo }
+		    , success: function( res ){
+				console.log("AJAX 성공")
+				console.log("res : ", res)
+				var $newInfo = res.newInfo;
+				var $nick = $newInfo.NICK;  
+				
+				console.log("ajax안", ID )
+				console.log("ajax안", messagePreview )
+				console.log("ajax안", formattedDate )
+				
+				var $thumbnailTitle = $newInfo.THUMBNAIL_TITLE
+				var $thumbnailName = $newInfo.THUMBNAIL_NAME
+				              
+				var $body = $('<div class="profileBody">') // .img와 .desc를 감싸는 DIV
+				var $img = $('<div class="profileImg">')
+				
+				var $src;
+				var $alt;
+				
+				if( $thumbnailName != null ) {
+					$src = '/upload/' + $thumbnailName
+					$alt = $thumbnailTitle
+				} else {
+					$src = '/resources/img/noimg.png';
+					$alt = '사진이 없습니다'
+				}
+				
+				if( $nick == '관리자' ) {
+					$src = '/resources/img/gogakcenter.png';
+					$alt = '고객센터'
+				}
+				
+			    var chatRoomDiv = $('<div>')
+		        .addClass('msgObject')
+		        .attr('room_no',  testMsg.roomNo.toString())
+		        .append(
+		            $('<img>').attr({
+		                'src': $src,
+		                'alt': $alt
+		            }).addClass('msgObject-img'),
+		            $('<div>').addClass('msgObject-content')
+		                .append(
+		                    $('<div>').addClass('msgObject-username').text($nick),
+		                    $('<div>').addClass('messagePreview').text(messagePreview),
+		                    $('<div>').addClass('lastMessageTime').text(formattedDate)
+		                )
+		        );
+			    
+			    $('.msgObjects').prepend(chatRoomDiv);
+			    
+		    }
+		    , error: function(){
+		       console.log("AJAX 실패")
+		    }
+		 })
+		 
 	    if(currentUserId == testMsg.receiverId){
 	    	chatRoomDiv.css('background-color', '#F3F781');
 	    }
+	    
 	    return;
 	}
 	console.log(testMsg)
@@ -706,23 +828,23 @@ function formatDate(timestamp) {
 	
 	<div class="msgMain">
 		<div class="msgList">
-			<div class="msgFilter">
-				<!-- 필터 메뉴 -->
-				<select name="filter" style=" padding: 10px; margin-right: 10px;">
-					<option value="all">전체</option>
-					<option value="rent">대여해요</option>
-					<option value="share">나눔해요</option>
-					<option value="please">해주세요</option>
-				</select>
+<!-- 			<div class="msgFilter"> -->
+<!-- 				필터 메뉴 -->
+<!-- 				<select name="filter" style=" padding: 10px; margin-right: 10px;"> -->
+<!-- 					<option value="all">전체</option> -->
+<!-- 					<option value="rent">대여해요</option> -->
+<!-- 					<option value="share">나눔해요</option> -->
+<!-- 					<option value="please">해주세요</option> -->
+<!-- 				</select> -->
 		    
-				<!-- 검색창 -->
-				<form method="post" style="display: flex; align-items: center;"> <!-- action 속성 추가 예정 -->
-					<input type="text" placeholder="검색" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; flex-grow: 1;">
-					<button type="submit" style="border: none; background: none; padding: 0; margin-left: 10px;">
-					<img alt="search" src="/resources/img/search.png" style="width:35px; height:35px; margin-left:-64px;">
-					</button>
-				</form>
-			</div><!-- .msgFilter -->
+<!-- 				검색창 -->
+<!-- 				<form method="post" style="display: flex; align-items: center;"> action 속성 추가 예정 -->
+<!-- 					<input type="text" placeholder="검색" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; flex-grow: 1;"> -->
+<!-- 					<button type="submit" style="border: none; background: none; padding: 0; margin-left: 10px;"> -->
+<!-- 					<img alt="search" src="/resources/img/search.png" style="width:35px; height:35px; margin-left:-64px;"> -->
+<!-- 					</button> -->
+<!-- 				</form> -->
+<!-- 			</div>.msgFilter -->
 		
 			<div class="msgObjects">
 				<c:forEach var="list" items="${list}">
@@ -740,8 +862,8 @@ function formatDate(timestamp) {
 								</c:otherwise>
 								</c:choose>
 							</div><!-- ."messagePreview" -->
+							<div class="lastMessageTime">${list.lastMessageTime}</div>
 						</div><!-- .msgObject-content  -->
-						<div class="lastMessageTime">${list.lastMessageTime}</div>
 					</div><!-- .msgObject -->
 				</c:forEach>
 			</div><!-- .msgObjects -->

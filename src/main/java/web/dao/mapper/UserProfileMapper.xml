@@ -7,6 +7,7 @@
   
  <mapper namespace="web.dao.face.UserProfileDao">
  
+ 
  	<sql id="rentList">
  		SELECT 
  			rent_no, board_no , renter_id, rent_date
@@ -203,6 +204,7 @@
 		WHERE id = #{id}
 	
 	</select>
+
 	
 	<!-- 내가 쓴 글 조회 -->
 	<select id="selectBoardById" resultType="Board" parameterType="Board">
@@ -210,7 +212,6 @@
 		FROM board
 		WHERE writer_id = #{writerId}
 		ORDER BY board_no DESC
-	
 	</select>
 	
 	<!-- 내가 쓴 댓글 조회 -->
@@ -258,7 +259,7 @@
 		FROM usertb
 		WHERE id = #{id}
 	</select>
-	
+
 	<insert id="insertBusi" parameterType="Business">
 		INSERT INTO business(  id, business_name, business_phone, business_addr, business_url)
 		VALUES( #{id}, #{businessName}, #{businessPhone}, #{businessAddr}, #{businessUrl})
@@ -274,5 +275,10 @@
 			AND id = #{id}
 		</where>
 	</update>
+
+	<!-- 해당 메뉴 게시글 조회 에러나서그냥넣어놓음-->
+	<select id="selectAll" resultType="Map" parameterType="web.util.Paging">
+		SELECT * FROM board 
+	</select>
 
  </mapper>

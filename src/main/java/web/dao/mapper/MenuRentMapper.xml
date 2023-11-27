@@ -14,7 +14,7 @@
 		    CAST(write_date AS DATE) AS write_date, 
 		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
 		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name,
-		    (SELECT count(*) FROM basket WHERE basket.board_no = B.board_no AND basket.basket_id=#{userId} ) AS basket_status
+		    (SELECT COUNT(*) FROM basket WHERE basket.board_no = B.board_no AND basket.basket_id = #{userId} ) AS basket_status
 		FROM board B
 		<where>
 			AND menu = #{menu }
@@ -102,16 +102,6 @@
 	
 	<!-- 게시글 상세 조회 -->
 	<select id="selectByBoardNo" resultType="Board" parameterType="Board">
-<!-- 	    SELECT -->
-<!-- 	        board_no, writer_id, writer_nick, write_date, hit, menu, -->
-<!-- 	        title, price, content, U.addr1 as location -->
-<!-- 	    FROM -->
-<!-- 	        board B -->
-<!-- 	    JOIN -->
-<!-- 	        usertb U ON B.writer_id = U.id -->
-<!-- 	    <where> -->
-<!-- 	        board_no = #{boardNo } -->
-<!-- 	    </where> -->
 		SELECT
 			board_no, writer_id, writer_nick
 			, write_date, hit, menu, cate
@@ -241,5 +231,29 @@
 			board_no = #{boardNo}
 		</where>
 	</select>
+	
+	<!-- 찜 상태 조회 -->
+	<select id="basketInfo" resultType="int" parameterType="Basket">
+		SELECT count(*) FROM basket
+		<where>
+			AND basket_id = #{basketId}
+			AND board_no = #{boardNo}
+		</where>
+	</select>
+	
+	<!-- 찜하기 -->
+	<insert id="insertBasket" parameterType="Basket">
+		INSERT INTO basket( basket_no, board_no , basket_id, menu, cate )
+		VALUES ( basket_seq.nextval, #{boardNo}, #{basketId}, #{menu}, #{cate})
+	</insert>
+	
+	<!-- 찜 취소 -->
+	<delete id="deleteBasket" parameterType="Basket">
+		DELETE basket
+		<where>
+			AND basket_id = #{basketId}
+			AND board_no = #{boardNo}
+		</where>
+	</delete>	
 
 </mapper>

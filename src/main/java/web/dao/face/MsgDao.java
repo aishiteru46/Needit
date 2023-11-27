@@ -68,7 +68,8 @@ public interface MsgDao {
 	
 	public List<Map<String, Object>> selectThumbnail(int boardNo);
 
+	public Map<String, Object> selectByBoardNoInfo(int boardNo);
 
-
+	public Map<String, Object> selectByBoard(Board param);
 
 }

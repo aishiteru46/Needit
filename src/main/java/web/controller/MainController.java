@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.Banner;
 import web.dto.Board;
@@ -102,7 +101,10 @@ public class MainController {
 	@GetMapping("/mainSearch")
 	public String mainSearch( Board board, Model model, Paging param ) {
 		logger.info("mainSeacrh[GET]");
+		logger.info("검색주제 : {}", param.getSelectSub());
 		logger.info("검색어 : {}", param.getSearchText());
+		logger.info("검색한 메뉴 : {}", param.getMenu());
+		logger.info("검색한 카테 : {}", param.getCate());
 		
 		//페이징 계산
 		Paging paging = mainService.getPaging(param);
@@ -116,6 +118,8 @@ public class MainController {
 		
 		return "main/mainSearch";
 	}
+	
+	
 	
     
 	//내 주변지도

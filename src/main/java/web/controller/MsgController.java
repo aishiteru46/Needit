@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -70,7 +71,7 @@ public class MsgController {
 		
 		return "/message/list";
 	}
-	
+
 	@GetMapping("/msgload") // 채팅방의 메시지 불러오기
 	@ResponseBody
 	public Map<String, Object> msgload(Msg roomNo, @RequestParam("currentUserId") String currentUserId) {
@@ -94,4 +95,18 @@ public class MsgController {
 		logger.info(msgload.toString()); // log
 		return response;
 	}
+	
+	@GetMapping("/info")
+	public String info( int boardNo, Model model ) {
+		Map<String, Object> info = msgService.getInfo( boardNo );
+		model.addAttribute( "info", info );
+		return "jsonView";
+	}
+	@GetMapping("/getNick")
+	public String getNick( Board param, Model model ) {
+		Map<String, Object> newInfo = msgService.getNewChatInfo( param );
+		model.addAttribute( "newInfo", newInfo );
+		return "jsonView";
+	}
+	
 }

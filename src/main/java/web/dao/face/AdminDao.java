@@ -5,6 +5,7 @@ import java.util.Map;
 
 import web.dto.Banner;
 import web.dto.Board;
+import web.dto.Business;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.User;
@@ -136,6 +137,27 @@ public interface AdminDao {
 	 * @param cmt - 댓글만 삭제
 	 */
 	public void deleteComment(Comment cmt);
+
+	/**
+	 * 업체 요청 목록 전체 불러오기
+	 * 
+	 * @return - 업체 요청 목록
+	 */
+	public List<Map<String, Object>> selectBusinessList();
+
+	/**
+	 * 업체요청을 승인한다
+	 * 
+	 * @param business - 업체
+	 */
+	public void businessOk(Business business);
+
+	/**
+	 * 업체요청을 취소한다
+	 * 
+	 * @param business - 업체
+	 */
+	public void businessNo(Business business);
 
 
 
