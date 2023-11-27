@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.MenuRentDao;
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
@@ -227,6 +228,19 @@ public class MenuRentServiceImpl implements MenuRentService {
 	@Override
 	public List<Map<String, Object>> getStatus(Board board) {
 		return menuRentDao.chkRentStatus(board);
+	}
+
+	@Override
+	public boolean checkBasket(Basket basket) {
+		int res = menuRentDao.basketInfo(basket);
+		logger.info("res{}",res);
+		if(  res > 0) {
+			menuRentDao.deleteBasket(basket);
+			return true;
+		} else {
+			menuRentDao.insertBasket(basket);
+		return false; 
+		}
 	}
 
 

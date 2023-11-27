@@ -219,7 +219,7 @@ $(()=>{
 		
 		$.post( "/alert/sendnotification", { 
 				id: "${board.writerId}"
-		        , sender: "${nick }"
+		        , sender: "${id }"
 		        , content: 4
 		        , menu: ${param.menu}
 				, boardNo: ${board.boardNo}
@@ -287,7 +287,7 @@ $(()=>{
 function sendNofiLike() {
 	$.post( "/alert/sendnotification", { 
 		id: "${board.writerId}"
-        , sender: "${nick}"
+        , sender: "${id }"
         , content: 6
         , menu: "${param.menu}" 
 		, boardNo: "${board.boardNo}"
@@ -360,7 +360,12 @@ $(()=>{
 <%-- Body --%>
 <div class="container">
 
-<a class="btn btn-primary" href="/message/list?boardNo=${param.boardNo }&menu=${board.menu}&cate=${board.cate}&receiverId=${board.writerId}">채팅하기</a>
+<c:if test="${isLogin }">
+	<a class="btn btn-primary" href="/message/list?boardNo=${param.boardNo }&menu=${board.menu}&cate=${board.cate}&receiverId=${board.writerId}">채팅하기</a>
+</c:if>
+<c:if test="${not isLogin }">
+	<a class="btn btn-primary" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">채팅하기</a>
+</c:if>
 
 <table class="table table-bordered">
 

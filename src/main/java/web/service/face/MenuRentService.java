@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
@@ -136,6 +137,14 @@ public interface MenuRentService {
 	 * 
 	 */
 	public List<Map<String, Object>> getStatus(Board board);
+
+	/**
+	 * 찜이 된상태인지 안된상태인지 확인
+	 * 
+	 * @param basket 찜 정보
+	 * @return true 찜 가능 false 찜 불가능
+	 */
+	public boolean checkBasket(Basket basket);
 
 
 
