@@ -14,19 +14,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import lombok.Setter;
 
 import web.dto.Basket;
 import web.dto.Board;
+import web.dto.Business;
 import web.dto.Comment;
 import web.dto.Like;
 import web.dto.Rent;
@@ -318,6 +312,25 @@ public class UserProfileController {
 
 		return "jsonView";
 
+	}
+	
+	@GetMapping("/business")
+	public void business() {
+		
+	}
+	
+	@PostMapping("/business")
+	public String businessProc(
+			Business busi, User user
+			, HttpSession session) {
+		logger.info("업체{}",busi);
+		
+		busi.setId((String) session.getAttribute("id"));
+		user.setId((String) session.getAttribute("id"));
+		
+		
+		userProfileService.insertBusiness(busi, user);
+		return "redirect:/profile/view";
 	}
 	
 	

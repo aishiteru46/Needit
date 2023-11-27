@@ -20,7 +20,7 @@ public class User {
 	private Date joinDate;
 	private String grade;
 	private String intro;
-	private int businessNo;
+	private int businessStatus;
 	private int emailAgr;
 	private String socialId;
 

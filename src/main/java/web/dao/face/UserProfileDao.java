@@ -5,6 +5,7 @@ import java.util.Map;
 
 import web.dto.Basket;
 import web.dto.Board;
+import web.dto.Business;
 import web.dto.Comment;
 import web.dto.Like;
 import web.dto.Rent;
@@ -216,6 +217,21 @@ public interface UserProfileDao {
 	 * @return
 	 */
 	public User selectLoginUser(User user);
+
+	/**
+	 * 업체등록
+	 * 
+	 * @param busi 업체등록 정보
+	 * @return 
+	 */
+	public int insertBusi(Business busi);
+
+	/**
+	 * 업체등록시 유저테이블에 status 변경
+	 * 
+	 * @param user 유저 아이디
+	 */
+	public void updateBusiStatus(User user);
 
 
 }

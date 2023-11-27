@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dao.face.UserProfileDao;
 import web.dto.Basket;
 import web.dto.Board;
+import web.dto.Business;
 import web.dto.Comment;
 import web.dto.Rent;
 import web.dto.User;
@@ -299,6 +300,16 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	public User loginUserSelect(User user) {
 		return userProfileDao.selectLoginUser(user);
+	}
+
+
+	@Override
+	public void insertBusiness(Business busi, User user) {
+		int res = userProfileDao.insertBusi(busi);
+		
+		if( res > 0 ) {
+			userProfileDao.updateBusiStatus(user);
+		}
 	}
 
 

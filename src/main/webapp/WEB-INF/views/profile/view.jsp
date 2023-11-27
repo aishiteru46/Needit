@@ -210,6 +210,7 @@ $(function(){
 		         }
 		      })
     })
+    
 });
 
 </script>
@@ -416,8 +417,9 @@ ${userGrade }
 
 <hr>
 
-<a href="infoupdate" class="btn btn-success" >회원정보 수정</a>
+<a href="infoupdate" class="btn btn-success" >회원정보 수정</a><br>
 
+<a href="/profile/business"><button>업체등록</button></a>
 <hr>
 
 <a href="javascript:void(0);" class="btn btn-danger" onclick="confirmAndSubmit('${id}')">회원탈퇴</a><br>
@@ -450,9 +452,33 @@ ${userGrade }
 		<td>${list.RENT_NO }</td>
 		<td>${list.RENTER_ID }</td>
 		<td>${list.RENT_DATE }</td>
-		<td>${list.START_TIME }</td>
-		<td>${list.END_TIME }</td>
-    
+		<c:choose>
+	    <c:when test="${list.START_TIME % 2 == 1}">
+		        <c:set var="hour" value="${(list.START_TIME + 1) / 2 - 1}" />
+		        <c:set var="minute" value="00" />
+		    </c:when>
+		    <c:when test="${list.START_TIME % 2 == 0}">
+		        <c:set var="hour" value="${list.START_TIME / 2}" />
+		        <c:set var="minute" value="30" />
+		    </c:when>
+		</c:choose>
+
+		<!-- 시작 시간 출력 -->
+		<td>${hour}:${minute}</td>
+		
+		<c:choose>
+		    <c:when test="${list.END_TIME % 2 == 1}">
+		        <c:set var="endHour" value="${(list.END_TIME + 1) / 2 - 1}" />
+		        <c:set var="endMinute" value="00" />
+		    </c:when>
+		    <c:when test="${list.END_TIME % 2 == 0}">
+		        <c:set var="endHour" value="${list.END_TIME / 2}" />
+		        <c:set var="endMinute" value="30" />
+		    </c:when>
+		</c:choose>
+	
+		<!-- 종료 시간 출력 -->
+		<td>${endHour}:${endMinute}</td>
 		<c:if test="${list.RENT_STATUS eq 1 }">
 			<td><button id="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
 		</c:if>
@@ -493,8 +519,41 @@ ${userGrade }
 		<td>${list.RENT_NO }</td>
 		<td>${list.RENTER_ID }</td>
 		<td>${list.RENT_DATE }</td>
-		<td>${list.START_TIME }</td>
-		<td>${list.END_TIME }</td>
+		<c:choose>
+	    <c:when test="${list.START_TIME % 2 == 1}">
+		        <c:set var="hour" value="${(list.START_TIME + 1) / 2 - 1}" />
+		        <c:set var="minute" value="00" />
+		    </c:when>
+		    <c:when test="${list.START_TIME % 2 == 0}">
+		        <c:set var="hour" value="${list.START_TIME / 2}" />
+		        <c:set var="minute" value="30" />
+		    </c:when>
+		</c:choose>
+
+		<!-- 시작 시간 출력 -->
+		<td>${hour}:${minute}</td>
+		
+		<c:choose>
+		    <c:when test="${list.END_TIME % 2 == 1}">
+		        <c:set var="endHour" value="${(list.END_TIME + 1) / 2 - 1}" />
+		        <c:set var="endMinute" value="00" />
+		    </c:when>
+		    <c:when test="${list.END_TIME % 2 == 0}">
+		        <c:set var="endHour" value="${list.END_TIME / 2}" />
+		        <c:set var="endMinute" value="30" />
+		    </c:when>
+		</c:choose>
+	
+		<!-- 종료 시간 출력 -->
+		<td>${endHour}:${endMinute}</td>
+		
+		<c:if test="${list.RENT_STATUS eq 1 }">
+			<td><button id="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
+		</c:if>
+		<c:if test="${list.RENT_STATUS eq 2 }">
+			<td><button disabled="disabled">승인 완료</button></td>
+		</c:if>
+		
 		<c:if test="${list.RENT_STATUS eq 1 }">
 			<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
 		</c:if>
