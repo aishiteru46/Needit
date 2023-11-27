@@ -93,6 +93,12 @@ function loadComments() {
                     commentListHtml += '<td class="text-start">' + res.commentList[i].content + '</td>';
                     commentListHtml += '<td>' + formatDate(new Date(res.commentList[i].writeDate)) + '</td>';
                     commentListHtml += '<td>';
+                    
+                    <!-- JavaScript로 동적으로 생성된 버튼 -->
+                    commentListHtml += '<a id="comment_' + res.commentList[i].cmtNo + '" href="/report?cmtNo=' + res.commentList[i].cmtNo + '" class="btn btn-danger" style="width: 30px; height: 30px; float: right;" data-bs-toggle="modal" data-bs-target="#reportModal">';
+                    commentListHtml += '    <div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div>';
+                    commentListHtml += '</a>';
+                    
                     if( id && id == res.commentList[i].writerId ) {
 	                    commentListHtml += '	<button class="btn btn-danger btn-xs" onclick="deleteComment(' + res.commentList[i].cmtNo + ');">삭제</button>';
                     }
@@ -193,7 +199,7 @@ $(()=>{
 	}) //$("#btnLike").click() End.
 });
 </script>
-<button type="button" style="width: 30px; height: 30px; float: right;" id="report" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">
+<button id="writer" type="button" style="width: 30px; height: 30px; float: right;" id="report" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">
 <div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div>
 </button>
 <table class="table table-boardered">

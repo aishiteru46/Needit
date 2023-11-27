@@ -46,7 +46,7 @@
 		FROM rent A
 		INNER JOIN board B ON B.board_no = A.board_no
 		WHERE B.writer_id = #{userId}
-		ORDER BY B.board_no, A.rent_no DESC
+		ORDER BY B.board_no DESC
  	</select>
  	
  	<!-- 내가 예약한 목록 -->
@@ -55,7 +55,7 @@
 		FROM rent A
 		INNER JOIN board B ON B.board_no = A.board_no
 		WHERE A.renter_id = #{id}
-		ORDER BY B.board_no, A.rent_no DESC
+		ORDER BY B.board_no DESC
 		 	
  	</select>
   
@@ -259,11 +259,26 @@
 		FROM usertb
 		WHERE id = #{id}
 	</select>
+
+	<insert id="insertBusi" parameterType="Business">
+		INSERT INTO business(  id, business_name, business_phone, business_addr, business_url)
+		VALUES( #{id}, #{businessName}, #{businessPhone}, #{businessAddr}, #{businessUrl})
+	</insert>
 	
+	<update id="updateBusiStatus" parameterType="User">
+		UPDATE userTB
+		<set>
+			business_status = '1'
+		</set>
+		<where>
+			business_status = '0'
+			AND id = #{id}
+		</where>
+	</update>
+
 	<!-- 해당 메뉴 게시글 조회 에러나서그냥넣어놓음-->
 	<select id="selectAll" resultType="Map" parameterType="web.util.Paging">
 		SELECT * FROM board 
 	</select>
-	
 
  </mapper>

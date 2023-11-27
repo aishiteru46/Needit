@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Basket;
 import web.dto.Board;
+import web.dto.Business;
 import web.dto.Comment;
 import web.dto.Like;
 import web.dto.Rent;
@@ -201,6 +202,14 @@ public interface UserProfileService {
 	 * @return
 	 */
 	public User loginUserSelect(User user);
+	
+	/**
+	 * 업체등록
+	 * 
+	 * @param busi 업체등록정보
+	 * @param user 유저테이블 업데이트
+	 */
+	public void insertBusiness(Business busi, User user);
 
 	
 	/**

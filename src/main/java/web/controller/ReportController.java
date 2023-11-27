@@ -27,6 +27,8 @@ public class ReportController {
 		
 		boolean checkReport = reportService.insertReport(report);
 		
+//		boolean check = reportService.checkReport(report);
+		
 		return "admin/report";
 		
 	}
@@ -35,7 +37,6 @@ public class ReportController {
 	@RequestMapping("/cmtReport")
 	public String cmtReportProc(Report report, HttpSession session) {
 		logger.info("댓글신고 : {}", report);
-		
 		report.setReportId((String) session.getAttribute("id"));
 		
 		boolean checkReport = reportService.insertCmtReport(report);
