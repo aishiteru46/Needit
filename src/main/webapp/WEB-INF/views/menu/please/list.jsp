@@ -8,11 +8,76 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 
-<style type="text/css">
+<script type="text/javascript">
+$(()=>{
+	
+    <%-- 검색버튼 CSS적용 --%>
+	$("#searchBtn").mouseover(function(){
+		$("#searchBtn")	
+			.css("color", "white")
+			.css("background-color", "rgb(255,83,63)")
+			.text("Needit")
+	}).mouseout(function () {
+        $(this)
+        .css("color", "")  // 원래 색으로 돌아가기 위해 빈 문자열로 설정
+        .css("background-color", "")
+        .text("Search");
+	});
+	
+	$(".star").click(function(){
+        var starImg = $("#star" + boardNo + "+" + menu + "+" + cate);
+        console.log(starImg);
+         var id = this.id;
+         var boardNoMenuCate = id.replace('star', '');
+         var parts = boardNoMenuCate.split('+');
+         var boardNo = parts[0];
+         console.log(boardNo)
+         var menu = parts[1];
+         console.log(menu)
+         var cate = parts[2];
+         console.log(cate)
+         
+         $.ajax({
+              type: "post"
+              , url: "/share/basket"
+              , data: {
+              boardNo : boardNo
+              , menu : menu
+              , cate : cate
+              }
+              , dataType: "json"
+              , success: function( res ) {
+                 console.log("AJAX 성공")
+                 console.log(res)
+                 console.log(res.check)
+              if( res.check == 'true' ) {
+                 $(".a").css("display", "block")
+                 $(".b").css("display", "none")
+                 location.reload()
+                 
+              } else {
+                 $(".b").css("display", "block")
+                 $(".a").css("display", "none")
+                 location.reload()
+              }
+              }
+              , error: function() {
+                 console.log("AJAX 실패")
 
+              }
+              
+              
+           })
+       });
+	
+
+});
+</script>
+
+<style type="text/css">
 .write {
-    margin-top: 25px;
-    margin-bottom: -22px;
+	float: right;
+    padding-top: 18px;
 }
 .row {
     text-align: center;
@@ -29,12 +94,11 @@
 }
 
 .write-container:hover {
-/*     border-color: #ff533f; */
     box-shadow: 5px 5px 5px gray;
     transform: scale( 1.03 );
     transition: all 0.15s ease-in;
 }
-
+ 
 .col-md-4 {
     margin-right: 30px;
 }
@@ -58,16 +122,18 @@
 }
 
 .no {
-	display: inline-block;
-	float: left;
-	position: absolute;
-    margin-left: -114px;
-    margin-top: 10px;
+    font-size: 15px;
+    display: inline-block;
+    float: left;
+    position: absolute;
+    margin-left: -70px;
+    margin-top: 14px;
 }
 
 .title {
- 	width: 150px; 
- 	color: black; 
+	font-size: 18px;
+ 	width: 245px; 
+	color: rgb(255,83,63);
  	font-weight: bold; 
  	overflow: hidden; 
  	text-overflow: ellipsis; 
@@ -75,18 +141,17 @@
 	display: inline-block;
     margin-top: 10px;
     margin-bottom: -12px;
-    margin-left: -6px;
+    margin-left: -15px;
 }
-
-#write-conatiner-hit, #write-conatiner-like {
+#write-conatiner-hit
+,#write-conatiner-like {
 	display: inline-block;
 	float: right;
 	position: absolute;
 	font-size: 14px;
-    margin-left: 45px;
 }
 #write-conatiner-hit {
-	margin-top: 25px;
+    margin-top: 23px;
 }
 #write-conatiner-like {
 	margin-top: 4px;
@@ -128,13 +193,11 @@
 	color: rgb(255,83,63);
 }
 #rentText1 {
-	margin-top: 37px;
-    margin-bottom: -34px;
-    font-size: 40px;
-    text-align: center;
+    font-size: 30px;
     color: #343a40;
 }
 #rentText2 {
+    vertical-align: text-top;
 	font-size: 25px;
 	text-align: center;
 	display: inline-block;
@@ -147,20 +210,102 @@
     display: inline-block;
 }
 
-.btn { 
+.btn {
+    --bs-btn-line-height: 1.3;
 	--bs-btn-color: #fff;
     --bs-btn-bg: #343a40;
     --bs-btn-hover-border-color: unset;    
 } 
 
-</style>
-
-<style>
 .pagination {
+	margin-bottom: 50px;
+   	margin-left: 100px; 
     --bs-pagination-active-bg: #ff533f;
     --bs-pagination-color: #373b3e;
 	--bs-pagination-active-border-color: #ff533f;  
     --bs-pagination-hover-color: #ff533f;	  
+}
+.search-container {
+	margin-left: 10px;
+}
+#searchText {
+	vertical-align:top;
+    height: 30px;
+    font-size: 15px; 
+    border: 1px solid #ccc;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+#searchText::placeholder {
+	vertical-align:top;
+	font-style: italic;
+	font-size: 13px;
+	margin: 2px;
+}
+/* #searchBtn:hover { */
+/* 	color: white; */
+/* 	background-color: rgb(255,83,63); */
+/* } */
+#searchBtn {
+	float: right;
+    height: 20px;
+    font-size: 12px;
+    margin-left: -53px;
+    margin-top: 5px;
+    position: absolute;
+    border: 0;
+    border-radius: 15px;
+    background-color: #ccc;
+    color: white;
+}
+#selectSub {
+	text-align: center;
+	vertical-align:top;
+    height: 30px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    position: relative;
+    margin-right: -8.5px;
+    appearance: none;
+	-webkit-appearance: none;
+ 	-moz-appearance: none;
+}
+#selectSub:focus
+,#searchText:focus {
+ 	outline: none;
+}
+#rentText1
+,.search-container
+,.write {
+	display: inline-block;
+	vertical-align: middle;
+	margin-top: 30px;
+	margin-bottom: -25px;
+	margin-right: 2px;
+}
+
+#searchForm {
+    width: 450px;
+    padding: 20px;
+    margin-left: -20px;
+    margin-top: 4px;
+}
+
+.heart {
+   float: right;
+    position: absolute;
+    display: inline-block;
+    margin-top: 333px;
+    margin-left: 135px;
+   
+}
+.star {
+   width: 30px;
+   height: 30px;
+   margin-left: 106px;
+   margin-bottom: 8px; 
 }
 </style>
 
@@ -184,21 +329,41 @@
 	</c:if>
 </c:forEach>
 
+<!--게시글 검색-->
+<div class="search-container">
+	<form action="/rent/search" method="get" id="searchForm">
+    <select name="selectSub" id="selectSub" required="required">
+    	<option value="" selected disabled hidden>선택&#129047;</option>
+    	<option value="title">제목</option>
+    	<option value="content">내용</option>
+    	<option value="writerNick">작성자</option>
+    	<option value="location">지역</option>
+    </select>
+    
+    <input type="text" name="searchText" id="searchText" placeholder=" Need it Now!" 
+    	required required oninvalid="this.setCustomValidity('검색어를 입력해주세요')" 
+    	oninput="this.setCustomValidity('')">
+    <input type="hidden" name="menu" value="${param.menu }">
+    <input type="hidden" name="cate" value="${param.cate }">
+    <button type="submit" id="searchBtn">Search</button>
+    </form>
+</div>
+
 <div class="write">
-	<c:if test="${not empty isLogin and isLogin }">
-		<a class="btn me-2 float-end sm" href="/please/write?menu=${param.menu }&cate=${param.cate }">✍️글쓰기</a>
-	</c:if>
-	<c:if test="${empty isLogin and not isLogin }">
-		<a class="btn me-2 float-end sm" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">✍️글쓰기</a>
-	</c:if>
-	
+
 	<!-- 그리드타입,리스트타입 선택 -->
-	<div class="float-end" id="viewType">
+	<div id="viewType">
 		<a type="button" href="/please/list?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
 		<a type="button" href="/please/listType?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
 	</div>
-
-<small class="float-start ms-2 mt-2">total : ${paging.totalCount }</small><br><br>
+	
+	<c:if test="${not empty isLogin and isLogin }">
+		<a class="btn" href="/please/write?menu=${param.menu }&cate=${param.cate }">✍️글쓰기</a>
+	</c:if>
+	<c:if test="${empty isLogin and not isLogin }">
+		<a class="btn" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">✍️글쓰기</a>
+	</c:if>
+	
 </div>
 
 <div class="gridContainer">
@@ -209,6 +374,15 @@
   	
     <div class="write-container">
     	<div class="write-container-head">
+    	
+    		<c:if test="${list.BASKET_STATUS eq 1}">
+                <span class="heart"><img class="star a" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/star.png"></span>
+            </c:if>
+            <c:if test="${list.BASKET_STATUS eq 0}">
+                <span class="heart"><img class="star b" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/emptyStar.png"></span>
+            </c:if>
+    	
+    	
         	<div class="no">no. ${list.BOARD_NO}</div>
         	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">${list.TITLE }</h6></a>
         <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>
@@ -249,9 +423,8 @@
   </c:if>
 </c:forEach>
 
+<small class="float-end" style=" margin-right: 8px; margin-top: -10px; margin-bottom: 20px;">total : ${paging.totalCount }</small>
 
-
-<small class="float-end mb-3">total : ${paging.totalCount }</small><br>
 
 </div> <!-- .container -->
 <br>

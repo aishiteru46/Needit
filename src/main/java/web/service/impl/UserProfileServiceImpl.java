@@ -273,6 +273,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userProfileDao.selectUserAll(user);
 	}
 
+//	@Override
+//	public List<Board> boardSelectById(Board board) {
+//		return userProfileDao.selectBoardById(board);
+//	}
+	
 	@Override
 	public List<Board> boardSelectById(Board board) {
 		return userProfileDao.selectBoardById(board);
@@ -300,6 +305,17 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public User loginUserSelect(User user) {
 		return userProfileDao.selectLoginUser(user);
 	}
+
+
+	
+	//내가쓴글페이징
+	@Override
+	public List<Map<String, Object>> myBoardList(Paging paging) {
+		return userProfileDao.selectAll(paging);
+	}
+
+
+	
 
 
 }
