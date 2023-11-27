@@ -38,7 +38,7 @@ $(()=>{
 }
 
 .write-container {
-    height: 507px;
+    height: 460px;
     width: 380px;
     margin: 1em auto; 
     text-align: center; 

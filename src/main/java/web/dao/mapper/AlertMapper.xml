@@ -6,7 +6,9 @@
 
 <mapper namespace="web.dao.face.AlertDao">
 	<sql id="selectAlert">
-		SELECT alert_no, id, content, alert_status, board_no, menu, post_date, sender
+		SELECT alert_no, content, alert_status, board_no, menu, post_date
+		, (SELECT nick FROM usertb U WHERE U.id = #{id}) as id
+		, (SELECT nick FROM usertb U WHERE U.id = #{sender}) as sender
 		, (SELECT title FROM board B WHERE B.board_no = A.board_no) as title
 		FROM alerttb A
 	</sql>

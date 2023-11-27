@@ -27,5 +27,8 @@ public interface MsgService {
 
 	public List<Map<String, Object>> getThumnail(int boardNo);
 
+	public Map<String, Object> getInfo(int boardNo);
+
+	public Map<String, Object> getNewChatInfo(Board param);
 
 }

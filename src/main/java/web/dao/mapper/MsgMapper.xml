@@ -134,5 +134,27 @@ GROUP BY room_no
    )
 </select>    
 
+<select id="selectByBoardNoInfo" resultType="Map">
+	SELECT 
+	    board_no, writer_id, writer_nick, 
+	    title, price,
+	    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = #{boardNo } AND rownum = 1) AS thumbnail_name
+	FROM board B
+	<where>
+		AND board_no = #{boardNo }	
+	</where>
+</select>
+
+<select id="selectByBoard" resultType="Map">
+	SELECT 
+		nick, 
+		(SELECT title FROM board WHERE board.board_no = #{boardNo }) AS thumbnail_title,
+		(SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = #{boardNo } AND rownum = 1) AS thumbnail_name
+	FROM usertb U
+	<where>
+		AND id = #{writerId}
+	</where>
+</select>
+
 
   </mapper>
