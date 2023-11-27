@@ -168,6 +168,28 @@
 		DELETE FROM commenttb
 		WHERE cmt_no = #{cmtNo}
 	</delete>
+	
+	<!-- 업체 요청 목록 -->
+	<select id="selectBusinessList" resultType="Map">
+		SELECT b.business_name, b.business_phone, b.business_addr, b.business_url,
+		       u.id, u.business_status
+		FROM business b
+		JOIN usertb u ON b.id = u.id
+		WHERE u.business_status = 1
+	</select>
 
+	<!-- 업체 요청 승인 -->
+	<update id="businessOk" parameterType="Business">
+		UPDATE usertb
+		SET business_status = 2
+		WHERE id = #{id}
+	</update>
+	
+	<!-- 업체 요청 취소 -->
+	<update id="businessNo" parameterType="Business">
+		UPDATE usertb
+		SET business_status = 0
+		WHERE id = #{id}
+	</update>
 
 </mapper>

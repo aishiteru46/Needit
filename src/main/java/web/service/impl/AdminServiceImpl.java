@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import web.dao.face.AdminDao;
 import web.dto.Banner;
 import web.dto.Board;
+import web.dto.Business;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.User;
@@ -169,7 +170,18 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.deleteComment(cmt);
 	}
 	
-	
-	
+	//업체 요청 목록
+	@Override
+	public List<Map<String, Object>> businessList() {
 
+		return adminDao.selectBusinessList();
+	}
+	
+	//업체 승인, 취소
+	@Override
+	public void updateBusiness(Business business) {
+		
+		adminDao.businessOk(business);
+		adminDao.businessNo(business);
+	}
 }

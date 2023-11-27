@@ -23,8 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import web.dto.Banner;
 import web.dto.Board;
+import web.dto.Business;
 import web.dto.Comment;
-import web.dto.FileTb;
 import web.dto.Like;
 import web.dto.Report;
 import web.dto.User;
@@ -95,7 +95,26 @@ public class AdminController {
 
 	//관리자 업체요청 목록 
 	@GetMapping("/admin/businessReq")
-	public void businessReq() {}
+	public void businessReq(
+			Business business,
+			User user,
+			Model model
+			) {
+		List<Map<String, Object>> businessList = adminService.businessList();
+		model.addAttribute("businessList", businessList);
+		
+	}
+	
+	//업체목록 수정(승인, 취소)
+	@PostMapping("/admin/businessReq")
+	public String updateBusiness(Business business) {
+
+		
+		adminService.updateBusiness(business);
+		
+		return "redirect:/admin/businessReq";
+	}
+	
 
 	//관리자 메인배너 접속
 	@GetMapping("/admin/bannerUpdate")
@@ -161,8 +180,6 @@ public class AdminController {
 		
 		return "redirect:/admin/noticeUpdate";
 	}
-	
-	
 	
 	
 	//관리자 회원이메일 발송 
