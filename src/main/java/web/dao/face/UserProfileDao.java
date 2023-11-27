@@ -218,4 +218,15 @@ public interface UserProfileDao {
 	public User selectLoginUser(User user);
 
 
+	/**
+	 * 페이징 내가쓴글 목록 조회
+	 * 
+	 * @param paging - 페이징 정보 객체
+	 * @return 내가쓴글 목록
+	 */
+	public List<Map<String, Object>> selectAll(Paging paging);
+
+
+
+
 }

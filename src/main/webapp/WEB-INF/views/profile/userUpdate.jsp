@@ -152,12 +152,14 @@ $(document).ready(function() {
     			} else{
     				$("#label3").css("display", "block")
     				$("#label3").css("color", "red").text("사용 불가능한 닉네임 입니다.");
-    				nickCheck = false;
     			}
+    				nickCheck = !result;
     		}
     	}); //End Ajax
         } else {
-            // 닉네임이 변경되지 않은 경우에는 중복 검사를 수행하지 않고 기존 결과를 사용
+        	// 닉네임이 변경되지 않은 경우에도 "사용 가능한 닉네임 입니다." 메시지 표시
+            $("#label3").css("display", "block").css("color", "green").text("사용 가능한 닉네임 입니다.");
+            $("#nickLimit").css("display", "none");
             nickCheck = true;
         }
 	});

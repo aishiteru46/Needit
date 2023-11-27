@@ -8,36 +8,27 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 
+<script type="text/javascript">
+$(()=>{
+	$("#searchBtn").mouseover(function(){
+		$("#searchBtn")	
+			.css("color", "white")
+			.css("background-color", "rgb(255,83,63)")
+			.text("Needit")
+	}).mouseout(function () {
+        $(this)
+        .css("color", "")  // 원래 색으로 돌아가기 위해 빈 문자열로 설정
+        .css("background-color", "")
+        .text("Search");
+	});
+});
+</script>
+
 <style type="text/css">
 
 .write {
-    margin-top: 25px;
-    margin-bottom: -22px;
-}
-
-.row {
-    text-align: center;
-}
-
-.write-container {
-    height: 507px;
-    width: 380px;
-    margin: 1em auto; 
-    text-align: center; 
-    border-radius: 15px;
-    overflow: hidden;
-    border: 1px solid #343a4070;
-}
-
-.write-container:hover {
-/*     border-color: #ff533f; */
-    box-shadow: 5px 5px 5px gray;
-    transform: scale( 1.03 );
-    transition: all 0.15s ease-in;
-}
-
-.col-md-4 {
-    margin-right: 30px;
+	float: right;
+    padding-top: 18px;
 }
 
 .preview {
@@ -54,19 +45,6 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center center;
-}
-
-.write-container-head {
-	width: 380px;
-	margin: 0 auto;
-}
-
-.no {
-	display: inline-block;
-	float: left;
-	position: absolute;
-    margin-left: -114px;
-    margin-top: 10px;
 }
 
 .title {
@@ -98,66 +76,16 @@
  	text-overflow: ellipsis; 
  	white-space: nowrap; 
 }
-
-#write-conatiner-hit, #write-conatiner-like {
-	display: inline-block;
-	float: right;
-	position: absolute;
-	font-size: 14px;
-    margin-left: 45px;
-}
-#write-conatiner-hit {
-	margin-top: 25px;
-}
-#write-conatiner-like {
-	margin-top: 4px;
-}
-#write-conatiner-nick {
-    float: left;
-    position: relative;
-    font-size: 18px;
-    margin-top: -8px;
-    margin-left: 4px;
-}
-#write-conatiner-time {
-    float: left;
-    position: absolute;
-    font-size: 18px;
-    margin-top: 20px;
-    margin-left: 4px;
-}
-#write-conatiner-price {
-	float: right;
-    margin-top: -5px;
-    margin-bottom: 19px;
-    margin-right: 6px;
-    font-size: 30px;
-    text-align: center;
-}
-#write-conatiner-loc {
-	width: 353px;
-    font-size: 19px;
-   	overflow: hidden; 
- 	text-overflow: ellipsis; 
- 	white-space: nowrap;
-}
-#nickIcon{
-	float: none;
-	display: inline-block;
-}
-#rentListHr:hover {
-	color: rgb(255,83,63);
-}
 #rentText1 {
-	margin-top: 37px;
-    margin-bottom: -34px;
-    font-size: 40px;
-    text-align: center;
+    font-size: 30px;
+    color: #343a40;
 }
 #rentText2 {
+    vertical-align: text-top;
 	font-size: 25px;
 	text-align: center;
 	display: inline-block;
+    color: #343a40;
 }
 #viewType {
 	margin-top: -1px;
@@ -194,13 +122,104 @@ th {
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 }
-
+#rentText1 {
+    font-size: 30px;
+    color: #343a40;
+}
+#rentText2 {
+    vertical-align: text-top;
+	font-size: 25px;
+	text-align: center;
+	display: inline-block;
+    color: #343a40;
+}
+#viewType {
+	margin-top: -1px;
+    margin-bottom: -2px;
+    margin-right: 17px;
+    display: inline-block;
+}
 .btn { 
+    --bs-btn-line-height: 1.3;
 	--bs-btn-color: #fff;
     --bs-btn-bg: #343a40;
-    --bs-btn-hover-border-color: unset;
+    --bs-btn-hover-border-color: unset;    
 } 
 
+.pagination {
+	margin-bottom: 50px;
+    --bs-pagination-active-bg: #ff533f;
+    --bs-pagination-color: #373b3e;
+	--bs-pagination-active-border-color: #ff533f;  
+    --bs-pagination-hover-color: #ff533f;	  
+}
+.search-container {
+	margin-left: 10px;
+}
+#searchText {
+	vertical-align:top;
+    height: 30px;
+    font-size: 15px; 
+    border: 1px solid #ccc;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+#searchText::placeholder {
+	font-style: italic;
+	font-size: 13px;
+}
+#searchBtn:hover {
+	color: white;
+	background-color: rgb(255,83,63);
+}
+#searchBtn {
+	float: right;
+    height: 20px;
+    font-size: 12px;
+    margin-left: -53px;
+    margin-top: 5px;
+    position: absolute;
+    border: 0;
+    border-radius: 15px;
+    background-color: #ccc;
+    color: white;
+}
+#selectSub {
+	text-align: center;
+	vertical-align:top;
+    height: 30px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    position: relative;
+    margin-right: -8.5px;
+    appearance: none;
+	-webkit-appearance: none;
+ 	-moz-appearance: none;
+}
+#selectSub:focus
+,#searchText:focus {
+	outline: none;
+}
+#rentText1
+,.search-container
+,.write {
+	display: inline-block;
+	vertical-align: middle;
+	margin-top: 30px;
+	margin-bottom: -25px;
+	margin-right: 2px;
+}
+.listContainer {
+	margin-top: 20px;
+}
+#searchForm {
+    width: 450px;
+    padding: 20px;
+    margin-left: -20px;
+    margin-top: 4px;
+}
 </style>
 
 <div class="container">
@@ -222,20 +241,41 @@ th {
 		</div>
 	</c:if>
 </c:forEach>
+
+<!--게시글 검색-->
+<div class="search-container">
+	<form action="/rent/search" method="get" id="searchForm">
+    <select name="selectSub" id="selectSub" required="required">
+    	<option value="" selected disabled hidden>선택&#129047;</option>
+    	<option value="title">제목</option>
+    	<option value="content">내용</option>
+    	<option value="writerNick">작성자</option>
+    	<option value="location">지역</option>
+    </select>
+    
+    <input type="text" name="searchText" id="searchText" placeholder=" Need it Now!" 
+    	required required oninvalid="this.setCustomValidity('검색어를 입력해주세요')" 
+    	oninput="this.setCustomValidity('')">
+    <input type="hidden" name="menu" value="${param.menu }">
+    <input type="hidden" name="cate" value="${param.cate }">
+    <button id="searchBtn">Search</button>
+    </form>
+</div>
+
 <div class="write">
-	<c:if test="${not empty isLogin and isLogin }">
-		<a class="btn me-2 float-end sm" href="/please/write?menu=${param.menu }&cate=${param.cate }">✍️글쓰기</a>
-	</c:if>
-	<c:if test="${empty isLogin and not isLogin }">
-		<a class="btn me-2 float-end sm" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">✍️글쓰기</a>
-	</c:if>
-	
 	<!-- 그리드타입,리스트타입 선택 -->
 	<div class="float-end" id="viewType">
 		<a type="button" href="/please/list?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
 		<a type="button" href="/please/listType?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
 	</div>
-
+	
+	<c:if test="${not empty isLogin and isLogin }">
+		<a class="btn" href="/please/write?menu=${param.menu }&cate=${param.cate }">✍️글쓰기</a>
+	</c:if>
+	<c:if test="${empty isLogin and not isLogin }">
+		<a class="btn" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">✍️글쓰기</a>
+	</c:if>
+	
 <small class="float-start ms-2 mt-2">total : ${paging.totalCount }</small><br><br>
 </div>
 
@@ -302,12 +342,14 @@ th {
 		</tbody>
 		
 		</table>
-	</div>
+	</div><br>
+
+<small class="float-end" style="margin-right: 8px; margin-top: -10px;">total : ${paging.totalCount }</small>
+
+<br>
+</div><!-- .listContainer -->
 
 </div> <!-- .container -->
-<br>
-<!-- </div>.listContainer -->
-
 
 
 <c:import url="/WEB-INF/views/layout/paginationForList.jsp" />

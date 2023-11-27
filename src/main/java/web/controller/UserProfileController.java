@@ -32,6 +32,7 @@ import web.dto.Like;
 import web.dto.Rent;
 import web.dto.User;
 import web.dto.UserFile;
+import web.service.face.MenuPleaseService;
 import web.service.face.UserProfileService;
 import web.util.Paging;
 
@@ -121,11 +122,19 @@ public class UserProfileController {
 		
 		board.setWriterId((String) session.getAttribute("id"));
 		
+		//게시글 목록 조회
+		List<Map<String, Object>> myBoardList = userProfileService.myBoardList(paging);
+		model.addAttribute("paging", paging);
+		logger.info("내가쓴글 list: {}", myBoardList);
+		model.addAttribute("myBoardList", myBoardList);
+		
+		
 		List<Board> boardList = userProfileService.boardSelectById(board);
 		logger.info("내가쓴글목록: {}", boardList);
 		
+		// 모델에 페이징 정보와 글 목록 추가
+	    model.addAttribute("boardPaging", paging);
 		model.addAttribute("board", boardList);
-
 		//--------------------------------------------------------------
 
 		//내가 쓴 댓글 보기
@@ -319,8 +328,6 @@ public class UserProfileController {
 		return "jsonView";
 
 	}
-	
-	
 	
 	
 	
