@@ -226,25 +226,25 @@ form {
 
 <c:forEach  var="list" items="${list }" begin="0" end="0">
 	<c:if test="${list.MENU eq '4' && list.CATE eq '1' }">
-		<div id="comuText1"> 커뮤니티 
+		<div id="communityText1"> 커뮤니티 
 			<div id="communityText2">[공지사항]</div>
 <!-- 			<img src="/resources/img/borrowIcon.png" style="width: 45px; height: 45px; margin-top: -28px;"> -->
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '4' && list.CATE eq '2' }">
-		<div id="comuText1"> 커뮤니티
+		<div id="communityText1"> 커뮤니티
 			<div id="communityText2">[우리동네 소식]</div>
 <!-- 			 <img src="/resources/img/humanpower.png" style="width: 45px; height: 45px; margin-top: -28px;"> -->
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '4' && list.CATE eq '3' }">
-		<div id="comuText1"> 커뮤니티
+		<div id="communityText1"> 커뮤니티
 			<div id="communityText2">[자유 게시판]</div>
 <!-- 			 <img src="/resources/img/place.png" style="width: 45px; height: 45px; margin-top: -26px;"> -->
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '4' && list.CATE eq '4' }">
-		<div id="comuText1"> 커뮤니티
+		<div id="communityText1"> 커뮤니티
 			<div id="communityText2">[팁 게시판]</div>
 <!-- 			 <img src="/resources/img/place.png" style="width: 45px; height: 45px; margin-top: -26px;"> -->
 		</div>
@@ -274,8 +274,8 @@ form {
 
 	<!-- 그리드타입,리스트타입 선택 -->
 	<div id="viewType">
-		<a type="button" href="/community/list?menu=1&cate=1"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
-		<a type="button" href="/community/listType?menu=1&cate=1"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
+		<a type="button" href="/community/list?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
+		<a type="button" href="/community/listType?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
 	</div>
 
 	<c:if test="${not empty isLogin and isLogin }">
@@ -292,11 +292,11 @@ form {
 	<div class="table-container">
 		<table class="listType">
 		
-		<colgroup>
+		<colgroup width="100px">
 			<col style="width:5%;">
 			<col style="width:45%;">
-			<col style="width:10%;">
-			<col style="width:15%;">
+			<col style="width:20%;">
+			<col style="width:25%;">
 			<col style="width:5%;">
 		</colgroup>
 		

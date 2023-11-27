@@ -71,7 +71,10 @@ public class AdminController {
 	
 	//고객센터 -> 1:1채팅
 	@GetMapping("/admin/chat")
-	public void chat() {}
+	public String chat() {
+		return "redirect:../message/list?boardNo=-1&menu=0&cate=0&receiverId=admin";
+		
+	}
 	
 	//-------------------------------------
 	
