@@ -29,7 +29,13 @@ public class ReportServiceImpl implements ReportService{
 	public boolean insertCmtReport(Report report) {
 		
 		int res = reportDao.cmtReportInsert(report);
-		return false;
+		
+		if(res > 0) {
+			return true;
+			
+		} else {
+			return false;
+		}
 	}
 
 
