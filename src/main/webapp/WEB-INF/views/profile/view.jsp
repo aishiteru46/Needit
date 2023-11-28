@@ -158,6 +158,7 @@ function toggleSection(sectionId) {
   }
 }
 
+
 </script>
 
 <script type="text/javascript">
@@ -363,6 +364,12 @@ ${userGrade }
 			   <td><label>동의<input type="checkbox" name="agree"></label>
 			   <label>미동의<input type="checkbox" name=""></label></td>
             </tr>
+            <tr>
+               <td style="width: 150px; vertical-align: middle;">자기소개</td>
+			   <td>
+            		${user.intro }
+        		</td>
+            </tr>
             <c:if test="${empty img}">
             <tr id="previewSection"  style="display: none;">
             	<td colspan="2" style="text-align: left;">
@@ -400,7 +407,6 @@ ${userGrade }
     
     <!-- 자기소개글을 입력하는 텍스트박스 -->
     <div>
-            <input type="text" id="id" name="id" value="${nick}" readonly="readonly">
         <div class="mb-3">
             <textarea class="form-control" id="intro" name="intro" rows="5" maxlength="100">${user.intro }</textarea>
         </div>
@@ -431,6 +437,10 @@ ${userGrade }
 	<br>
 	<a href="javascript:void(0);" class="btn btn-danger" onclick="confirmAndSubmit('${id}')">회원탈퇴</a><br>
 </div>
+
+
+
+
 지금 usertb테이블의 id를 board테이블 에서 write_id로 사용하고 있어서 회원삭제가 안됨<br>
 회원탈퇴시 글까지 삭제 되는 경우 - > DB에 cascade구문 추가 <br>
 회원탈퇴시 글은 살리는 경우 -> DB에 usertb에 is_deleted컬럼 추가해서 탈퇴시 delete로 지우지말고 update로 is_daleted true해주고 이후에 회원조회할때마다 is_deleted 상태인애들은 빼고 조회해서 탈퇴한애들 숨겨두면 됨
@@ -746,7 +756,7 @@ ${myBoardList }
 </h1>
 
 <div  >
-   <table class="listType">
+   <table class="listType" id="myBoardList">
       <thead>
          <tr>
             <th>No.</th>
