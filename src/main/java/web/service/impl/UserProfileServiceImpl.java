@@ -161,7 +161,23 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userProfileDao.selectRentList(user);
 	}
 
-
+	//내가쓴글보드페이징
+	@Override
+	public Paging getBoardPaging(Paging param) {
+		int boardTotalCount = userProfileDao.selectMyBoardCntAll(param);
+		logger.info("내가쓴게시글 몇개? : {}",boardTotalCount);
+		
+		Paging myBoardCnt = new Paging(param.getMenu(), param.getCate(),boardTotalCount, param.getCurPage(), 5, 10);
+		
+		return myBoardCnt;
+	}
+	
+	@Override
+	public List<Map<String, Object>> myBoardList(Paging myBoardPaging) {
+		logger.info("서비스 임플에서 myBoardPaging :{}", myBoardPaging);
+		
+		return userProfileDao.selectAll(myBoardPaging);
+	}
 
 	@Override
 	public UserFile imgSelect(String userId) {
@@ -316,10 +332,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 		}
 	}
 
-	//내가쓴글페이징
-	@Override
-	public List<Map<String, Object>> myBoardList(Paging paging) {
-		return userProfileDao.selectAll(paging);
-	}
+
+
+
+
+	
 
 }

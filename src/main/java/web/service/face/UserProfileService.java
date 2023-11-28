@@ -42,6 +42,15 @@ public interface UserProfileService {
 
 	
 	/**
+	 * 
+	 * 내가쓴글보드페이징 계싼
+	 * @param param
+	 * @return 페이징
+	 */
+	public Paging getBoardPaging(Paging param);
+	
+	
+	/**
 	 * 예약 목록
 	 * @param paging 
 	 * 
@@ -211,6 +220,7 @@ public interface UserProfileService {
 	 */
 	public void insertBusiness(Business busi, User user);
 
+
 	
 	/**
 	 * 페이징 내가쓴글 목록 조회
@@ -218,7 +228,9 @@ public interface UserProfileService {
 	 * @param paging - 페이징 정보 객체
 	 * @return 게시글 목록
 	 */
-	public List<Map<String, Object>> myBoardList(Paging paging);
+	public List<Map<String, Object>> myBoardList(Paging myBoardPaging);
+
+	
 
 
 }
