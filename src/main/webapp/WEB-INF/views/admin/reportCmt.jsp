@@ -15,37 +15,38 @@ $(function(){
 		$('.reportBtn').css('outline', 'none');
 		  
 		$(this).css('outline', '2px solid #E8133D');
-		});	
+	});	
 	
 	
-	$("#cmtReportBtn").click(function(){
-		console.log("댓글 신고버튼 작동!")
-		
-		var cmtNo = $(this).data("cmtNo");
-		var reportType = $(this).val()
-		console.log("신고된 댓글번호 :", cmtNo )
+	$("#cmtReportBtn").click(function(event){
+	    console.log("댓글 신고버튼 작동!");
+	    
+	    var button = $(event.relatedTarget); 
+	    var cmtNo = button.data("cmtNo");
+	    var reportType = $(this).val(); // 수정: $(this)를 사용하는 부분
 
-		$.ajax({
-			 type: "post"
-			 , url: "/cmtReport"
-			 , data: {
-				boardNo : "${param.boardNo }"
-				, reportId : "${id }"
-				, reportType: reportType
-				, cmtNo : cmtNo
-			
-			 }
-			 , dataType: "json"
-			 , success: function( res  ) {
-			    console.log("AJAX 성공")
-			
-			 }
-			 , error: function() {
-			    console.log("AJAX 실패")
-			
-			 }
-		})
-	})
+	    console.log("신고된 댓글번호 :", cmtNo);
+
+	    $.ajax({
+	        type: "post",
+	        url: "/cmtReport",
+	        data: {
+	            boardNo: "${param.boardNo}",
+	            reportId: "${id}",
+	            reportType: reportType,
+	            cmtNo: cmtNo
+	        },
+	        dataType: "json",
+	        success: function(res) {
+	        	alert("신고가 정상적으로 접수되었습니다.")
+	            console.log("AJAX 성공");
+	        },
+	        error: function() {
+	        	alert("신고접수에 실패했습니다.")
+	            console.log("AJAX 실패");
+	        }
+	    });
+	});
 })
 
 </script>
@@ -94,23 +95,23 @@ $(function(){
 <div id="report">
 	<div id="reportIn">
 		<div>
-		<input class="reportBtn" id="reportBtn1" type="button" value="광고성" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" data-cmtNo="${res.commentList[i].CMT_NO}">
+		<input class="reportBtn" id="reportBtn1" type="button" value="광고성" name="reportType">
 		</div>
 		
 		<div>
-		<input class="reportBtn" id="reportBtn2" type="button" value="음란물" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" data-cmtNo="${res.commentList[i].CMT_NO}">
+		<input class="reportBtn" id="reportBtn2" type="button" value="음란물" name="reportType">
 		</div>
 		
 		<div>
-		<input class="reportBtn" id="reportBtn1" type="button" value="욕설" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" data-cmtNo="${res.commentList[i].CMT_NO}">
+		<input class="reportBtn" id="reportBtn1" type="button" value="욕설" name="reportType">
 		</div>
 		
 		<div>
-		<input class="reportBtn" id="reportBtn2" type="button" value="불법 정보" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" data-cmtNo="${res.commentList[i].CMT_NO}">
+		<input class="reportBtn" id="reportBtn2" type="button" value="불법 정보" name="reportType">
 		</div>
 		
 		<div>
-		<input class="reportBtn" id="reportBtn1" type="button" value="개인정보 노출" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" data-cmtNo="${res.commentList[i].CMT_NO}">
+		<input class="reportBtn" id="reportBtn1" type="button" value="개인정보 노출" name="reportType">
 		</div>
 		
 	</div><!-- .reportIn -->
