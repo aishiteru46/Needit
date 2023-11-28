@@ -56,7 +56,38 @@ $(function() {
 				console.log("AJAX 실패")
 			}
 		})
-				
+	})
+	
+    $(".delAlert").click(function() {
+    	event.preventDefault();
+		$.ajax({
+			type: "post"
+			, url: "/alert/delete"
+			, data: { alertNo: $(this).data("alert") }
+			, success: function( res ) {
+				loadAlert() // 알람을 읽었을 때 안읽은 알람들을 불러옴
+				hasNew() // 알람을 읽었을 때 새로 생긴 알람이 있는지 확인해서 불러옴
+			}
+			, error: function() {
+				console.log("AJAX 실패")
+			}
+		})
+	})
+	
+    $("#대충전체삭제아이디").click(function() {
+    	var $id = "${id}"
+		$.ajax({
+			type: "post"
+			, url: "/alert/delAll"
+			, data: { id : $id }
+			, success: function( res ) {
+				loadAlert() // 알람을 읽었을 때 안읽은 알람들을 불러옴
+				hasNew() // 알람을 읽었을 때 새로 생긴 알람이 있는지 확인해서 불러옴
+			}
+			, error: function() {
+				console.log("AJAX 실패")
+			}
+		})
 	})
 	
 })
@@ -65,9 +96,10 @@ $(function() {
 </head>
 <body>
 
-<div class="wrap-content">
+<div class="wrap-content ">
 	<c:forEach var="list" items="${list }">	
-	<ul class="alertData" id="alertData" data-alert="${list.alertNo }">
+	<ul class="alertData " id="alertData" data-alert="${list.alertNo }">
+		<li style="float: right" class="delAlert " id="delAlert" data-alert="${list.alertNo }">X</li>
 		<li>
 			<c:if test="${list.menu eq 1 }">[대여]</c:if>
 			<c:if test="${list.menu eq 2 }">[나눔]</c:if>

@@ -30,8 +30,4 @@ public class NeeditOpeningController {
 		return "opening";
 	}
 	
-	@GetMapping("/layout/header")
-	public void header() {
-		
-	}
 }

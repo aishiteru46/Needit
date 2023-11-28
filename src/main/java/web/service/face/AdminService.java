@@ -95,11 +95,18 @@ public interface AdminService {
 	public List<Map<String, Object>> businessList();
 
 	/**
-	 * 업체 승인 및 취소를 한다
+	 * 업체 승인 한다
 	 * 
 	 * @param business - 업체
 	 */
-	public void updateBusiness(Business business);
+	public void approveBusiness(Business business);
+
+	/**
+	 * 업체 취소 한다
+	 * 
+	 * @param business - 업체
+	 */
+	public void cancelBusiness(Business business);
 
 
 

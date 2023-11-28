@@ -8,9 +8,9 @@
 /* 전체 박스를 감싸는 DIV 오버레이 설정 */
 .wrapMap {
 	position: absolute;
-	left: 0;bottom: 40px;
-	width: 288px;
-	height: 132px;
+	left: -5px;bottom: 40px;
+	width: 300px;
+	height: 134px;
 	margin-left: -144px;
 	text-align: left;
 	overflow: hidden;
@@ -28,7 +28,7 @@
 /* 전체 박스 DIV 오버레이 설정 */
 .wrapMap .info {
 	width: 300px;
-	height: 121px;
+	height: 123px;
 	border-radius: 5px;
 	border-bottom: 2px solid #ccc;
 	border-right: 1px solid #ccc;
@@ -37,11 +37,33 @@
 	background: #fff;
     scrollbar-width: thin;
     scrollbar-color: transparent transparent;
-   }
+}
+
+/* 스크롤바의 폭 너비 */
+.info::-webkit-scrollbar {
+    width: 10px;  
+}
+
+.info::-webkit-scrollbar-thumb {
+    background: #ff533f; /* 스크롤바 색상 */
+    border-radius: 10px; /* 스크롤바 둥근 테두리 */
+}
+
+.info::-webkit-scrollbar-track {
+     background: #f1f1f1;  /*스크롤바 뒷 배경 색상*/
+     border-radius: 10px;
+}
 
 /* Webkit 브라우저를 위한 스타일 */
 .wrapMap .info::-webkit-scrollbar { width: 12px; }
-.wrapMap .info::-webkit-scrollbar-thumb { background-color: transparent; }
+.wrapMap .info::-webkit-scrollbar-track { 
+     background: #f1f1f1;  /*스크롤바 뒷 배경 색상*/
+     border-radius: 10px;
+}
+.wrapMap .info::-webkit-scrollbar-thumb { 
+	background-color: transparent; 
+	background: #ff533f;
+}
 
 /* 박스의 그림자 설정 */
 .wrapMap .info:nth-child(1) {
@@ -68,8 +90,8 @@
 .info .close {
 	position: absolute; 
 	z-index: 1; 
-	top: 7px;
-	right: 7px;
+	top: 5px;
+	right: 15px;
 	width: 17px;
 	height: 17px;
 	background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');
@@ -257,7 +279,7 @@ $(function () {
 						
 							
 					$.each(val, (i, v) => { // 같은 주소를 가지는 데이터들의 반복문
-						
+							
 							var number = Number(v.price); // 가격 저장 변수
 							var formattedNumber = number.toLocaleString(); // 가격 format 변수
 							
@@ -280,20 +302,43 @@ $(function () {
 							    window.open(link, '_blank');
 							});
 							
-							// 이미지 넣는 부분
-							var $imgContent = $('<img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/thumnail.png" width="73" height="70">')
-							var $desc = $('<div class="desc">'); // 글제목, 가격, 링크 들어가는 부분을 감싸는 DIV 
-							var $title = $('<div class="title">').text(v.title); // 글 제목이 들어갈 부분
-							var $price = $('<div class="price">').text(formattedNumber); // 가격이 들어갈 부분
-							
-							// 글 링크 추가 부분
-// 							var $homelink = $('<div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">바로가기</a></div>')
-							
-							$body.append($content)
-							$content.append($img).append($desc)
-							$img.append($imgContent)
-							$desc.append($title).append($price)
-// 							$desc.append($title).append($price).append($homelink)
+						      $.ajax({
+						         type: "POST"
+						         , url: "/map/thumb"
+						         , data: { boardNo : v.boardNo }
+						         , dataType: ""
+						         , success: function( res ){
+						            console.log("AJAX 성공")
+						            
+						            console.log( 'res 뭐임?', res )
+						            
+						            var $thumbNail = res.thumbNail;
+						            
+						            if( $thumbNail != null ){
+										// 이미지 넣는 부분
+										var $imgContent = $('<img src="/upload/' + $thumbNail + '" width="73" height="70">');
+						            } else {
+										var $imgContent = $('<img src="/resources/img/noimg.png" width="73" height="70">');
+						            }
+									var $desc = $('<div class="desc">'); // 글제목, 가격, 링크 들어가는 부분을 감싸는 DIV 
+									var $title = $('<div class="title">').text(v.title); // 글 제목이 들어갈 부분
+									var $price = $('<div class="price">').text(formattedNumber); // 가격이 들어갈 부분
+									
+									// 글 링크 추가 부분
+		// 							var $homelink = $('<div><a href="https://www.kakaocorp.com/main" target="_blank" class="link">바로가기</a></div>')
+									
+									$body.append($content)
+									$content.append($img).append($desc)
+									$img.append($imgContent)
+									$desc.append($title).append($price)
+		// 							$desc.append($title).append($price).append($homelink)
+		
+						         }
+						         , error: function(){
+						            console.log("AJAX 실패")
+						         }
+						      })
+						
 	
 					});// veach펑션 끝
 					

@@ -126,7 +126,7 @@ function downFunction() {
 <span style=" margin-right: 90px;"><a href="/terms/privacyPolicy" id="footer-text">개인정보처리방침</a></span>
 <span style=" margin-right: 90px;"><a href="/terms/locationPolicy" id="footer-text">위치기반서비스 이용약관</a></span>
 
-<span><a href="/admin/customerService" id="footer-text">고객센터</a></span><br><br>
+<span><a href="/admin/noticeList" id="footer-text">공지사항</a></span><br><br>
 </span>
 
 <div style="margin-left: 40px;">
@@ -180,6 +180,20 @@ function downFunction() {
   </div>
 </div>
 
+<!-- 댓글신고 모달 -->
+<div class="modal fade" id="reportCmtModal" aria-hidden="true" aria-labelledby="reportModalLabel" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="reportModalLabel">댓글 신고하기</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+		<%@ include file="/WEB-INF/views/admin/reportCmt.jsp" %>
+	  </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

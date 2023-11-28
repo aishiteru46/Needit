@@ -36,28 +36,34 @@ $(function(){
 })
 
 $(function(){
-	$("#comment").click(function(){
+	$("#cmtReportBtn").click(function(){
+		console.log("댓글 신고버튼 작동!")
+		
+		var cmtNo = $(this).data("cmtNo");
 		var reportType = $(this).val()
-		   $.ajax({
-		         type: "post"
-		         , url: "/cmtReport"
-		         , data: {
-		        	 reportType: reportType
-		        	 , boardNo : '${param.boardNo}'
-		   			 , cmtNo : '{param.cmtNo}'
-		   			
-		         }
-		         , dataType: "json"
-		         , success: function( res  ) {
-		            console.log("AJAX 성공")
+		console.log("신고된 댓글번호 :", cmtNo )
 
-		         }
-		         , error: function() {
-		            console.log("AJAX 실패")
-
-		         }
-		      })
-	
+		$.ajax({
+			 type: "post"
+			 , url: "/cmtReport"
+			 , data: {
+				boardNo : "${param.boardNo }"
+				, reportId : "${id }"
+				, reportType: reportType
+				, cmtNo : cmtNo
+			
+			 }
+			 , dataType: "json"
+			 , success: function( res  ) {
+			    console.log("AJAX 성공")
+			
+			 }
+			 , error: function() {
+			    console.log("AJAX 실패")
+			
+			 }
+		})
+	})
 })
 
 </script>
@@ -114,70 +120,30 @@ $(document).ready(function() {
 </head>
 <body>
 
-<c:if test="${not empty param.cmtNo}">
-    <!-- cmtNo가 존재하는 경우에 수행할 내용 -->
-    <p>cmtNo exists: ${param.cmtNo}</p>
-</c:if>
-
-<c:if test="${empty param.cmtNo}">
-    <!-- cmtNo가 존재하지 않는 경우에 수행할 내용 -->
-    <p>cmtNo does not exist</p>
-</c:if>
-
-<c:if test="${not empty param.cmtNo }">
 <div id="report">
-<div id="reportIn">
-	<div>
-	<input class="reportBtn" id="reportBtn1" type="button" value="광고성" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
-	</div>
-	
-	<div>
-	<input class="reportBtn" id="reportBtn2" type="button" value="음란물" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" >
-	</div>
-	
-	<div>
-	<input class="reportBtn" id="reportBtn1" type="button" value="욕설" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" >
-	</div>
-	
-	<div>
-	<input class="reportBtn" id="reportBtn2" type="button" value="불법 정보" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
-	</div>
-	
-	<div>
-	<input class="reportBtn" id="reportBtn1" type="button" value="개인정보 노출" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
-	</div>
-	
-</div><!-- .reportIn -->
+	<div id="reportIn">
+		<div>
+		<input class="reportBtn" id="reportBtn1" type="button" value="광고성" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
+		</div>
+		
+		<div>
+		<input class="reportBtn" id="reportBtn2" type="button" value="음란물" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
+		</div>
+		
+		<div>
+		<input class="reportBtn" id="reportBtn1" type="button" value="욕설" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
+		</div>
+		
+		<div>
+		<input class="reportBtn" id="reportBtn2" type="button" value="불법 정보" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
+		</div>
+		
+		<div>
+		<input class="reportBtn" id="reportBtn1" type="button" value="개인정보 노출" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
+		</div>
+		
+	</div><!-- .reportIn -->
 </div><!-- .report -->
-</c:if>
-
-
-<c:if test="${empty param.cmtNo }">
-<div id="report">
-<div id="reportIn">
-	<div>
-	<input class="reportBtn" id="reportBtn1" type="button" value="광고성" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
-	</div>
-	
-	<div>
-	<input class="reportBtn" id="reportBtn2" type="button" value="음란물" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" >
-	</div>
-	
-	<div>
-	<input class="reportBtn" id="reportBtn1" type="button" value="욕설" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" >
-	</div>
-	
-	<div>
-	<input class="reportBtn" id="reportBtn2" type="button" value="불법 정보" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
-	</div>
-	
-	<div>
-	<input class="reportBtn" id="reportBtn1" type="button" value="개인정보 노출" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
-	</div>
-	
-</div><!-- .reportIn -->
-</div><!-- .report -->
-</c:if>
 
 </body>
 </html>

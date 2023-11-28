@@ -76,17 +76,6 @@ public class AlertController {
 		return "jsonView";
 	} // countNewAlert 끝
 	
-	@GetMapping("/list")
-	public String alert( Model model, Alert alert, @SessionAttribute("id") String id ) { // JSP에서 loadAlert함수(ajax)를 호출 했을 때 실행하는 함수
-		alert.setId(id);
-		logger.info("alert : {}", alert);		
-
-		List<Alert> list = alertService.getList(alert); // 유저에게 쌓인(기존에 읽지 않은) 알림 목록을 가져온다 - 새로 생긴 알림과 다름
-		model.addAttribute("list", list); // 알람 목록을 Model값으로 보내준다
-		logger.info("list : {}", list);
-		return "alert/list"; // list JSP로 리턴
-	} // alert 끝
-	
 	@GetMapping("/jong")
 	public String jong( Model model, Alert alert, @SessionAttribute("id") String id ) { // JSP에서 loadAlert함수(ajax)를 호출 했을 때 실행하는 함수
 		alert.setId(id);
@@ -134,6 +123,17 @@ public class AlertController {
             e.printStackTrace();
         }
 	} // sendNotification 끝
+    
+    @PostMapping("/delete")
+    public void delete( Alert alert ) {
+    	alertService.delete( alert );
+    }
+    
+    @PostMapping("/delAll")
+    public void delAll( Alert alert ) {
+    	alertService.delAll( alert );
+    }
+    
 	
 	private void sendInitEvent( SseEmitter sseEmitter ) { 	// 처음 구독했을 때 생성되는 이벤트
 		try {

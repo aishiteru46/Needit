@@ -151,6 +151,7 @@ function toggleSection(sectionId) {
   }
 }
 
+
 </script>
 
 <script type="text/javascript">
@@ -402,6 +403,7 @@ $(function(){
 	   </table>
 	</form> 
 </div><!-- #userContent -->
+
 </div>
 
 <div class="container mt-5" id="introduce">
@@ -409,7 +411,6 @@ $(function(){
     
     <!-- 자기소개글을 입력하는 텍스트박스 -->
     <div>
-            <input type="text" id="introId" name="id" value="${nick}" readonly="readonly">
         <div class="mb-3">
             <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100">${user.intro }</textarea>
         </div>
@@ -432,6 +433,10 @@ $(function(){
 	<br>
 	<a href="javascript:void(0);" class="btn btn-danger" onclick="confirmAndSubmit('${id}')">회원탈퇴</a><br>
 </div>
+
+
+
+
 지금 usertb테이블의 id를 board테이블 에서 write_id로 사용하고 있어서 회원삭제가 안됨<br>
 회원탈퇴시 글까지 삭제 되는 경우 - > DB에 cascade구문 추가 <br>
 회원탈퇴시 글은 살리는 경우 -> DB에 usertb에 is_deleted컬럼 추가해서 탈퇴시 delete로 지우지말고 update로 is_daleted true해주고 이후에 회원조회할때마다 is_deleted 상태인애들은 빼고 조회해서 탈퇴한애들 숨겨두면 됨
@@ -519,6 +524,9 @@ $(function(){
 <c:import url="/WEB-INF/views/layout/paginationRent.jsp" />
 		
 <hr>
+
+
+
 
 <h1>빌린 예약 목록</h1>
 <table class="rentTable">
@@ -727,5 +735,99 @@ $(function(){
 ${basketList }
 
 <%-- ${myBoardList } --%>
+
+${myBoardList }
+
+<hr>
+내가 쓴 글
+<c:forEach items="${myBoardList }" var="myBoardList" begin="0" end="10">
+<td>${myBoardList.BOARD_NO }</td>
+<td>${myBoardList.TITLE }</td>
+
+</c:forEach>
+
+
+<!-- <h1 data-bs-toggle="collapse" data-bs-target="#boardSection"> -->
+<h1>
+   내가 쓴 글
+ 
+</h1>
+
+<div  >
+   <table class="listType" id="myBoardList">
+      <thead>
+         <tr>
+            <th>No.</th>
+            <th class="title">제목</th>
+            <th>게시판</th>
+            <th>작성일</th>
+            <th>조회</th>
+         </tr>
+      </thead>
+      <tbody>
+         <c:forEach items="${myBoardList }" var="myBoardList">
+            <tr>
+               <td>${myBoardList.BOARD_NO }</td>
+               <td>
+				    <c:choose>
+				        <c:when test="${myBoardList.MENU eq 1}">
+				            <a href="/rent/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 2}">
+				            <a href="/share/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 3}">
+				            <a href="/please/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 4}">
+				            <a href="/community/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 5}">
+				            <a href="/business/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				    </c:choose>
+				</td>
+               <td>
+               		<c:choose>
+				        <c:when test="${myBoardList.MENU eq 1}">
+				            대여해요
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 2}">
+				            나눔해요
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 3}">
+				            해주세요
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 4}">
+				            커뮤니티
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 5}">
+				            동네업체
+				        </c:when>
+				    </c:choose>
+               </td>
+               <td>
+                  <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
+                  <fmt:formatDate var="writeDate" value="${myBoardList.writeDate }" pattern="yyyyMMdd" />
+                  <c:choose>
+                     <c:when test="${writeDate lt curDate }">
+                        <fmt:formatDate value="${myBoardList.writeDate }" pattern="yyyy-MM-dd" />
+                     </c:when>
+                     <c:otherwise>
+                        <fmt:formatDate value="${myBoardList.writeDate }" pattern="HH:mm" />
+                     </c:otherwise>
+                  </c:choose>
+               </td>
+               <td>${myBoardList.HIT}</td>
+            </tr>
+         </c:forEach>
+      </tbody>
+   </table>
+</div>
+<c:import url="/WEB-INF/views/layout/paginationMyBoardList.jsp" />
+
+
+
+
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

@@ -20,32 +20,37 @@
 
 
 <script type="text/javascript">
+var result = 0;
 $(function() {
-	
-	var sessionId = "${id}";
-		if( sessionId ){
-		   hasNew() //페이지 로드 시 'hashNew' 함수를 호출하여 새로운 알림을 확인
-		   loadAlert()    
-		   var urlEndPoint = "/alert/get?id=" + "${id}" //Sse세션 생성 시 접속한 세션의 id를 보내준다
-		   var eventSource = new EventSource(urlEndPoint) //SSE를 위한 'EventSource'를 생성
-		   
-		   eventSource.onmessage = function (event) { // sendNotification 발생시 생기는 메소드
-		      console.log(event)
-		       var data = JSON.parse(event.data) // sendNotification에서 보내준 data { hasNew : hasNew, alert : alert }
-		       console.log(data)
-		       
-		       var hasNew = data.hasNew
-		       var alert = data.alert
-		      
-		       console.log("hasNew :" + hasNew)
-		       console.log("alert :" + alert)
-	
-		       $("#new-icon").show() // new 알림표시 표시
-		       $("#new-alert").html(hasNew).show() // 새로온 알림 갯수 표시
-		       
-		      loadAlert() //알림을 로드하는 함수를 호출
-		   }
-		}
+	 var sessionId = "${id}";
+	 console.log('sessionId11111111111111', sessionId)
+	 if (sessionId) {
+	 console.log('sessionId22222222222222222', sessionId)
+
+	   hasNew() //페이지 로드 시 'hashNew' 함수를 호출하여 새로운 알림을 확인
+	   loadAlert()    
+	   var urlEndPoint = "/alert/get?id=" + "${id}" //Sse세션 생성 시 접속한 세션의 id를 보내준다
+	   var eventSource = new EventSource(urlEndPoint) //SSE를 위한 'EventSource'를 생성
+	   console.log(urlEndPoint)
+	   console.log('왜안돼?')
+	   
+	   eventSource.onmessage = function (event) { // sendNotification 발생시 생기는 메소드
+	      console.log(event)
+	       var data = JSON.parse(event.data) // sendNotification에서 보내준 data { hasNew : hasNew, alert : alert }
+	       console.log(data)
+	       
+	       var hasNew = data.hasNew
+	       var alert = data.alert
+	      
+	       console.log("hasNew :" + hasNew)
+	       console.log("alert :" + alert)
+			
+	       $("#new-icon").show() // new 알림표시 표시
+	       $("#new-alert").html(hasNew).show() // 새로온 알림 갯수 표시
+	      
+	      loadAlert() //알림을 로드하는 함수를 호출
+	   }
+	 }
 	})// 제이쿼리 펑션 끝
 
 
@@ -67,6 +72,14 @@ $(function() {
 	            $("#new-alert").text(res.hasNew).show()
 	            $("#new-icon").show()
 	         }
+	         result = res.hasNew;
+	        if(result == 0){
+	        	 $("#badge").hide()
+	         }else if(result == 99){
+	        	 $("#badge").text("+99").show()
+	         }else{
+	        	 $("#badge").text(result).show()
+	         }
 	      }
 	      , error: function() {
 	         console.log("AJAX 실패")
@@ -82,7 +95,6 @@ $(function() {
 	        , dataType: "html"
 	        , success: function( res ) { // Alert객체를 받아넣어준 list JSP를 HTML 타입으로 불러온다
 	           console.log("AJAX 성공")
-			           
 				
 	           
 	         $("#alert").html(res)
@@ -103,17 +115,17 @@ $(() => {
 	          ['fontname', ['fontname']],
 	          ['fontsize', ['fontsize']],
 	          ['style', ['bold', 'italic', 'underline', 'clear']],
-	          ['color', ['color']],
+	          ['color', ['forecolor','color']],
 	          ['table', ['table']],
 	          ['para', ['ul', 'ol', 'paragraph']],
 	          ['height', ['height']],
 	          ['insert',['picture','link']],
+	          ['view', ['fullscreen', 'help']]
 	        ],
 	      fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
-	      fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+	      fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
 	   })
 	})
-	
 $(document).ready(function(){
 	$('.menu_btn').click(function(){
 	$('.menu_btn').toggleClass('lijo');
@@ -158,7 +170,6 @@ $(document).ready(function(){
 
 	 $('#dropdownBtn1').click(function () {
           // Toggle the visibility of the dropdown content
-          console.log('클릭됨')
           $('.dropdown-content1').toggle();
           $('.dropdown-content2').hide();
           event.stopPropagation();
@@ -195,13 +206,9 @@ $(document).ready(function(){
 		            console.log(currentPageUrl.indexOf("/profile/view"))
 // 		            만약 현재 페이지가 마이페이지라면 메인 페이지로 리다이렉트
 		            if (currentPageUrl.indexOf("/profile/view") !== -1) {
-// 		            	naverLogout();
-// 		            	kakaoLogout();
 		                window.location.href = "/main";
 		            } else {
 		                // 다른 페이지에서는 이전 동작(기존에는 이전 페이지로 돌아가는 동작)
-// 		                naverLogout();
-// 		                kakaoLogout();
 		                document.location.reload();
 		            }
 		        } 
@@ -214,80 +221,188 @@ $(document).ready(function(){
 
 </script>
 <style type="text/css">
-
-#needitFont{color: #ff533f;}
-a {text-decoration: none; color: #343a40;}
-li {list-style: none; }
-nav {list-style: none; padding: 0; display: flex;}
-nav li {width: 150px; margin-right: 20px;}
-.wrap {width: 1200px; margin: auto;} 
-
-.container{max-width: 1200px;margin: auto; font-size: 20px; font-weight: bold;}
-#header {background: #fff;margin: 0; position: relative; text-align: center;}
-#header .container{justify-content: center;align-items: center; }
-#header .gnb{text-align: center;}
-#header .nav ul.gnb{margin-bottom:0px;padding-left:0px;display: flex;}
-#header .nav ul.gnb li{margin-bottom:0px;color:#000;text-align: center;position: relative;}
-#header .nav ul.gnb li a {box-sizing: border-box;display:block;transition:.8s ease;text-transform:uppercase;}
-#header .nav ul.gnb li ul.sub{position:absolute;padding-left:0px;opacity:0;visibility: hidden;padding-top:10px;z-index: 4;width: 100%}
-#header .nav ul.gnb li ul.sub li {position: relative;}
-#header .nav ul.gnb li ul.sub li a{padding:10px; margin-top: 8px;}
-#header .nav ul.gnb:hover li ul.sub{visibility:visible;opacity:1;transform:translateY(0px);} 
-#header .nav ul.gnb li:hover{display:inline-block;margin-bottom:0px;}
-#header .nav ul.gnb li a:hover{	background-color: #f1f1f1;
+#needitFont {
+	color: #ff533f;
 }
-#header.open .hd_bg{position: absolute;width: 100%;background: #fff;z-index: 1;transition: all .3s;border-top: 1px solid #dcdcdc; opacity: 95%; z-index: 3;}
-#header .nav ul.gnb li ul.sub li a{text-align: center}
-#header .nav .active  {position: relative}
-#header .nav .active:hover:after{content: '';display: block;width: 100%;height: 2px;background: #000;position: absolute;left: 0;bottom: 0; background-color: #ccc}
 
+a {
+	text-decoration: none;
+	color: #343a40;
+}
 
+li {
+	list-style: none;
+}
+
+nav {
+	list-style: none;
+	padding: 0;
+	display: flex;
+}
+
+nav li {
+	width: 150px;
+	margin-right: 20px;
+}
+
+.wrap {
+	width: 1200px;
+	margin: auto;
+}
+
+.container {
+	max-width: 1200px;
+	margin: auto;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+#header {
+	background: #fff;
+	margin: 0;
+	position: relative;
+	text-align: center;
+}
+
+#header .container {
+	justify-content: center;
+	align-items: center;
+}
+
+#header .gnb {
+	text-align: center;
+}
+
+#header .nav ul.gnb {
+	margin-bottom: 0px;
+	padding-left: 0px;
+	display: flex;
+}
+
+#header .nav ul.gnb li {
+	margin-bottom: 0px;
+	color: #000;
+	text-align: center;
+	position: relative;
+}
+
+#header .nav ul.gnb li a {
+	box-sizing: border-box;
+	display: block;
+	transition: .8s ease;
+	text-transform: uppercase;
+}
+
+#header .nav ul.gnb li ul.sub {
+	position: absolute;
+	padding-left: 0px;
+	opacity: 0;
+	visibility: hidden;
+	padding-top: 10px;
+	z-index: 4;
+	width: 100%
+}
+
+#header .nav ul.gnb li ul.sub li {
+	position: relative;
+}
+
+#header .nav ul.gnb li ul.sub li a {
+	padding: 10px;
+	margin-top: 8px;
+}
+
+#header .nav ul.gnb:hover li ul.sub {
+	visibility: visible;
+	opacity: 1;
+	transform: translateY(0px);
+}
+
+#header .nav ul.gnb li:hover {
+	display: inline-block;
+	margin-bottom: 0px;
+}
+
+#header .nav ul.gnb li a:hover {
+	background-color: #f1f1f1;
+}
+
+#header.open .hd_bg {
+	position: absolute;
+	width: 100%;
+	background: #fff;
+	z-index: 1;
+	transition: all .3s;
+	border-top: 1px solid #dcdcdc;
+	opacity: 95%;
+	z-index: 3;
+}
+
+#header .nav ul.gnb li ul.sub li a {
+	text-align: center
+}
+
+#header .nav .active {
+	position: relative
+}
+
+#header .nav .active:hover:after {
+	content: '';
+	display: block;
+	width: 100%;
+	height: 2px;
+	background: #000;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	background-color: #ccc
+}
 
 /* Style The Dropdown Button */
-
 .dropbtn1 {
-    border: none;
-    cursor: pointer;
+	border: none;
+	cursor: pointer;
 }
+
 .dropbtn2 {
-    border: none;
-    cursor: pointer;
+	border: none;
+	cursor: pointer;
 }
 
 .dropdown {
-    position: relative;
-    display: inline-block;
-    z-index: 5;
+	position: relative;
+	display: inline-block;
+	z-index: 5;
 }
 
 .dropdown-content1 {
 	margin-top: 15px;
-	display: none; 
-    position: absolute;
-    background-color: #f1f1f1;
-  	width : 240px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    text-align: left;
-    right: -50px;
-    border-radius: 20px;
-    z-index: 5;
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	width: 240px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	text-align: left;
+	right: -50px;
+	border-radius: 20px;
+	z-index: 5;
+	height: 350px;
 }
-.dropdown-content1:after{
-content:""; 
-position: absolute; 
-top: -10px; 
-border-left: 10px solid transparent; 
-border-right: 10px solid transparent; 
-border-bottom: 10px solid #f1f1f1;
 
+.dropdown-content1:after {
+	content: "";
+	position: absolute;
+	top: -10px;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid #f1f1f1;
 }
 
 .dropdown-content1 .alertData {
-/*     color: black; */
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    
+	/*     color: black; */
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
 }
 
 .dropdown-content1 .alertData:hover {
@@ -295,34 +410,34 @@ border-bottom: 10px solid #f1f1f1;
 	position: relative;
 	border-radius: 20px;
 }
+
 .dropdown-content2 {
 	margin-top: 15px;
-	display: none; 
-    position: absolute;
-    background-color: #f1f1f1;
-  	width : 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    text-align: center;
-    right: -50px;
-    border-radius: 20px;
-    z-index: 5;
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	text-align: center;
+	right: -50px;
+	border-radius: 20px;
+	z-index: 5;
 }
-.dropdown-content2:after{
-content:""; 
-position: absolute; 
-top: -10px; 
-border-left: 10px solid transparent; 
-border-right: 10px solid transparent; 
-border-bottom: 10px solid #f1f1f1;
 
+.dropdown-content2:after {
+	content: "";
+	position: absolute;
+	top: -10px;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid #f1f1f1;
 }
 
 .dropdown-content2 a {
-/*     color: black; */
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    
+	/*     color: black; */
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
 }
 
 .dropdown-content2 a:hover {
@@ -330,44 +445,82 @@ border-bottom: 10px solid #f1f1f1;
 	position: relative;
 	border-radius: 20px;
 }
-.dropdown-title{
-	color: white;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-    border-bottom: solid #f1f1f1;
-    background-color: #ff533f; 
-    border-radius: 20px 20px 0px 0px;
-}
-.dropdown-title:after{
-z-index: 1;
-content:""; 
-position: absolute; 
-top: -10px; 
-right: 60px;
-border-left: 10px solid transparent; 
-border-right: 10px solid transparent; 
-border-bottom: 10px solid #ff533f;
 
+.dropdown-title {
+	color: white;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+	border-bottom: solid #f1f1f1;
+	background-color: #ff533f;
+	border-radius: 20px 20px 0px 0px;
+}
+
+.dropdown-title:after {
+	z-index: 1;
+	content: "";
+	position: absolute;
+	top: -10px;
+	right: 60px;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid #ff533f;
 }
 
 .p-2 {
-    margin-top: 30px;
-    margin-bottom: 20px;
-    padding: 0.5rem!important;
+	margin-top: 30px;
+	margin-bottom: 20px;
+	padding: 0.5rem !important;
 }
-.header{
+
+.header {
 	z-index: 300;
 }
-.p-4 {
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
 
+.p-4 {
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
 }
 
-.alertData
+#new-icon-text {
+	display: none;
+	
+}
+
+.scrollbar { 
+  height: 285px;
+  overflow-y: scroll; /*  */
+}
+
+/* 스크롤바의 폭 너비 */
+.scrollbar::-webkit-scrollbar {
+    width: 10px;  
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background: #ff533f; /* 스크롤바 색상 */
+    border-radius: 10px; /* 스크롤바 둥근 테두리 */
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;  /*스크롤바 뒷 배경 색상*/
+     border-radius: 10px;
+}
+#badge{
+	width: 30px;
+	border-radius: 10px;
+	color: white;
+	font-size: 12px;
+	position: absolute;
+	top: -5px;
+	right: -10px;
+	background-color: red;
+	text-align:  center;
+	font-weight: bold;
+	te
+}
 </style>
 
 </head>
@@ -380,8 +533,8 @@ border-bottom: 10px solid #ff533f;
 		<c:if test="${not isLogin }">
 		
 			<div class="dropdown">
-				<img id="dropdownBtn1" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
-					<div class="dropdown-content1">
+				<img id="dropdownBtn2" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
+					<div class="dropdown-content2">
 						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"> 로그인 </a>
 					</div>
 			</div>
@@ -404,8 +557,8 @@ border-bottom: 10px solid #ff533f;
                 <!-- 사용자가 'admin' 역할을 가지고 있는 경우의 코드 -->
               
 				<div class="dropdown">
-					<img id="dropdownBtn" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
-						<div class="dropdown-content">
+					<img id="dropdownBtn2" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
+						<div class="dropdown-content2">
 							<div class="dropdown-title">${nick }</div>
 							<a href="/admin">관리자 페이지</a>
 			                <a href="/message/list">내 채팅</a>
@@ -418,12 +571,15 @@ border-bottom: 10px solid #ff533f;
 
            <div class="dropdown">
 				<img id="dropdownBtn1" src="/resources/img/jong.png" class="dropbtn" style="height: 40px; width: 40px;">
-					<div class="dropdown-content1">
+				<span id="badge"></span>
+					<div class="dropdown-content1 ">
 						<div class="dropdown-title" style="text-align: center;">알림</div>
+						<div class="scrollbar">
 							<a id="new-icon">
 								<label id="new-icon-text">NEW</label>
 							</a>
 							<a id="alert"></a> 
+						</div>
 					</div>
 			</div>
 			

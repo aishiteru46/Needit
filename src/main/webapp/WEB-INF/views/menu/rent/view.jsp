@@ -32,6 +32,15 @@
 	border: none;
 	border-radius: 10px;
 }
+#cmtReportBtn {
+    border: none;
+    font-size: 10px;
+    width: 32px;
+    height: 20px;
+    background-color: red;
+    border-radius: 5px;
+    color: white;
+}
 .file {
     color: blue;
 }
@@ -81,54 +90,75 @@ function loadComments() {
 	        boardNo: ${board.boardNo}
 	    },
 	    success: function (res) {
-	        console.log("댓글창 반응 성공");
-	        console.log(res);
-	
+	        console.log("댓글창 반응 성공 : ", res);
+	        
 	        // 댓글 목록을 가져와서 HTML로 렌더링
 	        var commentListHtml = "";
 	
 	        const id = '${id}' //세션 아이디
 	        const nick = '${nick}' //세션 닉네임
+	        
+	        if( res.commentList != null && res.commentList.length > 0 ){
+	        	console.log("댓글 있음")
+		        for (var i = 0; i < res.commentList.length; i++) {
 	
-	        for (var i = 0; i < res.commentList.length; i++) {
-	
-	            var boardMaster = "${board.writerNick }" //게시글 작성자
-	            var commentWriter = res.commentList[i].WRITER_NICK//댓글 작성자
-			
-	            console.log("res.commentList[i].thumbnailName :" , res.commentList[i].THUMBNAIL_NAME);
-	            
-	            
+		            var boardMaster = "${board.writerNick }" //게시글 작성자
+		            var commentWriter = res.commentList[i].WRITER_NICK//댓글 작성자
+		            
+		            commentListHtml += '<hr>'; 
+		            commentListHtml += '<div class="media mb-4">';
+		            //프로필사진 유무 처리
+		            if( res.commentList[i].THUMBNAIL_NAME != null || res.commentList[i].THUMBNAIL_NAME > 0 ){
+		            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
+		            } else {
+			            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/resources/img/defaultProfile.png">';
+		            }
+		            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
+		            //댓글 작성자 구분 처리                                                                                    
+		            if (commentWriter === boardMaster && commentWriter === nick) { 
+		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+		            } else if (commentWriter === nick) {
+		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+		            } else if (commentWriter === boardMaster) {
+		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter">작성자</div>' + '</h6>';
+		            } else {
+		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '</h6>';
+		            }
+		            //댓글내용
+		            commentListHtml += '    <h5 class="text-start">' + res.commentList[i].CONTENT + '</h5>';
+		            //댓글작성 일자
+		            commentListHtml += '    <p style="font-size: 13px; display: inline-block;">' + formatDate(new Date(res.commentList[i].writeDate)) + '</p>';
+		            //본인 댓글 삭제가능 처리
+		            if (id && id == res.commentList[i].WRITER_ID) {
+		                commentListHtml += '    <button id="del" onclick="deleteComment(' + res.commentList[i].CMT_NO + ');">';
+		                commentListHtml += '	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">';
+		                commentListHtml += '	<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>';
+		                commentListHtml += '	</svg>'
+		                commentListHtml += '    </button>';
+		            }
+		            //댓글신고 버튼
+		            if (id != null) {
+		            commentListHtml += '	<button type="button" id="cmtReportBtn" class="cmtReportBtn" data-cmtNo="' + res.commentList[i].CMT_NO + '" data-bs-toggle="modal" data-bs-target="#reportCmtModal">';
+		            commentListHtml += '신고';
+		            commentListHtml += '	</button>';
+		            }
+		            commentListHtml += '  </div>';
+		            commentListHtml += '</div>';
+		        }
+		        // 렌더링된 HTML을 추가
+		        $("#commentList").html(commentListHtml);
+		        
+	        } else {
+	        	console.log("댓글 없음")
 	            commentListHtml += '<hr>'; 
 	            commentListHtml += '<div class="media mb-4">';
-	            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
 	            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
-	            //댓글 작성자 구분 처리                                                                                    
-	            if (commentWriter === boardMaster && commentWriter === nick) { 
-	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
-	            } else if (commentWriter === nick) {
-	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
-	            } else if (commentWriter === boardMaster) {
-	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter">작성자</div>' + '</h6>';
-	            } else {
-	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '</h6>';
-	            }
-	            commentListHtml += '    <h5 class="text-start">' + res.commentList[i].CONTENT + '</h5>';
-	            commentListHtml += '    <p style="font-size: 13px; display: inline-block;">' + formatDate(new Date(res.commentList[i].writeDate)) + '</p>';
-	            //본인 댓글 삭제가능 처리
-	            if (id && id == res.commentList[i].WRITER_ID) {
-	                commentListHtml += '    <button id="del" onclick="deleteComment(' + res.commentList[i].CMT_NO + ');">';
-	                commentListHtml += '	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">';
-	                commentListHtml += '	<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>';
-	                commentListHtml += '	</svg>'
-	                commentListHtml += '    </button>';
-	            }
+	            commentListHtml += '    <p style="text-align: center; color: rgb(255,83,63); margin-bottom: 100px;">작성된 댓글이 없습니다.</p>';
 	            commentListHtml += '  </div>';
 	            commentListHtml += '</div>';
 	        }
-	
 	        // 렌더링된 HTML을 추가
 	        $("#commentList").html(commentListHtml);
-	
 	    },
 	    error: function () {
 	        console.log("댓글창 반응 실패");

@@ -240,7 +240,16 @@ public interface UserProfileDao {
 	 * @param paging - 페이징 정보 객체
 	 * @return 내가쓴글 목록
 	 */
-	public List<Map<String, Object>> selectAll(Paging paging);
+	public List<Map<String, Object>> selectAll(Paging myBoardPaging);
+
+
+	/**
+	 * 내가 쓴 글 목록을 만들 게시글 개수
+	 * 
+	 * @param param - id(로그인한 유저)
+	 * @return - 게시글 개수
+	 */
+	public int selectMyBoardCntAll(Paging myBoardPaging);
 
 	/**
 	 * 이메일 수신 동의시

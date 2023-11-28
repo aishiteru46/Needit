@@ -39,6 +39,10 @@ public interface AlertService {
 	 * @param alert Alert 객체
 	 */
 	public void sendAlert(Alert alert);
+
+	public void delete(Alert alert);
+
+	public void delAll(Alert alert);
 	
 	
 }

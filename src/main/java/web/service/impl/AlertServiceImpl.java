@@ -35,4 +35,14 @@ public class AlertServiceImpl implements AlertService {
 		alertDao.insertAlert(alert);
 	}
 
+	@Override
+	public void delete(Alert alert) {
+		alertDao.deleteAlert(alert);
+	}
+
+	@Override
+	public void delAll(Alert alert) {
+		alertDao.deleteAll(alert);
+	}
+
 }

@@ -136,9 +136,7 @@ li:hover{
 
 <div id="AdminAll" style="width: 1200px;">
 <!-- 니딧 로고 -->
-<a href="/admin">
-	<img alt="니딧로고" src="/resources/img/needitAdmin_white.png" id="AdminImg">
-</a>
+<img alt="니딧로고" src="/resources/img/needitAdmin_white.png" id="AdminImg">
 
 
 <!-- 위쪽 배경 -->
