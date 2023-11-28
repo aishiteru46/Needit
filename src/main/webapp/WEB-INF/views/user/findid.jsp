@@ -96,6 +96,11 @@ form {
 #social{margin-bottom: 5px;}
 #naver{float: left;}
 #kakao{float: right;}
+
+.slide-out {
+  transform: translateX(100%);
+  transition: transform 0.5s ease-out;
+}
 </style>
 </head>
 <body>

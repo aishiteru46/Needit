@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Needit</title>
-<link rel="icon" href="resources/img/favicon.png" type="image/x-icon">
+<link rel="icon" href="/resources/img/favicon.ico">
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -23,9 +23,7 @@
 var result = 0;
 $(function() {
 	 var sessionId = "${id}";
-	 console.log('sessionId11111111111111', sessionId)
 	 if (sessionId) {
-	 console.log('sessionId22222222222222222', sessionId)
 
 	   hasNew() //페이지 로드 시 'hashNew' 함수를 호출하여 새로운 알림을 확인
 	   loadAlert()    
