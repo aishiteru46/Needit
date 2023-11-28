@@ -339,6 +339,8 @@ $(function() {
 		$('.msgPrompt').addClass('hidden');
 		$('.msgContent, .msgProfile').removeClass('hidden'); 
 		$(this).css('background-color','white');
+		$(this).find('.redDot').removeClass('redDot-unread');
+		console.log( "지금여기 클릭한거 맞아? ", this );
 
 		// AJAX call to get messages
 		$.ajax({
@@ -625,6 +627,8 @@ function sendMessage(event){ // 메시지 전송 함수
 		
 		stompClient.send("/pub/chat/" + roomNo + "/sendMessage",{},JSON.stringify(chatMessage)) // object Json으로 파싱
 		
+		console.log( '알림 sender 누구?', currentUserId)
+		
 		$.post( "/alert/sendnotification", { 
         	id: receiverId
         	, sender: currentUserId
@@ -739,32 +743,29 @@ function onReceivedId(payload){
 	    $.ajax({
 		    type: "GET"
 		    , url: "./getNick"
-		    , data: { writerId : ID, boardNo : $boardNo }
+		    , data: { id : ID }
 		    , success: function( res ){
 				console.log("AJAX 성공")
 				console.log("res : ", res)
 				var $newInfo = res.newInfo;
 				var $nick = $newInfo.NICK;  
+				var $thumbnailName = $newInfo.THUMBNAIL_NAME
 				
 				console.log("ajax안", ID )
 				console.log("ajax안", messagePreview )
 				console.log("ajax안", formattedDate )
 				
-				var $thumbnailTitle = $newInfo.THUMBNAIL_TITLE
-				var $thumbnailName = $newInfo.THUMBNAIL_NAME
-				              
 				var $body = $('<div class="profileBody">') // .img와 .desc를 감싸는 DIV
 				var $img = $('<div class="profileImg">')
 				
 				var $src;
 				var $alt;
 				
+				$alt = $nick
 				if( $thumbnailName != null ) {
 					$src = '/upload/' + $thumbnailName
-					$alt = $thumbnailTitle
 				} else {
-					$src = '/resources/img/noimg.png';
-					$alt = '사진이 없습니다'
+					$src = '/resources/img/defaultProfile.png';
 				}
 				
 				if( $nick == '관리자' ) {
@@ -787,9 +788,7 @@ function onReceivedId(payload){
 		                    $('<div>').addClass('lastMessageTime').text(formattedDate)
 		                )
 		        );
-			    
 			    $('.msgObjects').prepend(chatRoomDiv);
-			    
 		    }
 		    , error: function(){
 		       console.log("AJAX 실패")
@@ -797,7 +796,9 @@ function onReceivedId(payload){
 		 })
 		 
 	    if(currentUserId == testMsg.receiverId){
-	    	chatRoomDiv.css('background-color', '#F3F781');
+// 	    	chatRoomDiv.css('background-color', '#F3F781');
+	        chatRoomDiv.find('.redDot').addClass('redDot-unread');
+
 	    }
 	    
 	    return;
@@ -827,7 +828,8 @@ function onReceivedId(payload){
 
     // 배경색 변경
     if(testMsg.roomNo != lastSentRoomNo) {
-        chatRoomDiv.css('background-color', '#F3F781');
+//         chatRoomDiv.css('background-color', '#F3F781');
+        chatRoomDiv.find('.redDot').addClass('redDot-unread');
     }
 } // onReceivedId(payload) 끝
 
@@ -869,8 +871,15 @@ function formatDate(timestamp) {
 		
 			<div class="msgObjects">
 				<c:forEach var="list" items="${list}">
-					<div class="msgObject"  room_no="${list.roomNo}">
-						<img src="/resources/img/chunsic.png" alt="Profile Image" class="msgObject-img">
+					<div class="msgObject" room_no="${list.roomNo}">
+						<c:choose>
+							<c:when test="${not empty list.otherUserThumbnail}">
+								<img src="/upload/${list.otherUserThumbnail}" alt="${list.otherUserNick}" class="msgObject-img">
+							</c:when>
+							<c:otherwise>
+								<img src="/resources/img/defaultProfile.png" alt="기본 이미지" class="msgObject-img">
+							</c:otherwise>
+						</c:choose>
 						<div class="msgObject-content">
 							<div class="msgObject-username">${list.otherUserNick}</div>
 							<div class="messagePreview">

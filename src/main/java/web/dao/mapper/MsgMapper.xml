@@ -14,6 +14,7 @@
     <result property="msgStatus" column="MSG_STATUS"/>
     <!-- 수정: 상대방의 닉네임을 other_nick_id로 가져옴 -->
     <result property="otherUserNick" column="OTHER_NICK_ID"/>
+    <result property="otherUserThumbnail" column="OTHER_USER_THUMBNAIL"/>
 </resultMap>
 
 <select id="selectRoomNo" parameterType="user" resultMap="egomap">
@@ -34,7 +35,8 @@
             THEN 1
             ELSE 0
         END AS MSG_STATUS,
-        u.NICK AS OTHER_NICK_ID
+        u.NICK AS OTHER_NICK_ID,
+        uf.THUMBNAIL_NAME AS OTHER_USER_THUMBNAIL
     FROM 
         roomTB r
     JOIN 
@@ -43,6 +45,8 @@
          FROM msgTB) m ON r.ROOM_NO = m.ROOM_NO AND m.rn = 1
     JOIN
         usertb u ON u.id = CASE WHEN r.ROOM_id1 = #{id} THEN r.ROOM_id2 ELSE r.ROOM_id1 END
+    JOIN
+        user_file uf ON uf.id = CASE WHEN r.ROOM_id1 = #{id} THEN r.ROOM_id2 ELSE r.ROOM_id1 END
     WHERE 
         #{id} IN (r.room_id1, r.room_id2)
     ORDER BY LAST_MESSAGE_TIME DESC
@@ -145,14 +149,13 @@ GROUP BY room_no
 	</where>
 </select>
 
-<select id="selectByBoard" resultType="Map">
+<select id="selectNewInfo" resultType="Map">
 	SELECT 
 		nick, 
-		(SELECT title FROM board WHERE board.board_no = #{boardNo }) AS thumbnail_title,
-		(SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = #{boardNo } AND rownum = 1) AS thumbnail_name
+		(SELECT thumbnail_name FROM user_file WHERE user_file.id = #{id} AND rownum = 1) AS thumbnail_name
 	FROM usertb U
 	<where>
-		AND id = #{writerId}
+		AND id = #{id}
 	</where>
 </select>
 

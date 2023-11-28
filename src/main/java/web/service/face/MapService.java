@@ -16,4 +16,6 @@ public interface MapService {
 	 */
 	public List<List<Board>> list();
 
+	public String getThumb(int boardNo);
+
 }

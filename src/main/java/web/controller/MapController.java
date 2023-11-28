@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import web.dto.Board;
@@ -28,6 +29,14 @@ public class MapController {
 	public String list( Model model ) { // map에 보내줄 정보
 		List<List<Board>> board = mapService.list();
 		model.addAttribute("board", board);
+		return "jsonView";
+	}
+	
+	@PostMapping("/map/thumb")
+	public String thumb( int boardNo, Model model ) {
+		
+		String thumbNail = mapService.getThumb( boardNo );
+		model.addAttribute( "thumbNail", thumbNail );
 		return "jsonView";
 	}
 }

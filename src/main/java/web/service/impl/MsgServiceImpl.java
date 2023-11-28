@@ -12,9 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.java.Log;
 import oracle.sql.TIMESTAMP;
 import web.dao.face.MsgDao;
 import web.dto.Board;
@@ -24,12 +26,14 @@ import web.dto.User;
 import web.service.face.MsgService;
 
 @Service
+@Log
 public class MsgServiceImpl implements MsgService {
 	@Autowired MsgDao msgDao;
 
 	@Override
 	public List<Map<String, Object>> getmsglist(User user) {
 	    List<Map<String, Object>> list = msgDao.selectRoomNo(user); // 유저의 채팅방들을 가져옴
+	    log.info(list.toString());
 	    DateTimeFormatter formatter; // 날짜와 시간을 원하는 형식으로 포맷하거나 파싱하는 데 사용되는 클래스
 	    LocalDateTime now = LocalDateTime.now(); // 현재 시간
 
@@ -150,8 +154,8 @@ public class MsgServiceImpl implements MsgService {
 	}
 
 	@Override
-	public Map<String, Object> getNewChatInfo(Board param) {
-		return msgDao.selectByBoard( param );
+	public Map<String, Object> getNewChatInfo(String id) {
+		return msgDao.selectNewInfo( id );
 	}
 
 }

@@ -103,8 +103,8 @@ public class MsgController {
 		return "jsonView";
 	}
 	@GetMapping("/getNick")
-	public String getNick( Board param, Model model ) {
-		Map<String, Object> newInfo = msgService.getNewChatInfo( param );
+	public String getNick( String id, Model model ) {
+		Map<String, Object> newInfo = msgService.getNewChatInfo( id );
 		model.addAttribute( "newInfo", newInfo );
 		return "jsonView";
 	}
