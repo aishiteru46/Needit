@@ -65,9 +65,9 @@ $(function() {
 </head>
 <body>
 
-<div class="wrap-content">
+<div class="wrap-content ">
 	<c:forEach var="list" items="${list }">	
-	<ul class="alertData" id="alertData" data-alert="${list.alertNo }">
+	<ul class="alertData " id="alertData" data-alert="${list.alertNo }">
 		<li>
 			<c:if test="${list.menu eq 1 }">[대여]</c:if>
 			<c:if test="${list.menu eq 2 }">[나눔]</c:if>
