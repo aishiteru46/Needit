@@ -95,6 +95,20 @@ public class LoginController {
 	
 		
 	}
+	
+	@GetMapping("/findid")
+	public void findid() {}
+	
+	@PostMapping("/findid")
+	public void findidProc() {}
+	
+	@GetMapping("/findpw")
+	public void findpw() {}
+	
+	@PostMapping("/findpw")
+	public void findpwProc() {}
+	
+	
 	@GetMapping("/naver")
 	public void naver() {}
 	
