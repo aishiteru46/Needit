@@ -8,34 +8,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script type="text/javascript">
+
 $(function(){
-	$("#writer").click(function(){
-		var reportType = $(this).val()
-		   $.ajax({
-		         type: "post"
-		         , url: "/report"
-		         , data: {
-		        	 reportType: reportType
-		        	 , boardNo : '${param.boardNo}'
-		   			 
-		   			
-		         }
-		         , dataType: "json"
-		         , success: function( res  ) {
-		            console.log("AJAX 성공")
-
-		         }
-		         , error: function() {
-		            console.log("AJAX 실패")
-
-		         }
-		      })
-		
-	})
 	
-})
-
-$(function(){
+	$('.reportBtn').click(function() {
+		$('.reportBtn').css('outline', 'none');
+		  
+		$(this).css('outline', '2px solid #E8133D');
+		});	
+	
+	
 	$("#cmtReportBtn").click(function(){
 		console.log("댓글 신고버튼 작동!")
 		
@@ -67,6 +49,7 @@ $(function(){
 })
 
 </script>
+
 <style type="text/css">
 /* 버튼 크기 */
 :root {
@@ -105,41 +88,29 @@ $(function(){
 
 </style>
 
-<script type="text/javascript">
-$(document).ready(function() {
-	$('.reportBtn').click(function() {
-	$('.reportBtn').css('outline', 'none');
-	  
-	$(this).css('outline', '2px solid #E8133D');
-	});
-});
-
-
-</script>
-
 </head>
 <body>
 
 <div id="report">
 	<div id="reportIn">
 		<div>
-		<input class="reportBtn" id="reportBtn1" type="button" value="광고성" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
+		<input class="reportBtn" id="reportBtn1" type="button" value="광고성" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" data-cmtNo="${res.commentList[i].CMT_NO}">
 		</div>
 		
 		<div>
-		<input class="reportBtn" id="reportBtn2" type="button" value="음란물" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
+		<input class="reportBtn" id="reportBtn2" type="button" value="음란물" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" data-cmtNo="${res.commentList[i].CMT_NO}">
 		</div>
 		
 		<div>
-		<input class="reportBtn" id="reportBtn1" type="button" value="욕설" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
+		<input class="reportBtn" id="reportBtn1" type="button" value="욕설" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" data-cmtNo="${res.commentList[i].CMT_NO}">
 		</div>
 		
 		<div>
-		<input class="reportBtn" id="reportBtn2" type="button" value="불법 정보" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
+		<input class="reportBtn" id="reportBtn2" type="button" value="불법 정보" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" data-cmtNo="${res.commentList[i].CMT_NO}">
 		</div>
 		
 		<div>
-		<input class="reportBtn" id="reportBtn1" type="button" value="개인정보 노출" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal">
+		<input class="reportBtn" id="reportBtn1" type="button" value="개인정보 노출" name="reportType" data-bs-target="#reportOkModal" data-bs-toggle="modal" data-cmtNo="${res.commentList[i].CMT_NO}">
 		</div>
 		
 	</div><!-- .reportIn -->
