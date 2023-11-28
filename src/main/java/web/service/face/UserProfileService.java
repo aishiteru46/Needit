@@ -219,6 +219,7 @@ public interface UserProfileService {
 	 * @return 게시글 목록
 	 */
 	public List<Map<String, Object>> myBoardList(Paging paging);
+	
 
 
 }

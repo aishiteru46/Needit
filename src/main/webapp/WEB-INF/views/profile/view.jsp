@@ -360,14 +360,8 @@ ${userGrade }
             </tr>
             <tr>
                <td style="width: 150px; vertical-align: middle;">이메일 수신</td>
-               <c:choose>
-        			<c:when test="${user.emailAgr eq 1}">
-                		<td>동의</td>
-                	</c:when>
-        			<c:when test="${user.emailAgr eq 0}">
-                		<td>미동의</td>
-                	</c:when>
-                </c:choose>
+			   <td><label>동의<input type="checkbox" name="agree"></label>
+			   <label>미동의<input type="checkbox" name=""></label></td>
             </tr>
             <c:if test="${empty img}">
             <tr id="previewSection"  style="display: none;">
@@ -456,6 +450,7 @@ ${userGrade }
 		<th>예약 날짜</th>
 		<th>예약 시작 시간</th>
 		<th>예약 끝 시간</th>
+		<th>결제 상태</th>
 		<th>승인 처리</th>
 		<th></th>
 		
@@ -467,7 +462,7 @@ ${userGrade }
 		<td>${list.RENT_DATE }</td>
 		<c:choose>
 	    <c:when test="${list.START_TIME % 2 == 1}">
-		        <c:set var="hour" value="${(list.START_TIME + 1) / 2 - 1}" />
+		        <c:set var="hour" value="${(list.START_TIME ) / 2}" />
 		        <c:set var="minute" value="00" />
 		    </c:when>
 		    <c:when test="${list.START_TIME % 2 == 0}">
@@ -492,6 +487,14 @@ ${userGrade }
 	
 		<!-- 종료 시간 출력 -->
 		<td>${endHour}:${endMinute}</td>
+		<c:choose>
+            <c:when test="${list.PAYMENT_TYPE eq 1}">
+                <td><button disabled="disabled">결제됨</button></td>
+            </c:when>
+            <c:when test="${list.PAYMENT_TYPE eq 0}">
+                <td><button disabled="disabled">직거래</button></td>
+            </c:when>
+        </c:choose>
 		<c:if test="${list.RENT_STATUS eq 1 }">
 			<td><button id="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
 		</c:if>
@@ -509,7 +512,10 @@ ${userGrade }
 	
 </c:forEach>
 </table>
-<c:import url="/WEB-INF/views/layout/pagination.jsp" />
+
+<small class="float-end" style=" margin-right: 8px; margin-top: -10px; margin-bottom: 20px;">total : ${paging.totalCount }</small>
+
+<c:import url="/WEB-INF/views/layout/paginationRent.jsp" />
 		
 <hr>
 
@@ -523,6 +529,7 @@ ${userGrade }
 		<th>예약 날짜</th>
 		<th>예약 시작 시간</th>
 		<th>예약 끝 시간</th>
+		<th>결제 상태</th>
 		<th>승인 처리</th>
 		<th></th>
 		
@@ -534,11 +541,11 @@ ${userGrade }
 		<td>${list.RENT_DATE }</td>
 		<c:choose>
 	    <c:when test="${list.START_TIME % 2 == 1}">
-		        <c:set var="hour" value="${(list.START_TIME + 1) / 2 - 1}" />
+		        <c:set var="hour" value="${(list.START_TIME + 1) / 2}" />
 		        <c:set var="minute" value="00" />
 		    </c:when>
 		    <c:when test="${list.START_TIME % 2 == 0}">
-		        <c:set var="hour" value="${list.START_TIME / 2}" />
+		        <c:set var="hour" value="${(list.START_TIME / 2) - 1}" />
 		        <c:set var="minute" value="30" />
 		    </c:when>
 		</c:choose>
@@ -559,6 +566,15 @@ ${userGrade }
 	
 		<!-- 종료 시간 출력 -->
 		<td>${endHour}:${endMinute}</td>
+		
+		<c:choose>
+            <c:when test="${list.PAYMENT_TYPE eq 1}">
+                <td><button disabled="disabled">결제됨</button></td>
+            </c:when>
+            <c:when test="${list.PAYMENT_TYPE eq 0}">
+                <td><button disabled="disabled">직거래</button></td>
+            </c:when>
+        </c:choose>
 		
 		<c:if test="${list.RENT_STATUS eq 1 }">
 			<td><button id="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
