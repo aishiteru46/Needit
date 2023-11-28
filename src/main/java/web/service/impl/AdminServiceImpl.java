@@ -179,9 +179,14 @@ public class AdminServiceImpl implements AdminService {
 	
 	//업체 승인, 취소
 	@Override
-	public void updateBusiness(Business business) {
+	public void approveBusiness(Business business) {
+		adminDao.approveBusiness(business);
 		
-		adminDao.businessOk(business);
-		adminDao.businessNo(business);
 	}
+	@Override
+	public void cancelBusiness(Business business) {
+		adminDao.cancelBusiness(business);
+		
+	}
+	
 }

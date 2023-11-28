@@ -72,8 +72,8 @@ public class MainServiceImpl implements MainService {
 
 		return paging;
 	}
-
 	
+	//검색리스트 뽑기
 	@Override
 	public List<Map<String, Object>> searchList(Paging paging) {
 

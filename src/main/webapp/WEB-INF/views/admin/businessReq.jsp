@@ -24,49 +24,74 @@
 #AdminContent{
 	width: 80%;
 }
+
+.approveButton.req{
+	
+}
+
+.approveButton.done{
+
+}
 </style>
 
 <script type="text/javascript">
-/* 승인 버튼 */
-$(function(){
-	
-	$("#yes").click(function(){
-    	console.log("승인")
-		$.ajax({
-	       type: "POST",
-	       url: "/admin/businessReq",
-	       data: {
-	    	   
-	    	   id: '${id}' 
-	    	   
-	       },
-	       success: function(response) {
-	       },
-	       error: function(xhr, status, error) {
-	       }
-	   });
-   	})
-   
-    $("#no").click(function(){
-   	console.log("취소")
-	$.ajax({
-	       type: "POST",
-	       url: "/admin/businessReq",
-	       data: {
-	    	   
-	    	   id: '${id}' 
-	    	   
-	       },
-	       success: function(response) {
-	       },
-	       error: function(xhr, status, error) {
-	       }
-	   });
-   	})
+$(document).ready(function() {
+    $(".approveButton").click(function() {
+        var id = $(this).data('id');
+        console.log("id : ", id);
+        $.ajax({
+            type: "POST",
+            url: "/admin/approveBusiness", // 승인을 위한 엔드포인트로 수정
+            data: {
+                id: id
+            },
+            success: function(response) {
+            	console.log("AJAX성공")
+            	console.log("response : ",response)
+                // 성공 시 필요한 처리를 수행합니다
+                // 예를 들어, 승인 후 UI를 업데이트하는 등의 작업을 할 수 있습니다
+
+                var target = $(".approveButton[data-id='" + id + "']");
+            	console.log(target[0])
+                if(response === "done"){
+                	console.log("함수 실행")
+                	target.removeClass("req").addClass("done");
+                	console.log(target[0])
+                	target.text("승인됨")
+                }
+                
+            },
+            error: function(xhr, status, error) {
+                // 에러 발생 시 처리를 합니다
+            }
+        });
+    });
+
+    $(".cancelButton").click(function() {
+        var id = $(this).data('id');
+        cancelBusiness(id);
+    });
+});
+
+
+function cancelBusiness(id) {
+    $.ajax({
+        type: "POST",
+        url: "/admin/cancelBusiness", // 취소를 위한 엔드포인트로 수정
+        data: {
+            id: id
+        },
+        success: function(response) {
+            // 성공 시 필요한 처리를 수행합니다
+            // 예를 들어, 취소 후 UI를 업데이트하는 등의 작업을 할 수 있습니다
+        },
+        error: function(xhr, status, error) {
+            // 에러 발생 시 처리를 합니다
+        }
+    });
+}
     
-
-})
-
+    
 </script>
 
 
@@ -108,9 +133,13 @@ $(function(){
 		<td>${list.BUSINESS_ADDR }</td>
 		<td>${list.BUSINESS_PHONE }</td>
 		<td>${list.BUSINESS_URL }</td>
-		
-		<td><button id="yes">승인</button></td>
-		<td><button id="no">취소</button></td>
+		<c:if test="${list.BUSINESS_STATUS eq 1 }">
+			<td><button class="approveButton req" data-id="${list.ID}">승인</button></td>
+		</c:if>
+		<c:if test="${list.BUSINESS_STATUS eq 2 }">
+			<td><button class="approveButton done" data-id="${list.ID}">승인됨</button></td>
+		</c:if>
+        <td><button class="cancelButton" data-id="${list.ID}">취소</button></td>
 	</tr>
 </c:forEach>
 </tbody>

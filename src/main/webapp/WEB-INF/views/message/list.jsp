@@ -165,9 +165,6 @@ pageEncoding="UTF-8"%>
   text-align: center;
 }
 
-.msgObject-unread {
-    background-color: #F3F781; /* 배경색을 변경하고 싶은 색상으로 설정하세요 */
-}
 
 .msgObject-img {
   float: left;
@@ -250,6 +247,30 @@ pageEncoding="UTF-8"%>
     color: wheat;
     position: relative;
     bottom: -15px;
+}
+
+.redDot {
+    float: left;
+    height: 15px;
+    width: 15px;
+}
+
+.redDot-unread {
+    border-radius: 50%;
+    background: #ff533f;
+    float: left;
+    height: 15px;
+    width: 15px;
+    animation: sparkle 1s infinite alternate;
+}
+
+@keyframes sparkle {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.7;
+    }
 }
 
 </style>
@@ -848,7 +869,7 @@ function formatDate(timestamp) {
 		
 			<div class="msgObjects">
 				<c:forEach var="list" items="${list}">
-					<div class="msgObject ${list.msgStatus == 1 ? 'msgObject-unread' : ''}"  room_no="${list.roomNo}">
+					<div class="msgObject"  room_no="${list.roomNo}">
 						<img src="/resources/img/chunsic.png" alt="Profile Image" class="msgObject-img">
 						<div class="msgObject-content">
 							<div class="msgObject-username">${list.otherUserNick}</div>
@@ -862,6 +883,7 @@ function formatDate(timestamp) {
 								</c:otherwise>
 								</c:choose>
 							</div><!-- ."messagePreview" -->
+							<div class="redDot ${list.msgStatus == 1 ? 'redDot-unread' : ''}"></div>
 							<div class="lastMessageTime">${list.lastMessageTime}</div>
 						</div><!-- .msgObject-content  -->
 					</div><!-- .msgObject -->

@@ -228,18 +228,31 @@ $(document).ready(function() {
 		<table class="listType">
 		
 		<colgroup>
-			<col style="width:5%;">
-			<col style="width:45%;">
+			<col style="width:6%;">
+			<col style="width:12%;">
+			<col style="width:13%;">
+			<col style="width:13%;">
 			<col style="width:10%;">
+			
 			<col style="width:10%;">
-			<col style="width:10%;">
-			<col style="width:15%;">
-			<col style="width:5%;">
+			<col style="width:16%;">
+			<col style="width:12%;">
+			<col style="width:8%;">
 		</colgroup>
 		
 		<thead>
 			<tr>
-				<th style="border-top-left-radius: 8px;">No.</th><th>제목</th><th>가격(30분)</th><th>위치</th><th>작성자</th><th>작성일</th><th style="border-top-right-radius: 8px;">조회</th>
+				<th style="border-top-left-radius: 8px;">No.</th>
+				<th>제목</th>
+				<th>메뉴</th>
+				<th>카테고리</th>
+				<th>가격(30분)</th>
+				
+				<th>위치</th>
+				<th>작성자</th>
+				<th>작성일</th>
+				<th style="border-top-right-radius: 8px;">조회수</th>
+				
 			</tr>
 		</thead>
 		
@@ -260,11 +273,42 @@ $(document).ready(function() {
 					        </div>
 				        </c:if>
 				        <div class="titlebox">					
-							<a href="/rent/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE }</div></a>
+							<a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div style="text-align: left;" id="title">${list.TITLE }</div></a>
 						</div>
 					</div>
 				</td>
-				<td><fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</td>
+				<td>
+				<c:choose>
+		            <c:when test="${list.MENU eq 1}">
+		                대여해요
+		            </c:when>
+		            <c:when test="${list.MENU eq 2}">
+		                나눔해요
+		            </c:when>
+		            <c:when test="${list.MENU eq 3}">
+		                해주세요
+		            </c:when>
+		        </c:choose>
+		        </td>
+				<td>
+				<c:choose>
+		            <c:when test="${list.CATE eq 1}">
+		                물품
+		            </c:when>
+		            <c:when test="${list.CATE eq 2}">
+		                인력
+		            </c:when>
+		            <c:when test="${list.CATE eq 3}">
+		                공간
+		            </c:when>
+		        </c:choose>
+				</td>
+				<c:if test="${list.PRICE != 0 }">
+					<td><fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</td>
+				</c:if>
+				<c:if test="${list.PRICE eq 0 }">
+					<td>나눔♥️</td>
+				</c:if>
 				<td><div id="locationBox">${list.LOCATION }</div></td>
 				<td>${list.WRITER_NICK }</td>
 				<td>
@@ -290,8 +334,8 @@ $(document).ready(function() {
 
 <br>
 
+<small class="float-end" style="margin-right: 8px; margin-top: -30px;">total : ${paging.totalCount }</small>
 </div><!-- .listContainer -->
-<%-- <small class="float-end" style="margin-right: 8px; margin-top: -10px;">total : ${paging.totalCount }</small> --%>
 <c:import url="/WEB-INF/views/layout/paginationMainSearch.jsp" />
 
 </c:if>

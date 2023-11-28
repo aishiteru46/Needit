@@ -178,33 +178,34 @@ function showCheckboxes() {
 </div><!-- #emailDiv -->
 
 <div id="emailSendList" class="ms-2">
-   	<div class="verticalContent">
-    <input type="checkbox" id="selectSend" name="selectSend" data-title="Needit 서버점검 공지"
-    data-content="<strong>서버점검이 있을 예정입니다</strong>
-    금일 오전 10시 ~ 오후 1시 까지 서버가 작동하지 않을 수 있습니다
-    양해 부탁드립니다
-    
-    감사합니다">
-    <label for="selectSend">Needit 서버점검 공지</label><br>
-    <label for="selectSend">
-    	<strong>서버점검이 있을 예정입니다</strong><br>
-    	금일 오전 10시 ~ 오후 1시 까지 서버가 작동하지 않을 수 있습니다<br>
-    	양해 부탁드립니다<br><br>
-    	감사합니다<br>
+<div class="verticalContent">
+    <input type="checkbox" id="selectSend1" name="selectSend" data-title="Needit 서버점검 공지"
+           data-content="<strong>서버점검이 있을 예정입니다</strong>
+                            금일 오전 10시 ~ 오후 1시 까지 서버가 작동하지 않을 수 있습니다
+                            양해 부탁드립니다
+                            
+                            감사합니다">
+    <label for="selectSend1">Needit 서버점검 공지</label><br>
+    <label for="selectSend1">
+        <strong>서버점검이 있을 예정입니다</strong><br>
+        금일 오전 10시 ~ 오후 1시 까지 서버가 작동하지 않을 수 있습니다<br>
+        양해 부탁드립니다<br><br>
+        감사합니다<br>
     </label><br>
-    </div>
-    
- 	<div class="verticalContent">
-    <input type="checkbox" id="selectSend" name="selectSend" data-title="Needit에 오신것을 환영합니다." data-content="홈페이지 방문해주셔서 감사합니다.">
-    <label for="selectSend">Needit에 오신것을 환영합니다.</label><br>
-    <label for="selectSend">홈페이지 방문해주셔서 감사합니다.</label><br>
-	</div>
-	
-	<div class="verticalContent">
-    <input type="checkbox" id="selectSend" name="selectSend" data-title="Needit" data-content="신고로 인해 게시물이 삭제되었습니다.">
-    <label for="selectSend">Needit</label><br>
-    <label for="selectSend">신고로 인해 게시물이 삭제되었습니다.</label><br>
-    </div>
+</div>
+
+<div class="verticalContent">
+    <input type="checkbox" id="selectSend2" name="selectSend" data-title="Needit에 오신것을 환영합니다." data-content="홈페이지 방문해주셔서 감사합니다.">
+    <label for="selectSend2">Needit에 오신것을 환영합니다.</label><br>
+    <label for="selectSend2">홈페이지 방문해주셔서 감사합니다.</label><br>
+</div>
+
+<div class="verticalContent">
+    <input type="checkbox" id="selectSend3" name="selectSend" data-title="Needit" data-content="신고로 인해 게시물이 삭제되었습니다.">
+    <label for="selectSend3">Needit</label><br>
+    <label for="selectSend3">신고로 인해 게시물이 삭제되었습니다.</label><br>
+</div>
+
     
 </div><!-- #emailSendList -->
 

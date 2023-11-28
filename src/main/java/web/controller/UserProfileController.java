@@ -63,6 +63,7 @@ public class UserProfileController {
 		board.setWriterId((String)session.getAttribute("id"));
 		user.setId((String)session.getAttribute("id"));
 		like.setLikeId((String)session.getAttribute("id"));
+		param.setUserId((String)session.getAttribute("id"));
 		if((boolean)session.getAttribute("isLogin") == false) {
 			return "redirect:/user/login";
 		}
@@ -72,6 +73,7 @@ public class UserProfileController {
 
 		//내 게시물에 예약한 정보
 		List<Map<String,Object>> myList = userProfileService.myRentList(paging,user);
+		logger.info("예약 정보 나와라아아아아{}",myList);
 		model.addAttribute("myList",myList);
 		
 		//내가 예약한 정보
@@ -153,6 +155,7 @@ public class UserProfileController {
 		List<Map<Board, Object>> basketList = userProfileService.selectBasketList(board);
 		logger.info("바스켓또{}",basketList);
 		model.addAttribute("basketList",basketList);
+		
 		return "profile/view";
 		
 		

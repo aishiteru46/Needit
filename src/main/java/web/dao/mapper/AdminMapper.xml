@@ -176,17 +176,19 @@
 		FROM business b
 		JOIN usertb u ON b.id = u.id
 		WHERE u.business_status = 1
+		OR u.business_status = 2
+		ORDER BY b.id
 	</select>
 
 	<!-- 업체 요청 승인 -->
-	<update id="businessOk" parameterType="Business">
+	<update id="approveBusiness" parameterType="Business">
 		UPDATE usertb
 		SET business_status = 2
 		WHERE id = #{id}
 	</update>
 	
 	<!-- 업체 요청 취소 -->
-	<update id="businessNo" parameterType="Business">
+	<update id="cancelBusiness" parameterType="Business">
 		UPDATE usertb
 		SET business_status = 0
 		WHERE id = #{id}

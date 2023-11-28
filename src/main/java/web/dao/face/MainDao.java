@@ -69,12 +69,5 @@ public interface MainDao {
 	 */
 	public List<Map<String, Object>> selectSearch(Paging paging);
 
-	/**
-	 * 무한스크롤
-	 * @param param
-	 * @return
-	 */
-	public List<Map<String, Object>> selectAdditionalData(Paging param);
-	
 
 }
