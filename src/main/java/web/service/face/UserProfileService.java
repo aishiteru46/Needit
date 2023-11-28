@@ -230,4 +230,20 @@ public interface UserProfileService {
 	 */
 	public List<Map<String, Object>> myBoardList(Paging myBoardPaging);
   
+	/**
+	 * 이메일 수신 동의 업데이트
+	 * 
+	 * @param emailAgr
+	 */
+	public void updateEmail(User user);
+	
+	/**
+	 * 이메일 수신 동의 확인
+	 * 
+	 * @param user 
+	 * @return true 수신 동의 상태 false 수신 미동의 상태
+	 */
+	public boolean checkAgree(User user);
+	
+
 }

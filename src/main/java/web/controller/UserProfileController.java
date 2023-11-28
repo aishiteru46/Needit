@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -357,6 +358,36 @@ public class UserProfileController {
 		userProfileService.insertBusiness(busi, user);
 		return "redirect:/profile/view";
 	}
+	
+	@PostMapping("/email")
+	public String email(
+			User user, HttpSession session
+			) {
+		logger.info("이메일{}",user.getEmailAgr());
+		
+		user.setId((String)session.getAttribute("id"));
+		
+		userProfileService.updateEmail(user);
+		
+		
+		
+		return "/profile/view";
+	}
+	
+	@GetMapping("/checkEmail")
+	public String checkEmail(
+			User user, Model model
+			, HttpSession session
+			) {
+		user.setId((String)session.getAttribute("id"));
+		
+		boolean email = userProfileService.checkAgree(user);
+		model.addAttribute("email",email);
+		
+		return "jsonView";
+		
+	}
+	
 	
 	
 	

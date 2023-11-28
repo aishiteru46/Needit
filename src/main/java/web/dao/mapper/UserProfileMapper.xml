@@ -319,6 +319,36 @@
           	) B
       	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
+	
+	<select id="selectEmail" resultType="User" parameterType="User">
+		SELECT email_agr FROM userTB
+    	<where>
+    		AND id = #{id}
+    	</where>
+	</select>
+	
+	<update id="updateAgree" parameterType="User">
+		UPDATE userTB
+		<set>
+			email_agr = '1'
+		</set>
+		<where>
+			AND email_agr = '0'
+			AND id = #{id}
+		</where>
+	</update>
+	
+	
+	<update id="updateDisagree" parameterType="User">
+		UPDATE userTB
+		<set>
+			email_agr = '0'
+		</set>
+		<where>
+			AND email_agr = '1'
+			AND id = #{id}
+		</where>
+	</update>
 
  </mapper>
  
