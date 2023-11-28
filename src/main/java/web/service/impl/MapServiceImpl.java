@@ -37,5 +37,10 @@ public class MapServiceImpl implements MapService {
 
 		return result;
 	}
+
+	@Override
+	public String getThumb(int boardNo) {
+		return mapDao.selectThumb( boardNo );
+	}
 	
 }

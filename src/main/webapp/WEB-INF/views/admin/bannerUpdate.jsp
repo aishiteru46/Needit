@@ -41,12 +41,13 @@
 
 <form action="./bannerUpdate" method="post" enctype="multipart/form-data">
 
-<div class="form-group mb-3">
+<div class="form-group mb-3 ms-3">
 	<label class="form-label" for="file">첨부파일</label>
 	<input type="file" class="form-control" name="file" id="file" multiple="multiple">
 </div>
 
-<div class="text-center">
+<!-- <div class="text-center"> -->
+<div class="ms-3">
 	<button class="btn btn-primary" id="btnWrite">작성</button>
 	<button type="reset" class="btn btn-danger" id="btnCancel">취소</button>
 </div>

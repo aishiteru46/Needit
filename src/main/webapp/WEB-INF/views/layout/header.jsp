@@ -22,10 +22,10 @@
 <script type="text/javascript">
 var result = 0;
 $(function() {
-	
 	 var sessionId = "${id}";
-	 
+	 console.log('sessionId11111111111111', sessionId)
 	 if (sessionId) {
+	 console.log('sessionId22222222222222222', sessionId)
 
 	   hasNew() //페이지 로드 시 'hashNew' 함수를 호출하여 새로운 알림을 확인
 	   loadAlert()    

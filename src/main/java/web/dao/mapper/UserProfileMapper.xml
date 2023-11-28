@@ -8,16 +8,35 @@
  <mapper namespace="web.dao.face.UserProfileDao">
  
  
+ 	<!-- 게시글 조회용 SQL -->
+	<sql id="selectMyBoard">
+		SELECT 
+		    board_no, writer_id, writer_nick, 
+		    hit, menu, cate, title, price, content, location,
+		    CAST(write_date AS DATE) AS write_date, 
+		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
+		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
+		FROM board B
+		<where>
+			writer_id = #{userId}
+		</where>
+	</sql>
+ 
+ 
  	<sql id="rentList">
  		SELECT 
  			rent_no, board_no , renter_id, rent_date
- 			, start_time, end_time, rent_status
+ 			, start_time, end_time, rent_status, payment_type
  		FROM rent
  		<where>
  			renter_id = #{userId}
  		</where>
  			
  	</sql>
+ 
+ 
+ 	
+ 
  
 	<!--  회원정보수정  -->
  	<update id="infoUpdate" parameterType="User">
@@ -36,13 +55,28 @@
  	
  	<select id="selectCntAll" resultType="int" parameterType="web.util.Paging">
 		SELECT count(*) FROM (
-			<include refid="rentList" />
+				SELECT 
+ 			rent_no, board_no , renter_id, rent_date
+ 			, start_time, end_time, rent_status
+ 		FROM rent
+ 		<where>
+ 			renter_id = #{userId}
+ 		</where>
+		)
+		
+	</select>
+	
+	
+	<select id="selectMyBoardCntAll" resultType="int" parameterType="web.util.Paging">
+		SELECT count(*) FROM (
+			<include refid="selectMyBoard"/>
 		)
 	</select>
+	
  	
  	<!-- 예약 목록 -->
  	<select id="selectMyRentList" resultType="Map" parameterType="web.util.Paging">
-	 	SELECT B.board_no, A.renter_id, A.rent_no, A.rent_date, A.start_time, A.end_time, A.rent_status
+	 	SELECT B.board_no, A.renter_id, A.rent_no, A.rent_date, A.start_time, A.end_time, A.rent_status, A.payment_type
 		FROM rent A
 		INNER JOIN board B ON B.board_no = A.board_no
 		WHERE B.writer_id = #{userId}
@@ -51,7 +85,7 @@
  	
  	<!-- 내가 예약한 목록 -->
  	<select id="selectRentList" resultType="Map" parameterType="User">
- 		SELECT B.board_no, A.renter_id, A.rent_no, A.rent_date, A.start_time, A.end_time, A.rent_status
+ 		SELECT B.board_no, A.renter_id, A.rent_no, A.rent_date, A.start_time, A.end_time, A.rent_status, A.payment_type
 		FROM rent A
 		INNER JOIN board B ON B.board_no = A.board_no
 		WHERE A.renter_id = #{id}
@@ -276,9 +310,49 @@
 		</where>
 	</update>
 
-	<!-- 해당 메뉴 게시글 조회 에러나서그냥넣어놓음-->
+	<!-- 해당 메뉴 게시글 조회 -->
 	<select id="selectAll" resultType="Map" parameterType="web.util.Paging">
-		SELECT * FROM board 
+		SELECT * FROM (
+			SELECT rownum rnum, B.* FROM (
+				<include refid="selectMyBoard"/>
+				ORDER BY board_no DESC
+          	) B
+      	) WHERE rnum BETWEEN #{startNo} AND #{endNo}
 	</select>
+	
+	<select id="selectEmail" resultType="User" parameterType="User">
+		SELECT email_agr FROM userTB
+    	<where>
+    		AND id = #{id}
+    	</where>
+	</select>
+	
+	<update id="updateAgree" parameterType="User">
+		UPDATE userTB
+		<set>
+			email_agr = '1'
+		</set>
+		<where>
+			AND email_agr = '0'
+			AND id = #{id}
+		</where>
+	</update>
+	
+	
+	<update id="updateDisagree" parameterType="User">
+		UPDATE userTB
+		<set>
+			email_agr = '0'
+		</set>
+		<where>
+			AND email_agr = '1'
+			AND id = #{id}
+		</where>
+	</update>
 
  </mapper>
+ 
+ 
+ 
+ 
+ 

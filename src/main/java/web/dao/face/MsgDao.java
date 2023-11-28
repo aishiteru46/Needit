@@ -70,6 +70,6 @@ public interface MsgDao {
 
 	public Map<String, Object> selectByBoardNoInfo(int boardNo);
 
-	public Map<String, Object> selectByBoard(Board param);
+	public Map<String, Object> selectNewInfo(String id);
 
 }

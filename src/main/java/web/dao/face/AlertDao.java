@@ -35,4 +35,8 @@ public interface AlertDao {
 	 * @return 안 읽은 알림의 갯수
 	 */
 	public int countStatus(Alert alert);
+
+	public void deleteAlert(Alert alert);
+
+	public void deleteAll(Alert alert);
 }

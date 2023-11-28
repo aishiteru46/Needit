@@ -145,8 +145,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	public Paging getPaging(Paging param) {
 		int totalCount = userProfileDao.selectCntAll(param);
+		logger.info("총 조회수우우우야랴{}",totalCount);
 		
-		Paging paging = new Paging( param.getMenu(), param.getCate(),totalCount, param.getCurPage(), 9, 10 );
+		
+		Paging paging = new Paging(  param.getMenu(), param.getCate(),totalCount, param.getCurPage(), 9, 10 );
+		
 		return paging;
 	}
 	
@@ -161,7 +164,23 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userProfileDao.selectRentList(user);
 	}
 
-
+	//내가쓴글보드페이징
+	@Override
+	public Paging getBoardPaging(Paging param) {
+		int boardTotalCount = userProfileDao.selectMyBoardCntAll(param);
+		logger.info("내가쓴게시글 몇개? : {}",boardTotalCount);
+		
+		Paging myBoardCnt = new Paging(param.getMenu(), param.getCate(),boardTotalCount, param.getCurPage(), 5, 10);
+		
+		return myBoardCnt;
+	}
+	
+	@Override
+	public List<Map<String, Object>> myBoardList(Paging myBoardPaging) {
+		logger.info("서비스 임플에서 myBoardPaging :{}", myBoardPaging);
+		
+		return userProfileDao.selectAll(myBoardPaging);
+	}
 
 	@Override
 	public UserFile imgSelect(String userId) {
@@ -316,10 +335,39 @@ public class UserProfileServiceImpl implements UserProfileService {
 		}
 	}
 
-	//내가쓴글페이징
+
+
+
+
+	
+
 	@Override
-	public List<Map<String, Object>> myBoardList(Paging paging) {
-		return userProfileDao.selectAll(paging);
+	public boolean checkAgree(User user) {
+		
+		User res =  userProfileDao.selectEmail(user);
+		logger.info("이거 나와야합니다아아{}",res);
+		if( res.getEmailAgr() > 0) {
+			return true;
+		}
+		return false;
 	}
+	
+	
+	@Override
+	public void updateEmail(User user) {
+		
+		if(user.getEmailAgr() > 0 ) {
+			userProfileDao.updateAgree(user);
+		} else {
+			userProfileDao.updateDisagree(user);
+
+		}
+		
+	}
+
+
+	
+
+
 
 }

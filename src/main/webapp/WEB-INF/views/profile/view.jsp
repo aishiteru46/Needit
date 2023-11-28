@@ -5,14 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
-<style type="text/css">
-.rentTable, th, td {
 
-	border: 1px solid #ccc;
-	
-
-}
-</style>
 <script type="text/javascript">
 //썸네일 미리보기
 function setThumbnail(event) {
@@ -158,6 +151,7 @@ function toggleSection(sectionId) {
   }
 }
 
+
 </script>
 
 <script type="text/javascript">
@@ -211,220 +205,222 @@ $(function(){
 		      })
     })
     
+	
+    $.ajax({
+        url: '/profile/checkEmail',
+        method: 'GET',
+        type:'json',
+        data: {},  // 수정된 부분: 빈 객체를 전달하지 않음
+        success: function (res) {
+           console.log(res);
+
+           if (res.email === true) {
+               $("input[name=emailAgr][value=1]").prop("checked", true);
+           } else {
+               $("input[name=emailAgr][value=0]").prop("checked", true);
+           }
+        },
+        error: function (error) {
+            console.error(error);
+        }
+    });
+
+    // 라디오 버튼 변경 시 서버에게 POST 요청
+    $("input[name=emailAgr]").change(function () {
+        var emailAgr = $("input[name=emailAgr]:checked").val();
+
+        $.ajax({
+            url: '/profile/email',
+            method: 'POST',
+            data: {
+                emailAgr: emailAgr
+            },
+            success: function (res) {
+                console.log(res);
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    });
 });
 
 </script>
-
 <style type="text/css">
 
-#thumbnail_container{
-    border: 1px solid #ccc;
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
+.rentTable, th, td {
+	border: 1px solid #ccc;
 }
 
-</style>
-
-<style>
-    #profileImageContainer {
-        width: 300px; /* 프로필 이미지 컨테이너의 너비 */
-        height: 300px; /* 프로필 이미지 컨테이너의 높이 */
-        overflow: hidden;
-        border-radius: 50%; /* 반지름 50%로 설정하여 동그랗게 만듭니다. */
-    }
-
-    #profileImage {
-        width: 100%; /* 이미지를 100%로 설정하여 부모 컨테이너에 맞게 합니다. */
-        height: auto;
-        border-radius: 50%; /* 이미지도 둥글게 만듭니다. */
-    }
-</style>
-
-<style>
-        .hidden {
-            display: none;
-        }
-</style>
-
-
-<style type="text/css">
-   #boardSection {
-      margin-top: 25px;
-      margin-bottom: -22px;
-   }
-
-   .listType {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 25px;
-   }
-
-   .listType th,
-   .listType td {
-      text-align: center;
-      border-bottom: 1px solid #ccc;
-      padding: 10px;
-   }
-
-   .listType th {
-      background-color: rgb(255, 83, 64);
-      color: white;
-      font-weight: bold;
-      height: 40px;
-   }
-
-   .listType a {
-      text-decoration: none;
-      color: black;
-   }
-
-   .listType tr:hover {
-      background-color: #f5f5f5;
-   }
-   
-   .listType th.title {
-      
-      width: 50%; /* 원하는 넓이로 조절 */
-   }
+/* 프로필사진, 닉네임, 사진등록 삭제 */
+#profileImgContainer{ 
+	width: 400px; 
+    float: left;
+    text-align: center;
+}
+/* 프로필 등록 삭제 버튼 배치 */
+#profileImgUpdate{
+	width: 100%;
+	height: 100%;
+}
+/* 프로필 사진 크기 */
+#profileImage{
+	width: 400px;
+	border-radius: 310px;
+}
+/* 유저 정보 */
+#userContent{
+    width: 776px;
+    height: 332px;
+    float: left;
+}
+/* 유저 정보 테이블 둥글게 */
+#userContent table{
+	border-radius: 10px;
+}
+/* 회원등급 사진 */
+#userGrade{
+	display: inline-block;
+}
+#userGrade img{
+	width: 20px;
+	height: 30px;
+	display: inline-block;
+	vertical-align: top;
+}
+/* 자기소개 너비 */
+#introduce{
+    width: 1200px;
+}
+/* 자기소개 id */
+#introId{
+	margin-bottom: 10px;
+}
+/* 자기소개칸 둥글게 */
+#introId, #introText{
+    border-radius: 10px;
+}
 </style>
 
 <div class="container">
-<h1>마이페이지</h1>
-<hr>
-${userGrade }
-<c:choose>
-	<c:when test="${userGrade eq 1}">
-		<img src="/resources/img/계란.png"/>
-	</c:when>
-	<c:when test="${userGrade eq 2}">
-		<img src="/resources/img/금간계란.png"/>
-	</c:when>
-	<c:when test="${userGrade eq 3}">
-		<img src="/resources/img/병아리.png"/>
-	</c:when>
-	<c:when test="${userGrade eq 4}">
-		<img src="/resources/img/닭.png"/>
-	</c:when>
-	<c:when test="${userGrade eq 5}">
-		<img src="/resources/img/치킨.png"/>
-	</c:when>
 
-</c:choose>
+<div style="margin-top: 20px;"></div>
 
-<div id="profileImageContainer" >
-    <c:if test="${not empty img}">
-        <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
-    </c:if>
-    <c:if test="${empty img}">
-        <img id="profileImage" src="/resources/img/defaultProfile.png" alt="User Profile Image">
-    </c:if>
-</div>
-<c:if test="${not empty img}">
-	<div class="btn btn-danger btn-sm pull-right" id="imgDelete" >이미지 삭제</div>
-</c:if>
-<!-- 이미지 삭제 버튼 -->
+<div id="userUpdateSection" class="float-end mb-4">
+	<a href="infoupdate" class="btn btn-success" >회원정보 수정</a>
+</div><!-- #userUpdateSection -->
 
+<div>
+<div id="profileImgContainer" >
+<div id="profileImg" style="width: 350px; height: 350px;">
+	<c:if test="${not empty img}">
+	    <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
+	</c:if>
+	<c:if test="${empty img}">
+	    <img id="profileImage" src="/resources/img/defaultProfile.png" alt="User Profile Image">
+	</c:if>
+</div><!-- #profileImg -->
 <h3>${nick}님의 프로필</h3>
+<div id="profileImgUpdate">
+	<!-- 이미지 등록 버튼 -->
+	<div class="btn btn-primary btn-sm pull-right me-2" id="imgUpdate" >등록</div>
+	<!-- 이미지 삭제 버튼 -->
+	<div class="btn btn-danger btn-sm pull-right" id="imgDelete" >삭제</div>
+</div>
+</div><!-- #profileImgContainer -->
 
-<div class="panel panel-default">
-   <div class="panel-body">
-      <form id="uploadForm" action="./imgupdate" method="post" enctype="multipart/form-data">
-<!--       <form  enctype="multipart/form-data"> -->
-         <input type="hidden" name="id" value="${id}"/>
-         <table class="table table-bordered" style="text-align: center; border: 1px solid #dddddd;">
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">아이디</td>
-               <td>${id }</td>
-            </tr>
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">닉네임</td>
-               <td>${nick }</td>
-            </tr>
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">등급</td>
-               <td>${user.grade }</td>
-            </tr>
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">가입일</td>
-               <td><fmt:formatDate pattern="yyyy-MM-dd" value="${user.joinDate }"/></td>
-            </tr>
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">주소</td>
-               <td>${user.addr1 }<br>${user.addr2 }</td>
-            </tr>
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">이메일 수신</td>
-               <c:choose>
-        			<c:when test="${user.emailAgr eq 1}">
-                		<td>동의</td>
-                	</c:when>
-        			<c:when test="${user.emailAgr eq 0}">
-                		<td>미동의</td>
-                	</c:when>
-                </c:choose>
-            </tr>
-            <c:if test="${empty img}">
-            <tr id="previewSection"  style="display: none;">
-            	<td colspan="2" style="text-align: left;">
-            	
-               	<!-- 썸네일 미리보기를 담을 div 추가 -->
-               	<div id="thumbnail_container"></div>
 
-                   <!-- 이미지 등록 버튼 -->
-                   <div class="btn btn-primary btn-sm pull-right" id="imgUpdate" >등록</div>
-               </td>
-            </tr>
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">사진 업로드</td>
-               <td colspan="2">
-                  <span class="btn btn-default">
-                  
-					<!-- 숨겨진 파일 입력(input type="file") 요소 -->
-                     <input type="file" name="file" id="thumbnailFile" onchange="setThumbnail(event);"/>
-                  </span>
-               </td>            
-            </tr>      
-            </c:if>
-         </table>
-      </form> 
-      
-      
-   </div>
+<div class="panel panel-default" id="userContent">
+	<form id="uploadForm" action="./imgupdate" method="post" enctype="multipart/form-data">
+	   <input type="hidden" name="id" value="${id}"/>
+	   <table class="table" style="text-align: center;">
+	      <tr>
+	         <td>아이디</td>
+	         <td>${id }</td>
+	      </tr>
+	      <tr>
+	         <td>닉네임</td>
+	         <td>${nick }</td>
+	      </tr>
+	      <tr>
+	         <td>등급</td>
+	         <td><div style="display: inline-block;">Lv.${user.grade }</div>
+	         	         <!-- 회원등급 -->
+				<div id="userGrade">
+				<c:choose>
+					<c:when test="${userGrade eq 1}">
+						<img src="/resources/img/계란.png"/>
+					</c:when>
+					<c:when test="${userGrade eq 2}">
+						<img src="/resources/img/금간계란.png"/>
+					</c:when>
+					<c:when test="${userGrade eq 3}">
+						<img src="/resources/img/병아리.png"/>
+					</c:when>
+					<c:when test="${userGrade eq 4}">
+						<img src="/resources/img/닭.png"/>
+					</c:when>
+					<c:when test="${userGrade eq 5}">
+						<img src="/resources/img/치킨.png"/>
+					</c:when>
+				</c:choose>
+				</div><!-- #userGrade -->
+			</td>
+	      </tr>
+	      <tr>
+	         <td>가입일</td>
+	         <td><fmt:formatDate pattern="yyyy-MM-dd" value="${user.joinDate }"/></td>
+	      </tr>
+	      <tr>
+	         <td>주소</td>
+	         <td>${user.addr1 }<span> </span>${user.addr2 }</td>
+	      </tr>
+	      <tr>
+	         <td>이메일 수신</td>
+				<td><label>동의<input type="radio" name="emailAgr" value="1"></label>
+			  	<label>미동의<input type="radio" name="emailAgr" value="0"></label></td>
+	      </tr>
+	      <c:if test="${empty img}">
+	      <tr id="previewSection"  style="display: none;">
+	      	<td colspan="2" style="text-align: left;">
+	      	
+	         	<!-- 썸네일 미리보기를 담을 div 추가 -->
+<!-- 	               	<div id="thumbnail_container"></div> -->
+	
+	         </td>
+	      </tr>
+	      <tr>
+	         <td style="width: 150px; vertical-align: middle;">사진 업로드</td>
+	         <td colspan="2">
+	            <span class="btn btn-default">
+	            
+	<!-- 숨겨진 파일 입력(input type="file") 요소 -->
+	               <input type="file" name="file" id="thumbnailFile" onchange="setThumbnail(event);"/>
+	            </span>
+	         </td>            
+	      </tr>      
+	      </c:if>
+	   </table>
+	</form> 
+</div><!-- #userContent -->
+
 </div>
 
-
-<hr>
-
-<div class="container mt-5">
+<div class="container mt-5" id="introduce">
     <h2>자기소개</h2>
     
     <!-- 자기소개글을 입력하는 텍스트박스 -->
     <div>
-            <input type="text" id="id" name="id" value="${nick}" readonly="readonly">
         <div class="mb-3">
-            <textarea class="form-control" id="intro" name="intro" rows="5" maxlength="100">${user.intro }</textarea>
+            <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100">${user.intro }</textarea>
         </div>
 
         <button type="submit" class="btn btn-primary" id="introUpdate">저장</button>
     </div>
-</div>
+</div><!-- #introduce -->
 
 <hr>
 
-<h1 data-bs-toggle="collapse" data-bs-target="#userUpdateSection">
-   회원정보 수정
-   <br>
-</h1>
-<div id="userUpdateSection" class="collapse">
-	<br>
-	<a href="infoupdate" class="btn btn-success" >회원정보 수정</a>
-</div>
 
 <a href="/profile/business"><button>업체등록</button></a>
 <hr>
@@ -437,6 +433,10 @@ ${userGrade }
 	<br>
 	<a href="javascript:void(0);" class="btn btn-danger" onclick="confirmAndSubmit('${id}')">회원탈퇴</a><br>
 </div>
+
+
+
+
 지금 usertb테이블의 id를 board테이블 에서 write_id로 사용하고 있어서 회원삭제가 안됨<br>
 회원탈퇴시 글까지 삭제 되는 경우 - > DB에 cascade구문 추가 <br>
 회원탈퇴시 글은 살리는 경우 -> DB에 usertb에 is_deleted컬럼 추가해서 탈퇴시 delete로 지우지말고 update로 is_daleted true해주고 이후에 회원조회할때마다 is_deleted 상태인애들은 빼고 조회해서 탈퇴한애들 숨겨두면 됨
@@ -456,6 +456,7 @@ ${userGrade }
 		<th>예약 날짜</th>
 		<th>예약 시작 시간</th>
 		<th>예약 끝 시간</th>
+		<th>결제 상태</th>
 		<th>승인 처리</th>
 		<th></th>
 		
@@ -467,7 +468,7 @@ ${userGrade }
 		<td>${list.RENT_DATE }</td>
 		<c:choose>
 	    <c:when test="${list.START_TIME % 2 == 1}">
-		        <c:set var="hour" value="${(list.START_TIME + 1) / 2 - 1}" />
+		        <c:set var="hour" value="${(list.START_TIME ) / 2}" />
 		        <c:set var="minute" value="00" />
 		    </c:when>
 		    <c:when test="${list.START_TIME % 2 == 0}">
@@ -492,6 +493,14 @@ ${userGrade }
 	
 		<!-- 종료 시간 출력 -->
 		<td>${endHour}:${endMinute}</td>
+		<c:choose>
+            <c:when test="${list.PAYMENT_TYPE eq 1}">
+                <td><button disabled="disabled">결제됨</button></td>
+            </c:when>
+            <c:when test="${list.PAYMENT_TYPE eq 0}">
+                <td><button disabled="disabled">직거래</button></td>
+            </c:when>
+        </c:choose>
 		<c:if test="${list.RENT_STATUS eq 1 }">
 			<td><button id="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
 		</c:if>
@@ -509,9 +518,15 @@ ${userGrade }
 	
 </c:forEach>
 </table>
-<c:import url="/WEB-INF/views/layout/pagination.jsp" />
+
+<small class="float-end" style=" margin-right: 8px; margin-top: -10px; margin-bottom: 20px;">total : ${paging.totalCount }</small>
+
+<c:import url="/WEB-INF/views/layout/paginationRent.jsp" />
 		
 <hr>
+
+
+
 
 <h1>빌린 예약 목록</h1>
 <table class="rentTable">
@@ -523,6 +538,7 @@ ${userGrade }
 		<th>예약 날짜</th>
 		<th>예약 시작 시간</th>
 		<th>예약 끝 시간</th>
+		<th>결제 상태</th>
 		<th>승인 처리</th>
 		<th></th>
 		
@@ -534,11 +550,11 @@ ${userGrade }
 		<td>${list.RENT_DATE }</td>
 		<c:choose>
 	    <c:when test="${list.START_TIME % 2 == 1}">
-		        <c:set var="hour" value="${(list.START_TIME + 1) / 2 - 1}" />
+		        <c:set var="hour" value="${(list.START_TIME + 1) / 2}" />
 		        <c:set var="minute" value="00" />
 		    </c:when>
 		    <c:when test="${list.START_TIME % 2 == 0}">
-		        <c:set var="hour" value="${list.START_TIME / 2}" />
+		        <c:set var="hour" value="${(list.START_TIME / 2) - 1}" />
 		        <c:set var="minute" value="30" />
 		    </c:when>
 		</c:choose>
@@ -559,6 +575,15 @@ ${userGrade }
 	
 		<!-- 종료 시간 출력 -->
 		<td>${endHour}:${endMinute}</td>
+		
+		<c:choose>
+            <c:when test="${list.PAYMENT_TYPE eq 1}">
+                <td><button disabled="disabled">결제됨</button></td>
+            </c:when>
+            <c:when test="${list.PAYMENT_TYPE eq 0}">
+                <td><button disabled="disabled">직거래</button></td>
+            </c:when>
+        </c:choose>
 		
 		<c:if test="${list.RENT_STATUS eq 1 }">
 			<td><button id="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
@@ -704,9 +729,105 @@ ${userGrade }
 </table>
 </div>
 
+</div><!-- .container -->
+
 
 ${basketList }
 
 <%-- ${myBoardList } --%>
+
+${myBoardList }
+
+<hr>
+내가 쓴 글
+<c:forEach items="${myBoardList }" var="myBoardList" begin="0" end="10">
+<td>${myBoardList.BOARD_NO }</td>
+<td>${myBoardList.TITLE }</td>
+
+</c:forEach>
+
+
+<!-- <h1 data-bs-toggle="collapse" data-bs-target="#boardSection"> -->
+<h1>
+   내가 쓴 글
+ 
+</h1>
+
+<div  >
+   <table class="listType" id="myBoardList">
+      <thead>
+         <tr>
+            <th>No.</th>
+            <th class="title">제목</th>
+            <th>게시판</th>
+            <th>작성일</th>
+            <th>조회</th>
+         </tr>
+      </thead>
+      <tbody>
+         <c:forEach items="${myBoardList }" var="myBoardList">
+            <tr>
+               <td>${myBoardList.BOARD_NO }</td>
+               <td>
+				    <c:choose>
+				        <c:when test="${myBoardList.MENU eq 1}">
+				            <a href="/rent/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 2}">
+				            <a href="/share/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 3}">
+				            <a href="/please/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 4}">
+				            <a href="/community/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 5}">
+				            <a href="/business/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				    </c:choose>
+				</td>
+               <td>
+               		<c:choose>
+				        <c:when test="${myBoardList.MENU eq 1}">
+				            대여해요
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 2}">
+				            나눔해요
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 3}">
+				            해주세요
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 4}">
+				            커뮤니티
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 5}">
+				            동네업체
+				        </c:when>
+				    </c:choose>
+               </td>
+               <td>
+                  <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
+                  <fmt:formatDate var="writeDate" value="${myBoardList.writeDate }" pattern="yyyyMMdd" />
+                  <c:choose>
+                     <c:when test="${writeDate lt curDate }">
+                        <fmt:formatDate value="${myBoardList.writeDate }" pattern="yyyy-MM-dd" />
+                     </c:when>
+                     <c:otherwise>
+                        <fmt:formatDate value="${myBoardList.writeDate }" pattern="HH:mm" />
+                     </c:otherwise>
+                  </c:choose>
+               </td>
+               <td>${myBoardList.HIT}</td>
+            </tr>
+         </c:forEach>
+      </tbody>
+   </table>
+</div>
+<c:import url="/WEB-INF/views/layout/paginationMyBoardList.jsp" />
+
+
+
+
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

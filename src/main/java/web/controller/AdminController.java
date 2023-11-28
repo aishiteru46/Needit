@@ -15,7 +15,9 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -109,15 +111,20 @@ public class AdminController {
 	}
 	
 	//업체목록 수정(승인, 취소)
-	@PostMapping("/admin/businessReq")
-	public String updateBusiness(Business business) {
-
+	@PostMapping("/admin/approveBusiness")
+	@ResponseBody
+	public String approveBusiness(Business business) {
+		adminService.approveBusiness(business);
 		
-		adminService.updateBusiness(business);
-		
-		return "redirect:/admin/businessReq";
+		return"done";
 	}
-	
+	@PostMapping("/admin/cancelBusiness")
+	@ResponseBody
+	public String cancelBusiness(Business business) {
+		adminService.cancelBusiness(business);
+		
+		return"cancle";
+	}
 
 	//관리자 메인배너 접속
 	@GetMapping("/admin/bannerUpdate")

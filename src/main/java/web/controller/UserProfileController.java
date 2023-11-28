@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -63,6 +64,7 @@ public class UserProfileController {
 		board.setWriterId((String)session.getAttribute("id"));
 		user.setId((String)session.getAttribute("id"));
 		like.setLikeId((String)session.getAttribute("id"));
+		param.setUserId((String)session.getAttribute("id"));
 		if((boolean)session.getAttribute("isLogin") == false) {
 			return "redirect:/user/login";
 		}
@@ -72,6 +74,7 @@ public class UserProfileController {
 
 		//내 게시물에 예약한 정보
 		List<Map<String,Object>> myList = userProfileService.myRentList(paging,user);
+		logger.info("예약 정보 나와라아아아아{}",myList);
 		model.addAttribute("myList",myList);
 		
 		//내가 예약한 정보
@@ -114,20 +117,28 @@ public class UserProfileController {
 		
 		//내가 쓴 글 보기
 		
-		board.setWriterId((String) session.getAttribute("id"));
+		//페이징 계산
+		logger.info("내가쓴게시글용 파람 전:{}",param);
+		param.setUserId((String)session.getAttribute("id"));
+		logger.info("내가쓴게시글용 파람 후:{}",param);
 		
-		//게시글 목록 조회
-		List<Map<String, Object>> myBoardList = userProfileService.myBoardList(paging);
-		model.addAttribute("paging", paging);
+		Paging myBoardPaging = userProfileService.getBoardPaging(param);
+		logger.info("내가 쓴 글 개수!!!!:{}",myBoardPaging );
+		
+		//내가 쓴 게시글 목록 조회
+		myBoardPaging.setUserId((String)session.getAttribute("id"));
+		List<Map<String, Object>> myBoardList = userProfileService.myBoardList(myBoardPaging);
 		logger.info("내가쓴글 list: {}", myBoardList);
+
+		model.addAttribute("paging", myBoardPaging);
 		model.addAttribute("myBoardList", myBoardList);
 		
 		
+		//------------------------------------------------------------------------------------
 		List<Board> boardList = userProfileService.boardSelectById(board);
 		logger.info("내가쓴글목록: {}", boardList);
 		
 		// 모델에 페이징 정보와 글 목록 추가
-	    model.addAttribute("boardPaging", paging);
 		model.addAttribute("board", boardList);
 		//--------------------------------------------------------------
 
@@ -145,17 +156,23 @@ public class UserProfileController {
 		List<Map<Board, Object>> basketList = userProfileService.selectBasketList(board);
 		logger.info("바스켓또{}",basketList);
 		model.addAttribute("basketList",basketList);
+		
 		return "profile/view";
 		
 		
 	}
 	
+	private List<Map<String, Object>> userProfileService(Paging myBoardPaging) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	//회원정보수정
 	@GetMapping("/infoupdate")
 	public String infoUpdate(User user, Model model, HttpSession session) {
 		
 		user.setId((String) session.getAttribute("id"));
-		
 		
 		User loginUser = userProfileService.loginUserSelect(user);
 		logger.info("loginUser: {}", loginUser);
@@ -341,6 +358,36 @@ public class UserProfileController {
 		userProfileService.insertBusiness(busi, user);
 		return "redirect:/profile/view";
 	}
+	
+	@PostMapping("/email")
+	public String email(
+			User user, HttpSession session
+			) {
+		logger.info("이메일{}",user.getEmailAgr());
+		
+		user.setId((String)session.getAttribute("id"));
+		
+		userProfileService.updateEmail(user);
+		
+		
+		
+		return "/profile/view";
+	}
+	
+	@GetMapping("/checkEmail")
+	public String checkEmail(
+			User user, Model model
+			, HttpSession session
+			) {
+		user.setId((String)session.getAttribute("id"));
+		
+		boolean email = userProfileService.checkAgree(user);
+		model.addAttribute("email",email);
+		
+		return "jsonView";
+		
+	}
+	
 	
 	
 	

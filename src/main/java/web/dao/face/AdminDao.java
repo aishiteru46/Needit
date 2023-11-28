@@ -150,14 +150,14 @@ public interface AdminDao {
 	 * 
 	 * @param business - 업체
 	 */
-	public void businessOk(Business business);
+	public void approveBusiness(Business business);
 
 	/**
 	 * 업체요청을 취소한다
 	 * 
 	 * @param business - 업체
 	 */
-	public void businessNo(Business business);
+	public void cancelBusiness(Business business);
 
 
 
