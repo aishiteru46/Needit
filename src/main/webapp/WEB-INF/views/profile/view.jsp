@@ -519,6 +519,9 @@ ${userGrade }
 		
 <hr>
 
+
+
+
 <h1>빌린 예약 목록</h1>
 <table class="rentTable">
 <c:forEach items="${list }" var="list" begin="0" end="10">
@@ -724,5 +727,99 @@ ${userGrade }
 ${basketList }
 
 <%-- ${myBoardList } --%>
+
+${myBoardList }
+
+<hr>
+내가 쓴 글
+<c:forEach items="${myBoardList }" var="myBoardList" begin="0" end="10">
+<td>${myBoardList.BOARD_NO }</td>
+<td>${myBoardList.TITLE }</td>
+
+</c:forEach>
+
+
+<!-- <h1 data-bs-toggle="collapse" data-bs-target="#boardSection"> -->
+<h1>
+   내가 쓴 글
+ 
+</h1>
+
+<div  >
+   <table class="listType">
+      <thead>
+         <tr>
+            <th>No.</th>
+            <th class="title">제목</th>
+            <th>게시판</th>
+            <th>작성일</th>
+            <th>조회</th>
+         </tr>
+      </thead>
+      <tbody>
+         <c:forEach items="${myBoardList }" var="myBoardList">
+            <tr>
+               <td>${myBoardList.BOARD_NO }</td>
+               <td>
+				    <c:choose>
+				        <c:when test="${myBoardList.MENU eq 1}">
+				            <a href="/rent/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 2}">
+				            <a href="/share/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 3}">
+				            <a href="/please/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 4}">
+				            <a href="/community/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 5}">
+				            <a href="/business/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
+				        </c:when>
+				    </c:choose>
+				</td>
+               <td>
+               		<c:choose>
+				        <c:when test="${myBoardList.MENU eq 1}">
+				            대여해요
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 2}">
+				            나눔해요
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 3}">
+				            해주세요
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 4}">
+				            커뮤니티
+				        </c:when>
+				        <c:when test="${myBoardList.MENU eq 5}">
+				            동네업체
+				        </c:when>
+				    </c:choose>
+               </td>
+               <td>
+                  <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
+                  <fmt:formatDate var="writeDate" value="${myBoardList.writeDate }" pattern="yyyyMMdd" />
+                  <c:choose>
+                     <c:when test="${writeDate lt curDate }">
+                        <fmt:formatDate value="${myBoardList.writeDate }" pattern="yyyy-MM-dd" />
+                     </c:when>
+                     <c:otherwise>
+                        <fmt:formatDate value="${myBoardList.writeDate }" pattern="HH:mm" />
+                     </c:otherwise>
+                  </c:choose>
+               </td>
+               <td>${myBoardList.HIT}</td>
+            </tr>
+         </c:forEach>
+      </tbody>
+   </table>
+</div>
+<c:import url="/WEB-INF/views/layout/paginationMyBoardList.jsp" />
+
+
+
+
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
