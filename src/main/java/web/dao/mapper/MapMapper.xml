@@ -16,4 +16,13 @@
 		FROM board B
 	</select>
 	
+	<select id="selectThumb">
+		SELECT thumbnail_name 
+		FROM fileTB 
+		<where>
+			AND board_no = #{boardNo} 
+			AND rownum = 1
+		</where>
+	</select>
+	
 </mapper>

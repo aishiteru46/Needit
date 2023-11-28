@@ -29,6 +29,6 @@ public interface MsgService {
 
 	public Map<String, Object> getInfo(int boardNo);
 
-	public Map<String, Object> getNewChatInfo(Board param);
+	public Map<String, Object> getNewChatInfo(String id);
 
 }

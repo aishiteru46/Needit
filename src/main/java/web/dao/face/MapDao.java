@@ -8,4 +8,6 @@ public interface MapDao {
 
 	public List<Board> selectAllBoard();
 
+	public String selectThumb(int boardNo);
+
 }
