@@ -5,14 +5,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
-<style type="text/css">
-.rentTable, th, td {
 
-	border: 1px solid #ccc;
-	
-
-}
-</style>
 <script type="text/javascript">
 //썸네일 미리보기
 function setThumbnail(event) {
@@ -211,214 +204,222 @@ $(function(){
 		      })
     })
     
+	
+    $.ajax({
+        url: '/profile/checkEmail',
+        method: 'GET',
+        type:'json',
+        data: {},  // 수정된 부분: 빈 객체를 전달하지 않음
+        success: function (res) {
+           console.log(res);
+
+           if (res.email === true) {
+               $("input[name=emailAgr][value=1]").prop("checked", true);
+           } else {
+               $("input[name=emailAgr][value=0]").prop("checked", true);
+           }
+        },
+        error: function (error) {
+            console.error(error);
+        }
+    });
+
+    // 라디오 버튼 변경 시 서버에게 POST 요청
+    $("input[name=emailAgr]").change(function () {
+        var emailAgr = $("input[name=emailAgr]:checked").val();
+
+        $.ajax({
+            url: '/profile/email',
+            method: 'POST',
+            data: {
+                emailAgr: emailAgr
+            },
+            success: function (res) {
+                console.log(res);
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        });
+    });
 });
 
 </script>
-
 <style type="text/css">
 
-#thumbnail_container{
-    border: 1px solid #ccc;
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
+.rentTable, th, td {
+	border: 1px solid #ccc;
 }
 
-</style>
-
-<style>
-    #profileImageContainer {
-        width: 300px; /* 프로필 이미지 컨테이너의 너비 */
-        height: 300px; /* 프로필 이미지 컨테이너의 높이 */
-        overflow: hidden;
-        border-radius: 50%; /* 반지름 50%로 설정하여 동그랗게 만듭니다. */
-    }
-
-    #profileImage {
-        width: 100%; /* 이미지를 100%로 설정하여 부모 컨테이너에 맞게 합니다. */
-        height: auto;
-        border-radius: 50%; /* 이미지도 둥글게 만듭니다. */
-    }
-</style>
-
-<style>
-        .hidden {
-            display: none;
-        }
-</style>
-
-
-<style type="text/css">
-   #boardSection {
-      margin-top: 25px;
-      margin-bottom: -22px;
-   }
-
-   .listType {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 25px;
-   }
-
-   .listType th,
-   .listType td {
-      text-align: center;
-      border-bottom: 1px solid #ccc;
-      padding: 10px;
-   }
-
-   .listType th {
-      background-color: rgb(255, 83, 64);
-      color: white;
-      font-weight: bold;
-      height: 40px;
-   }
-
-   .listType a {
-      text-decoration: none;
-      color: black;
-   }
-
-   .listType tr:hover {
-      background-color: #f5f5f5;
-   }
-   
-   .listType th.title {
-      
-      width: 50%; /* 원하는 넓이로 조절 */
-   }
+/* 프로필사진, 닉네임, 사진등록 삭제 */
+#profileImgContainer{ 
+	width: 400px; 
+    float: left;
+    text-align: center;
+}
+/* 프로필 등록 삭제 버튼 배치 */
+#profileImgUpdate{
+	width: 100%;
+	height: 100%;
+}
+/* 프로필 사진 크기 */
+#profileImage{
+	width: 400px;
+	border-radius: 310px;
+}
+/* 유저 정보 */
+#userContent{
+    width: 776px;
+    height: 332px;
+    float: left;
+}
+/* 유저 정보 테이블 둥글게 */
+#userContent table{
+	border-radius: 10px;
+}
+/* 회원등급 사진 */
+#userGrade{
+	display: inline-block;
+}
+#userGrade img{
+	width: 20px;
+	height: 30px;
+	display: inline-block;
+	vertical-align: top;
+}
+/* 자기소개 너비 */
+#introduce{
+    width: 1200px;
+}
+/* 자기소개 id */
+#introId{
+	margin-bottom: 10px;
+}
+/* 자기소개칸 둥글게 */
+#introId, #introText{
+    border-radius: 10px;
+}
 </style>
 
 <div class="container">
-<h1>마이페이지</h1>
-<hr>
-${userGrade }
-<c:choose>
-	<c:when test="${userGrade eq 1}">
-		<img src="/resources/img/계란.png"/>
-	</c:when>
-	<c:when test="${userGrade eq 2}">
-		<img src="/resources/img/금간계란.png"/>
-	</c:when>
-	<c:when test="${userGrade eq 3}">
-		<img src="/resources/img/병아리.png"/>
-	</c:when>
-	<c:when test="${userGrade eq 4}">
-		<img src="/resources/img/닭.png"/>
-	</c:when>
-	<c:when test="${userGrade eq 5}">
-		<img src="/resources/img/치킨.png"/>
-	</c:when>
 
-</c:choose>
+<div style="margin-top: 20px;"></div>
 
-<div id="profileImageContainer" >
-    <c:if test="${not empty img}">
-        <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
-    </c:if>
-    <c:if test="${empty img}">
-        <img id="profileImage" src="/resources/img/defaultProfile.png" alt="User Profile Image">
-    </c:if>
-</div>
-<c:if test="${not empty img}">
-	<div class="btn btn-danger btn-sm pull-right" id="imgDelete" >이미지 삭제</div>
-</c:if>
-<!-- 이미지 삭제 버튼 -->
+<div id="userUpdateSection" class="float-end mb-4">
+	<a href="infoupdate" class="btn btn-success" >회원정보 수정</a>
+</div><!-- #userUpdateSection -->
 
+<div>
+<div id="profileImgContainer" >
+<div id="profileImg" style="width: 350px; height: 350px;">
+	<c:if test="${not empty img}">
+	    <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
+	</c:if>
+	<c:if test="${empty img}">
+	    <img id="profileImage" src="/resources/img/defaultProfile.png" alt="User Profile Image">
+	</c:if>
+</div><!-- #profileImg -->
 <h3>${nick}님의 프로필</h3>
+<div id="profileImgUpdate">
+	<!-- 이미지 등록 버튼 -->
+	<div class="btn btn-primary btn-sm pull-right me-2" id="imgUpdate" >등록</div>
+	<!-- 이미지 삭제 버튼 -->
+	<div class="btn btn-danger btn-sm pull-right" id="imgDelete" >삭제</div>
+</div>
+</div><!-- #profileImgContainer -->
 
-<div class="panel panel-default">
-   <div class="panel-body">
-      <form id="uploadForm" action="./imgupdate" method="post" enctype="multipart/form-data">
-<!--       <form  enctype="multipart/form-data"> -->
-         <input type="hidden" name="id" value="${id}"/>
-         <table class="table table-bordered" style="text-align: center; border: 1px solid #dddddd;">
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">아이디</td>
-               <td>${id }</td>
-            </tr>
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">닉네임</td>
-               <td>${nick }</td>
-            </tr>
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">등급</td>
-               <td>${user.grade }</td>
-            </tr>
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">가입일</td>
-               <td><fmt:formatDate pattern="yyyy-MM-dd" value="${user.joinDate }"/></td>
-            </tr>
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">주소</td>
-               <td>${user.addr1 }<br>${user.addr2 }</td>
-            </tr>
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">이메일 수신</td>
-			   <td><label>동의<input type="checkbox" name="agree"></label>
-			   <label>미동의<input type="checkbox" name=""></label></td>
-            </tr>
-            <c:if test="${empty img}">
-            <tr id="previewSection"  style="display: none;">
-            	<td colspan="2" style="text-align: left;">
-            	
-               	<!-- 썸네일 미리보기를 담을 div 추가 -->
-               	<div id="thumbnail_container"></div>
 
-                   <!-- 이미지 등록 버튼 -->
-                   <div class="btn btn-primary btn-sm pull-right" id="imgUpdate" >등록</div>
-               </td>
-            </tr>
-            <tr>
-               <td style="width: 150px; vertical-align: middle;">사진 업로드</td>
-               <td colspan="2">
-                  <span class="btn btn-default">
-                  
-					<!-- 숨겨진 파일 입력(input type="file") 요소 -->
-                     <input type="file" name="file" id="thumbnailFile" onchange="setThumbnail(event);"/>
-                  </span>
-               </td>            
-            </tr>      
-            </c:if>
-         </table>
-      </form> 
-      
-      
-   </div>
+<div class="panel panel-default" id="userContent">
+	<form id="uploadForm" action="./imgupdate" method="post" enctype="multipart/form-data">
+	   <input type="hidden" name="id" value="${id}"/>
+	   <table class="table" style="text-align: center;">
+	      <tr>
+	         <td>아이디</td>
+	         <td>${id }</td>
+	      </tr>
+	      <tr>
+	         <td>닉네임</td>
+	         <td>${nick }</td>
+	      </tr>
+	      <tr>
+	         <td>등급</td>
+	         <td><div style="display: inline-block;">Lv.${user.grade }</div>
+	         	         <!-- 회원등급 -->
+				<div id="userGrade">
+				<c:choose>
+					<c:when test="${userGrade eq 1}">
+						<img src="/resources/img/계란.png"/>
+					</c:when>
+					<c:when test="${userGrade eq 2}">
+						<img src="/resources/img/금간계란.png"/>
+					</c:when>
+					<c:when test="${userGrade eq 3}">
+						<img src="/resources/img/병아리.png"/>
+					</c:when>
+					<c:when test="${userGrade eq 4}">
+						<img src="/resources/img/닭.png"/>
+					</c:when>
+					<c:when test="${userGrade eq 5}">
+						<img src="/resources/img/치킨.png"/>
+					</c:when>
+				</c:choose>
+				</div><!-- #userGrade -->
+			</td>
+	      </tr>
+	      <tr>
+	         <td>가입일</td>
+	         <td><fmt:formatDate pattern="yyyy-MM-dd" value="${user.joinDate }"/></td>
+	      </tr>
+	      <tr>
+	         <td>주소</td>
+	         <td>${user.addr1 }<span> </span>${user.addr2 }</td>
+	      </tr>
+	      <tr>
+	         <td>이메일 수신</td>
+				<td><label>동의<input type="radio" name="emailAgr" value="1"></label>
+			  	<label>미동의<input type="radio" name="emailAgr" value="0"></label></td>
+	      </tr>
+	      <c:if test="${empty img}">
+	      <tr id="previewSection"  style="display: none;">
+	      	<td colspan="2" style="text-align: left;">
+	      	
+	         	<!-- 썸네일 미리보기를 담을 div 추가 -->
+<!-- 	               	<div id="thumbnail_container"></div> -->
+	
+	         </td>
+	      </tr>
+	      <tr>
+	         <td style="width: 150px; vertical-align: middle;">사진 업로드</td>
+	         <td colspan="2">
+	            <span class="btn btn-default">
+	            
+	<!-- 숨겨진 파일 입력(input type="file") 요소 -->
+	               <input type="file" name="file" id="thumbnailFile" onchange="setThumbnail(event);"/>
+	            </span>
+	         </td>            
+	      </tr>      
+	      </c:if>
+	   </table>
+	</form> 
+</div><!-- #userContent -->
 </div>
 
-
-<hr>
-
-<div class="container mt-5">
+<div class="container mt-5" id="introduce">
     <h2>자기소개</h2>
     
     <!-- 자기소개글을 입력하는 텍스트박스 -->
     <div>
-            <input type="text" id="id" name="id" value="${nick}" readonly="readonly">
+            <input type="text" id="introId" name="id" value="${nick}" readonly="readonly">
         <div class="mb-3">
-            <textarea class="form-control" id="intro" name="intro" rows="5" maxlength="100">${user.intro }</textarea>
+            <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100">${user.intro }</textarea>
         </div>
 
         <button type="submit" class="btn btn-primary" id="introUpdate">저장</button>
     </div>
-</div>
+</div><!-- #introduce -->
 
 <hr>
 
-<h1 data-bs-toggle="collapse" data-bs-target="#userUpdateSection">
-   회원정보 수정
-   <br>
-</h1>
-<div id="userUpdateSection" class="collapse">
-	<br>
-	<a href="infoupdate" class="btn btn-success" >회원정보 수정</a>
-</div>
 
 <a href="/profile/business"><button>업체등록</button></a>
 <hr>
@@ -719,6 +720,8 @@ ${userGrade }
 </c:forEach>
 </table>
 </div>
+
+</div><!-- .container -->
 
 
 ${basketList }

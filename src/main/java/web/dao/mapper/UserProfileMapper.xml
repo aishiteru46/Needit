@@ -282,10 +282,40 @@
 			AND id = #{id}
 		</where>
 	</update>
-
+	
 	<!-- 해당 메뉴 게시글 조회 에러나서그냥넣어놓음-->
 	<select id="selectAll" resultType="Map" parameterType="web.util.Paging">
 		SELECT * FROM board 
 	</select>
+	
+	<select id="selectEmail" resultType="User" parameterType="User">
+		SELECT email_agr FROM userTB
+    	<where>
+    		AND id = #{id}
+    	</where>
+	</select>
+	
+	<update id="updateAgree" parameterType="User">
+		UPDATE userTB
+		<set>
+			email_agr = '1'
+		</set>
+		<where>
+			AND email_agr = '0'
+			AND id = #{id}
+		</where>
+	</update>
+	
+	
+	<update id="updateDisagree" parameterType="User">
+		UPDATE userTB
+		<set>
+			email_agr = '0'
+		</set>
+		<where>
+			AND email_agr = '1'
+			AND id = #{id}
+		</where>
+	</update>
 
  </mapper>

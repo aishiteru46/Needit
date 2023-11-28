@@ -325,6 +325,33 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userProfileDao.selectAll(paging);
 	}
 
+	@Override
+	public boolean checkAgree(User user) {
+		
+		User res =  userProfileDao.selectEmail(user);
+		logger.info("이거 나와야합니다아아{}",res);
+		if( res.getEmailAgr() > 0) {
+			return true;
+		}
+		return false;
+	}
+	
+	
+	@Override
+	public void updateEmail(User user) {
+		
+		if(user.getEmailAgr() > 0 ) {
+			userProfileDao.updateAgree(user);
+		} else {
+			userProfileDao.updateDisagree(user);
+
+		}
+		
+	}
+
+
+	
+
 
 
 }
