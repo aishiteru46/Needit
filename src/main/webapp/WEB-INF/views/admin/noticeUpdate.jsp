@@ -51,7 +51,7 @@ $(() => {
 <!-- 안쪽 내용 -->
 <div id="AdminContent">
 
-<div class="col-10 mx-auto">
+<div class="col-10 ms-3">
 <form action="./noticeUpdate" method="post" enctype="multipart/form-data">
 
 <div class="form-group mb-3">
@@ -69,7 +69,8 @@ $(() => {
 <!-- 	<input type="file" class="form-control" name="file" id="file" multiple="multiple"> -->
 <!-- </div> -->
 
-<div class="text-center">
+<!-- <div class="text-center"> -->
+<div class="ms-3">
 	<button class="btn btn-primary" id="btnWrite">작성</button>
 	<button type="reset" class="btn btn-danger" id="btnCancel">취소</button>
 </div>
