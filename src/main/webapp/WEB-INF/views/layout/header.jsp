@@ -20,6 +20,7 @@
 
 
 <script type="text/javascript">
+var result = 0;
 $(function() {
 	
 	 var sessionId = "${id}";
@@ -43,10 +44,10 @@ $(function() {
 	      
 	       console.log("hasNew :" + hasNew)
 	       console.log("alert :" + alert)
-
+			
 	       $("#new-icon").show() // new 알림표시 표시
 	       $("#new-alert").html(hasNew).show() // 새로온 알림 갯수 표시
-	       
+	      
 	      loadAlert() //알림을 로드하는 함수를 호출
 	   }
 	 }
@@ -54,7 +55,6 @@ $(function() {
 
 
 	function hasNew() { // 새로운 알림 확인 함수
-	var result = 0;
 	   $.ajax({
 	      type: "get"
 	      , url: "/alert/new"
@@ -68,17 +68,12 @@ $(function() {
 	         if( res.hasNew == 0 ) { //hasNew 값이 0이면 알람을 숨긴다
 	            $("#new-alert").hide()
 	            $("#new-icon").hide()
-	            result -= 1;
-	            result = Math.max(result - valueToSubtract, 0);
 	         } else { // 0이 아니면 알림을 보여준다
 	            $("#new-alert").text(res.hasNew).show()
 	            $("#new-icon").show()
-	            result += 1;
-	            result = Math.max(result + valueToAdd, 0);
 	         }
-	         
-	        console.log(result)
-	         if(result == 0){
+	         result = res.hasNew;
+	        if(result == 0){
 	        	 $("#badge").hide()
 	         }else if(result == 99){
 	        	 $("#badge").text("+99").show()
@@ -100,7 +95,6 @@ $(function() {
 	        , dataType: "html"
 	        , success: function( res ) { // Alert객체를 받아넣어준 list JSP를 HTML 타입으로 불러온다
 	           console.log("AJAX 성공")
-			           
 				
 	           
 	         $("#alert").html(res)
