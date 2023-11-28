@@ -145,8 +145,11 @@ public class UserProfileServiceImpl implements UserProfileService {
 	@Override
 	public Paging getPaging(Paging param) {
 		int totalCount = userProfileDao.selectCntAll(param);
+		logger.info("총 조회수우우우야랴{}",totalCount);
 		
-		Paging paging = new Paging( param.getMenu(), param.getCate(),totalCount, param.getCurPage(), 9, 10 );
+		
+		Paging paging = new Paging(  param.getMenu(), param.getCate(),totalCount, param.getCurPage(), 9, 10 );
+		
 		return paging;
 	}
 	
@@ -321,5 +324,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public List<Map<String, Object>> myBoardList(Paging paging) {
 		return userProfileDao.selectAll(paging);
 	}
+
+
 
 }
