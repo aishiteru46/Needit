@@ -25,17 +25,17 @@
 	var birthCheck = false;
 	var addrCheck = false;
 	
-function sample5_execDaumPostcode() {
+function addr1_execDaumPostcode() {
         new daum.Postcode({
             oncomplete: function(data) {
                 var addr = data.address; // 최종 주소 변수
 
                 // 주소 정보를 해당 필드에 넣는다.
-                document.getElementById("sample5_address").value = addr;
+                document.getElementById("addr1").value = addr;
                 // 주소로 상세 정보를 검색
 
             	// 주소창에 포커스 이동
-		    	document.getElementById("sample5_address").focus();
+		    	document.getElementById("addr1").focus();
         	  	addrCheck = true;
             }
         }).open();
@@ -72,7 +72,101 @@ function sample5_execDaumPostcode() {
 
 $(document).ready(function() {
 	
-	
+	// 페이지 로드 시 비밀번호, 닉네임 및 주소 필드에 대한 유효성 검사 트리거
+    validatePassword();
+    validateNickname();
+    validateAddress();
+    
+    function validatePassword() {
+        var password1 = $("#pw1").val();
+        var password2 = $("#pw2").val();
+
+        // 비밀번호 유효성 검사 로직 추가
+        var pwRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z0-9!@#$%^&*()_+]{8,15}$/;
+
+        if (!pwRegex.test(password1)) {
+            $("#label2").css("color", "red").css("display", "block").text("사용 불가능한 비밀번호 입니다.");
+            $("#pwLimit").css("color", "red").css("display", "block").text("영문, 숫자, 특수문자를 조합한 8~15 글자 사용");
+            pwCheck = false;
+            return false;
+        } else {
+            $("#label2").css("color", "green").css("display", "block").text("사용 가능한 비밀번호 입니다.");
+            $("#pwLimit").css("display", "none");
+            pwCheck = true;
+        }
+
+        if (password1 !== password2 || password1 === '') {
+            $("#label4").css("display", "block").css("color", "red").text("비밀번호가 일치하지 않습니다.");
+            pwCheck = false;
+            return false;
+        } else {
+            $("#label4").css("display", "block").css("color", "green").text("비밀번호가 일치합니다!");
+            pwCheck = true;
+            return true;
+        }
+    }
+
+    function validateNickname() {
+        var nick = $("#nick").val();
+        var currentNick = "${nick}"; // 현재 사용자의 닉네임
+        var nickRegex = /^(?!.*[ㄱ-ㅎㅏ-ㅣ])[a-zA-Z0-9가-힣]{2,13}$/;
+
+        
+        if (nick === currentNick) {
+            $("#label3").css("display", "block").css("color", "green").text("현재 사용 중인 닉네임입니다.");
+            $("#nickLimit").css("display", "none");
+            nickCheck = true;
+            return true;
+        }
+        
+        // 닉네임 유효성 검사 로직 추가
+        if (nick == '' || nick.length == 0 || !nickRegex.test(nick)) {
+            $("#label3").css("color", "red").css("display", "block").text("사용할 수 없습니다.");
+            $("#nickLimit").css("color", "red").css("display", "block").text("2~13글자 특수문자 사용 불가");
+            nickCheck = false;
+            return false;
+        } else {
+            // Ajax로 중복 검사 수행
+            $.ajax({
+                url: '/user/nickCheck',
+                data: {
+                    nick: nick
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (result) {
+                    if (result != true) {
+                        $("#label3").css("display", "block")
+                        $("#label3").css("color", "green").text("사용 가능한 닉네임 입니다.");
+                        $("#nickLimit").css("display", "none");
+                        nickCheck = true;
+                    } else {
+                        $("#label3").css("display", "block")
+                        $("#label3").css("color", "red").text("사용 불가능한 닉네임 입니다.");
+                        nickCheck = false;
+                    }
+                    nickCheck = !result;
+                }
+            });
+            
+            return nickCheck;
+        }
+    }
+
+    function validateAddress() {
+        var addr = $("#addr1").val();
+
+        // 주소 유효성 검사 로직 추가
+        if (addr == '' || addr.length == 0) {
+            // 주소가 비어있을 경우
+            addrCheck = false;
+        } else {
+            // 주소가 비어있지 않을 경우
+            addrCheck = true;
+        }
+
+        return addrCheck;
+    }
 
 // 	//ID 중복 확인
 // 	//id를 입력할 수 있는 input text 영역을 벗어나면 동작한다.
@@ -353,9 +447,9 @@ form {
     		
    	 		<div class="position-relative">
   			<label class="fs-3 fw-bold">*주소</label> 
-  			<input class="btn mb-2 position-absolute top-50 end-0 translate-middle-y" id="needit"type="button" onclick="sample5_execDaumPostcode()" value="우편번호 찾기">
+  			<input class="btn mb-2 position-absolute top-50 end-0 translate-middle-y" id="needit"type="button" onclick="addr1_execDaumPostcode()" value="우편번호 찾기">
   			</div>
-  			<input type="text" class="form-control form-control-lg mb-3" name="addr1" value="${addr1 }" id="sample5_address" required="required">
+  			<input type="text" class="form-control form-control-lg mb-3" name="addr1" value="${user.addr1 }" id="addr1" required="required">
     		
     		<label class="fs-3 fw-bold">상세주소</label>
     		<input type="text" class="form-control form-control-lg mb-3" name="addr2" value="${user.addr2 }">

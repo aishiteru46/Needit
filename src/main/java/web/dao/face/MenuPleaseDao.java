@@ -3,6 +3,7 @@ package web.dao.face;
 import java.util.List;
 import java.util.Map;
 
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
@@ -29,6 +30,14 @@ public interface MenuPleaseDao {
 	 */
 	public int selectCntAll(Paging param);
 
+	
+	/**
+	 * 검색요청 목록 조회
+	 * 
+	 * @param paging
+	 * @return
+	 */
+	public List<Map<String, Object>> selectSearch(Paging paging);
 	
 	/**
 	 * 
@@ -190,36 +199,40 @@ public interface MenuPleaseDao {
 	public void insertCommentReply(Comment commentReply);
 
 	
+//	/**
+//	 * 대여신청 상태 조회
+//	 * 
+//	 * @param board
+//	 * @return
+//	 */
+//	public List<Map<String, Object>> chkRentStatus(Board board);
 	
-	
-	
-	
-	
-	
+
+	/**
+	 * 찜 여부 조회
+	 * 
+	 * @param basket 찜 여부
+	 * @return 1 찜 불가능 0 찜 가능
+	 */
+	public int basketInfo(Basket basket);
+
+	/**
+	 * 찜 가능하면 insert
+	 * @param basket
+	 */
+	public void deleteBasket(Basket basket);
+
+	/**
+	 * 한번 더 클릭시 delete
+	 * 
+	 * @param basket
+	 */
+	public void insertBasket(Basket basket);
+
+
 	
 
 
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
-	
-	
-	
-	
-	
 	
 
 }
