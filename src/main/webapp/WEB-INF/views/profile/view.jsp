@@ -251,28 +251,55 @@ $(function(){
 .rentTable, th, td {
 	border: 1px solid #ccc;
 }
+/* 썸네일 미리보기 */
+#thumbnail_container{
+	width: 350px;
+    height: 350px;
+    float: left;
+    position: absolute;
+    margin-top: 67px;
+    border-radius: 300px;
+    background-size: cover;
+}
 
 /* 프로필사진, 닉네임, 사진등록 삭제 */
 #profileImgContainer{ 
 	width: 400px; 
-    float: left;
-    text-align: center;
+    float: left; 
+    margin-top: 67px;
+/*     display: inline-block; */
 }
 /* 프로필 등록 삭제 버튼 배치 */
 #profileImgUpdate{
-	width: 100%;
-	height: 100%;
+	margin-left: 96px;
+	margin-top: 6px;
 }
 /* 프로필 사진 크기 */
 #profileImage{
-	width: 400px;
+	width: 350px;
 	border-radius: 310px;
 }
 /* 유저 정보 */
 #userContent{
-    width: 776px;
+    width: 775px;
     height: 332px;
+/*     display: inline-block; */
     float: left;
+}
+.userInfo thead{
+	width: 200px;
+    background-color: azure;
+}
+.userInfo tbody td{
+	width: 575px;
+	vertical-align: middle;
+  	display: table-cell;
+}
+.userInfo th{
+	height: 48px;
+}
+.userInfo td{
+	height: 48px;
 }
 /* 유저 정보 테이블 둥글게 */
 #userContent table{
@@ -290,27 +317,109 @@ $(function(){
 }
 /* 자기소개 너비 */
 #introduce{
-    width: 1200px;
+    width: 1180px;
+    clear: both;
 }
 /* 자기소개 id */
 #introId{
 	margin-bottom: 10px;
+	border: 1px solid #ccc;
 }
 /* 자기소개칸 둥글게 */
 #introId, #introText{
     border-radius: 10px;
 }
+/* 목록들 제목 h1 */
+.listH1{
+    margin-left: 16px;
+}
+/* 테이블 th 색상 */
+.rentTable th{
+	background-color: rgb(255,83,63);
+	color: white;
+}
+/* 목록 테이블 둥글게 */
+.rentTable{
+	border-radius: 5px;
+}
+/* 목록들 스크롤 */
+.tableScroll{
+	overflow-x: hidden;
+    overflow-y: scroll;
+    height: 200px;
+    width: 1139px;
+    margin-left: 20px;
+    display: inline-block;
+}
+/* 사진 수정 버튼 */
+#fileEdit{
+    border: 1px solid rgb(255,83,63);
+    border-radius: 5px;
+    background-color: rgb(255,83,63);
+    color: white;
+    width: 46px;
+    height: 31px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: normal;
+    padding: 3px;
+    float: left;
+    margin-top: -36px;
+    margin-left: 162px;
+}
+
+/* 유저 정보 */
+/* .userInfo th{ */
+/* 	background-color: rgb(255,83,63); */
+/* } */
+
+/* 유저 정보 테이블 모양 세로 정렬 */
+#userContent thead{
+	float: left;
+}
+#userContent thead tr, thead tr th{
+	display: block;
+}
+#userContent tbody{
+	display: block;
+	overflow-x: hidden;
+	white-space: nowrap; 
+}
+#userContent tbody tr{
+	display: inline-block;
+}
+#userContent tbody tr td{
+	display: block;
+}
+/* 등급 크기 */
+#userContent tbody tr td img{
+	width: 25px;
+    height: 28px;
+    vertical-align: top;
+}
+.userInfo th div, .userInfo td div{
+	margin-top: 7px;
+}
 </style>
 
 <div class="container">
 
-<div style="margin-top: 20px;"></div>
 
 <div id="userUpdateSection" class="float-end mb-4">
+	<!-- 업체등록 버튼 -->
+<!-- 	<a href="/profile/business"><button class="btn btn-info" style="color: white;">업체등록</button></a> -->
+	<button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal">
+  업체등록
+	</button>
 	<a href="infoupdate" class="btn btn-success" >회원정보 수정</a>
 </div><!-- #userUpdateSection -->
 
-<div>
+<!-- 썸네일 미리보기를 담을 div 추가 -->
+<div id="thumbnail_container"></div>
+
+<div style="margin-top: 20px;"></div>
+
+<div id="profileTop">
 <div id="profileImgContainer" >
 <div id="profileImg" style="width: 350px; height: 350px;">
 	<c:if test="${not empty img}">
@@ -320,135 +429,108 @@ $(function(){
 	    <img id="profileImage" src="/resources/img/defaultProfile.png" alt="User Profile Image">
 	</c:if>
 </div><!-- #profileImg -->
-<h3>${nick}님의 프로필</h3>
+
 <div id="profileImgUpdate">
 	<!-- 이미지 등록 버튼 -->
-	<div class="btn btn-primary btn-sm pull-right me-2" id="imgUpdate" >등록</div>
+	<div class="btn btn-primary btn-sm" id="imgUpdate" >저장</div>
 	<!-- 이미지 삭제 버튼 -->
-	<div class="btn btn-danger btn-sm pull-right" id="imgDelete" >삭제</div>
+	<div class="btn btn-danger btn-sm" id="imgDelete" >삭제</div>
+	<form style="margin-top: 5px; margin-left: -57px;" id="uploadForm" action="./imgupdate" method="post" enctype="multipart/form-data">
+		<label for="thumbnailFile" id="fileEdit">수정</label>
+		<input type="file" name="file" id="thumbnailFile" onchange="setThumbnail(event);" style="display: none;" />
+	</form>
 </div>
 </div><!-- #profileImgContainer -->
 
 
 <div class="panel panel-default" id="userContent">
-	<form id="uploadForm" action="./imgupdate" method="post" enctype="multipart/form-data">
-	   <input type="hidden" name="id" value="${id}"/>
-	   <table class="table" style="text-align: center;">
-	      <tr>
-	         <td>아이디</td>
-	         <td>${id }</td>
-	      </tr>
-	      <tr>
-	         <td>닉네임</td>
-	         <td>${nick }</td>
-	      </tr>
-	      <tr>
-	         <td>등급</td>
-	         <td><div style="display: inline-block;">Lv.${user.grade }</div>
-	         	         <!-- 회원등급 -->
-				<div id="userGrade">
-				<c:choose>
-					<c:when test="${userGrade eq 1}">
-						<img src="/resources/img/계란.png"/>
-					</c:when>
-					<c:when test="${userGrade eq 2}">
-						<img src="/resources/img/금간계란.png"/>
-					</c:when>
-					<c:when test="${userGrade eq 3}">
-						<img src="/resources/img/병아리.png"/>
-					</c:when>
-					<c:when test="${userGrade eq 4}">
-						<img src="/resources/img/닭.png"/>
-					</c:when>
-					<c:when test="${userGrade eq 5}">
-						<img src="/resources/img/치킨.png"/>
-					</c:when>
-				</c:choose>
-				</div><!-- #userGrade -->
-			</td>
-	      </tr>
-	      <tr>
-	         <td>가입일</td>
-	         <td><fmt:formatDate pattern="yyyy-MM-dd" value="${user.joinDate }"/></td>
-	      </tr>
-	      <tr>
-	         <td>주소</td>
-	         <td>${user.addr1 }<span> </span>${user.addr2 }</td>
-	      </tr>
-	      <tr>
-	         <td>이메일 수신</td>
-				<td><label>동의<input type="radio" name="emailAgr" value="1"></label>
-			  	<label>미동의<input type="radio" name="emailAgr" value="0"></label></td>
-	      </tr>
-	      <c:if test="${empty img}">
-	      <tr id="previewSection"  style="display: none;">
-	      	<td colspan="2" style="text-align: left;">
-	      	
-	         	<!-- 썸네일 미리보기를 담을 div 추가 -->
-<!-- 	               	<div id="thumbnail_container"></div> -->
-	
-	         </td>
-	      </tr>
-	      <tr>
-	         <td style="width: 150px; vertical-align: middle;">사진 업로드</td>
-	         <td colspan="2">
-	            <span class="btn btn-default">
-	            
-	<!-- 숨겨진 파일 입력(input type="file") 요소 -->
-	               <input type="file" name="file" id="thumbnailFile" onchange="setThumbnail(event);"/>
-	            </span>
-	         </td>            
-	      </tr>      
-	      </c:if>
-	   </table>
-	</form> 
+<h3>${nick}님의 프로필</h3>
+	<input type="hidden" name="id" value="${id}"/>
+	<table class="userInfo" style="text-align: center;">
+	  <thead>
+	   <tr>
+	      <th style="border-top-left-radius: 5px;"><div>아이디</div></th>
+	      <th><div>닉네임</div></th>
+	      <th><div>등급</div></th>
+	      
+	      <th><div>가입일</div></th>
+	      <th style="height: 73px;"><div style="margin-top: 19px;">주소</div></th>
+	      <th style="border-bottom-left-radius: 5px;"><div>이메일 수신</div></th>
+	   </tr>
+	  </thead>
+	   
+	   <tbody>
+	   <tr>
+	      <td style="border-top-right-radius: 5px;"><div>${id }</div></td> 
+	      <td><div>${nick }</div></td>
+	      <td><div>Lv.${user.grade }
+	      <!-- 회원등급 -->
+			<c:choose>
+				<c:when test="${userGrade eq 1}">
+					<img src="/resources/img/계란.png"/>
+				</c:when>
+				<c:when test="${userGrade eq 2}">
+					<img src="/resources/img/금간계란.png"/>
+				</c:when>
+				<c:when test="${userGrade eq 3}">
+					<img src="/resources/img/병아리.png"/>
+				</c:when>
+				<c:when test="${userGrade eq 4}">
+					<img src="/resources/img/닭.png"/>
+				</c:when>
+				<c:when test="${userGrade eq 5}">
+					<img src="/resources/img/치킨.png"/>
+				</c:when>
+			</c:choose></div>
+	      </td>
+	       <td><div><fmt:formatDate pattern="yyyy-MM-dd" value="${user.joinDate }"/></div></td>
+	      <td style="height: 73px;"><div>${user.addr1 }<br>
+	      		${user.addr2 }</div>
+	      </td>
+	      <td style="border-bottom-right-radius: 5px;"><div><label>동의<input type="radio" name="emailAgr" value="1"></label>
+			  	<label>미동의<input type="radio" name="emailAgr" value="0"></label></div>
+		  </td>
+	   </tr>
+	  </tbody>
+	</table>
 </div><!-- #userContent -->
+</div><!-- #profileTop -->
 
-</div>
+<!-- 사진, 유저정보와 자기소개 사이 마진 -->
+<div style="clear: both; margin-bottom: 35px;"></div>
 
-<div class="container mt-5" id="introduce">
+<div id="introduce">
     <h2>자기소개</h2>
     
     <!-- 자기소개글을 입력하는 텍스트박스 -->
     <div>
-        <div class="mb-3">
+    	<input type="text" id="introId" name="id" value="${nick}" readonly="readonly">
+        <div>
             <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100">${user.intro }</textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary" id="introUpdate">저장</button>
+        <button type="submit" class="btn btn-primary mt-2" id="introUpdate">저장</button>
     </div>
 </div><!-- #introduce -->
 
 <hr>
 
 
-<a href="/profile/business"><button>업체등록</button></a>
-<hr>
-
-<h1 data-bs-toggle="collapse" data-bs-target="#userDeleteSection">
-   회원탈퇴
-   <br>
-</h1>
-<div id="userDeleteSection" class="collapse">
-	<br>
-	<a href="javascript:void(0);" class="btn btn-danger" onclick="confirmAndSubmit('${id}')">회원탈퇴</a><br>
-</div>
 
 
 
-
+<div>
 지금 usertb테이블의 id를 board테이블 에서 write_id로 사용하고 있어서 회원삭제가 안됨<br>
 회원탈퇴시 글까지 삭제 되는 경우 - > DB에 cascade구문 추가 <br>
 회원탈퇴시 글은 살리는 경우 -> DB에 usertb에 is_deleted컬럼 추가해서 탈퇴시 delete로 지우지말고 update로 is_daleted true해주고 이후에 회원조회할때마다 is_deleted 상태인애들은 빼고 조회해서 탈퇴한애들 숨겨두면 됨
 둘중하나 선택해야함
-
+</div>
 
 <hr>
 
-
-<h1>빌려줄 예약 목록</h1>
+<h1 class="listH1">빌려줄 예약 목록</h1>
+<div class="tableScroll">
 <table class="rentTable">
-<c:forEach items="${myList }" var="list" begin="0" end="10">
 	<tr>
 		<th>게시글 번호</th>
 		<th>예약 번호</th>
@@ -461,6 +543,7 @@ $(function(){
 		<th></th>
 		
 	</tr>
+<c:forEach items="${myList }" var="list" begin="0" end="10">
 	<tr>
 		<td>${list.BOARD_NO }</td>
 		<td>${list.RENT_NO }</td>
@@ -517,20 +600,19 @@ $(function(){
 	</tr>
 	
 </c:forEach>
-</table>
+</table><!-- .rentTable -->
+</div><!-- .tableScroll -->
 
-<small class="float-end" style=" margin-right: 8px; margin-top: -10px; margin-bottom: 20px;">total : ${paging.totalCount }</small>
+<%-- <small class="float-end" style=" margin-right: 8px; margin-top: -10px; margin-bottom: 20px;">total : ${paging.totalCount }</small> --%>
 
-<c:import url="/WEB-INF/views/layout/paginationRent.jsp" />
+<%-- <c:import url="/WEB-INF/views/layout/paginationRent.jsp" /> --%>
 		
-<hr>
 
 
 
-
-<h1>빌린 예약 목록</h1>
+<h1 class="listH1">빌린 예약 목록</h1>
+<div class="tableScroll">
 <table class="rentTable">
-<c:forEach items="${list }" var="list" begin="0" end="10">
 	<tr>
 		<th>게시글 번호</th>
 		<th>예약 번호</th>
@@ -541,8 +623,8 @@ $(function(){
 		<th>결제 상태</th>
 		<th>승인 처리</th>
 		<th></th>
-		
 	</tr>
+<c:forEach items="${list }" var="list" begin="0" end="10">
 	<tr>
 		<td>${list.BOARD_NO }</td>
 		<td>${list.RENT_NO }</td>
@@ -601,19 +683,14 @@ $(function(){
 	</tr>
 </c:forEach>
 </table>
+</div><!-- .tableScroll -->
 
 
 <hr>
 
-
-<h1 data-bs-toggle="collapse" data-bs-target="#boardSection">
-   내가 쓴 글
-   <span id="boardSectionArrow" style="float: right;">▼</span>
-</h1>
-
-<div id="boardSection" class="collapse">
-   <table class="listType">
-      <thead>
+<h1 class="listH1">내가 쓴 글</h1>
+<div id="boardSection" class="tableScroll">
+   <table class="listType rentTable">
          <tr>
             <th>No.</th>
             <th class="title">제목</th>
@@ -621,8 +698,6 @@ $(function(){
             <th>작성일</th>
             <th>조회</th>
          </tr>
-      </thead>
-      <tbody>
          <c:forEach items="${board }" var="board">
             <tr>
                <td>${board.boardNo }</td>
@@ -679,20 +754,15 @@ $(function(){
                <td>${board.hit}</td>
             </tr>
          </c:forEach>
-      </tbody>
-   </table>
-</div>
-
-<hr>
-
-<h1 data-bs-toggle="collapse" data-bs-target="#commentSection">
-   내가 쓴 댓글
-   <span id="commentSectionArrow" style="float: right;">▼</span>
-</h1>
+   </table><!-- .listType -->
+</div><!-- .tableScroll -->
 
 
-<div id="commentSection" class="collapse">
-<table id="commentTable">
+
+
+<h1 class="listH1">내가 쓴 댓글</h1>
+<div id="commentSection" class="tableScroll">
+<table id="commentTable" class="rentTable">
    <tr>
       <th>No.</th>
       <th>댓글</th>
@@ -727,11 +797,11 @@ $(function(){
 
 </c:forEach>
 </table>
-</div>
+</div><!-- .tableScroll -->
 
 </div><!-- .container -->
 
-
+<!-- 찜목록 -->
 ${basketList }
 
 <%-- ${myBoardList } --%>
@@ -739,92 +809,54 @@ ${basketList }
 ${myBoardList }
 
 <hr>
-내가 쓴 글
+<h1 class="listH1">내가 쓴 글</h1>
 <c:forEach items="${myBoardList }" var="myBoardList" begin="0" end="10">
 <td>${myBoardList.BOARD_NO }</td>
 <td>${myBoardList.TITLE }</td>
 
 </c:forEach>
 
+<!-- 회원탈퇴 버튼 -->
+<button type="button" class="btn btn-danger float-end" data-bs-toggle="modal" data-bs-target="#confirmationModal">회원탈퇴</button>
 
 <!-- <h1 data-bs-toggle="collapse" data-bs-target="#boardSection"> -->
-<h1>
-   내가 쓴 글
- 
-</h1>
 
-<div  >
-   <table class="listType" id="myBoardList">
-      <thead>
-         <tr>
-            <th>No.</th>
-            <th class="title">제목</th>
-            <th>게시판</th>
-            <th>작성일</th>
-            <th>조회</th>
-         </tr>
-      </thead>
-      <tbody>
-         <c:forEach items="${myBoardList }" var="myBoardList">
-            <tr>
-               <td>${myBoardList.BOARD_NO }</td>
-               <td>
-				    <c:choose>
-				        <c:when test="${myBoardList.MENU eq 1}">
-				            <a href="/rent/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
-				        </c:when>
-				        <c:when test="${myBoardList.MENU eq 2}">
-				            <a href="/share/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
-				        </c:when>
-				        <c:when test="${myBoardList.MENU eq 3}">
-				            <a href="/please/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
-				        </c:when>
-				        <c:when test="${myBoardList.MENU eq 4}">
-				            <a href="/community/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
-				        </c:when>
-				        <c:when test="${myBoardList.MENU eq 5}">
-				            <a href="/business/view?boardNo=${myBoardList.BOARD_NO}">${myBoardList.TITLE}</a>
-				        </c:when>
-				    </c:choose>
-				</td>
-               <td>
-               		<c:choose>
-				        <c:when test="${myBoardList.MENU eq 1}">
-				            대여해요
-				        </c:when>
-				        <c:when test="${myBoardList.MENU eq 2}">
-				            나눔해요
-				        </c:when>
-				        <c:when test="${myBoardList.MENU eq 3}">
-				            해주세요
-				        </c:when>
-				        <c:when test="${myBoardList.MENU eq 4}">
-				            커뮤니티
-				        </c:when>
-				        <c:when test="${myBoardList.MENU eq 5}">
-				            동네업체
-				        </c:when>
-				    </c:choose>
-               </td>
-               <td>
-                  <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
-                  <fmt:formatDate var="writeDate" value="${myBoardList.writeDate }" pattern="yyyyMMdd" />
-                  <c:choose>
-                     <c:when test="${writeDate lt curDate }">
-                        <fmt:formatDate value="${myBoardList.writeDate }" pattern="yyyy-MM-dd" />
-                     </c:when>
-                     <c:otherwise>
-                        <fmt:formatDate value="${myBoardList.writeDate }" pattern="HH:mm" />
-                     </c:otherwise>
-                  </c:choose>
-               </td>
-               <td>${myBoardList.HIT}</td>
-            </tr>
-         </c:forEach>
-      </tbody>
-   </table>
+<%-- <c:import url="/WEB-INF/views/layout/paginationMyBoardList.jsp" /> --%>
+
+<!-- 업체등록 모달 -->
+<div class="modal fade" id="businessModal" tabindex="-1" aria-labelledby="businessModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="businessModal">업체 등록</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="margin: 0 auto;">
+        <%@ include file="/WEB-INF/views/profile/business.jsp" %>
+      </div>
+    </div>
+  </div>
 </div>
-<c:import url="/WEB-INF/views/layout/paginationMyBoardList.jsp" />
+
+
+<!-- 회원탈퇴 모달 -->
+<div class="modal fade" id="confirmationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="confirmationModalLabel">회원 탈퇴 확인</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>정말 탈퇴하시겠습니까?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
+        <a href="/profile/delete"><button type="button" class="btn btn-danger" id="confirmYesButton">네</button></a>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

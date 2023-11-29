@@ -270,15 +270,23 @@ public class AdminController {
 		model.addAttribute("reportCmtList", reportCmtList);
 	}
 	
-	//신고목록 삭제
+	//게시글 신고목록 삭제
 	@PostMapping("/admin/reportList")
-	public String deleteReport(Board board, Comment cmt) {
+	public String deleteBoard(Board board, Comment cmt) {
 
-		adminService.deleteBoardCmt(board, cmt);
+		adminService.deleteBoard(board);
+		adminService.deleteComment(cmt);
 		
 		return "redirect:/admin/reportList";
 	}
-	
+
+	//댓글 신고목록 삭제
+//	@PostMapping("/admin/reportList")
+//	public String deleteCmt(Comment cmt) {
+//
+//		
+//		return "redirect:/admin/reportList";
+//	}
 	
 	//-------------------------------------
 
