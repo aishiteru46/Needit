@@ -22,7 +22,14 @@ public class AlertServiceImpl implements AlertService {
 
 	@Override
 	public List<Alert> getList(Alert alert) {
-		return alertDao.selectByUser(alert);
+		
+	    List<Alert> alerts = alertDao.selectByUser(alert);
+	    for (Alert a : alerts) {
+	        if (a.getBoard() != null) {	// 가져온 Alert에 대한 Board 정보가 있다면 title을 설정
+	            a.setTitle(a.getBoard().getTitle());
+	        }
+	    }
+	    return alerts;
 	}
 
 	@Override

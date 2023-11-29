@@ -7,13 +7,8 @@
 	
 	<!-- 게시글 조회용 SQL -->
 	<select id="selectAllBoard">
-		SELECT 
-		    board_no, writer_id, writer_nick, 
-		    hit, menu, cate, title, price, content, location,
-		    CAST(write_date AS DATE) AS write_date, 
-		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
-		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
-		FROM board B
+		SELECT board_no, menu, cate, title, price, location
+		FROM board 
 	</select>
 	
 	<select id="selectThumb">

@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class Alert {
+    private Board board;
 	private int alertNo; // 알람번호
 	private String id; // 알람받는 유저
 	private String sender; // 알람보낸 유저
