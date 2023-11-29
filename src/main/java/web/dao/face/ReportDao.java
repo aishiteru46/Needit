@@ -18,6 +18,6 @@ public interface ReportDao {
 	 * @param report
 	 * @return
 	 */
-	public int cmtReportInsert(Report report);
+	public void cmtReportInsert(Report report);
 	
 }

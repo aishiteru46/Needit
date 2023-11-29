@@ -26,17 +26,8 @@ public class ReportServiceImpl implements ReportService{
 	}
 
 	@Override
-	public boolean insertCmtReport(Report report) {
-		
-		int res = reportDao.cmtReportInsert(report);
-		
-		if(res > 0) {
-			return true;
-			
-		} else {
-			return false;
-		}
+	public void insertCmtReport(Report report) {
+		reportDao.cmtReportInsert(report);
 	}
-
 
 }

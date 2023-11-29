@@ -15,5 +15,6 @@ public class Rent {
 	private Date rentDate;
 	private int startTime;
 	private int endTime;
+	private String merchantUid;
 
 }

@@ -14,6 +14,31 @@
 
 <%-- Style --%>
 <style type="text/css">
+
+#submitCmt{
+	margin: 3px 3px 3px 3px;
+    width: 95%;
+    font-size: 13px;
+    border-radius: 5px;
+    border: none;
+} 
+
+.report-options {
+    font-size: 13px;
+    background-color: white;
+    position: absolute;
+    border-radius: 5px;
+    width: 100px;
+    border: 1px solid #ccc;
+    display: block;
+    margin-left: 1110px;
+    margin-top: -19px;
+    z-index: 2;
+}
+.report-options input {
+	margin-left: 5px;
+    margin-top: 5px;
+}
 #map-container {
     overflow: hidden;
     height: 0;
@@ -33,13 +58,11 @@
 	border-radius: 10px;
 }
 #cmtReportBtn {
-    border: none;
-    font-size: 10px;
-    width: 32px;
-    height: 20px;
-    background-color: red;
-    border-radius: 5px;
-    color: white;
+	border: none;
+    background-color: inherit;
+    font-size: 13px;
+    float: right;
+    margin-top: 15px;
 }
 .file {
     color: blue;
@@ -81,6 +104,16 @@ h6 {
 
 <%-- 추천, 댓글, 대여상태 --%>
 <script type="text/javascript">
+
+function cmtReport(cmtNo) {
+    var reportOptions = document.getElementById('reportSelect_' + cmtNo);
+    if (reportOptions.style.display === 'none') {
+        reportOptions.style.display = 'block';
+    } else {
+        reportOptions.style.display = 'none';
+    }
+}
+
 // 댓글목록 불러오기
 function loadComments() {
 	$.ajax({
@@ -138,16 +171,25 @@ function loadComments() {
 		            }
 		            //댓글신고 버튼
 		            if (id != null) {
-		            commentListHtml += '	<button type="button" id="cmtReportBtn" class="cmtReportBtn" data-cmtNo="' + res.commentList[i].CMT_NO + '" data-bs-toggle="modal" data-bs-target="#reportCmtModal">';
-		            commentListHtml += '신고';
+		            commentListHtml += '	<button id="cmtReportBtn" onclick="cmtReport(' + res.commentList[i].CMT_NO + ');">'; 
+		            commentListHtml += '신고하기';
 		            commentListHtml += '	</button>';
+		            commentListHtml += '<div id="reportSelect_' + res.commentList[i].CMT_NO + '" class="report-options" style="display:none;">';
+		            commentListHtml += '  <input type="radio" name="reportType" value="광고">광고</input>';
+		            commentListHtml += '  <input type="radio" name="reportType" value="욕설">욕설</input><br>';
+		            commentListHtml += '  <input type="radio" name="reportType" value="비방">비방</input>';
+		            commentListHtml += '  <input type="radio" name="reportType" value="음란">음란</input><br>';
+		            commentListHtml += '  <input type="radio" name="reportType" value="불법">불법</input><br>';
+		            commentListHtml += '  <button id="submitCmt" onclick="submitReport(' + res.commentList[i].CMT_NO + ');">제출</button>';
+		            commentListHtml += '</div>';
 		            }
+		            commentListHtml += '</div>';
 		            commentListHtml += '  </div>';
 		            commentListHtml += '</div>';
 		        }
 		        // 렌더링된 HTML을 추가
 		        $("#commentList").html(commentListHtml);
-		        
+
 	        } else {
 	        	console.log("댓글 없음")
 	            commentListHtml += '<hr>'; 
@@ -159,12 +201,13 @@ function loadComments() {
 	        }
 	        // 렌더링된 HTML을 추가
 	        $("#commentList").html(commentListHtml);
+	        
 	    },
 	    error: function () {
 	        console.log("댓글창 반응 실패");
 	    }
 	
-	});	
+	});
 	
 	function formatDate(date) {
 	    var curDate = new Date();
@@ -189,6 +232,39 @@ function loadComments() {
 
 }// loadComments() End.
 
+
+function submitReport(cmtNo) {
+    // 선택된 라디오 버튼의 값을 가져오기
+    var selectedOption = document.querySelector('input[name="reportType"]:checked');
+	
+    if (!selectedOption) {
+        alert("옵션을 선택하세요.");
+        return;
+    }
+    
+    // 서버로 Ajax 호출
+    $.ajax({
+        type: "post",
+        url: "/cmtReport",
+        data: {
+            boardNo: "${param.boardNo}",
+            cmtNo: cmtNo,
+            reportType: selectedOption.value,
+            reportId: "${id}"
+        },
+        success: function (res) {
+            console.log("댓글 신고 성공");
+            alert("댓글 신고가 접수되었습니다.");
+            
+            loadComments()
+
+        },
+        error: function () {
+            console.log("댓글 신고 실패");
+        }
+    });
+}
+
 function deleteComment( cmtNo ) {
 	console.log("댓글 삭제 버튼 동작! : ", cmtNo )
 	
@@ -202,6 +278,7 @@ function deleteComment( cmtNo ) {
 	     	, success: function() {
 	     		console.log("댓글삭제 성공")
 	     		
+	     		alert("댓글이 삭제되었습니다.")
 	     		//댓글창 재 로드
 	     		loadComments()
 	         }
@@ -221,6 +298,15 @@ $(()=>{
 	$("#btnCommInsert").click(function(){
 		console.log("댓글 입력 버튼 동작!")
 		
+        // textarea의 value 가져오기
+        var commentContent = $("#commentContent").val().trim();
+
+        // textarea에 값이 없으면 동작하지 않음
+        if (commentContent.length === 0) {
+            alert("댓글 내용을 입력하세요.");
+            return;
+        }		
+
 		$.ajax({
 			type: "POST"
          	, url: "/rent/comment"
@@ -247,13 +333,16 @@ $(()=>{
 	
 		})
 		
-		$.post( "/alert/sendnotification", { 
-				id: "${board.writerId}"
-		        , sender: "${id }"
-		        , content: 4
-		        , menu: ${param.menu}
-				, boardNo: ${board.boardNo}
-		}); // $.post 끝
+		<%-- 본인글에 댓글 입력시 알림x --%>
+		if( ${board.writerId} != ${id} ){
+			$.post( "/alert/sendnotification", { 
+					id: "${board.writerId}"
+			        , sender: "${id }"
+			        , content: 4
+			        , menu: ${param.menu}
+					, boardNo: ${board.boardNo}
+			}); // $.post 끝
+		}
 		
 	})
 	
@@ -280,7 +369,7 @@ $(()=>{
 			}
 			, dataType: "JSON"
 			, success: function( data ) {
-					console.log("성공");
+					console.log("추천 성공");
 	
 				if( data.result ) { //추천 성공
 					$("#btnLike")
@@ -311,6 +400,10 @@ $(()=>{
 	$("#selfRent").click(function () {
 		alert("작성자 본인은 대여신청이 불가합니다.");
 	});
+	
+	$("#rejectChat").click(function(){
+		alert("본인에게 대화신청은 불가합니다.");
+	})
 	
 }); //jQuery Function End.
 
@@ -390,12 +483,27 @@ $(()=>{
 <%-- Body --%>
 <div class="container">
 
-<c:if test="${isLogin }">
-	<a class="btn btn-primary" href="/message/list?boardNo=${param.boardNo }&menu=${board.menu}&cate=${board.cate}&receiverId=${board.writerId}">채팅하기</a>
-</c:if>
-<c:if test="${not isLogin }">
-	<a class="btn btn-primary" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">채팅하기</a>
-</c:if>
+<%-- 채팅 --%>
+<div class="chat-container">
+	<c:if test="${isLogin && (id ne board.writerId)}">
+		<a class="btn btn-primary" href="/message/list?boardNo=${param.boardNo }&menu=${board.menu}&cate=${board.cate}&receiverId=${board.writerId}">채팅하기</a>
+	</c:if>
+	<c:if test="${id eq board.writerId}">
+		<button class="btn btn-primary" id="rejectChat">채팅하기</button>
+	</c:if>
+	<c:if test="${not isLogin }">
+		<a class="btn btn-primary" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">채팅하기</a>
+	</c:if>
+</div><!-- .chat-container End -->
+
+<%-- 게시글 썸네일 --%>
+<div class="thumbnail-container">
+	<div id="thumbnailBox">
+	<c:forEach var="file" items="${fileTb }">
+		<img class="preview" src="/upload/${file.thumbnailName}"/>
+	</c:forEach>
+	</div>
+</div><!-- .thumbnail-container -->
 
 <table class="table table-bordered">
 
@@ -448,13 +556,13 @@ $(()=>{
 	<td>
 		<!-- Button trigger modal -대여 -->
 		<c:if test="${isLogin and (id ne board.writerId) }">
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rentModal" >대여하고싶어요</button>
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rentModal">대여하고싶어요</button>
 		</c:if>
 		<c:if test="${not isLogin }">
 			<a class="btn btn-danger" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">대여하고싶어요</a>
 		</c:if>
 		<c:if test="${id eq board.writerId }">
-			<button class="btn btn-primary" id="selfRent" >대여하고싶어요</button>
+			<button class="btn btn-primary" id="selfRent">대여하고싶어요</button>
 		</c:if>
 		<%-- Modal.대여 --%>
 		<c:import url="./rent.jsp"/>
@@ -503,7 +611,7 @@ $(()=>{
 </div> <!-- .container -->
 
 <%-- 댓글 영역 --%>
-<div class="comment_container">
+<div class="comment-container">
 	
 	<%-- 로그인 상태 --%>
 	<c:if test="${isLogin }">
@@ -528,7 +636,6 @@ $(()=>{
 			<div class="col col-9">
 				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;" readonly="readonly" placeholder="로그인 후 댓글 작성 가능"></textarea>
 			</div>
-<%-- 				<a class="btn btn-danger col-1" href="/user/login?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate }&type=rent">로그인</a> --%>
 				<a class="btn btn-danger col-1" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">로그인</a>
 		</div>
 	</c:if><br>
@@ -536,7 +643,7 @@ $(()=>{
 	<%-- 댓글 목록 --%>
 	<div id="commentList"></div>
 	
-</div><!-- .comment_container End. -->
+</div><!-- .comment-container End. -->
 	
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
