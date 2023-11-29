@@ -45,9 +45,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 
 	@Override
-	public void userDelete(String userId) {
+	public void userDelete(User user) {
 		
-		userProfileDao.deleteUser(userId);
+		userProfileDao.deleteUser(user);
 	}
 
 
@@ -137,10 +137,33 @@ public class UserProfileServiceImpl implements UserProfileService {
 	    userFile.setThumbnailName(thumbnailName);  // 썸네일 이름은 필요에 따라 변경
 	    userFile.setFileType(fileType);
 
-	    userProfileDao.updateImg(userFile);
+	 // 이미지 정보 업데이트 또는 삽입
+	    updateImg(userFile);
 		
 		
 	}	
+	
+	
+	// 이미지 정보 업데이트 또는 삽입 메서드
+    private void updateImg(UserFile userFile) {
+        // 이미지 정보가 존재하는지 확인
+        int count = userProfileDao.checkIfImageExists(userFile.getId());
+
+        if (count > 0) {
+            // 이미지 정보가 이미 존재하면 UPDATE
+            userProfileDao.updateImage(userFile);
+        } else {
+            // 이미지 정보가 존재하지 않으면 INSERT
+            userProfileDao.insertImage(userFile);
+        }
+    }
+	
+
+	
+	
+	
+	
+	
 	
 	@Override
 	public Paging getPaging(Paging param) {
@@ -364,6 +387,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 		}
 		
 	}
+
+
+	
 
 
 	

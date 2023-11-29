@@ -30,7 +30,7 @@ public interface UserProfileService {
 	 * 
 	 * @param userId
 	 */
-	public void userDelete(String userId);
+	public void userDelete(User user);
 	
 	/**
 	 * 페이징 계산
@@ -73,6 +73,8 @@ public interface UserProfileService {
 	 */
 	public void imgUpdate(MultipartFile file, String userId);
 
+
+	
 	
 	/**
 	 * 뷰에 보여줄 회원프로필사진
@@ -244,6 +246,7 @@ public interface UserProfileService {
 	 * @return true 수신 동의 상태 false 수신 미동의 상태
 	 */
 	public boolean checkAgree(User user);
+
 	
 
 }

@@ -29,7 +29,7 @@ public interface UserProfileDao {
 	 * 
 	 * @param userId
 	 */
-	public void deleteUser(String userId);
+	public void deleteUser(User user);
 	
 	/**
 	 * 페이징
@@ -62,6 +62,8 @@ public interface UserProfileDao {
 	public void updateImg(UserFile userFile);
 
 
+
+	
 	/**
 	 * 뷰에 보여줄 회원프로필사진
 	 * 
@@ -274,6 +276,19 @@ public interface UserProfileDao {
 	 * @return 1 수신 동의한 상태 0 수신 미동의한 상태
 	 */
 	public User selectEmail(User user);
+
+
+	//프로필사진 업데이트할지 인서트할지 보려고 카운트
+	public int checkIfImageExists(String id);
+
+	//프로필사진 업데이트
+	public void updateImage(UserFile userFile);
+
+	//프로필사진 인서트
+	public void insertImage(UserFile userFile);
+
+
+	
 
 
 

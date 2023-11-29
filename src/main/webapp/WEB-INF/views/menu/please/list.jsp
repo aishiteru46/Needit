@@ -8,6 +8,7 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
 
+<%-- 검색버튼 동적CSS --%>
 <script type="text/javascript">
 $(()=>{
 	
@@ -25,6 +26,7 @@ $(()=>{
 	});
 	
 	$(".star").click(function(){
+		console.log("찜 클릭됨!");
         var starImg = $("#star" + boardNo + "+" + menu + "+" + cate);
         console.log(starImg);
          var id = this.id;
@@ -39,11 +41,11 @@ $(()=>{
          
          $.ajax({
               type: "post"
-              , url: "/share/basket"
+              , url: "/please/basket"
               , data: {
-              boardNo : boardNo
-              , menu : menu
-              , cate : cate
+	              boardNo : boardNo
+	              , menu : menu
+	              , cate : cate
               }
               , dataType: "json"
               , success: function( res ) {
@@ -74,6 +76,7 @@ $(()=>{
 });
 </script>
 
+<%-- CSS --%>
 <style type="text/css">
 .write {
 	float: right;
@@ -259,6 +262,7 @@ $(()=>{
     color: white;
 }
 #selectSub {
+    width: 50px;
 	text-align: center;
 	vertical-align:top;
     height: 30px;
@@ -294,37 +298,41 @@ $(()=>{
 }
 
 .heart {
-   float: right;
-    position: absolute;
-    display: inline-block;
-    margin-top: 333px;
-    margin-left: 135px;
+	float: right;
+	position: absolute;
+	display: inline-block;
+	margin-top: 333px;
+	margin-left: 135px;
    
 }
 .star {
-   width: 30px;
-   height: 30px;
-   margin-left: 106px;
-   margin-bottom: 8px; 
+	width: 30px;
+	height: 30px;
+	margin-left: 106px;
+	margin-bottom: 8px;
+	cursor: pointer;
 }
 </style>
 
 <div class="container">
 
 <c:forEach  var="list" items="${list }" begin="0" end="0">
-	<c:if test="${list.MENU eq 3 and list.CATE eq 1 }">
+	<c:if test="${list.MENU eq '3' && list.CATE eq '1' }">
 		<div id="rentText1"> 해주세요
-			<div id="rentText2">물품 <img src="/resources/img/borrowIcon.png" style="width: 45px; height: 45px; margin-top: -28px;"></div>
+			<div id="rentText2">[물품]</div> 
+<!-- 			<img src="/resources/img/borrowIcon.png" style="width: 45px; height: 45px; margin-top: -28px;"></div> -->
 		</div>
 	</c:if>
-	<c:if test="${list.MENU eq 3 and list.CATE eq 2 }">
+	<c:if test="${list.MENU eq '3' && list.CATE eq '2' }">
 		<div id="rentText1"> 해주세요
-			<div id="rentText2">인력 <img src="/resources/img/humanpower.png" style="width: 45px; height: 45px; margin-top: -28px;"></div>
+			<div id="rentText2">[인력]</div>
+<!-- 			<img src="/resources/img/humanpower.png" style="width: 45px; height: 45px; margin-top: -28px;"></div> -->
 		</div>
 	</c:if>
-	<c:if test="${list.MENU eq 3 and list.CATE eq 3 }">
+	<c:if test="${list.MENU eq '3' && list.CATE eq '3' }">
 		<div id="rentText1"> 해주세요
-			<div id="rentText2">공간 <img src="/resources/img/place.png" style="width: 45px; height: 45px; margin-top: -26px;"></div>
+			<div id="rentText2">[공간]</div> 
+<!-- 			<img src="/resources/img/place.png" style="width: 45px; height: 45px; margin-top: -26px;"></div> -->
 		</div>
 	</c:if>
 </c:forEach>
@@ -333,7 +341,7 @@ $(()=>{
 <div class="search-container">
 	<form action="/rent/search" method="get" id="searchForm">
     <select name="selectSub" id="selectSub" required="required">
-    	<option value="" selected disabled hidden>선택&#129047;</option>
+    	<option value="" selected disabled hidden>선택&#9660;</option>
     	<option value="title">제목</option>
     	<option value="content">내용</option>
     	<option value="writerNick">작성자</option>
@@ -367,6 +375,7 @@ $(()=>{
 </div>
 
 <div class="gridContainer">
+
 <c:forEach items="${list}" var="list" varStatus="loop">
   <c:if test="${loop.index % 3 == 0}">
   <div class="row">
@@ -383,7 +392,7 @@ $(()=>{
             </c:if>
     	
     	
-        	<div class="no">no. ${list.BOARD_NO}</div>
+        	<div class="no">Title.</div>
         	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">${list.TITLE }</h6></a>
         <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>
         <div id="write-conatiner-hit">👀  ${list.HIT}</div>
@@ -427,10 +436,11 @@ $(()=>{
 
 
 </div> <!-- .container -->
-<br>
+
 </div><!-- .gridContainer -->
+<br>
 
 <c:import url="/WEB-INF/views/layout/pagination.jsp" />
 
-
+<!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

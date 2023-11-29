@@ -195,21 +195,20 @@ public class UserProfileController {
 		
 		session.setAttribute("nick", user.getNick());
 		
-		return "redirect:/main";
+		return "redirect:/profile/view";
 		
 	}
 	
 	
 	//회원탈퇴
-	@PostMapping("/delete")
-	public String delete(@RequestParam("id") String userId, HttpSession session, RedirectAttributes rttr) {
+	@GetMapping("/delete")
+	public String delete(User user, HttpSession session, RedirectAttributes rttr) {
 	    // 세션에서 로그인된 사용자의 ID 가져오기
-	    String sessionId = (String) session.getAttribute("id");
-
+		user.setId((String)session.getAttribute("id"));
 	    // 현재 로그인된 사용자와 탈퇴하려는 사용자의 ID가 일치하는지 확인
-	    if (sessionId.equals(userId)) {
+	    if (user.getId().equals(session.getAttribute("id"))) {
 	        // 사용자 정보 삭제 로직 수행
-	        userProfileService.userDelete(userId);
+	        userProfileService.userDelete(user);
 
 	        // 세션 무효화 (로그아웃)
 	        session.invalidate();
@@ -222,7 +221,8 @@ public class UserProfileController {
 	        rttr.addFlashAttribute("msgType", "실패 메세지");
 	        rttr.addFlashAttribute("msg", "잘못된 접근입니다.");
 	        return "redirect:/main";
-	    }
+	    
+	    } 
 	}
 	
 	
@@ -268,6 +268,8 @@ public class UserProfileController {
 		
 		return "jsonView";
 	}
+	
+	
 	
 	//자기소개
 	@GetMapping("/introduce")
@@ -391,20 +393,7 @@ public class UserProfileController {
 	
 	
 	
-//	
-//	//내가 쓴 글 목록 가져오기
-//	@GetMapping("/writelist")
-//	public String writeList(HttpSession session, User user, Model model) {
-//		
-//		user.setId((String) session.getAttribute("id"));
-//		
-//		List<Board> board = userProfileService.boardSelectById(user);
-//		
-//		model.addAttribute("board", board);
-//		
-//		return "/profile/view";
-//	}
-//	
+
 	
 	
 	
