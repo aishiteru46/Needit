@@ -11,11 +11,11 @@
 <style type="text/css">
 /* 사진 전체 화면 */
 .logo{
-	width: 100%;
+	width: 1900px;
 	height: 100%;
 }
 .logo1, .logo2, .logo3{
-	width: 100%;
+	width: 1900px;
 	height: 100%;
 }
 

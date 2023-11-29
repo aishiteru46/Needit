@@ -36,12 +36,10 @@ public class ReportController {
 	
 	@RequestMapping("/cmtReport")
 	public String cmtReportProc(Report report, HttpSession session) {
-		logger.info("댓글신고 Param : {}", report);
-		
-		boolean checkReport = reportService.insertCmtReport(report);
+		logger.info("댓글신고내역! Param : {}", report);
+		reportService.insertCmtReport(report);
 		
 		return "jsonView";
-		
 	}
 	
 }

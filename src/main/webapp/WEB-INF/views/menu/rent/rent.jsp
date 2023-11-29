@@ -60,8 +60,7 @@ function onPaymentTypeChange() {
 
 // 이벤트 핸들러 등록
 $(document).ready(function () {
-   randomMerchantUid = generateRandomMerchantUid()*1;
-   $("#paymentType").change(onPaymentTypeChange);
+	$("#paymentType").change(onPaymentTypeChange);
 });
 
 var IMP = window.IMP;
@@ -69,6 +68,10 @@ IMP.init("imp47417351");
 
 
 function requestPay() {
+	
+	randomMerchantUid = generateRandomMerchantUid()*1;
+	console.log("온라인결제 버튼 눌린 후 주문번호 : ", randomMerchantUid )
+	
   IMP.request_pay(
     {
       pg: "html5_inicis",
@@ -85,13 +88,14 @@ function requestPay() {
     function (rsp) {
       // callback
       //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
-       if(rsp.success){
-          alert("결제성공");
-          
-       } else {
-          alert("결제실패");
-       
-       }
+
+    	if(rsp.success){
+    		alert("결제성공\n대여신청 버튼을 눌러야 신청이 접수됩니다.");
+    		
+    	} else {
+    		alert("결제실패");
+    	
+    	}
     }
   );
 }
@@ -517,8 +521,6 @@ function formatNumber(number) {
 // 대여신청 버튼 클릭 시 서버로 전송
 $(document).ready(function(){
   $("#makeRent").click(function () {
-     console.log("대여신청 버튼 클릭 됨!");
-     
       var selectedPaymentType = $("#paymentType").val();
       if (!selectedPaymentType) {
         alert('결제 방법을 선택해주세요.');
@@ -540,47 +542,48 @@ $(document).ready(function(){
       }
    
     // 대여신청 정보를 서버로 전송
-       $.ajax({
-           type: "POST",
-           url: "/rent/rent"
-           , data: {
-              boardNo: "${board.boardNo }",
-              renterId: "${id }",
-              rentDate: new Date(parseInt(selectedDate)),
-              startTime: startTime,
-               endTime: endTime,
-               rentStatus : 1,
-               paymentType : $("#paymentType").val()
-           }
-          ,dataType: "json"
-           // 대여신청 성공 시 추가 작업 수행
-           , success: function (res) {
-               console.log("대여신청 성공:", res);
-               
-              // 대여신청 성공 시 알림창 띄우기
-              alert("대여신청이 성공적으로 완료되었습니다. \n승인을 기다려주세요.");
-              
-            <%-- 알림보내기 --%>             
-              $.post( "/alert/sendnotification", { 
-                 id: "${id}"
-                   , sender: "${board.writerId}" 
-                   , content: 2
-                   , menu: "${param.menu}"
-                 , boardNo: "${board.boardNo}"
-              });// $.post 끝
-              
-              // 페이지 새로고침
-              location.reload();
-               
-           }
-           , error: function (error) {
-               console.error("대여신청 실패:", error);
-               
-               // 대여신청 실패 시 알림창 띄우기
-               alert("대여신청에 오류가 발생했습니다. \n관리자에게 문의주세요.");
-               
-           }
-       });
+	    $.ajax({
+	        type: "POST",
+	        url: "/rent/rent"
+	        , data: {
+	        	boardNo: "${board.boardNo }",
+	        	renterId: "${id }",
+	        	rentDate: new Date(parseInt(selectedDate)),
+	        	startTime: startTime,
+	            endTime: endTime,
+	            rentStatus : 1,
+	            paymentType : $("#paymentType").val(),
+	            merchantUid: randomMerchantUid
+	        }
+	    	,dataType: "json"
+	        // 대여신청 성공 시 추가 작업 수행
+	        , success: function (res) {
+	            console.log("대여신청 성공:", res);
+	            
+	           // 대여신청 성공 시 알림창 띄우기
+	           alert("대여신청이 성공적으로 완료되었습니다. \n승인을 기다려주세요.");
+	           
+			   <%-- 알림보내기 --%>	          
+	           $.post( "/alert/sendnotification", { 
+	        		id: "${id}"
+        	        , sender: "${board.writerId}" 
+        	        , content: 2
+        	        , menu: "${param.menu}"
+	        		, boardNo: "${board.boardNo}"
+	        	});// $.post 끝
+	           
+	           // 페이지 새로고침
+	           location.reload();
+	            
+	        }
+	        , error: function (error) {
+	            console.error("대여신청 실패:", error);
+	            
+	            // 대여신청 실패 시 알림창 띄우기
+	            alert("대여신청에 오류가 발생했습니다. \n관리자에게 문의주세요.");
+	            
+	        }
+	    });
   });
 });
 </script>

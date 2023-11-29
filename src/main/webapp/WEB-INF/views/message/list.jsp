@@ -10,17 +10,28 @@ pageEncoding="UTF-8"%>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <style>
-.msgContainer {
-  width: 1200px;
-  margin-left: -10px;
-  margin-right: 0px;
+.msgContainer { width: 1200px; }
+.msgMain {
+	height: 900px;
+	width: 1200px;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-left: 1px solid #ccc;
 }
 
-.msgMain {
-/*   display: flex; */
-  border: 1px solid;
-  height: 900px;
-  width: 1200px;
+#pageTitle {
+    height: 100px;
+    vertical-align: middle;
+    color: #ff533f;
+    font-size: 2.5em;
+    text-align: center;
+    line-height: 100px;
+    font-weight: bold;
+    border-radius: 20px 20px 0px 0px;
+    border-top: 3px solid #ff533f;
+    border-left: 3px solid #ff533f;
+    border-right: 3px solid #ff533f;
+    border-bottom: 1px solid #ccc;
 }
 
 .msgMain ::after {
@@ -30,194 +41,181 @@ pageEncoding="UTF-8"%>
 }
 
 .msgList {
-/*   display: flex; */
-/*   flex-direction: column; */
-/*   flex-shrink: 0; */
 	float: left;
-	border: 1px solid;
-	width: 397px;
+	width: 35%;
+	height: 900px;
 	padding-bottom: 10px;
+	border-right: 1px solid #ccc;
 	overflow-y: auto;
 	overflow-x: hidden;
-	height: 900px;
+}
+
+.msgWrap {
+	float: left;
+    width: 65%;
 }
 
 .msgProfile {
-	float: left;
-	border: 1px solid;
-	width: 798px;
+	width: 100%;
 	height: 150px;
 	background: #ff533f;
-/*   flex-grow: 1; */
 }
 
 .msgContent {
-/*   display: flex; */
-/*   flex-direction: column; */
-	float: left;
-	border: 1px solid;
-	width: 798px;
+	width: 100%;
 	height: 750px; 
 	overflow: hidden;
 	justify-content: space-between;
 }
 
 .messages-container {
-/*   display: flex; */
-/*   flex-direction: column; */
-/*   flex-grow: 1; */
-	overflow-y: auto; /* Allow scrolling */
-	height: 600px; /* Adjust this value as needed */
-	width: 796px;
+	width: 100%;
+	height: 600px;
+	overflow-x: hidden;
+    overflow-y: scroll;
 }
 
+/* Webkit 브라우저를 위한 스타일 */
+.messages-container::-webkit-scrollbar { width: 12px; }
+.messages-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+.messages-container::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 10px;background: #ff533f; }
+
 .msgInput {
-  width: 100%;
-  border: 1px solid;
-  height: 150px;
+	width: 100%;
+	height: 150px;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
 }
 
 .msgInput input {
 	width: 80%;
-    vertical-align: middle;
-    padding: 10px;
+    height: 125px;
     margin: 10px;
+    padding: 10px;
     border-radius: 5px;
     border: 2px solid #ccc;
-    height: 125px;
+    vertical-align: middle;
 }
 
 .msgInput button {
 	margin: 0 15px;
     padding: 10px 20px;
-    border-radius: 5px;
     border: none;
+    border-radius: 5px;
     background-color: #ff533f;
     color: white;
+    font-weight: bold;
 }
 
 .msgSendContent {
-  align-self: flex-end;
-  background-color: #ff533f;
-  color: white;
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 10px;
-  max-width: 80%;
+	align-self: flex-end;
+	background-color: #ff533f;
+	color: white;
+	margin: 5px 0;
+	padding: 10px;
+	border-radius: 10px;
+	max-width: 80%;
 }
 
 .msgReceiverContent {
-  align-self: flex-start;
-  background-color: #f1f1f1;
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 10px;
-  max-width: 80%;
+	align-self: flex-start;
+	background-color: #f1f1f1;
+	margin: 5px 0;
+	padding: 10px;
+	border-radius: 10px;
+	max-width: 80%;
 }
 
 .message-send-wrapper {
-  align-self: flex-end;
-  display: flex;
+	align-self: flex-end;
+	display: flex;
 }
 
 .message-receiver-wrapper {
-  align-self: flex-start;
-  display: flex;
+	align-self: flex-start;
+	display: flex;
 }
 
 .send-time {
-  margin-left: auto;
-  padding-right: 10px; /* Adjust as needed */
-  font-size: 11px;
-  margin-top: 33px;
+	margin-left: auto;
+	padding-right: 10px; /* Adjust as needed */
+	font-size: 11px;
+	margin-top: 33px;
 }
 
 .receive-time {
-  margin-right: auto;
-  padding-left: 10px; /* Adjust as needed */
-  font-size: 11px;
-  margin-top: 33px;
+	margin-right: auto;
+	padding-left: 10px; /* Adjust as needed */
+	font-size: 11px;
+	margin-top: 33px;
 }
-
 
 .msgFilter {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+	display: flex;
+	justify-content: space-between;
+	padding: 10px;
+	border-bottom: 1px solid #ccc;
 }
 
-.msgMain .hidden {
-  display: none;
-}
+.msgMain .hidden { display: none; }
 
-.msgObject:hover {
-	background-color: #f38d8d; 
-}
+.msgObject:hover { background-color: #f38d8d; }
 
 .msgPrompt {
-/*   display: flex; */
-  align-items: center;
-  justify-content: center;
-  float: left;
-  height: 900px;
-  width: 798px;
-  text-align: center;
+	float: left;
+	width: 65%;
+	height: 900px;
+	text-align: center;
+	font-size: 40px;
+	line-height: 850px
 }
-
 
 .msgObject-img {
-  float: left;
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
-  margin-right: 10px;
+	float: left;
+	width: 75px;
+	height: 75px;
+	border-radius: 50%;
+	margin-right: 10px;
 }
 
-.msgObject-content {
-/*   flex-grow: 1; /* 나머지 공간을 채움 */ */
-/*   display: flex; */
-  flex-direction: column; /* 내용을 세로로 쌓음 */
-  justify-content: center; /* 세로 방향 중앙 정렬 */
-  align-items: flex-start; /* 가로 방향 시작 부분 정렬 */
+.msgObject-content { /* 안씀 */
+	flex-direction: column; /* 내용을 세로로 쌓음 */
+	justify-content: center; /* 세로 방향 중앙 정렬 */
+	align-items: flex-start; /* 가로 방향 시작 부분 정렬 */
 }
 
-.msgObject-username {
-  font-weight: bold;
-}
+.msgObject-username { font-weight: bold; }
 
 .messagePreview {
-	width: 275px;
 	float: left;
+	width: 275px;
  	color: #555;
 }
 
 .lastMessageTime {
-  margin-left: 10px;
-  float: left;
-  color: #aaa;
+	float: left;
+	margin-left: 10px;
+	color: #aaa;
 }
 
-.msgObject {
-/*   display: flex; /* Flex container 설정 */ */
-  align-items: center; /* 세로 중앙 정렬 */
-  padding: 10px; /* 패딩 설정 */
-  /* 기타 스타일 */
+.msgObject { /* 안쓸듯 */
+	align-items: center; /* 세로 중앙 정렬 */
+	padding: 10px; /* 패딩 설정 */
 }
 
 .msgObject-username, .messagePreview {
-	width: 275px;
 	float: left;
+	width: 275px;
 	white-space: nowrap; /* 텍스트가 넘칠 경우 줄바꿈 없이 처리 */
 }
 
 .profileImg {
-	background: white;
-    width: 135px;
-    height: 135px;
     position: relative;
     top: 6px;
     left: 10px;
+    width: 135px;
+    height: 135px;
+	background: white;
 }
 
 .profileImg img {
@@ -234,43 +232,39 @@ pageEncoding="UTF-8"%>
 }
 
 .profileTitle {
+    height: 75px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space:nowrap;
-    height: 75px;
     font-size: 2.5em;
     color: white;
 }
 
 .profilePrice {
-    font-size: 1.3em;
-    color: wheat;
     position: relative;
     bottom: -15px;
+    font-size: 1.3em;
+    color: wheat;
 }
 
 .redDot {
     float: left;
-    height: 15px;
     width: 15px;
+    height: 15px;
 }
 
 .redDot-unread {
+    float: left;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
     background: #ff533f;
-    float: left;
-    height: 15px;
-    width: 15px;
     animation: sparkle 1s infinite alternate;
 }
 
 @keyframes sparkle {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0.7;
-    }
+	from { opacity: 1; }
+	to { opacity: 0.7; }
 }
 
 </style>
@@ -337,7 +331,7 @@ $(function() {
 		
 		// Hide the prompt and show the message content
 		$('.msgPrompt').addClass('hidden');
-		$('.msgContent, .msgProfile').removeClass('hidden'); 
+		$('.msgContent, .msgProfile, .msgWrap').removeClass('hidden'); 
 		$(this).css('background-color','white');
 		$(this).find('.redDot').removeClass('redDot-unread');
 		console.log( "지금여기 클릭한거 맞아? ", this );
@@ -487,7 +481,7 @@ $(function() {
         makingRoom = true; // 새로운 방을 만든 상태를 알려주는 플래그
         $('.msgInput input').attr('placeholder', '메시지를 입력하면 새로운 채팅이 시작됩니다.'); // 새로 생성한 채팅방의 인풋에 들어가는 placeholder
         $('.msgPrompt').addClass('hidden'); // msgPrompt 숨김
-        $('.msgContent, .msgProfile').removeClass('hidden'); // 숨겨놓은 msgContent, msgProfile 활성화
+        $('.msgContent, .msgProfile, .msgWrap').removeClass('hidden'); // 숨겨놓은 msgContent, msgProfile 활성화
        
         var $boardNo = newRoom.newBoardNo;
         console.log( "$boardNo = ", $boardNo )
@@ -844,31 +838,10 @@ function formatDate(timestamp) {
 </script>
 
 <div class="msgContainer">
-	<div class="pageTitle">
-	<h3 id="pageTitle">채팅</h3>
-	<hr style="width: 1200px;">
+	<div id="pageTitle" style="text-align: center;">${nick }님의 채팅</h3>
 	</div><!-- .pageTitle -->
-	
 	<div class="msgMain">
 		<div class="msgList">
-<!-- 			<div class="msgFilter"> -->
-<!-- 				필터 메뉴 -->
-<!-- 				<select name="filter" style=" padding: 10px; margin-right: 10px;"> -->
-<!-- 					<option value="all">전체</option> -->
-<!-- 					<option value="rent">대여해요</option> -->
-<!-- 					<option value="share">나눔해요</option> -->
-<!-- 					<option value="please">해주세요</option> -->
-<!-- 				</select> -->
-		    
-<!-- 				검색창 -->
-<!-- 				<form method="post" style="display: flex; align-items: center;"> action 속성 추가 예정 -->
-<!-- 					<input type="text" placeholder="검색" style="padding: 10px; border-radius: 5px; border: 1px solid #ccc; flex-grow: 1;"> -->
-<!-- 					<button type="submit" style="border: none; background: none; padding: 0; margin-left: 10px;"> -->
-<!-- 					<img alt="search" src="/resources/img/search.png" style="width:35px; height:35px; margin-left:-64px;"> -->
-<!-- 					</button> -->
-<!-- 				</form> -->
-<!-- 			</div>.msgFilter -->
-		
 			<div class="msgObjects">
 				<c:forEach var="list" items="${list}">
 					<div class="msgObject" room_no="${list.roomNo}">
@@ -899,24 +872,25 @@ function formatDate(timestamp) {
 				</c:forEach>
 			</div><!-- .msgObjects -->
 		</div><!-- .msgList  -->
-	
+		
 		<div class="msgPrompt" >
 		<sapn>메시지 리스트를 선택해주세요.</sapn>
 		</div><!-- .msgPrompt -->
-		<div class="msgProfile hidden"></div>
-		<div class="msgContent hidden">
-			<div class="messages-container"></div>
-			<!-- 보내는 사람 메시지 -->
-			<div class="msgInput">
-				<form method="post"> <!-- 나중에 action 속성 추가 예정 -->
-					<input type="text" placeholder="메세지를 입력해주세요" name="message"  autocomplete="off">
-					<button type="submit" style="padding: 10px 20px; border-radius: 5px; border: none; background-color: #ff533f; color: white;">보내기</button>
-				</form>
-			</div><!-- .msgInput -->
-		</div><!-- .msgContent-hidden -->
+		<div class="msgWrap hidden">
+			<div class="msgProfile hidden"></div>
+			<div class="msgContent hidden">
+				<div class="messages-container"></div>
+				<!-- 보내는 사람 메시지 -->
+				<div class="msgInput">
+					<form method="post"> <!-- 나중에 action 속성 추가 예정 -->
+						<input type="text" placeholder="메세지를 입력해주세요" name="message"  autocomplete="off">
+						<button type="submit" style="padding: 10px 20px; border-radius: 5px; border: none; background-color: #ff533f; color: white;">보내기</button>
+					</form>
+				</div><!-- .msgInput -->
+			</div><!-- .msgContent-hidden -->
+		</div><!-- .msgWrap -->
 		<div style="clear: both;"></div>
 	</div><!-- .msgMain  -->
-	<div style="clear: both;"></div>
 </div><!-- .msgContainer -->
 <div style="clear: both;"></div>
 

@@ -1,6 +1,7 @@
 package web.controller;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import web.dto.Basket;
 import web.dto.Board;
+import web.dto.Booking;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
@@ -33,11 +37,14 @@ public class MenuPleaseController {
    
  //게시판 목록 띄우기
  	@GetMapping("/list")
- 	public String list( Paging param, Model model ) {
+ 	public String list( Paging param, Model model, HttpSession session ) {
  		logger.info("param : {}", param);
  		
  		//페이징 계산
  		Paging paging = menuPleaseService.getPaging(param);
+ 		
+ 		//각 유저가 찜한 상품목록 조회를 위한 Id 저장
+ 		paging.setUserId((String)session.getAttribute("id"));
  		
  		//게시글 목록 조회
  		List<Map<String, Object>> list = menuPleaseService.list(paging); 
@@ -80,7 +87,37 @@ public class MenuPleaseController {
  		return "menu/please/listType";
  	}
  	
+ 	//검색한 게시판 목록 그리드타입 띄우기
+ 	@GetMapping("/search")
+	public String search( Board board, Model model, Paging param, HttpSession session ) {
+		
+		//페이징 계산
+		Paging paging = menuPleaseService.getPaging(param);
+		//각 유저가 찜한 상품목록 조회를 위한 Id 저장
+		paging.setUserId((String)session.getAttribute("id"));
+		
+		//게시글 목록 조회
+		List<Map<String, Object>> list = menuPleaseService.searchList(paging);
+		model.addAttribute("paging", paging);
+		model.addAttribute("list", list);
+		
+		return "menu/please/searchList";
+	}
  	
+ 	//검색한 게시판 목록 리스트타입 띄우기
+ 		@GetMapping("/searchType")
+ 		public String searchType( Board board, Model model, Paging param ) {
+ 			
+ 			//페이징 계산
+ 			Paging paging = menuPleaseService.getPaging(param);
+ 			
+ 			//게시글 목록 조회
+ 			List<Map<String, Object>> list = menuPleaseService.searchList(paging);
+ 			model.addAttribute("paging", paging);
+ 			model.addAttribute("list", list);
+ 			
+ 			return "menu/please/searchType";
+ 		}
  	
  	//게시판 상세 조회
 	@RequestMapping("/view")
@@ -109,6 +146,11 @@ public class MenuPleaseController {
 		model.addAttribute("isLike", isLike);
 		model.addAttribute("cntLike", menuPleaseService.getTotalCntLike(like));		
 		
+//		//대여상태 조회
+//		List<Map<String, Object>> status = menuPleaseService.getStatus(board);
+//		logger.info("status : {}", status);
+//		model.addAttribute("status", status);
+		
 		return "menu/please/view";
 	}
 
@@ -130,7 +172,7 @@ public class MenuPleaseController {
  		//작성자 id, nick 세팅
  		writeParam.setWriterId((String) session.getAttribute("id"));
  		writeParam.setWriterNick((String) session.getAttribute("nick"));
- 		
+ 		writeParam.setLocation((String)session.getAttribute("addr1"));
  		//게시글 저장
  		menuPleaseService.write( writeParam, file );
  		
@@ -276,17 +318,49 @@ public class MenuPleaseController {
  	}
    
    
+ 	@GetMapping("/book")
+	public String book() {
+		
+		return "menu/please/book";
+		
+	}
 
- 	//대댓글
- 	@RequestMapping("/comment/reply")
- 	public String reply(Comment commentReply) {
- 		
- 		menuPleaseService.commentReplyInsert(commentReply);
- 		
-
- 		return "redirect:/please/view?boardNo=" + commentReply.getBoardNo();
- 	}
+// 	@PostMapping("/book")
+//	@ResponseBody
+//	public boolean book(
+//			Booking book, HttpSession session
+//			, Model model) {
+//		book.setBookerId((String)session.getAttribute("id"));
+//		logger.info("예약정보{}", book);
+//		logger.info("나와라잇{}", book.getStartTime());
+//		logger.info("나와라잇2{}", book.getEndTime());
+//		
+//		model.addAttribute("currentDate", new Date());
+//		model.addAttribute("today", new Date());
+//		
+//		//예약 확인
+//		boolean check = menuPleaseService.checkBook(book);
+//		logger.info("예약 확인{}",check);
+//		model.addAttribute("check",check);
+//		
+//		return check;
+//		
+//	}
  	
+ 	@RequestMapping("/basket")
+	public String basket(
+			Basket basket, Model model
+			, HttpSession session) {
+		logger.info("바스켓이다옹{}",basket);
+		
+		basket.setBasketId((String)session.getAttribute("id"));
+		
+		boolean bas = menuPleaseService.checkBasket(basket);
+		logger.info("찜여부{}",bas);
+		model.addAttribute("check", bas);
+		
+		return "jsonView";
+	}
    
    
    

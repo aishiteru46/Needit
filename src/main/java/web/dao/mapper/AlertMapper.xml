@@ -5,19 +5,32 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="web.dao.face.AlertDao">
-	<sql id="selectAlert">
-		SELECT alert_no, content, alert_status, board_no, menu, post_date
-		, (SELECT nick FROM usertb U WHERE U.id = #{id}) AS id
-		, (SELECT nick FROM usertb U WHERE U.id = A.sender) AS sender
-		FROM alerttb A
-	</sql>
-
-	<select id="selectByUser" resultType="Alert" parameterType="Alert">
-		<include refid="selectAlert" />
-		<where>
-			AND id = #{id }
-		</where>
-		ORDER BY alert_no DESC
+	<resultMap id="alertResultMap" type="Alert">
+	    <id property="alertNo" column="alert_no"/>
+	    <id property="content" column="content"/>
+	    <id property="alertStatus" column="alert_status"/>
+	    <id property="boardNo" column="board_no"/>
+	    <id property="menu" column="menu"/>
+	    <id property="id" column="id"/>
+	    <id property="sender" column="sender"/>
+	    <association property="board" javaType="Board">
+	        <id property="boardNo" column="board_no"/>
+	        <result property="title" column="title"/>
+	        <!-- 기타 Board 엔터티의 필드들을 매핑 -->
+	    </association>
+	</resultMap>
+	
+	<select id="selectByUser" resultMap="alertResultMap" parameterType="Alert">
+	    SELECT A.alert_no, A.content, A.alert_status, A.board_no, A.menu,
+	        (SELECT nick FROM usertb U WHERE U.id = #{id}) AS id,
+	        (SELECT nick FROM usertb U WHERE U.id = A.sender) AS sender,
+	        B.title
+	    FROM alerttb A
+	    LEFT JOIN board B ON A.board_no = B.board_no
+	    <where>
+	        AND id = #{id }
+	    </where>
+	    ORDER BY A.alert_no DESC
 	</select>
 
 	<insert id="insertAlert" parameterType="Alert">

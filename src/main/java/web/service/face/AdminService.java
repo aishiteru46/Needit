@@ -81,12 +81,19 @@ public interface AdminService {
 	public List<Map<String, Object>> getCmtReportInfo();
 
 	/**
-	 * 게시글, 댓글을 삭제한다
+	 * 게시글을 삭제한다
 	 * 
 	 * @param board - 게시글 정보 객체
 	 */
-	public void deleteBoardCmt(Board board, Comment cmt);
+	public void deleteBoard(Board board);
 
+	/**
+	 * 댓글을 삭제한다
+	 * 
+	 * @param board - 게시글 정보 객체
+	 */
+	public void deleteComment(Comment cmt);
+	
 	/**
 	 * 업체 요청 목록을 불러온다
 	 *  
@@ -107,6 +114,8 @@ public interface AdminService {
 	 * @param business - 업체
 	 */
 	public void cancelBusiness(Business business);
+
+
 
 
 

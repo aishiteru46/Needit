@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
@@ -47,7 +48,15 @@ public interface MenuPleaseService {
 	 */
 	public int getCntLike(Paging paging);
 
-
+	
+	/**
+	 * 게시글 검색
+	 * 
+	 * @param paging
+	 * @return
+	 */
+	public List<Map<String, Object>> searchList(Paging paging);
+	
 
 	/**
 	 * 게시글 상세보기
@@ -180,6 +189,27 @@ public interface MenuPleaseService {
 	 * @param commentReply
 	 */
 	public void commentReplyInsert(Comment commentReply);
+
+
+
+	/**
+	 * 찜이 된상태인지 안된상태인지 확인
+	 * 
+	 * @param basket 찜 정보
+	 * @return true 찜 가능 false 찜 불가능
+	 */
+	public boolean checkBasket(Basket basket);
+
+
+//	/** 
+//	 * 대여상태 조회
+//	 * @param board
+//	 * @return
+//	 */
+//	public List<Map<String, Object>> getStatus(Board board);
+
+
+
 
 
 

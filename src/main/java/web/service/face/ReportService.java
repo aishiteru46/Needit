@@ -18,7 +18,7 @@ public interface ReportService {
 	 * @param report
 	 * @return
 	 */
-	public boolean insertCmtReport(Report report);
+	public void insertCmtReport(Report report);
 	
 
 }

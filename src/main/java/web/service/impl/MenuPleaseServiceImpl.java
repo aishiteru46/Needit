@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import web.dao.face.MenuPleaseDao;
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
@@ -49,7 +50,11 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
       return menuPleaseDao.selectAll(paging);
    }
 
-
+   
+   @Override
+	public List<Map<String, Object>> searchList(Paging paging) {
+		return menuPleaseDao.selectSearch(paging);
+	}
 
 
    @Override
@@ -296,33 +301,26 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 		menuPleaseDao.insertCommentReply(commentReply);
 	}
 
-
-	
-	
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	@Override
+	public boolean checkBasket(Basket basket) {
+		int res = menuPleaseDao.basketInfo(basket);
+		logger.info("res{}", res);
+		if (res > 0) {
+			menuPleaseDao.deleteBasket(basket);
+			return true;
+		} else {
+			menuPleaseDao.insertBasket(basket);
+			return false;
+		}
 		
+	}
+
+//	@Override
+//	public List<Map<String, Object>> getStatus(Board board) {
+//		return menuPleaseDao.chkRentStatus(board);
+//	}
+
 	
-   
-   
-
-
-
 
 
 
