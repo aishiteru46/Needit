@@ -308,6 +308,14 @@ form {
 
 </style>
 
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+
+
+
 <div class="container">
 
 <c:forEach  var="list" items="${list }" begin="0" end="0">
@@ -426,6 +434,9 @@ form {
 </c:forEach>
 
 <small class="float-end" style=" margin-right: 8px; margin-top: -10px; margin-bottom: 20px;">total : ${paging.totalCount }</small>
+
+
+
 
 
 </div> <!-- .container -->

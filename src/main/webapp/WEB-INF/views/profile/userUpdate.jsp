@@ -16,14 +16,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 //주소입력
-	var idCheck = false;
 	var pwCheck = false;
-	var nickCheck = false;
-	var email = false;
-	var nameCheck = false;
-	var phoneCheck = false;
-	var birthCheck = false;
-	var addrCheck = false;
 	
 function addr1_execDaumPostcode() {
         new daum.Postcode({
@@ -219,7 +212,6 @@ $(document).ready(function() {
 			
 			$("#label3").css("color", "red").css("display", "block").text("사용할 수 없습니다.");
 			$("#nickLimit").css("color", "red").css("display", "block").text("2~13글자 특수문자 사용 불가");
-			nickCheck = false;
 			return false;
 		}
 
@@ -242,7 +234,6 @@ $(document).ready(function() {
     				$("#label3").css("color", "green").text("사용 가능한 닉네임 입니다.");
     				$("#nickLimit").css("display", "none");
 
-    				nickCheck = true;
     			} else{
     				$("#label3").css("display", "block")
     				$("#label3").css("color", "red").text("사용 불가능한 닉네임 입니다.");
@@ -254,7 +245,6 @@ $(document).ready(function() {
         	// 닉네임이 변경되지 않은 경우에도 "사용 가능한 닉네임 입니다." 메시지 표시
             $("#label3").css("display", "block").css("color", "green").text("사용 가능한 닉네임 입니다.");
             $("#nickLimit").css("display", "none");
-            nickCheck = true;
         }
 	});
     // 비밀번호 일치 여부 확인
@@ -264,30 +254,26 @@ $(document).ready(function() {
   		if(!pwRegex.test(password1)){
   			$("#label2").css("color", "red").css("display", "block").text("사용 불가능한 비밀번호 입니다.");
   			$("#pwLimit").css("color", "red").css("display", "block").text("영문, 숫자, 특수문자 를 조합한 8~15 글자 사용");
-  			pwCheck = false;
   			return false;
   			
   		}else{
   			$("#label2").css("color", "green").css("display", "block").text("사용 가능한 비밀번호 입니다.");
 			$("#pwLimit").css("display", "none");
-  			pwCheck = true;
   		}
     })
-    $("#pw2").on("input",function() {
-    	password1 = $("#pw1").val();
-        var password2 = $(this).val();
-      
-    	console.log(pwCheck);
-	        if (password1 === password2 && !password1 == '') {
-	            $("#label4").css("display", "block").css("color", "green").text("비밀번호가 일치합니다!");
-	 			pwCheck = true;
-	        } else {
-	            $("#label4").css("display", "block").css("color", "red").text("비밀번호가 일치하지 않습니다.");
-	            pwCheck = false;
-	        }
-
-        
-    });
+    $("#pw2").on("input", function() {
+	    password1 = $("#pw1").val();
+	    var password2 = $(this).val();
+	
+		    console.log(pwCheck);
+		    if (password1 === password2 && password1 !== '') {
+		        $("#label4").css("display", "block").css("color", "green").text("비밀번호가 일치합니다!");
+		        return true;
+		    } else {
+		        $("#label4").css("display", "block").css("color", "red").text("비밀번호가 일치하지 않습니다.");
+		        return false;
+		    }
+});
 //     //이메일 전송
 //     $("#codeInput").on("input focusout focusin", function() {
     	
@@ -420,26 +406,26 @@ form {
   			<label class="fs-3 fw-bold">*아이디</label>
    	 		<span class="position-absolute top-50 end-0 translate-middle-y" id="label1" style="font-size: 15px;"></span>
   			</div>
-   	 		<input type="text" class="form-control form-control-lg mb-3" name="id" id="id" value="${id }" required="required" readonly>
+   	 		<input type="text" class="form-control form-control-lg mb-3" name="id" id="id" value="${id }" readonly>
    	 		<span  id="idLimit" style="font-size: 13px;"></span>
    	 		<div class="position-relative">
   			<label class="fs-3 fw-bold">*비밀번호</label>
   			<span class="position-absolute top-50 end-0 translate-middle-y" id="label2" style="font-size: 15px;"></span>
    	 		</div>
-    		<input type="password" class="form-control form-control-lg mb-3" id="pw1" name="pw" value="${user.pw }" placeholder="비밀번호를 입력해주세요" required="required">
+    		<input type="password" class="form-control form-control-lg mb-3" id="pw1" name="pw" value="${user.pw }" placeholder="비밀번호를 입력해주세요">
    	 		<span  id="pwLimit" style="font-size: 15px;"></span>
     		
     		<div class="position-relative">
   			<label class="fs-3 fw-bold">*비밀번호 확인</label>
     		<span class="position-absolute top-50 end-0 translate-middle-y" id="label4" style="font-size: 15px;"></span>
     		</div>
-    		<input type="password" class="form-control form-control-lg mb-3" id="pw2" value="${user.pw }"  placeholder="비밀번호를 입력해주세요" required="required">
+    		<input type="password" class="form-control form-control-lg mb-3" id="pw2" value="${user.pw }"  placeholder="비밀번호를 입력해주세요">
     		
      		<div class="position-relative"> 
   			<label class="fs-3 fw-bold">*닉네임</label> 
    			<span class="position-absolute top-50 end-0 translate-middle-y" id="label3" style="font-size: 15px;"></span> 
      		</div> 
-    		<input type="text" class="form-control form-control-lg mb-3" id="nick" name="nick" value="${nick }"  required="required"> 
+    		<input type="text" class="form-control form-control-lg mb-3" id="nick" name="nick" value="${nick }"> 
     	 		<span  id="nickLimit" style="font-size: 15px;"></span> 
     	 		
 <!--   			<label class="fs-3 fw-bold">*생년월일</label> -->
@@ -449,6 +435,7 @@ form {
   			<label class="fs-3 fw-bold">*주소</label> 
   			<input class="btn mb-2 position-absolute top-50 end-0 translate-middle-y" id="needit"type="button" onclick="addr1_execDaumPostcode()" value="우편번호 찾기">
   			</div>
+
   			<input type="text" class="form-control form-control-lg mb-3" name="addr1" value="${user.addr1 }" id="addr1" required="required">
     		
     		<label class="fs-3 fw-bold">상세주소</label>

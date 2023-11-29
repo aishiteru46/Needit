@@ -13,6 +13,7 @@ public class Rent {
 	private int rentStatus;
 	private int paymentType;
 	private Date rentDate;
+	private long currentTime;
 	private int startTime;
 	private int endTime;
 	private String merchantUid;
