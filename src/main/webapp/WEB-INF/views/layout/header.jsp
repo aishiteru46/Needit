@@ -27,7 +27,7 @@ $(function() {
 
 	   hasNew() //페이지 로드 시 'hashNew' 함수를 호출하여 새로운 알림을 확인
 	   loadAlert()    
-	   var urlEndPoint = "/alert/get?id=" + "${id}" //Sse세션 생성 시 접속한 세션의 id를 보내준다
+	   var urlEndPoint = "/alert/get?id=" + sessionId //Sse세션 생성 시 접속한 세션의 id를 보내준다
 	   var eventSource = new EventSource(urlEndPoint) //SSE를 위한 'EventSource'를 생성
 	   console.log(urlEndPoint)
 	   console.log('왜안돼?')
