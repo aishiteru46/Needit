@@ -13,7 +13,8 @@ public class Rent {
 	private int rentStatus;
 	private int paymentType;
 	private Date rentDate;
-	private int startTime;
-	private int endTime;
+	private long startTime;
+	private long endTime;
+	private long currentTime;
 
 }

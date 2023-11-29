@@ -60,8 +60,8 @@ function onPaymentTypeChange() {
 
 // 이벤트 핸들러 등록
 $(document).ready(function () {
-	randomMerchantUid = generateRandomMerchantUid()*1;
-	$("#paymentType").change(onPaymentTypeChange);
+   randomMerchantUid = generateRandomMerchantUid()*1;
+   $("#paymentType").change(onPaymentTypeChange);
 });
 
 var IMP = window.IMP;
@@ -85,13 +85,13 @@ function requestPay() {
     function (rsp) {
       // callback
       //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
-    	if(rsp.success){
-    		alert("결제성공");
-    		
-    	} else {
-    		alert("결제실패");
-    	
-    	}
+       if(rsp.success){
+          alert("결제성공");
+          
+       } else {
+          alert("결제실패");
+       
+       }
     }
   );
 }
@@ -103,7 +103,7 @@ function requestPay() {
 @import url('https://fonts.googleapis.com/css?family=Questrial&display=swap');
 
 #rentModal {
-	--bs-modal-width: 560px;
+   --bs-modal-width: 560px;
 }
 
 .Calendar {
@@ -161,44 +161,44 @@ function requestPay() {
 }
 
 #makeRent {
-	color: white;
-	background-color: rgb(255,83,63);
+   color: white;
+   background-color: rgb(255,83,63);
 }
 
 #startTmSelected td {
-	padding: 0;
+   padding: 0;
 }
 #startTmSelected td div {
-	padding: 0.75em;
-	text-align: center;
+   padding: 0.75em;
+   text-align: center;
 }
 
 .reserved {
-	background-color: #ccc;
-	text-decoration-line:line-through;
+   background-color: #ccc;
+   text-decoration-line:line-through;
 }
 
 .reserving {
-	background-color: rgb(255,83,63);
-	color: white;
+   background-color: rgb(255,83,63);
+   color: white;
 }
 #paymentType {
-	border-radius: 5px;
+   border-radius: 5px;
     text-align: center;
     height: 40px;
     margin-bottom: 10px;
     margin-right: 10px;
     width: 420px;
     appearance: none;
-	-webkit-appearance: none;
- 	-moz-appearance: none;
+   -webkit-appearance: none;
+    -moz-appearance: none;
 }
 .rentBtn-container {
-	text-align: right;
+   text-align: right;
 }
 .paymentContainer, .rentBtn-container {
-	display: inline-block;
-	vertical-align: top;
+   display: inline-block;
+   vertical-align: top;
 }
 </style>
 
@@ -300,7 +300,7 @@ var totalPrice;
 <%-- 대여날짜,시간 선택 --%>
 <script type="text/javascript">
 $(function(){
-	
+   
     // 다음 달의 날짜에 대한 클릭 이벤트 추가
     $(".Calendar").on("click", ".futureMonth", function(){
         clickedDate = parseInt($(this).text()); // 문자열을 숫자로 변환
@@ -319,55 +319,55 @@ $(function(){
 
 //대여테이블 시간표 만들기
 function renderTable(selectedDate) {
-	
-	var startSelect = $("#startTmSelected");
-	var tmp = "";
-	var reservedTime = [];
-	var tempDate = new Date(parseInt(selectedDate));
-	
-	//예약정보 가져오기
-	<c:forEach var="sta" items="${status}">
-		var rentDate = new Date('${sta.RENT_DATE}');
-		console.log(rentDate + "\r\n " + tempDate)
-		
-	 	if (rentDate.toLocaleString() ===  tempDate.toLocaleString()) {
-			for (let i=${sta.START_TIME}; i<=${sta.END_TIME}; i++) {	
-				reservedTime.push(i);
-			}
-		}
-	</c:forEach>
-	
-	//대여시간 테이블 랜더링
-	for (let i=1; i<=48; i++) {	
-		var time = new Date('2023-01-01 00:00:00');
-		time.setMinutes((i-1)*30);
-		
-		//현재 연도,월,날짜,시간 구하기
-	    var targetnow = new Date();
-	    targetnow.setYear(nowMonth.getFullYear())
-	    targetnow.setMonth(nowMonth.getMonth())
-	    targetnow.setDate(clickedDate)
-		targetnow.setHours(Math.floor(((i-1) / 48) * 24))
-	    if (i % 2 === 0) {
-	       targetnow.setMinutes(30)
-		} else {
-			targetnow.setMinutes(0)
-		}
-	    targetnow.setSeconds(0);
-		
-		//대여가능 시간 테이블 생성
-		if ((i-1)%6==0) {tmp += '<tr>';}
-		if (reservedTime.indexOf(i) == -1 && now<targetnow) {
-			tmp += `<td><div type="button" name='endTime' value='\${i}' onClick="timeSet(event, \${i})">\${time.toString().substring(16,21)}</div></td>`;				
-		} else {
-			tmp += `<td><div type="button" name='endTime' value='\${i}' class="reserved">\${time.toString().substring(16,21)}</div></td>`;
-		}
-		if (i%6==0) {tmp += '</tr>';}
-	}
-	
-	//HTML랜더링 처리
-	startSelect.html(tmp);
-	
+   
+   var startSelect = $("#startTmSelected");
+   var tmp = "";
+   var reservedTime = [];
+   var tempDate = new Date(parseInt(selectedDate));
+   
+   //예약정보 가져오기
+   <c:forEach var="sta" items="${status}">
+      var rentDate = new Date('${sta.RENT_DATE}');
+      console.log(rentDate + "\r\n " + tempDate)
+      
+       if (rentDate.toLocaleString() ===  tempDate.toLocaleString()) {
+         for (let i=${sta.START_TIME}; i<=${sta.END_TIME}; i++) {   
+            reservedTime.push(i);
+         }
+      }
+   </c:forEach>
+   
+   //대여시간 테이블 랜더링
+   for (let i=1; i<=48; i++) {   
+      var time = new Date('2023-01-01 00:00:00');
+      time.setMinutes((i-1)*30);
+      
+      //현재 연도,월,날짜,시간 구하기
+       var targetnow = new Date();
+       targetnow.setYear(nowMonth.getFullYear())
+       targetnow.setMonth(nowMonth.getMonth())
+       targetnow.setDate(clickedDate)
+      targetnow.setHours(Math.floor(((i-1) / 48) * 24))
+       if (i % 2 === 0) {
+          targetnow.setMinutes(30)
+      } else {
+         targetnow.setMinutes(0)
+      }
+       targetnow.setSeconds(0);
+      
+      //대여가능 시간 테이블 생성
+      if ((i-1)%6==0) {tmp += '<tr>';}
+      if (reservedTime.indexOf(i) == -1 && now<targetnow) {
+         tmp += `<td><div type="button" name='endTime' value='\${i}' onClick="timeSet(event, \${i})">\${time.toString().substring(16,21)}</div></td>`;            
+      } else {
+         tmp += `<td><div type="button" name='endTime' value='\${i}' class="reserved">\${time.toString().substring(16,21)}</div></td>`;
+      }
+      if (i%6==0) {tmp += '</tr>';}
+   }
+   
+   //HTML랜더링 처리
+   startSelect.html(tmp);
+   
 }
 
 </script>
@@ -389,118 +389,118 @@ function isPastTime(selectedDate, timeValue) {
 
 //대여할 시간 선택 영역 표시, 선택된 값 저장
 function timeSet(event, t) {
-	
-	var selectedDate =  $("#selectedDate").val();
-	var reservedTime = [];
-	var tempDate = new Date(parseInt(selectedDate));
-	
-	<c:forEach var="sta" items="${status}">
-		var rentDate = new Date('${sta.RENT_DATE}');
-		console.log(rentDate + "\r\n " + tempDate)
-		
-	 	if (rentDate.toLocaleString() ===  tempDate.toLocaleString()) {
-			for (let i=${sta.START_TIME}; i<=${sta.END_TIME}; i++) {	
-				reservedTime.push(i);
-			}
-		}
-	</c:forEach>
-	
+   
+   var selectedDate =  $("#selectedDate").val();
+   var reservedTime = [];
+   var tempDate = new Date(parseInt(selectedDate));
+   
+   <c:forEach var="sta" items="${status}">
+      var rentDate = new Date('${sta.RENT_DATE}');
+      console.log(rentDate + "\r\n " + tempDate)
+      
+       if (rentDate.toLocaleString() ===  tempDate.toLocaleString()) {
+         for (let i=${sta.START_TIME}; i<=${sta.END_TIME}; i++) {   
+            reservedTime.push(i);
+         }
+      }
+   </c:forEach>
+   
     <%-- 시간 세팅 --%>
-	if (fromTime == 0 || toTime !=0 || fromTime >= t) {
-		
-		$("#startTmSelected td div").removeClass('reserving');
-		fromTime = t;
-		toTime = 0;
-		$(event.target).addClass('reserving');
-		
-		console.log(event.target);
-	
-	} else {
-		toTime = t;
-		
-		<%-- 대여시간 잘못 선택시 예외처리 --%>
-		for (let i=fromTime; i<=toTime; i++) {			
-			if (reservedTime.indexOf(i) != -1) {
-				alert('선택불가한 시간입니다.');
-				
-			    <%-- 시작시간이0이 아니고, 끝시간도 0이 아니고 시작시간이 끝시간보다 크다면 
-			    	선택된 시간 초기화하기 --%>
-				$("#startTmSelected td div").removeClass('reserving');
-				fromTime = 0;
-				toTime = 0;
+   if (fromTime == 0 || toTime !=0 || fromTime >= t) {
+      
+      $("#startTmSelected td div").removeClass('reserving');
+      fromTime = t;
+      toTime = 0;
+      $(event.target).addClass('reserving');
+      
+      console.log(event.target);
+   
+   } else {
+      toTime = t;
+      
+      <%-- 대여시간 잘못 선택시 예외처리 --%>
+      for (let i=fromTime; i<=toTime; i++) {         
+         if (reservedTime.indexOf(i) != -1) {
+            alert('선택불가한 시간입니다.');
+            
+             <%-- 시작시간이0이 아니고, 끝시간도 0이 아니고 시작시간이 끝시간보다 크다면 
+                선택된 시간 초기화하기 --%>
+            $("#startTmSelected td div").removeClass('reserving');
+            fromTime = 0;
+            toTime = 0;
 
-				return false;
-			}
+            return false;
+         }
 
-			<%-- 선택한 시간에 문제가 없다면 끝시간에 val 넣어주기 --%>
-			$(`#startTmSelected td div[value="\${i}"]`).addClass('reserving');
-		}
-		
-	    // 선택된 시간 개수 출력
-	    selectedCount = toTime - fromTime + 1;
-	    console.log('선택된 시간 개수 : ', selectedCount);
-	    
-	    // totalPrice값 설정
-	    totalPrice = selectedCount * ${board.price};
-	    console.log('총 금액: ', totalPrice);
+         <%-- 선택한 시간에 문제가 없다면 끝시간에 val 넣어주기 --%>
+         $(`#startTmSelected td div[value="\${i}"]`).addClass('reserving');
+      }
+      
+       // 선택된 시간 개수 출력
+       selectedCount = toTime - fromTime + 1;
+       console.log('선택된 시간 개수 : ', selectedCount);
+       
+       // totalPrice값 설정
+       totalPrice = selectedCount * ${board.price};
+       console.log('총 금액: ', totalPrice);
         
-	    // 동적으로 payInfo 업데이트
+       // 동적으로 payInfo 업데이트
         updatePayInfo();
-	    
-	}
+       
+   }
 }
 
 //payInfo 업데이트 함수 추가
 function updatePayInfo() {
-	
+   
     // 동적으로 payInfo 업데이트
     var payInfo = "";
-   	var hours;
-   	var minutes;
-   	
+      var hours;
+      var minutes;
+      
     if( selectedCount > 2) {
-    	if( (selectedCount%2) == 1 ){ // 홀수칸 일때 == 시간만 나와야함
-    		if(selectedCount == 3) {
-    			hours = 1;
-    			minutes = 0;
+       if( (selectedCount%2) == 1 ){ // 홀수칸 일때 == 시간만 나와야함
+          if(selectedCount == 3) {
+             hours = 1;
+             minutes = 0;
 
-    			payInfo = "";
-    			payInfo += "<p>총 대여시간 : " + hours + "시간</p>";
-	   	        payInfo += "<p>총 금액 : " + formatNumber(totalPrice - ${board.price}) + "원</p>";
-	   	        
-    			console.log("시간",hours)
-    			console.log("분",minutes)
-    		} else {
-    			hours = Math.floor( (selectedCount-1) / 2 );
-	    		minutes = 0;
+             payInfo = "";
+             payInfo += "<p>총 대여시간 : " + hours + "시간</p>";
+                 payInfo += "<p>총 금액 : " + formatNumber(totalPrice - ${board.price}) + "원</p>";
+                 
+             console.log("시간",hours)
+             console.log("분",minutes)
+          } else {
+             hours = Math.floor( (selectedCount-1) / 2 );
+             minutes = 0;
 
-    			payInfo = "";
-    			payInfo += "<p>총 대여시간 : " + hours*1 + "시간</p>";
-	   	        payInfo += "<p>총 금액 : " + formatNumber(totalPrice - ${board.price}) + "원</p>";
+             payInfo = "";
+             payInfo += "<p>총 대여시간 : " + hours*1 + "시간</p>";
+                 payInfo += "<p>총 금액 : " + formatNumber(totalPrice - ${board.price}) + "원</p>";
 
-    			console.log("시간",hours)
-    			console.log("분",minutes)
-    		}
-    	} else { // 짝수 일 때 == 시간 분 나와야 함
-   			hours = Math.floor( (selectedCount / 2) - 1);
-   			minutes = 30;
-	        payInfo = "";
-		    payInfo += "<p>총 대여시간 : " + hours*1 + "시간" + " " + minutes*1 + "분</p>";
-   	        payInfo += "<p>총 금액 : " + formatNumber(totalPrice - ${board.price}) + "원</p>";
-		    console.log("시간",hours)
-   			console.log("분",minutes)
-    	} 
-    	
+             console.log("시간",hours)
+             console.log("분",minutes)
+          }
+       } else { // 짝수 일 때 == 시간 분 나와야 함
+            hours = Math.floor( (selectedCount / 2) - 1);
+            minutes = 30;
+           payInfo = "";
+          payInfo += "<p>총 대여시간 : " + hours*1 + "시간" + " " + minutes*1 + "분</p>";
+              payInfo += "<p>총 금액 : " + formatNumber(totalPrice - ${board.price}) + "원</p>";
+          console.log("시간",hours)
+            console.log("분",minutes)
+       } 
+       
     } else if( selectedCount == 2) {
-    	hours = 0;
-    	minutes = 30;
-    	
+       hours = 0;
+       minutes = 30;
+       
         payInfo = "";
-	    payInfo += "<p>총 대여시간 : " + minutes*1 + "분</p>";
+       payInfo += "<p>총 대여시간 : " + minutes*1 + "분</p>";
         payInfo += "<p>총 금액 : " + formatNumber(${board.price}) + "원</p>";
     
-	    console.log("시간",hours)
-  		console.log("분",minutes)
+       console.log("시간",hours)
+        console.log("분",minutes)
     } else {
        payInfo = "";
     }
@@ -517,152 +517,151 @@ function formatNumber(number) {
 // 대여신청 버튼 클릭 시 서버로 전송
 $(document).ready(function(){
   $("#makeRent").click(function () {
-	  console.log("대여신청 버튼 클릭 됨!");
-	  
+     console.log("대여신청 버튼 클릭 됨!");
+     
       var selectedPaymentType = $("#paymentType").val();
       if (!selectedPaymentType) {
         alert('결제 방법을 선택해주세요.');
         return false;
-      }	  
-	  
+      }     
+     
       let selectedDate = $("#selectedDate").val();
       let startTime = fromTime;
       let endTime = toTime;
       
       if (fromTime == 0 || toTime == 0 || fromTime >= toTime) {
-		alert('선택불가한 시간입니다.');
-		
-		$("#startTmSelected td div").prop("style","background-color:transparent;");
-		fromTime = 0;
-		toTime = 0;
-		
-		return false;  
+      alert('선택불가한 시간입니다.');
+      
+      $("#startTmSelected td div").prop("style","background-color:transparent;");
+      fromTime = 0;
+      toTime = 0;
+      
+      return false;  
       }
-	
+   
     // 대여신청 정보를 서버로 전송
-	    $.ajax({
-	        type: "POST",
-	        url: "/rent/rent"
-	        , data: {
-	        	boardNo: "${board.boardNo }",
-	        	renterId: "${id }",
-	        	rentDate: new Date(parseInt(selectedDate)),
-	        	startTime: startTime,
-	            endTime: endTime,
-	            rentStatus : 1,
-	            paymentType : $("#paymentType").val()
-	        }
-	    	,dataType: "json"
-	        // 대여신청 성공 시 추가 작업 수행
-	        , success: function (res) {
-	            console.log("대여신청 성공:", res);
-	            
-	           // 대여신청 성공 시 알림창 띄우기
-	           alert("대여신청이 성공적으로 완료되었습니다. \n승인을 기다려주세요.");
-	           
-			   <%-- 알림보내기 --%>	          
-	           $.post( "/alert/sendnotification", { 
-	        		id: "${id}"
-        	        , sender: "${board.writerId}" 
-        	        , content: 2
-        	        , menu: "${param.menu}"
-	        		, boardNo: "${board.boardNo}"
-	        	});// $.post 끝
-	           
-	           // 페이지 새로고침
-	           location.reload();
-	            
-	        }
-	        , error: function (error) {
-	            console.error("대여신청 실패:", error);
-	            
-	            // 대여신청 실패 시 알림창 띄우기
-	            alert("대여신청에 오류가 발생했습니다. \n관리자에게 문의주세요.");
-	            
-	        }
-	    });
+       $.ajax({
+           type: "POST",
+           url: "/rent/rent"
+           , data: {
+              boardNo: "${board.boardNo }",
+              renterId: "${id }",
+              rentDate: new Date(parseInt(selectedDate)),
+              startTime: startTime,
+               endTime: endTime,
+               rentStatus : 1,
+               paymentType : $("#paymentType").val()
+           }
+          ,dataType: "json"
+           // 대여신청 성공 시 추가 작업 수행
+           , success: function (res) {
+               console.log("대여신청 성공:", res);
+               
+              // 대여신청 성공 시 알림창 띄우기
+              alert("대여신청이 성공적으로 완료되었습니다. \n승인을 기다려주세요.");
+              
+            <%-- 알림보내기 --%>             
+              $.post( "/alert/sendnotification", { 
+                 id: "${id}"
+                   , sender: "${board.writerId}" 
+                   , content: 2
+                   , menu: "${param.menu}"
+                 , boardNo: "${board.boardNo}"
+              });// $.post 끝
+              
+              // 페이지 새로고침
+              location.reload();
+               
+           }
+           , error: function (error) {
+               console.error("대여신청 실패:", error);
+               
+               // 대여신청 실패 시 알림창 띄우기
+               alert("대여신청에 오류가 발생했습니다. \n관리자에게 문의주세요.");
+               
+           }
+       });
   });
 });
 </script>
 
 <!-- Modal, 대여창 -->
 <div class="modal fade" id="rentModal" tabindex="-1" aria-labelledby="rentModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-		
-			<!-- Modal Header -->
-			<div class="modal-header">
-				<h5 class="modal-title" id="rentModalLabel">대여일 선택</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div><!-- .modal-header -->
-			
-			<!-- Modal Body -->
-			<div class="modal-body">
-			    <div class="calendar-container">
-			        <table class="Calendar">
-		            
-		            <thead>
-		                <tr>
-		                    <td onClick="prevCalendar();" style="cursor:pointer;">&#60;</td>
-		                    <td colspan="5">
-		                        <span id="calYear"></span>년
-		                        <span id="calMonth"></span>월
-		                    </td>
-		                    <td onClick="nextCalendar();" style="cursor:pointer;">&#62;</td>
-		                </tr>
-		                <tr>
-		                    <td>일</td><td>월</td><td>화</td><td>수</td><td>목</td><td>금</td><td>토</td>
-		                </tr>
-		            </thead>
-		            
-		            <tbody>
-		            </tbody>
-		            
-			        </table>
-			    </div><!-- .calendar-container --><br><br>
-			    
-			    <%-- 예약 시간을 선택하는 폼 --%>
-        	    <div class="time-container" style="margin-bottom: -8px; display: grid;">
-	        	    
-			        <div style="display:none; margin-top:-30px; margin-bottom:5px;" id="time">
-		            	<span style="font-size: 14px;">*다음 대여자를 위해 장기 대여는 삼가주세요.</span><br>
-	 	  	         	<span style="font-size: 14px;">*날짜가 넘어가면 여러번 신청해야 합니다.</span><br>
-	    	        	<span style="font-size: 14px;">*선택한 시간 전까지 반납필수!</span><br>
-			        </div>
-		            	 
-	            	<%-- 시간목록 테이블 --%>
-	            	<table>
-			        	<tbody id="startTmSelected"></tbody>
-	            	</table><br>
-		            
-			    </div><!-- .time-container -->
-	        	
-	        	<div class="payInfo">
-	        	</div>
-	        	
-		        <div class="paymentContainer">
-	            	<select name="paymentType" id="paymentType">
-	            		<option value="" selected disabled hidden>결제 방법을 선택하세요</option>
-	            		<option value="1">온라인결제</option>
-	            		<option value="0">직접결제</option>
-	            	</select>
-				</div><!-- .paymentContainer -->
-				
-				<div class="rentBtn-container">	
-			        <!-- 선택한 날짜를 저장할 hidden input -->
-			        <input type="hidden" name="selectedDate" id="selectedDate" >
-			   		<button type="button" name="makeRent" id="makeRent" class="btn float-end">대여신청</button>
-		        </div><!-- .rentBtn-container -->
-			        
-			</div><!-- .modal-body -->
-			
-			<!-- Modal Footer -->
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-			</div><!-- .modal-footer -->
-		
-		</div><!-- .modal-content -->
-	</div><!-- .modal-dialog -->
+   <div class="modal-dialog">
+      <div class="modal-content">
+      
+         <!-- Modal Header -->
+         <div class="modal-header">
+            <h5 class="modal-title" id="rentModalLabel">대여일 선택</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div><!-- .modal-header -->
+         
+         <!-- Modal Body -->
+         <div class="modal-body">
+             <div class="calendar-container">
+                 <table class="Calendar">
+                  
+                  <thead>
+                      <tr>
+                          <td onClick="prevCalendar();" style="cursor:pointer;">&#60;</td>
+                          <td colspan="5">
+                              <span id="calYear"></span>년
+                              <span id="calMonth"></span>월
+                          </td>
+                          <td onClick="nextCalendar();" style="cursor:pointer;">&#62;</td>
+                      </tr>
+                      <tr>
+                          <td>일</td><td>월</td><td>화</td><td>수</td><td>목</td><td>금</td><td>토</td>
+                      </tr>
+                  </thead>
+                  
+                  <tbody>
+                  </tbody>
+                  
+                 </table>
+             </div><!-- .calendar-container --><br><br>
+             
+             <%-- 예약 시간을 선택하는 폼 --%>
+               <div class="time-container" style="margin-bottom: -8px; display: grid;">
+                  
+                 <div style="display:none; margin-top:-30px; margin-bottom:5px;" id="time">
+                     <span style="font-size: 14px;">*다음 대여자를 위해 장기 대여는 삼가주세요.</span><br>
+                        <span style="font-size: 14px;">*날짜가 넘어가면 여러번 신청해야 합니다.</span><br>
+                     <span style="font-size: 14px;">*선택한 시간 전까지 반납필수!</span><br>
+                 </div>
+                      
+                  <%-- 시간목록 테이블 --%>
+                  <table>
+                    <tbody id="startTmSelected"></tbody>
+                  </table><br>
+                  
+             </div><!-- .time-container -->
+              
+              <div class="payInfo">
+              </div>
+              
+              <div class="paymentContainer">
+                  <select name="paymentType" id="paymentType">
+                     <option value="" selected disabled hidden>결제 방법을 선택하세요</option>
+                     <option value="1">온라인결제</option>
+                     <option value="0">직접결제</option>
+                  </select>
+            </div><!-- .paymentContainer -->
+            
+            <div class="rentBtn-container">   
+                 <!-- 선택한 날짜를 저장할 hidden input -->
+                 <input type="hidden" name="selectedDate" id="selectedDate" >
+                  <button type="button" name="makeRent" id="makeRent" class="btn float-end">대여신청</button>
+              </div><!-- .rentBtn-container -->
+                 
+         </div><!-- .modal-body -->
+         
+         <!-- Modal Footer -->
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+         </div><!-- .modal-footer -->
+      
+      </div><!-- .modal-content -->
+   </div><!-- .modal-dialog -->
 </div><!-- .modal fade -->
-
 

@@ -241,9 +241,19 @@
 
 	<!-- 댓글 리스트 -->
 	<select id="cmtList" resultType="Comment" parameterType="Comment">
-	SELECT * FROM commentTB
-	WHERE board_no = #{boardNo}
-	ORDER BY cmt_no DESC
+		SELECT * FROM (
+		    SELECT rownum rnum, B.*, uf.THUMBNAIL_NAME 
+		    FROM (
+		        SELECT
+		            cmt_no, board_no, writer_id, writer_nick, content,
+		            CAST(write_date AS DATE) AS "writeDate"
+		        FROM commentTb
+		        WHERE board_no = #{boardNo}
+		        ORDER BY write_date DESC
+		    ) B
+		    LEFT JOIN user_file uf ON B.writer_id = uf.id
+		)
+		ORDER BY rnum
 	</select>
 	
 	<!-- 댓글 삭제 -->
