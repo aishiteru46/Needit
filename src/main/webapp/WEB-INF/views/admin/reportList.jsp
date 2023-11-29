@@ -47,6 +47,22 @@ function deleteBoard(boardNo) {
     }
 }
 
+function deleteComment(cmtNo) {
+    if (confirm('정말로 삭제하시겠습니까?')) {
+        $.ajax({
+            type: "POST",
+            url: "/admin/reportList",
+            data: { cmtNo: cmtNo },
+            success: function (response) {
+                location.reload();
+            },
+            error: function (e) {
+                console.log("에러 발생: ", e);
+            }
+        });
+    }
+}
+
 
 </script>
 
@@ -148,10 +164,10 @@ function deleteBoard(boardNo) {
 		<td>${list.MENU }</td>
 		
 		<td>${list.CATE }</td>
-		<td>${list.WRITER_NICK }</td>
+		<td>${list.WRITER_ID }</td>
 		<td>${list.REPORT_TYPE }</td>
 		<td>${list.REPORT_DATE }</td>
-        <td><button class="delete_btn" onclick="deleteBoard(${list.BOARD_NO})">삭제</button></td>
+        <td><button class="delete_btn" onclick="deleteComment(${list.CMT_NO})">삭제</button></td>
 	</tr>
 </c:forEach>
 </tbody>

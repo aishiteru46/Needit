@@ -156,7 +156,7 @@ public class AdminServiceImpl implements AdminService {
 	
 	//게시글 신고 삭제
 	@Override
-	public void deleteBoardCmt(Board board, Comment cmt) {
+	public void deleteBoard(Board board) {
 		//게시글 삭제를 위해 필요한 것들(FK)
 		adminDao.deleteFile(board);
 		adminDao.deleteCmt(board);
@@ -166,9 +166,15 @@ public class AdminServiceImpl implements AdminService {
 		//게시글 삭제
 		adminDao.deleteBoard(board);
 		
+	}
+	
+	@Override
+	public void deleteComment(Comment cmt) {
+
 		//댓글 삭제
 		adminDao.deleteComment(cmt);
 	}
+	
 	
 	//업체 요청 목록
 	@Override
