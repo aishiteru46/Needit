@@ -176,8 +176,8 @@ public class MenuRentController {
 		//게시글 저장
 		menuRentService.write( writeParam, file );
 		
-		return "redirect:/rent/view?boardNo=" + writeParam.getBoardNo();
-	}
+		return "redirect:/rent/view?boardNo=" + writeParam.getBoardNo() + "&menu=" + writeParam.getMenu() + "&cate=" + writeParam.getCate();
+	}							
 
 	//게시글 수정 폼
 	@GetMapping("/update")
@@ -189,7 +189,10 @@ public class MenuRentController {
 
 	//게시글 삭제
 	@RequestMapping("/delete")
-	public void delete() {}
+	public void delete() {
+		
+		
+	}
 
 	//추천 적용
 	@GetMapping("/like")
@@ -245,7 +248,7 @@ public class MenuRentController {
 	
 	@RequestMapping("/basket")
 	public String basket(Basket basket, Model model, HttpSession session) {
-		logger.info("바스켓이다옹{}",basket);
+		logger.info("찜 전달인자 : {}",basket);
 		
 		basket.setBasketId((String)session.getAttribute("id"));
 		
@@ -255,9 +258,5 @@ public class MenuRentController {
 		
 		return "jsonView";
 	}
-	
-	//게시글 신고
-	@PostMapping("/report")
-	public void report() {}
 	
 }

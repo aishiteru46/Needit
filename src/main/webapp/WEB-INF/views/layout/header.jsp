@@ -14,8 +14,8 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
 <!-- include summernote css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<!-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet"> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script> -->
 
 
 
@@ -104,26 +104,26 @@ $(function() {
 	} // loadAlert 함수 끝
 
 
-$(() => {
-	   $("#title").focus()
+// $(() => {
+// 	   $("#title").focus()
 	   
-	   $("#content").summernote({
-	      height: 300,
-	      toolbar: [
-	          ['fontname', ['fontname']],
-	          ['fontsize', ['fontsize']],
-	          ['style', ['bold', 'italic', 'underline', 'clear']],
-	          ['color', ['forecolor','color']],
-	          ['table', ['table']],
-	          ['para', ['ul', 'ol', 'paragraph']],
-	          ['height', ['height']],
-	          ['insert',['picture','link']],
-	          ['view', ['fullscreen', 'help']]
-	        ],
-	      fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
-	      fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
-	   })
-	})
+// 	   $("#content").summernote({
+// 	      height: 300,
+// 	      toolbar: [
+// 	          ['fontname', ['fontname']],
+// 	          ['fontsize', ['fontsize']],
+// 	          ['style', ['bold', 'italic', 'underline', 'clear']],
+// 	          ['color', ['forecolor','color']],
+// 	          ['table', ['table']],
+// 	          ['para', ['ul', 'ol', 'paragraph']],
+// 	          ['height', ['height']],
+// 	          ['insert',['picture','link']],
+// 	          ['view', ['fullscreen', 'help']]
+// 	        ],
+// 	      fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+// 	      fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
+// 	   })
+// 	})
 $(document).ready(function(){
 	$('.menu_btn').click(function(){
 	$('.menu_btn').toggleClass('lijo');
@@ -659,3 +659,4 @@ nav li {
 <div class="hd_bg"></div>
 </header>
 </div>
+

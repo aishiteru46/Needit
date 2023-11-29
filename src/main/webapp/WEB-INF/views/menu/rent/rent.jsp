@@ -60,7 +60,6 @@ function onPaymentTypeChange() {
 
 // 이벤트 핸들러 등록
 $(document).ready(function () {
-	randomMerchantUid = generateRandomMerchantUid()*1;
 	$("#paymentType").change(onPaymentTypeChange);
 });
 
@@ -69,6 +68,10 @@ IMP.init("imp47417351");
 
 
 function requestPay() {
+	
+	randomMerchantUid = generateRandomMerchantUid()*1;
+	console.log("온라인결제 버튼 눌린 후 주문번호 : ", randomMerchantUid )
+	
   IMP.request_pay(
     {
       pg: "html5_inicis",
@@ -86,7 +89,7 @@ function requestPay() {
       // callback
       //rsp.imp_uid 값으로 결제 단건조회 API를 호출하여 결제결과를 판단합니다.
     	if(rsp.success){
-    		alert("결제성공");
+    		alert("결제성공\n대여신청 버튼을 눌러야 신청이 접수됩니다.");
     		
     	} else {
     		alert("결제실패");
@@ -518,6 +521,7 @@ function formatNumber(number) {
 $(document).ready(function(){
   $("#makeRent").click(function () {
 	  console.log("대여신청 버튼 클릭 됨!");
+	  console.log("대여신청시 주문번호 : ", randomMerchantUid);
 	  
       var selectedPaymentType = $("#paymentType").val();
       if (!selectedPaymentType) {
@@ -550,7 +554,8 @@ $(document).ready(function(){
 	        	startTime: startTime,
 	            endTime: endTime,
 	            rentStatus : 1,
-	            paymentType : $("#paymentType").val()
+	            paymentType : $("#paymentType").val(),
+	            merchantUid: randomMerchantUid
 	        }
 	    	,dataType: "json"
 	        // 대여신청 성공 시 추가 작업 수행
