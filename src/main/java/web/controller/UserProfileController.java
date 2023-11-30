@@ -213,13 +213,9 @@ public class UserProfileController {
 	        // 세션 무효화 (로그아웃)
 	        session.invalidate();
 
-	        rttr.addFlashAttribute("msgType", "성공 메세지");
-	        rttr.addFlashAttribute("msg", "회원 탈퇴가 완료되었습니다.");
 	        return "redirect:/main";
 	    } else {
 	        // 권한이 없는 사용자가 탈퇴를 시도한 경우
-	        rttr.addFlashAttribute("msgType", "실패 메세지");
-	        rttr.addFlashAttribute("msg", "잘못된 접근입니다.");
 	        return "redirect:/main";
 	    
 	    } 
