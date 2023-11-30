@@ -1,5 +1,6 @@
 package web.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -201,8 +202,25 @@ public class MenuRentController {
 
 	//게시글 수정 처리
 	@PostMapping("/update")
-	public void updateProc() {
+	public String updateProc(
+			Board updateParam
+			, List<MultipartFile> file
+			, int[] delFileno
+			, HttpSession session
+			, Model model) {
 		
+		logger.info("updateParam {}", updateParam);
+		logger.info("file {}", file);
+		logger.info("delFileno {}", Arrays.toString(delFileno));
+
+
+		updateParam.setWriterId((String) session.getAttribute("id"));
+		updateParam.setWriterNick((String) session.getAttribute("nick"));
+		
+		menuRentService.updateBoard(updateParam, file, delFileno);
+		
+		return "redirect:/rent/view?boardNo=" + updateParam.getBoardNo() + "&menu=" + updateParam.getMenu() + "&cate=" + updateParam.getCate();
+		 
 	} 
 
 	//게시글 삭제
