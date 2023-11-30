@@ -10,28 +10,66 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
 <!-- HEADER -->    
-<c:import url="/WEB-INF/views/layout/header.jsp" />    
+<c:import url="/WEB-INF/views/layout/header.jsp" />
+
+<%-- Style --%>
 <style type="text/css">
 
-#map-container {
-    overflow: hidden;
-    height: 0;
-    transition: height 0.3s ease;
+.viewWrap {
+	width: 1200px;
+	text-align: center;
+	font-weight: normal;
+	font-size: medium;
 }
-
-#map-container.expanded {
-    height: 350px; /* Set the height as per your requirement */
+#submitCmt {
+	margin: 3px 3px 3px 3px;
+    width: 95%;
+    font-size: 13px;
+    border-radius: 5px;
+    border: none;
+} 
+.report-options {
+    font-size: 13px;
+    background-color: white;
+    position: absolute;
+    border-radius: 5px;
+    width: 100px;
+    border: 1px solid #ccc;
+    display: block;
+    margin-left: 1110px;
+    margin-top: -19px;
+    z-index: 2;
 }
+.report-options input {
+	margin-left: 5px;
+    margin-top: 5px;
+}
+/* #map-container { */
+/*     overflow: hidden; */
+/*     height: 0; */
+/*     transition: height 0.3s ease; */
+/* } */
 
+/* #map-container.expanded { */
+/*     height: 350px; */
+/* } */
 #map {
 	margin: 0 auto;
+	width:400px; 
+	height:238px;
 }
 
 #del {
 	border: none;
 	border-radius: 10px;
 }
-
+#cmtReportBtn {
+	border: none;
+    background-color: inherit;
+    font-size: 13px;
+    float: right;
+    margin-top: 15px;
+}
 .file {
     color: blue;
 }
@@ -65,12 +103,72 @@ h6 {
 	color: blue;
 }
 
-.table td {
-	vertical-align: middle;
+/* 내가추가함 ㅠ */
+
+a:hover { text-decoration: none; }
+.viewHeader { width: 900px; height: 500px; margin: 0 auto; margin-top: 70px }
+.viewheader > div { float: left;}
+.thumb {
+	width: 500px; /* 원하는 너비로 설정 */
+	height: 500px; /* 원하는 높이로 설정 */
+	overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
+	
 }
+#thumbImg img {
+    width: 100%; /* 부모 요소의 100% 너비로 이미지 크기 조절 */
+    height: auto; /* 가로 비율에 맞게 높이 자동 조절 */
+    background-size: cover;
+}
+.viewInfo { width: 400px; height: 500px; }
+.viewInfo > div { border: 1px solid #ccc; font-weight: bold;  }
+.infoMenu { height: 50px; text-align: center; color:#ff533f; font-size: 2em }
+.infoTitle { height: 150px }
+.infoTitle > div { margin-left: 40px; }
+#infoTitle { 
+	width: 300px; 
+	height: 40px; 
+	margin-top: 20px; 
+	text-align: left; 
+	font-size: 1.5em;
+	overflow: hidden;  		
+	text-overflow: ellipsis;  
+	white-space: nowrap; 		
+	word-break:break-all
+}
+.titleWrap { margin: 0 auto; text-align: left; }
+.likeAndHit { float: left; width: 140px; margin-right: 20px}
+
+#infoLike  div { padding: 0; margin-right: 15px; }
+.bi-suit-heart-fill::before { font-size: 1.3em; margin-right: 15px; } /*  좋아요 하트  */
+.bi-suit-heart::before { font-size: 1.3em; margin-right: 15px; } /*  좋아요 하트  */
+#likeNo { font-size: 1.3em; color: black; font-weight: bold; }
+.infoPrice { height: 60px; }
+#infoPrice { width: 235px; margin: 10px 0px 10px 40px; text-align: left; float: left; }
+#btnChat { height: 40px; margin: 10px 0px 10px 10px; text-align: center; float: left;}
+#btnChat button { width: 100%; height: 100%; border: 1px solid #ff533f; background: white; color: #ff533f; font-weight: bold; border-radius: 10px 10px 10px 10px;}
+#btnPrice { height: 40px; margin: 10px 0px 10px 10px; text-align: center; float: left;}
+#btnPrice button { width: 100%; height: 100%; border: none; background: #ff533f; color: white; font-weight: bold; border-radius: 10px 10px 10px 10px;}
+#btnList button { width: 60px; height: 40px; margin-top: 10px; border: none; background: #ff533f; color: white; font-weight: bold; border-radius: 10px 10px 10px 10px;}
+.infoMap { height: 239px }
+.viewFile { width: 900px; margin: 0 auto;border: 1px solid #ccc; }
+.viewContent { width: 900px; min-height: 400px; margin: 0 auto; border: 1px solid #ccc; border-radius: 0 0 10px 10px; }
+#viewContent { margin: 20px 50px; }
+
 </style>
 
+<%-- 추천, 댓글, 대여상태 --%>
 <script type="text/javascript">
+
+function cmtReport(cmtNo) {
+    var reportOptions = document.getElementById('reportSelect_' + cmtNo);
+    if (reportOptions.style.display === 'none') {
+        reportOptions.style.display = 'block';
+    } else {
+        reportOptions.style.display = 'none';
+    }
+}
+
+
 
 //댓글목록 불러오기
 function loadComments() {
@@ -102,11 +200,6 @@ function loadComments() {
      	            commentListHtml += '<div class="media mb-4">';
      	            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
      	            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
-     	            
-     	        	// 신고 버튼 추가
-     	           commentListHtml += '    <button type="button" style="width: 30px; height: 30px; float: right;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal" onclick="report(' + res.commentList[i].CMT_NO + ');">';
-     	           commentListHtml += '        <div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div>';
-     	           commentListHtml += '    </button>';
      	            
      	         	//댓글 작성자 구분 처리                                                                                    
     	            if (commentWriter === boardMaster && commentWriter === nick) { 
@@ -165,6 +258,38 @@ function loadComments() {
 
 }// loadComments() End.
 
+function submitReport(cmtNo) {
+    // 선택된 라디오 버튼의 값을 가져오기
+    var selectedOption = document.querySelector('input[name="reportType"]:checked');
+	
+    if (!selectedOption) {
+        alert("옵션을 선택하세요.");
+        return;
+    }
+    
+    // 서버로 Ajax 호출
+    $.ajax({
+        type: "post",
+        url: "/cmtReport",
+        data: {
+            boardNo: "${param.boardNo}",
+            cmtNo: cmtNo,
+            reportType: selectedOption.value,
+            reportId: "${id}"
+        },
+        success: function (res) {
+            console.log("댓글 신고 성공");
+            alert("댓글 신고가 접수되었습니다.");
+            
+            loadComments()
+
+        },
+        error: function () {
+            console.log("댓글 신고 실패");
+        }
+    });
+}
+
 function deleteComment( cmtNo ) {
 	console.log("댓글 삭제 버튼 동작! : ", cmtNo )
 	
@@ -188,8 +313,6 @@ function deleteComment( cmtNo ) {
 	
 }// deleteComment() End.
 
-
-
 $(()=>{
 	
 	//댓글 리스트 조회
@@ -198,6 +321,15 @@ $(()=>{
 	//댓글 입력 요청
 	$("#btnCommInsert").click(function(){
 		console.log("댓글 입력 버튼 동작!")
+		
+		// textarea의 value 가져오기
+        var commentContent = $("#commentContent").val().trim();
+
+        // textarea에 값이 없으면 동작하지 않음
+        if (commentContent.length === 0) {
+            alert("댓글 내용을 입력하세요.");
+            return;
+        }		
 		
 		$.ajax({
 			type: "POST"
@@ -211,7 +343,7 @@ $(()=>{
          		content : $("#commentContent").val()
          	}
          	, success: function( res ) {
-         		console.log("AJAX 성공")
+         		console.log("댓글입력 AJAX 성공")
          		
                	// 댓글 입력 성공 시, 댓글 창 비우고 포커스를 주기
                	$("#commentContent").val(""); // 댓글 창 비우기
@@ -220,10 +352,21 @@ $(()=>{
 	         	loadComments() // 페이지 로딩 시 댓글 목록 불러오기
 	         }
 	         , error: function() {
-    	        console.log("AJAX 실패")
+    	        console.log("댓글입력 AJAX 실패")
 	         }
 	
 		})
+		
+		<%-- 본인글에 댓글 입력시 알림x --%>
+		if( ${board.writerId} != ${id} ){
+			$.post( "/alert/sendnotification", { 
+					id: "${board.writerId}"
+			        , sender: "${id }"
+			        , content: 4
+			        , menu: ${param.menu}
+					, boardNo: ${board.boardNo}
+			}); // $.post 끝
+		}
 		
 	})
 	
@@ -232,12 +375,10 @@ $(()=>{
 		console.log('추천 이미 함')
 		$("#btnLike")
 			.addClass("bi bi-suit-heart-fill")
-			.html('좋아요 취소');
 	} else {
 		console.log('추천 아직 안함')
 		$("#btnLike")
 			.addClass("bi bi-suit-heart")
-			.html('좋아요');
 	}// 추천 버튼 End.
 	
 	//추천, 취소 요청Ajax
@@ -256,13 +397,11 @@ $(()=>{
 					$("#btnLike")
 					.removeClass("bi bi-suit-heart")
 					.addClass("bi bi-suit-heart-fill")
-					.html('좋아요 취소');
 				
 				} else { //추천 취소 성공
 					$("#btnLike")
 					.removeClass("bi bi-suit-heart-fill")
 					.addClass("bi bi-suit-heart")
-					.html('좋아요');
 				
 				}
 				
@@ -281,8 +420,21 @@ $(()=>{
 		alert("작성자 본인은 대여신청이 불가합니다.");
 	});
 	
+	$("#rejectChat").click(function(){
+		alert("본인에게 대화신청은 불가합니다.");
+	})
 	
 }); //jQuery Function End.
+
+function sendNofiLike() {
+	$.post( "/alert/sendnotification", { 
+		id: "${board.writerId}"
+        , sender: "${id }"
+        , content: 6
+        , menu: "${param.menu}" 
+		, boardNo: "${board.boardNo}"
+	}); // $.post 끝
+}
 
 </script>
 
@@ -301,13 +453,6 @@ $(()=>{
 	// 지도 객체 생성
 	var map = new kakao.maps.Map(mapContainer, mapOption); 
 	
-	// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
-	var mapTypeControl = new kakao.maps.MapTypeControl();
-
-	// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
-	// kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
-	map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-
 	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
 	var zoomControl = new kakao.maps.ZoomControl();
 	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
@@ -328,11 +473,18 @@ $(()=>{
 	// 주소를 담을 변수
 	     var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 	
+	     var imageSrc = '/resources/img/marker.png', // 마커이미지의 주소입니다    
+         imageSize = new kakao.maps.Size(45, 45), // 마커이미지의 크기입니다
+         imageOption = {offset: new kakao.maps.Point(22, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+	
 	//이건 마커 따로 만들어둬서 돼서 핵심 XXXX
 	     // 결과값으로 받은 위치를 마커로 표시합니다
 	     var marker = new kakao.maps.Marker({
 	         map: map,
 	         position: coords
+	         image: markerImage
 	     });
 	
 	//이건 인포윈도우로 따로 만들어둬서 돼서 핵심 XXXX
@@ -350,112 +502,162 @@ $(()=>{
 }); //Kakao Map API End.
 </script>
 
-
-
-<button type="button" style="width: 30px; height: 30px; float: right;" id="report" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">
-<div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div>
-</button>
-
-
-
-
-
+<%-- Body --%>
 <div class="container">
-
-<table class="table table-bordered">
-
-
-<colgroup>
-	<col style="width: 15%;">
-	<col style="width: 35%;">
-	<col style="width: 15%;">
-	<col style="width: 35%;">
-</colgroup>
-
-<tr>
-	<td class="table-info">글번호</td><td>${board.boardNo }</td>
+<div class="viewWrap">
+<div id="borderContainer">
+	<div class="viewHeader">
+		<div class="thumb">
+		    <div id="thumbImg" style="border-radius: 0px 10px 0px 0px">
+		        <c:if test="${not empty fileTb and not empty fileTb[0]}">
+		            <img style="border-radius: 10px 0px 0px 0px" src="/upload/${fileTb[0].thumbnailName}"/>
+		        </c:if>
+		        <c:if test="${empty fileTb[0]}">
+		            <img style="border-radius: 10px 0px 0px 0px" src="/resources/img/noimg.png"/>
+		        </c:if>
+		    </div><!-- .thumbImg -->
+		</div><!-- .thumb-->
+		
+		<div class="viewInfo">
+			<div class="infoMenu" style="border-radius: 0px 10px 0px 0px">
+				<c:if test="${board.menu eq 1 and board.cate eq 1}">
+					<span id="infoMenu">대여해요 [물품]</span>
+				</c:if>
+				<c:if test="${board.menu eq 2 and board.cate eq 1}">
+					<span id="infoMenu">나눔해요 [물품]</span>
+				</c:if>
+				<c:if test="${board.menu eq 3 and board.cate eq 1}">
+					<span id="infoMenu">해주세요 [물품]</span>
+				</c:if>
+				
+				<c:if test="${board.menu eq 1 and board.cate eq 2}">
+					<span id="infoMenu">대여해요 [인력]</span>
+				</c:if>
+				<c:if test="${board.menu eq 2 and board.cate eq 2}">
+					<span id="infoMenu">나눔해요 [인력]</span>
+				</c:if>
+				<c:if test="${board.menu eq 3 and board.cate eq 2}">
+					<span id="infoMenu">해주세요 [인력]</span>
+				</c:if>
+				
+				<c:if test="${board.menu eq 1 and board.cate eq 3}">
+					<span id="infoMenu">대여해요 [공간]</span>
+				</c:if>
+				<c:if test="${board.menu eq 2 and board.cate eq 3}">
+					<span id="infoMenu">나눔해요 [공간]</span>
+				</c:if>
+				<c:if test="${board.menu eq 3 and board.cate eq 3}">
+					<span id="infoMenu">해주세요 [공간]</span>
+				</c:if>
+			</div><!-- .infoMenu -->
+			
+			<div class="infoTitle">
+				<div class="titleWrap">
+					<div id="infoTitle">${board.title }</div>
+					<div style="margin-bottom: 5px">${board.writerNick }</div>
+					<div>
+						<p style="margin: 0; font-size: 0.8em; color: #ccc; ">
+							<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
+							<fmt:formatDate var="writeDate" value="${board.writeDate }" pattern="yyyyMMdd" />
+							<c:choose>
+								<c:when test="${writeDate lt curDate }">
+									<fmt:formatDate value="${board.writeDate }" pattern="yyyy-MM-dd HH:mm:ss" />
+								</c:when>
+								<c:otherwise>
+									<fmt:formatDate value="${board.writeDate }" pattern="HH:mm" />
+								</c:otherwise>
+							</c:choose>		
+						</p>
+					</div>
+					<div class="likeAndHit" id="infoLike" style="float: left;"> <!-- 추천 -->
+						<c:if test="${isLogin }">
+						<div class="btn" id="btnLike"><span id="likeNo">${cntLike }</span></div>
+						</c:if>		
+						<c:if test="${not isLogin }">
+						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal" >
+							<div class="bi bi-suit-heart" id="btnLike"><span id="likeNo">${cntLike }</span></div>
+						</a>
+						</c:if>		
+					</div><!-- #infoLike --> 
+					<div class="likeAndHit" id="infoHit" style="float: left;">
+						<div id="iconHit"><span style="font-size: 1.3em;">👀 ${board.hit }</span></div>
+					</div><!-- #infoHit -->
+					<div style="clear: both;"></div>
+				</div><!-- .titleWrap -->
+			</div><!-- .infoTitle -->
+			<div class="infoPrice">
+				<div id="infoPrice">
+					<span style="font-size: 1.4em;">💸<fmt:formatNumber value="${board.price }" pattern="#,###" />원 [30분]</span>
+				</div>
+				<div class="chat-container" id="btnChat">
+					<c:if test="${isLogin && (id ne board.writerId)}">
+						<a href="/message/list?boardNo=${param.boardNo }&menu=${board.menu}&cate=${board.cate}&receiverId=${board.writerId}"><button>채팅</button></a>
+					</c:if>
+					<c:if test="${id eq board.writerId}">
+						<button id="rejectChat">채팅</button>
+					</c:if>
+					<c:if test="${not isLogin }">
+						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><button>채팅</button></a>
+					</c:if>
+				</div><!-- .chat-container End -->
+				<div id="btnPrice">
+					<c:if test="${isLogin and (id ne board.writerId) }">
+						<button data-bs-toggle="modal" data-bs-target="#rentModal">대여</button>
+					</c:if>
+					<c:if test="${not isLogin }">
+						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><button>대여</button></a>
+					</c:if>
+					<c:if test="${id eq board.writerId }">
+					<button id="selfRent">대여</button>
+					</c:if>
+				</div>
+				<div>Modal.대여
+<%-- 					<c:import url="./rent.jsp"/> --%>
+<!-- 				</div> -->
+			</div><!-- .infoPrice -->
+			<div class="infoMap">
+				<div id="map"></div>
+			</div><!-- .infoMap -->
+			<div class="infoBtn">
+			</div><!-- .infoBtn -->
+			
+			
+		</div><!-- .viewInfo -->
+		
 	
-	<td class="table-info">
-		<c:if test="${isLogin }">
-		<div style="text-align: center;">
-			<div class="btn" id="btnLike"></div>
-		</div>
-		</c:if>
-		<c:if test="${not isLogin }">
-		<div style="text-align: center;">
-			<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><div class="btn" id="btnLike"></div></a>
-		</div>
-		</c:if>
-	</td><td id="like"><div id="likeNo">${cntLike }</div>명이 이 게시글을 좋아합니다</td>
-</tr>
-<tr>
-	<td class="table-info">닉네임</td><td>${board.writerNick }</td>
-	<td class="table-info">가격</td><td><fmt:formatNumber value="${board.price }" pattern="#,###"/>원</td>
-</tr>
-<tr>
-	<td class="table-info">조회수</td><td>${board.hit }</td>
-	<td class="table-info">작성일</td>
-	<td>
-	<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd"/>
-	<fmt:formatDate var="writeDate" value="${board.writeDate }" pattern="yyyyMMdd"/>
+	</div><!-- .viewHeader -->
+	<div style="clear: both;"></div>
 	
-	<c:choose>
-		<c:when test="${writeDate lt curDate }">
-			<fmt:formatDate value="${board.writeDate }" pattern="yyyy-MM-dd HH:mm:ss"/>
-		</c:when>
-		<c:otherwise>
-			<fmt:formatDate value="${board.writeDate }" pattern="HH:mm"/>
-		</c:otherwise>
-	</c:choose>
-	</td>
-</tr>
-<tr>
-	<td class="table-info">제목</td><td>${board.title }</td>
-</tr>
-
-<tr>
-	<td class="table-info">첨부파일</td>
-	<td colspan="3">
-		<c:forEach var="file" items="${fileTb }">
-		<a class="file bi bi-paperclip" href="./download?fileNo=${file.fileNo }">${file.originName }</a><br>
-		</c:forEach>
-	</td>
-</tr>
-
-<tr>
-	<td class="table-info" colspan="4">본문</td>
-</tr>
-
-<tr>
-	<td colspan="4">
-		<div class="content">
-		${board.content }
-		</div>
-	</td>
-</tr>
-
-</table>
-
-<%-- 게시글 위치 --%>
-<div id="map" style="width:350px; height:350px;"></div><br>
-
-<%-- 추천버튼 --%>
-<!-- <div style="text-align: center;"> -->
-<!-- 		<button class="btn" id="btnLike"></button> -->
-<!-- </div><br> -->
-
-<!-- 목록 수정 삭제 -->
-<div class="text-center">
-	<a href="/please/list?menu=${board.menu}&cate=${board.cate}" class="btn btn-secondary">목록</a>
+	<div class="viewFile">
+		<p style="margin: 0">첨부파일 :
+			<c:forEach var="file" items="${fileTb }">
+				<a class="file bi bi-paperclip" href="./download?fileNo=${file.fileNo }">${file.originName }</a>
+			</c:forEach>
+		</p>
+	</div>
 	
+	<div class="viewContent">
+		<div id="viewContent">${board.content }</div>
+	</div>
+	
+	</div><!-- #borderContainer -->
+	
+	<div id="btnList">
+		<a href="/please/list?menu=1&cate=1"><button>목록</button></a>
+	</div>
+
+<%-- 수정,삭제 --%>
+<div>
 	<c:if test="${id eq board.writerId }">
-		<a href="/please/update?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate}" class="btn btn-primary">수정</a>
-		<a href="/please/delete?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate}" class="btn btn-danger">삭제</a>
+		<a href="/please/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>게시글 수정</button></a>
+		<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">게시글 삭제</button>
 	</c:if>
-</div><br>
+</div>	
 
-
+</div> <!-- .viewWrap -->
 </div><!-- .container -->
+
+<hr>
 
 <%-- 댓글 영역 --%>
 <div class="comment_container">
@@ -472,20 +674,6 @@ $(()=>{
 			</div>
 			<button id="btnCommInsert" class="btn btn-primary col-1">작성</button>
 		</div>
-		
-		
-		<!-- 대댓글 작성 폼 -->
-		<div class="row text-center justify-content-around align-items-center" style="display: none;" id="replyForm">
-		    <div class="col col-2">
-		        <input type="text" class="form-control" id="replyWriter" readonly="readonly"/>
-		    </div>
-		    <div class="col col-9">
-		        <textarea class="form-control" id="replyContent" style="resize: none; height: 15px;"></textarea>
-		    </div>
-		    <button class="btn btn-primary col-1" id="btnReplyInsert">작성</button>
-		</div>
-		
-		
 	</c:if><br>
 
 	<%-- 비로그인 상태 --%>
@@ -497,7 +685,6 @@ $(()=>{
 			<div class="col col-9">
 				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;" readonly="readonly" placeholder="로그인 후 댓글 작성 가능"></textarea>
 			</div>
-<%-- 				<a class="btn btn-danger col-1" href="/user/login?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate }&type=rent">로그인</a> --%>
 				<a class="btn btn-danger col-1" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">로그인</a>
 		</div>
 	</c:if><br>
@@ -507,7 +694,24 @@ $(()=>{
 	
 </div><!-- .comment_container End. -->
 
-
+<!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
 
 
+<!-- 게시글 삭제Modal -->
+<div class="modal fade" id="deleteOBoardModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteOBoardModalLabel" aria-hidden="true" style="margin-top: 500px;display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>  
+      <div class="modal-body">
+        <p>게시글을 삭제하시겠습니까?</p>
+      </div>
+      <div class="modal-footer">  
+        <a href="/please/delete?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button class="btn">예</button></a>
+        <button class="btn" data-bs-dismiss="modal">아니오</button>
+      </div>
+    </div>
+  </div>
+</div>

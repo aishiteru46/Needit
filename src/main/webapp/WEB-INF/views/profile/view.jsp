@@ -180,8 +180,26 @@ $(function(){
     
  });
  
- 
 
+//다른 곳 클릭 시 저장 버튼 숨김
+ document.addEventListener('click', function (event) {
+     var introUpdateButton = document.getElementById('introUpdate');
+     var introText = document.getElementById('introText');
+
+     // 클릭이 텍스트 영역인지 확인
+     if (
+         event.target !== introText &&
+         !introText.contains(event.target)
+     ) {
+         introUpdateButton.style.display = 'none';
+     }
+ });
+
+ function showSaveButton() {
+     // 텍스트 영역 클릭 시에만 저장 버튼을 표시
+     document.getElementById('introUpdate').style.display = 'block';
+ }
+ 
 </script>
 
 <script type="text/javascript">
@@ -543,6 +561,10 @@ $(function(){
     border-radius: 5px;
     vertical-align: middle;
 }
+#introUpdate {
+   display: none; /* 초기에는 저장 버튼을 숨김 */
+}
+
 /* 목록들 보기 버튼 */
 .listWatchBtn{
 	width: 260px;
@@ -693,7 +715,7 @@ $(function(){
     <!-- 자기소개글을 입력하는 텍스트박스 -->
     <div>
         <div>
-            <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100">${user.intro }</textarea>
+            <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100" onclick="showSaveButton()" spellcheck="false">${user.intro }</textarea>
         </div>
 
         <button type="submit" class="btn btn-primary mt-2" id="introUpdate">저장</button>
