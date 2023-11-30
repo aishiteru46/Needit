@@ -40,11 +40,18 @@ $(document).ready(function(){
             	if (response === "success") {
                     console.log("로그인 성공")
                      var autoLoginChecked = $("#autoLoginCheckbox").prop("checked");
-
+					 var userId = $("#id").val()
+					 var userPw = $("#pw").val();
 				     // 만약 체크되어 있다면 쿠키에 저장
 				     if (autoLoginChecked) {
-				         // 쿠키에 사용자 정보 저장
-				         document.cookie = "userInfo=" + "userId:userNick"; // 여기에 실제 사용자 정보를 추가해야 합니다.
+				    	 var userInfo = {
+				                 userId: userId,
+				                 userPw: userPw
+				             };
+				    	 var expirationDate = new Date();
+				    	    expirationDate.setDate(expirationDate.getDate() + 30);
+
+				    	    document.cookie = "userInfo=" + JSON.stringify(userInfo) + "; expires=" + expirationDate.toUTCString() + "; path=/;";
 				     } else {
 				         // 체크가 되어 있지 않으면 쿠키 삭제
 				         document.cookie = "userInfo=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";

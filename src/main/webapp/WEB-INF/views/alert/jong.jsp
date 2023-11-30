@@ -37,6 +37,9 @@
 	margin-bottom: 0px;
 	margin-left: 10px;
 }
+.btn-close {
+    display: none;
+  }
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
@@ -75,13 +78,14 @@ $(function() {
 		})
 	})
 	
-    $("#대충전체삭제아이디").click(function() {
+    $("#allDel").click(function() {
     	var $id = "${id}"
 		$.ajax({
 			type: "post"
 			, url: "/alert/delAll"
 			, data: { id : $id }
 			, success: function( res ) {
+				console.log(res)
 				loadAlert() // 알람을 읽었을 때 안읽은 알람들을 불러옴
 				hasNew() // 알람을 읽었을 때 새로 생긴 알람이 있는지 확인해서 불러옴
 			}
@@ -90,7 +94,16 @@ $(function() {
 			}
 		})
 	})
-	
+	 $(".alertData").hover(
+		      function() {
+		        // Mouse enter
+		        $(this).find(".btn-close").show();
+		      },
+		      function() {
+		        // Mouse leave
+		        $(this).find(".btn-close").hide();
+		      }
+		    );
 })
 
 </script>
@@ -100,7 +113,7 @@ $(function() {
 <div class="wrap-content ">
 	<c:forEach var="list" items="${list }">	
 	<ul class="alertData " id="alertData" data-alert="${list.alertNo }">
-		<li style="float: right" class="delAlert " id="delAlert" data-alert="${list.alertNo }">X</li>
+		<li style="float: right" class="delAlert " id="delAlert" data-alert="${list.alertNo }"><button type="button" class="btn-close"></button></li>
 		<li>
 			<c:if test="${list.menu eq 1 }">[대여]</c:if>
 			<c:if test="${list.menu eq 2 }">[나눔]</c:if>

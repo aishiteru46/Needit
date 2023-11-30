@@ -20,6 +20,94 @@
 
 
 <script type="text/javascript">
+$(document).ready(function() {
+    // 쿠키에서 사용자 정보를 가져옴
+    var userInfo = getCookie("userInfo");
+    
+    console.log(userInfo);
+    // 만약 쿠키에 사용자 정보가 있다면 자동으로 로그인 처리
+  	var isLogin = <%= session.getAttribute("isLogin") %>;
+
+    // isLogin 변수를 사용하여 로그인 상태 확인
+    if (isLogin) {
+        // 사용자가 이미 로그인한 상태이므로 로그인 처리 로직을 실행하지 않음
+        console.log("사용자가 이미 로그인한 상태입니다.");
+        // 여기에서 다른 동작을 추가하거나 필요한 경우 break 문을 사용할 수 있습니다.
+    } else {
+        // 사용자 정보를 파싱하여 로그인 처리하는 로직 추가
+        var userInfo = getCookie("userInfo");
+        if (userInfo) {
+            var user = JSON.parse(userInfo);
+            performLogin(user.userId, user.userPw);
+            // 여기에서 다른 동작을 추가하거나 필요한 경우 break 문을 사용할 수 있습니다.
+        }
+    }
+
+
+
+// 쿠키에서 특정 이름의 쿠키값을 가져오는 함수
+function getCookie(name) {
+    var value = "; " + document.cookie;
+    var parts = value.split("; " + name + "=");
+    
+    if (parts.length === 2) {
+        return parts.pop().split(";").shift();
+    }
+}
+
+// userInfo 쿠키 가져오기
+var userInfoCookie = getCookie("userInfo");
+
+// 가져온 쿠키를 출력
+console.log(userInfoCookie);
+
+// 여기에 실제로 로그인 처리하는 함수를 추가
+function performLogin(userId, userPw) {
+    // 로그인 처리 로직
+     sessionStorage.setItem('previousUrl', window.location.href);
+    var previousUrl = sessionStorage.getItem('previousUrl');
+	$.ajax({
+        type: "POST",
+        url: "/user/login",
+        data: {
+            id: userId,
+            pw: userPw
+        },
+        success: function (response) {
+        	if (response === "success") {
+                console.log("로그인 성공")
+                 var autoLoginChecked = $("#autoLoginCheckbox").prop("checked");
+
+			    
+                if (previousUrl) {
+                // 이전 페이지로 이동
+                window.location.href = previousUrl
+                
+           	 	} else {
+                // 이전 페이지가 없으면 기본적으로 홈 페이지로 이동
+                window.location.href = '/main'
+           		}
+                
+            } else if(response === "singup"){
+            	
+            	 window.location.href = '/user/singup'
+            	 
+            } else{
+            	console.log("로그인 실패")
+
+                $("#label1")
+                	.text("ID/PW 가 올바르지 않습니다.")
+
+            }
+        },
+        error: function () {
+            console.log("로그인 실패")
+            // AJAX 요청 자체가 실패한 경우에 대한 처리
+            alert("로그인 요청에 실패했습니다.")
+        }
+    });
+}
+});
 var result = 0;
 $(function() {
 	 var sessionId = "${id}";
@@ -104,26 +192,7 @@ $(function() {
 	} // loadAlert 함수 끝
 
 
-// $(() => {
-// 	   $("#title").focus()
-	   
-// 	   $("#content").summernote({
-// 	      height: 300,
-// 	      toolbar: [
-// 	          ['fontname', ['fontname']],
-// 	          ['fontsize', ['fontsize']],
-// 	          ['style', ['bold', 'italic', 'underline', 'clear']],
-// 	          ['color', ['forecolor','color']],
-// 	          ['table', ['table']],
-// 	          ['para', ['ul', 'ol', 'paragraph']],
-// 	          ['height', ['height']],
-// 	          ['insert',['picture','link']],
-// 	          ['view', ['fullscreen', 'help']]
-// 	        ],
-// 	      fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
-// 	      fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72']
-// 	   })
-// 	})
+
 $(document).ready(function(){
 	$('.menu_btn').click(function(){
 	$('.menu_btn').toggleClass('lijo');
@@ -172,6 +241,10 @@ $(document).ready(function(){
           $('.dropdown-content2').hide();
           event.stopPropagation();
       });
+	 $('.dropdown-content1').click(function (event) {
+		    // Prevent the click event inside the dropdown content from reaching the document click handler
+		    event.stopPropagation();
+		});
 	  $(document).click(function(event) {
 	        var dropdownContent = $('.dropdown-content1');
 	        if (!dropdownContent.is(event.target) && dropdownContent.has(event.target).length === 0) {
@@ -192,8 +265,13 @@ $(document).ready(function(){
 	            $('.dropdown-content1').hide();
 	        }
 	    });	
-	
+	// 쿠키 삭제 함수
+	  function deleteCookie(name) {
+	      document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+	  }
 	  $("#logout_button").click(function(){
+		  // 쿠키 삭제 함수 호출
+		    deleteCookie("userInfo");
 		    //alert("버튼 작동");
 		    $.ajax({
 		        type: "POST",
@@ -212,9 +290,22 @@ $(document).ready(function(){
 		        } 
 		    }); // ajax 
 		});
-	  
+	  $("#allDel").click(function() {
+	    	var $id = "${id}"
+			$.ajax({
+				type: "post"
+				, url: "/alert/delAll"
+				, data: { id : $id }
+				, success: function( res ) {
+					loadAlert() // 알람을 읽었을 때 안읽은 알람들을 불러옴
+					hasNew() // 알람을 읽었을 때 새로 생긴 알람이 있는지 확인해서 불러옴
+				}
+				, error: function() {
+					console.log("AJAX 실패")
+				}
+			})
+		})
 });
-
 
 
 </script>
@@ -357,15 +448,11 @@ nav li {
 }
 
 /* Style The Dropdown Button */
-.dropbtn1 {
+.dropbtn {
 	border: none;
 	cursor: pointer;
 }
 
-.dropbtn2 {
-	border: none;
-	cursor: pointer;
-}
 
 .dropdown {
 	position: relative;
@@ -464,7 +551,14 @@ nav li {
 	border-right: 10px solid transparent;
 	border-bottom: 10px solid #ff533f;
 }
-
+#allDel {
+	float: right;
+	font-size: 12px;
+	color: white;
+    border: none;       /* 테두리 없애기 */
+    background: none;   /* 배경 없애기 */
+    cursor: pointer;    /* 커서 스타일 변경 (선택사항) */
+  }
 .p-2 {
 	margin-top: 30px;
 	margin-bottom: 20px;
@@ -571,7 +665,7 @@ nav li {
 				<img id="dropdownBtn1" src="/resources/img/jong.png" class="dropbtn" style="height: 40px; width: 40px;">
 				<span id="badge"></span>
 					<div class="dropdown-content1 ">
-						<div class="dropdown-title" style="text-align: center;">알림</div>
+						<div class="dropdown-title" style="text-align: center;">알림<button id="allDel">전체삭제</button></div>
 						<div class="scrollbar">
 							<a id="new-icon">
 								<label id="new-icon-text">NEW</label>

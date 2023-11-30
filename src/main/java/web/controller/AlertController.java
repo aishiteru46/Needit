@@ -130,8 +130,10 @@ public class AlertController {
     }
     
     @PostMapping("/delAll")
-    public void delAll( Alert alert ) {
+    public String delAll( Alert alert, Model model ) {
     	alertService.delAll( alert );
+    	model.addAttribute("1", 1);
+    	return "jsonView";
     }
     
 	
