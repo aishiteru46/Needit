@@ -39,7 +39,16 @@ $(document).ready(function(){
             success: function (response) {
             	if (response === "success") {
                     console.log("로그인 성공")
-                    
+                     var autoLoginChecked = $("#autoLoginCheckbox").prop("checked");
+
+				     // 만약 체크되어 있다면 쿠키에 저장
+				     if (autoLoginChecked) {
+				         // 쿠키에 사용자 정보 저장
+				         document.cookie = "userInfo=" + "userId:userNick"; // 여기에 실제 사용자 정보를 추가해야 합니다.
+				     } else {
+				         // 체크가 되어 있지 않으면 쿠키 삭제
+				         document.cookie = "userInfo=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+				     }
 	                if (previousUrl) {
 	                // 이전 페이지로 이동
 	                window.location.href = previousUrl
@@ -141,7 +150,7 @@ a {text-decoration: none; color: #343a40;}
 		</div>
 		
 		<div class="mb-3">
-			<label class="float-start"><input type="checkbox" > 로그인 상태 유지</label>	
+			<label class="float-start"><input id="autoLoginCheckbox" type="checkbox" > 로그인 상태 유지</label>	
 			<div class="float-end">
 				<a href="/user/findid" style="margin-right: 10px;">아이디찾기</a>
 				<a href="/user/findpw">비밀번호찾기</a>

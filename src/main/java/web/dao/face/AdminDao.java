@@ -8,6 +8,7 @@ import web.dto.Board;
 import web.dto.Business;
 import web.dto.Comment;
 import web.dto.FileTb;
+import web.dto.Report;
 import web.dto.User;
 import web.util.Paging;
 
@@ -158,6 +159,7 @@ public interface AdminDao {
 	 * @param business - 업체
 	 */
 	public void cancelBusiness(Business business);
+
 
 
 

@@ -263,5 +263,25 @@
 			AND writer_id = #{writerId}
 		</where>
 	</delete>
+	
+	<!-- 게시판 수정 -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE board
+		SET title = #{title } 
+		, content = #{content } 
+		
+		<where> 
+			board_no = #{boardNo }
+		</where>
+	</update>
+	
+	<!-- 여러개 파일 삭제 -->
+	<delete id="deleteFiles" parameterType="int[]">
+		DELETE fileTb
+		<where>
+		file_no IN
+		<foreach collection="array" item="no" open="(" close=")" separator=","> #{no } </foreach>
+		</where>
+	</delete>
 
 </mapper>

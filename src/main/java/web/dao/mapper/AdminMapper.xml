@@ -89,24 +89,27 @@
 	
 	<!-- 신고된 게시글 목록 -->
 	<select id="selectReportBoard" resultType="Map">
-		SELECT 
-		    b.board_no,
-		    b.title,
-		    b.menu,
-		    b.cate,
-		    b.writer_id, 
-		    b.write_date,
-		    r.report_no, 
-		    r.board_no,
-		    r.report_id,
-		    r.report_type,
-		    r.report_chk, 
-			TO_CHAR(r.report_date, 'YYYY-MM-DD') AS REPORT_DATE
-		FROM 
-		    board b
-		INNER JOIN 
-		    report r ON b.board_no = r.board_no
-		ORDER BY b.board_no DESC
+	    SELECT 
+	        b.board_no,
+	        b.title,
+	        b.menu,
+	        b.cate,
+	        b.writer_id, 
+	        b.write_date,
+	        r.report_no, 
+	        r.board_no AS r_board_no,
+	        r.report_id,
+	        r.report_type,
+	        r.report_chk,
+	        r.cmt_no,
+	        TO_CHAR(r.report_date, 'YYYY-MM-DD') AS REPORT_DATE
+	    FROM 
+	        board b
+	    INNER JOIN 
+	        report r ON b.board_no = r.board_no
+	    WHERE
+	        r.cmt_no IS NULL
+	    ORDER BY b.board_no DESC
 	</select>
 	
 	<!-- 신고된 댓글 목록 -->
@@ -125,6 +128,7 @@
 			board b ON r.board_no = b.board_no
 		INNER JOIN
 			commenttb c ON r.cmt_no = c.cmt_no
+		ORDER BY b.board_no DESC
 	</select>
 	
 	<!-- 사진 삭제 -->

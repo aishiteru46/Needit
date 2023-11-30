@@ -521,6 +521,7 @@ function formatNumber(number) {
 // 대여신청 버튼 클릭 시 서버로 전송
 $(document).ready(function(){
   $("#makeRent").click(function () {
+	  randomMerchantUid = generateRandomMerchantUid()*1;
       var selectedPaymentType = $("#paymentType").val();
       if (!selectedPaymentType) {
         alert('결제 방법을 선택해주세요.');
