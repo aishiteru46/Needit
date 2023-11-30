@@ -173,7 +173,7 @@ public interface UserProfileDao {
 	public int selectCancel(Rent rent);
 
 	/**
-	 * 유저테이블 전체 조회
+	 * 유저테이블 전체 조회 주현이가 뭐쓰는지 보고나서 * 없애기
 	 * 
 	 * @return
 	 */
@@ -278,13 +278,26 @@ public interface UserProfileDao {
 	public User selectEmail(User user);
 
 
-	//프로필사진 업데이트할지 인서트할지 보려고 카운트
+	/**
+	 * 프로필사진 업데이트할지 인서트할지 보려고 카운트
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public int checkIfImageExists(String id);
 
-	//프로필사진 업데이트
+	/**
+	 * 프로필사진 업데이트
+	 * 
+	 * @param userFile
+	 */
 	public void updateImage(UserFile userFile);
 
-	//프로필사진 인서트
+	/**
+	 * 프로필사진 인서트
+	 * 
+	 * @param userFile
+	 */
 	public void insertImage(UserFile userFile);
 
 	/**

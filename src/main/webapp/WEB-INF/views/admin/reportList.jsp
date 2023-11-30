@@ -114,6 +114,7 @@ function deleteComment(cmtNo) {
         <td><button class="delete_btn" onclick="deleteBoard(${list.BOARD_NO})">삭제</button></td>
 	</tr>
 </c:forEach>
+
 </tbody>
 </table>
 </div><!-- #reportBoard -->
