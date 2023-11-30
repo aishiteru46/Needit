@@ -259,18 +259,18 @@ public class AdminController {
 			Comment comment,
 			Like like
 			) {
-//		logger.info("가리겟get");
 		//게시글 신고 목록
 		List<Map<String, Object>> reportBoardList = adminService.getBoardReportInfo();
-//		logger.info("신고목록{}",reportBoardList);
 		model.addAttribute("reportBoardList", reportBoardList);
+		
 		
 		//댓글 신고 목록
 		List<Map<String, Object>> reportCmtList = adminService.getCmtReportInfo();
 		model.addAttribute("reportCmtList", reportCmtList);
 	}
 	
-	//게시글 신고목록 삭제
+	
+	//게시글, 댓글 신고목록 삭제
 	@PostMapping("/admin/reportList")
 	public String deleteBoard(Board board, Comment cmt) {
 

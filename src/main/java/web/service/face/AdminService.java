@@ -9,6 +9,7 @@ import web.dto.Banner;
 import web.dto.Board;
 import web.dto.Business;
 import web.dto.Comment;
+import web.dto.Report;
 import web.dto.User;
 
 public interface AdminService {
@@ -114,14 +115,7 @@ public interface AdminService {
 	 * @param business - 업체
 	 */
 	public void cancelBusiness(Business business);
-
-
-
-
-
-
-
-
+	
 	
 
 
