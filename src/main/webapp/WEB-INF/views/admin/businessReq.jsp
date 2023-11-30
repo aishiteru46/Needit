@@ -121,7 +121,7 @@ function cancelBusiness(id) {
 		<th>업체 URL</th>
 
 		<th>승인</th>
-		<th>취소</th>
+		<th>거절</th>
 	</tr>
 </thead>
 
@@ -139,7 +139,12 @@ function cancelBusiness(id) {
 		<c:if test="${list.BUSINESS_STATUS eq 2 }">
 			<td><button class="approveButton done" data-id="${list.ID}">승인됨</button></td>
 		</c:if>
-        <td><button class="cancelButton" data-id="${list.ID}">취소</button></td>
+		<c:if test="${list.BUSINESS_STATUS eq 1 }">
+        	<td><button class="cancelButton" data-id="${list.ID}">거절</button></td>
+        </c:if>
+		<c:if test="${list.BUSINESS_STATUS eq 2 }">
+        	<td><button class="cancelButton" data-id="${list.ID}">등록해제</button></td>
+        </c:if>
 	</tr>
 </c:forEach>
 </tbody>
