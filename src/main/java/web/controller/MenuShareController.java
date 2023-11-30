@@ -273,7 +273,7 @@ public class MenuShareController {
 		comment.setWriterId((String)session.getAttribute("id"));
 		comment.setWriterNick((String)session.getAttribute("nick"));
 		//댓글 리스트 전달
-		List<Comment> commentList = menuShareFace.list(comment);
+		List<Map<String,Object>> commentList = menuShareFace.list(comment);
 		model.addAttribute("commentList", commentList);
 		
 		return "jsonView";

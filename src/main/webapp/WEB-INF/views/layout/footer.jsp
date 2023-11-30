@@ -181,11 +181,11 @@ function downFunction() {
 </div>
 
 <!-- 다른사람 마이페이지 모달 -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">${nick}의마이페이지</h1>
+        <h1 class="modal-title fs-5" id="profileModalLabel">${nick}의마이페이지</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
