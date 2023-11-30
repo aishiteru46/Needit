@@ -45,7 +45,6 @@
 			<include refid="searchCond" />
 		)
 	</select>
-	
 
 	<!-- 해당 메뉴 게시글 조회 -->
 	<select id="selectAll" resultType="Map" parameterType="web.util.Paging">
@@ -112,7 +111,7 @@
 		</where>	    
 	</select>
 	
-	<!-- 게시글 삽입 -->
+	<!-- 게시글 작성 -->
     <insert id="insertBoard" parameterType="Board">
     	<selectKey resultType="int" order="BEFORE" keyProperty="boardNo">
     		SELECT board_seq.nextval FROM dual
@@ -255,5 +254,14 @@
 			AND board_no = #{boardNo}
 		</where>
 	</delete>	
+
+	<!-- 게시글 삭제  -->
+	<delete id="deleteBoard" parameterType="Board">
+		DELETE board
+		<where>
+			AND board_no = #{boardNo}
+			AND writer_id = #{writerId}
+		</where>
+	</delete>
 
 </mapper>

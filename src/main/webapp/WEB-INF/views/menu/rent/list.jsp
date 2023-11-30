@@ -20,7 +20,7 @@ $(()=>{
 			.text("Needit")
 	}).mouseout(function () {
         $(this)
-        .css("color", "")  // 원래 색으로 돌아가기 위해 빈 문자열로 설정
+        .css("color", "")
         .css("background-color", "")
         .text("Search");
 	});
@@ -245,10 +245,7 @@ $(()=>{
 	font-size: 13px;
 	margin: 2px;
 }
-/* #searchBtn:hover { */
-/* 	color: white; */
-/* 	background-color: rgb(255,83,63); */
-/* } */
+
 #searchBtn {
 	float: right;
     height: 20px;
@@ -380,13 +377,20 @@ $(()=>{
   	
     <div class="write-container">
  		<div class="write-container-head">
- 		
-            <c:if test="${list.BASKET_STATUS eq 1}">
-                <span class="heart"><img class="star a" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/star.png"></span>
-            </c:if>
-            <c:if test="${list.BASKET_STATUS eq 0}">
-                <span class="heart"><img class="star b" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/emptyStar.png"></span>
-            </c:if>
+ 			
+ 			<c:if test="${isLogin }">
+	            <c:if test="${list.BASKET_STATUS eq 1}">
+	                <span class="heart"><img class="star a" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/star.png"></span>
+	            </c:if>
+	            <c:if test="${list.BASKET_STATUS eq 0}">
+	                <span class="heart"><img class="star b" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/emptyStar.png"></span>
+	            </c:if>
+	        </c:if>
+			<c:if test="${not isLogin }">
+					<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">
+	                <span class="heart"><img class="star b" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/emptyStar.png"></span>
+					</a>
+			</c:if>	        
 	        
 	        <div class="no">Title.</div>
 	        <a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE }</div></a>

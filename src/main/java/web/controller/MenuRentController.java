@@ -37,7 +37,6 @@ public class MenuRentController {
 	//게시판 목록 그리드타입 띄우기
 	@GetMapping("/list")
 	public String list( Paging param, Model model, HttpSession session ) {
-		logger.info("param : {}", param);
 		
 		//페이징 계산
 		Paging paging = menuRentService.getPaging(param);
@@ -55,7 +54,6 @@ public class MenuRentController {
 	//게시판 목록 리스트타입 띄우기
 	@GetMapping("/listType")
 	public String listType( Paging param, Model model ) {
-		logger.info("param : {}", param);
 		
 		//페이징 계산
 		Paging paging = menuRentService.getPaging(param);
@@ -181,23 +179,44 @@ public class MenuRentController {
 
 	//게시글 수정 폼
 	@GetMapping("/update")
-	public void update() {} 
+	public String update(Board updateParam, Model model) {
+		
+		if( updateParam.getBoardNo() < 1 ) {
+			return "redirect:./list";
+		}
+		//상세보기 페이지 아님 표시
+		updateParam.setHit(-1);
+		
+		
+		//상세보기 게시글 조회
+		updateParam = menuRentService.view(updateParam);
+		model.addAttribute("updateBoard", updateParam);
+		
+		//첨부파일 정보 전달
+		List<FileTb> boardfile = menuRentService.getAttachFile( updateParam );
+		model.addAttribute("boardfile", boardfile);
+		
+		return "menu/rent/update";
+	} 
 
 	//게시글 수정 처리
 	@PostMapping("/update")
-	public void updateProc() {} 
+	public void updateProc() {
+		
+	} 
 
 	//게시글 삭제
 	@RequestMapping("/delete")
-	public void delete() {
+	public String delete(Board board, HttpSession session) {
+		board.setWriterId((String) session.getAttribute("id"));
+		menuRentService.delete(board);
 		
-		
+		return "redirect:/rent/list?menu=" + board.getMenu() + "&cate=" + board.getCate();
 	}
 
 	//추천 적용
 	@GetMapping("/like")
 	public ModelAndView like( Like like, ModelAndView mav, HttpSession session  ) {
-		logger.info("like : {}", like);
 		
 		//추천 정보 토글
 		like.setLikeId((String) session.getAttribute("id"));
@@ -216,8 +235,6 @@ public class MenuRentController {
 	//댓글 입력하기
 	@PostMapping("/comment")
 	public String insert(Comment commentParam, Board board) {
-		logger.info("댓글 전달인자 commentParam: {}", commentParam);
-		logger.info("댓글 전달인자 board: {}", board);
 		
 		menuRentService.commentInsert(commentParam);
 		
@@ -248,12 +265,10 @@ public class MenuRentController {
 	
 	@RequestMapping("/basket")
 	public String basket(Basket basket, Model model, HttpSession session) {
-		logger.info("찜 전달인자 : {}",basket);
 		
 		basket.setBasketId((String)session.getAttribute("id"));
 		
 		boolean bas = menuRentService.checkBasket(basket);
-		logger.info("찜여부{}",bas);
 		model.addAttribute("check", bas);
 		
 		return "jsonView";
