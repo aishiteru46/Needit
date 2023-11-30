@@ -105,6 +105,16 @@ h6 {
 
 /* 내가추가함 ㅠ */
 
+button:hover { scale: 1.1;}
+#upAndDel button {     
+	color: white;
+    border: none;
+    width: 50px;
+    border-radius: 5px;
+    background: #ff533f;
+    font-weight: bold;
+}
+
 a:hover { text-decoration: none; }
 .viewHeader { width: 900px; height: 500px; margin: 0 auto; margin-top: 70px }
 .viewheader > div { float: left;}
@@ -535,7 +545,15 @@ $(()=>{
 <div class="container">
 <div class="viewWrap">
 <div id="borderContainer">
+	
 	<div class="viewHeader">
+		<div id="upAndDel" style="float: right; margin: 15px;">
+			<c:if test="${id eq board.writerId }">
+				<a href="/rent/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>수정</button></a>
+				<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">삭제</button>
+			</c:if>
+		</div>	
+		<div style="clear: both;"></div>
 		<div class="thumb">
 		    <div id="thumbImg" style="border-radius: 0px 10px 0px 0px">
 		        <c:if test="${not empty fileTb and not empty fileTb[0]}">
@@ -674,14 +692,6 @@ $(()=>{
 	<div id="btnList">
 		<a href="/rent/list?menu=1&cate=1"><button>목록</button></a>
 	</div>
-
-<%-- 수정,삭제 --%>
-<div>
-	<c:if test="${id eq board.writerId }">
-		<a href="/rent/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>게시글 수정</button></a>
-		<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">게시글 삭제</button>
-	</c:if>
-</div>	
 
 </div> <!-- .viewWrap -->
 </div> <!-- .container -->
