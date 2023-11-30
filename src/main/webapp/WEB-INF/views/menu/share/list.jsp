@@ -308,14 +308,6 @@ form {
 
 </style>
 
-
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#profileModal">
-  Launch demo modal
-</button>
-
-
-
-
 <div class="container">
 
 <c:forEach  var="list" items="${list }" begin="0" end="0">
