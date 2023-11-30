@@ -11,15 +11,20 @@
 	width: 302px;
 }
 #BannerImgPre{
-	width: 500px;
+	width: auto;
 	height: 250px;
+    white-space: nowrap;
+    overflow-x: auto;
+    margin-left: 10px;
 }
 
 #BannerImg{
 	border: 1px solid #ccc;
-	width: 100%;
-	height: 100%;
+    width: 400px;
+    height: 210px;
 	display: inline-block;
+	vertical-align: top;
+	margin-right: 10px;
     justify-content: center;
     align-items: center;
     background-size: contain;

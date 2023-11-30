@@ -103,7 +103,15 @@ function downFunction() {
   <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
 </svg>
 </button><br>
-<a href="/admin/chat"><button class="policy-floating-button" id="FloatMain">FAQ</button></a><br>
+<c:if test="${isLogin and (id eq admin)  }">
+	<a href="/admin"><button class="policy-floating-button" id="FloatMain">FAQ</button></a><br>
+</c:if>
+<c:if test="${not isLogin }">
+	<button class="policy-floating-button" id="FloatMain" data-bs-toggle="modal" data-bs-target="#exampleModal">FAQ</button><br>
+</c:if>
+<c:if test="${isLogin and (id ne admin) }">
+	<a href="/admin/chat"><button class="policy-floating-button" id="FloatMain" data-bs-toggle="modal" data-bs-target="#exampleModal">FAQ</button></a><br>
+</c:if>
 <button onclick="downFunction()" class="policy-floating-button" id="scrollDown">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
@@ -133,12 +141,15 @@ function downFunction() {
 <div style="font-size: 20px; margin-bottom: 5px;"><strong>상담 시간</strong></div>
 <div style="font-size: 12px;">평일 09:00 - 18:00</div>
 <div style="font-size: 12px; margin-bottom: 12px; display: inline-block;">주말, 공휴일 휴뮤</div>
-<%-- <c:if test="${not empty isLogin }"> --%>
+<c:if test="${isLogin and (id eq admin)  }">
+	<div style="clear: both;"><form action="/admin" method="get"><button id="footer-report-button1">1:1 문의</button></form></div>
+</c:if>
+<c:if test="${not isLogin }">
+	<div style="clear: both;"><button id="footer-report-button1" data-bs-toggle="modal" data-bs-target="#exampleModal">1:1 문의</button></div>
+</c:if>
+<c:if test="${isLogin and (id ne admin) }">
 	<div style="clear: both;"><form action="/admin/chat" method="get"><button id="footer-report-button1">1:1 문의</button></form></div>
-<%-- </c:if> --%>
-<%-- <c:if test="${empty isLogin }"> --%>
-<%-- 	<div style="clear: both;"><form action="/admin/chat" method="get"><button id="footer-report-button">1:1 문의</button></form></div> --%>
-<%-- </c:if> --%>
+</c:if>
 </div>
 
 <%-- <c:if test="${not empty isLogin }"> --%>

@@ -248,9 +248,6 @@ $(function(){
 </script>
 <style type="text/css">
 
-.rentTable, th, td {
-	border: 1px solid #ccc;
-}
 /* 썸네일 미리보기 */
 #thumbnail_container{
 	width: 350px;
@@ -260,8 +257,15 @@ $(function(){
     margin-top: 67px;
     border-radius: 300px;
     background-size: cover;
+    overflow: hidden;
 }
-
+/* 프로필 사진 */
+#profileImg{
+	width: 350px;
+    height: 350px;
+    background-size: cover;
+    object-fit: cover;
+}
 /* 프로필사진, 닉네임, 사진등록 삭제 */
 #profileImgContainer{ 
 	width: 400px; 
@@ -317,8 +321,9 @@ $(function(){
 }
 /* 자기소개 너비 */
 #introduce{
-    width: 1180px;
+	width: 1134px;
     clear: both;
+    margin: 0 auto;
 }
 /* 자기소개 id */
 #introId{
@@ -341,6 +346,10 @@ $(function(){
 /* 목록 테이블 둥글게 */
 .rentTable{
 	border-radius: 5px;
+	width: 99%;
+}
+.userInfo td{
+	border-bottom: 1px solid #cccccc40;
 }
 /* 목록들 스크롤 */
 .tableScroll{
@@ -400,6 +409,32 @@ $(function(){
 .userInfo th div, .userInfo td div{
 	margin-top: 7px;
 }
+/* 취소 승인 버튼 */
+.agrBtn{
+	font-size: 16px;
+	font-weight: bold;
+    width: 99%;
+    height: 34px;
+    margin-left: 1px;
+    border-radius: 5px;
+}
+.rentDate{
+	width: 287px;
+}
+.rentTable tr th:first-child {
+	border-top-left-radius: 5px;
+}
+.rentTable tr th:last-child {
+	border-top-right-radius: 5px;
+	border: none;
+}
+.rentTable th{
+	border-right: 1px solid #ccc;
+}
+.rentTable td{
+	border-bottom: 1px solid #ccc;
+	font-weight: normal;
+}
 </style>
 
 <div class="container">
@@ -421,7 +456,7 @@ $(function(){
 
 <div id="profileTop">
 <div id="profileImgContainer" >
-<div id="profileImg" style="width: 350px; height: 350px;">
+<div id="profileImg">
 	<c:if test="${not empty img}">
 	    <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
 	</c:if>
@@ -504,7 +539,6 @@ $(function(){
     
     <!-- 자기소개글을 입력하는 텍스트박스 -->
     <div>
-    	<input type="text" id="introId" name="id" value="${nick}" readonly="readonly">
         <div>
             <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100">${user.intro }</textarea>
         </div>
@@ -512,19 +546,6 @@ $(function(){
         <button type="submit" class="btn btn-primary mt-2" id="introUpdate">저장</button>
     </div>
 </div><!-- #introduce -->
-
-<hr>
-
-
-
-
-
-<div>
-지금 usertb테이블의 id를 board테이블 에서 write_id로 사용하고 있어서 회원삭제가 안됨<br>
-회원탈퇴시 글까지 삭제 되는 경우 - > DB에 cascade구문 추가 <br>
-회원탈퇴시 글은 살리는 경우 -> DB에 usertb에 is_deleted컬럼 추가해서 탈퇴시 delete로 지우지말고 update로 is_daleted true해주고 이후에 회원조회할때마다 is_deleted 상태인애들은 빼고 조회해서 탈퇴한애들 숨겨두면 됨
-둘중하나 선택해야함
-</div>
 
 <hr>
 
@@ -540,7 +561,7 @@ $(function(){
 		<th>예약 끝 시간</th>
 		<th>결제 상태</th>
 		<th>승인 처리</th>
-		<th></th>
+		<th>취소</th>
 		
 	</tr>
 <c:forEach items="${myList }" var="list" begin="0" end="10">
@@ -548,7 +569,7 @@ $(function(){
 		<td>${list.BOARD_NO }</td>
 		<td>${list.RENT_NO }</td>
 		<td>${list.RENTER_ID }</td>
-		<td>${list.RENT_DATE }</td>
+		<td class="rentDate">${list.RENT_DATE }</td>
 		<c:choose>
 	    <c:when test="${list.START_TIME % 2 == 1}">
 		        <c:set var="hour" value="${(list.START_TIME ) / 2}" />
@@ -578,23 +599,25 @@ $(function(){
 		<td>${endHour}:${endMinute}</td>
 		<c:choose>
             <c:when test="${list.PAYMENT_TYPE eq 1}">
-                <td><button disabled="disabled">결제됨</button></td>
+                <td><button disabled="disabled" class="agrBtn">결제됨</button></td>
             </c:when>
             <c:when test="${list.PAYMENT_TYPE eq 0}">
-                <td><button disabled="disabled">직거래</button></td>
+                <td><button disabled="disabled" class="agrBtn">직거래</button></td>
             </c:when>
         </c:choose>
 		<c:if test="${list.RENT_STATUS eq 1 }">
-			<td><button id="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
+			<td><button id="confirmBtn" class="agrBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
 		</c:if>
-		<c:if test="${list.RENT_STATUS eq 2 }">
-			<td><button disabled="disabled">승인 완료</button></td>
+		<c:if test="${list.RENT_STATUS eq 0 || list.RENT_STATUS eq 2 }">
+			<td><button disabled="disabled" class="agrBtn">승인 완료</button></td>
 		</c:if>
-		<c:if test="${list.RENT_STATUS eq 1 }">
-			<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
+		<!-- 취소 빈칸 채우기 -->
+<%-- 		<c:if test="${list.RENT_STATUS eq 0 || list.RENT_STATUS eq 2}"><td></td></c:if> --%>
+		<c:if test="${list.RENT_STATUS eq 1 || list.RENT_STATUS eq 2}">
+			<td><button class="cancelBtn agrBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
 		</c:if>
 		<c:if test="${list.RENT_STATUS eq 0 }">
-			<td><button disabled="disabled">취소 완료</button></td>
+			<td><button disabled="disabled" class="agrBtn">취소 완료</button></td>
 		</c:if>
     
 	</tr>
@@ -607,7 +630,7 @@ $(function(){
 
 <%-- <c:import url="/WEB-INF/views/layout/paginationRent.jsp" /> --%>
 		
-
+<hr>
 
 
 <h1 class="listH1">빌린 예약 목록</h1>
@@ -622,14 +645,14 @@ $(function(){
 		<th>예약 끝 시간</th>
 		<th>결제 상태</th>
 		<th>승인 처리</th>
-		<th></th>
+		<th>취소</th>
 	</tr>
 <c:forEach items="${list }" var="list" begin="0" end="10">
 	<tr>
 		<td>${list.BOARD_NO }</td>
 		<td>${list.RENT_NO }</td>
 		<td>${list.RENTER_ID }</td>
-		<td>${list.RENT_DATE }</td>
+		<td class="rentDate">${list.RENT_DATE }</td>
 		<c:choose>
 	    <c:when test="${list.START_TIME % 2 == 1}">
 		        <c:set var="hour" value="${(list.START_TIME + 1) / 2}" />
@@ -660,31 +683,31 @@ $(function(){
 		
 		<c:choose>
             <c:when test="${list.PAYMENT_TYPE eq 1}">
-                <td><button disabled="disabled">결제됨</button></td>
+                <td><button disabled="disabled" class="agrBtn">결제됨</button></td>
             </c:when>
             <c:when test="${list.PAYMENT_TYPE eq 0}">
-                <td><button disabled="disabled">직거래</button></td>
+                <td><button disabled="disabled" class="agrBtn">직거래</button></td>
             </c:when>
         </c:choose>
 		
 		<c:if test="${list.RENT_STATUS eq 1 }">
-			<td><button id="confirmBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
+			<td><button id="confirmBtn" class="agrBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
 		</c:if>
-		<c:if test="${list.RENT_STATUS eq 2 }">
-			<td><button disabled="disabled">승인 완료</button></td>
+		<c:if test="${list.RENT_STATUS eq 0 || list.RENT_STATUS eq 2 }">
+			<td><button disabled="disabled" class="agrBtn">승인 완료</button></td>
 		</c:if>
-		
-		<c:if test="${list.RENT_STATUS eq 1 }">
-			<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
+		<!-- 취소 빈칸 채우기 -->
+<%-- 		<c:if test="${list.RENT_STATUS eq 0 || list.RENT_STATUS eq 2}"><td></td></c:if> --%>
+		<c:if test="${list.RENT_STATUS eq 1 || list.RENT_STATUS eq 2}">
+			<td><button class="cancelBtn agrBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
 		</c:if>
 		<c:if test="${list.RENT_STATUS eq 0 }">
-			<td><button disabled="disabled">취소 완료</button></td>
+			<td><button disabled="disabled" class="agrBtn">취소 완료</button></td>
 		</c:if>
 	</tr>
 </c:forEach>
 </table>
 </div><!-- .tableScroll -->
-
 
 <hr>
 
@@ -696,7 +719,7 @@ $(function(){
             <th class="title">제목</th>
             <th>게시판</th>
             <th>작성일</th>
-            <th>조회</th>
+            <th>조회수</th>
          </tr>
          <c:forEach items="${board }" var="board">
             <tr>
@@ -757,8 +780,7 @@ $(function(){
    </table><!-- .listType -->
 </div><!-- .tableScroll -->
 
-
-
+<hr>
 
 <h1 class="listH1">내가 쓴 댓글</h1>
 <div id="commentSection" class="tableScroll">
@@ -766,6 +788,7 @@ $(function(){
    <tr>
       <th>No.</th>
       <th>댓글</th>
+      <th>게시판</th>
       <th>작성일</th>
    </tr>
    
@@ -792,6 +815,26 @@ $(function(){
                
            </c:choose>
         </td>
+        
+        <td>
+             <c:choose>
+              <c:when test="${comment.MENU eq 1}">
+                  대여해요
+              </c:when>
+              <c:when test="${comment.MENU eq 2}">
+                  나눔해요
+              </c:when>
+              <c:when test="${comment.MENU eq 3}">
+                  해주세요
+              </c:when>
+              <c:when test="${comment.MENU eq 4}">
+                  커뮤니티
+              </c:when>
+              <c:when test="${comment.MENU eq 5}">
+                  동네업체
+              </c:when>
+          </c:choose>
+          </td>
       <td><fmt:formatDate pattern="yyyy-MM-dd" value="${comment.writeDate}"/></td>
    </tr>
 
@@ -799,25 +842,78 @@ $(function(){
 </table>
 </div><!-- .tableScroll -->
 
+<hr>
+
 </div><!-- .container -->
 
 <!-- 찜목록 -->
-${basketList }
 
-<%-- ${myBoardList } --%>
-
-${myBoardList }
-
-<hr>
-<h1 class="listH1">내가 쓴 글</h1>
-<c:forEach items="${myBoardList }" var="myBoardList" begin="0" end="10">
-<td>${myBoardList.BOARD_NO }</td>
-<td>${myBoardList.TITLE }</td>
+<h1 class="listH1">찜 목록</h1>
+<div id="basketListSection" class="tableScroll">
+<table id="basketListTable" class="rentTable">
+   <tr>
+      <th>No.</th>
+      <th>제목</th>
+      <th>게시판</th>
+      <th>작성자</th>
+      <th>작성일</th>
+   </tr>
+   
+<c:forEach items="${basketList }" var="basketList" begin="0" end="10">
+   <tr>
+      <td>${basketList.BOARD_NO }</td>
+      <td>
+         <c:choose>
+               <c:when test="${basketList.MENU eq 1}">
+                   <a href="/rent/view?boardNo=${basketList.BOARD_NO}">${basketList.TITLE }</a>
+               </c:when>
+               <c:when test="${basketList.MENU eq 2}">
+                   <a href="/share/view?boardNo=${basketList.BOARD_NO}">${basketList.TITLE }</a>
+               </c:when>
+               <c:when test="${basketList.MENU eq 3}">
+                   <a href="/please/view?boardNo=${basketList.BOARD_NO}">${basketList.TITLE }</a>
+               </c:when>
+               <c:when test="${basketList.MENU eq 4}">
+                   <a href="/community/view?boardNo=${basketList.BOARD_NO}">${basketList.TITLE }</a>
+               </c:when>
+               <c:when test="${basketList.MENU eq 5}">
+                   <a href="/business/view?boardNo=${basketList.BOARD_NO}">${basketList.TITLE }</a>
+               </c:when>
+           </c:choose>
+        </td>
+        
+        <td>
+             <c:choose>
+              <c:when test="${basketList.MENU eq 1}">
+                  대여해요
+              </c:when>
+              <c:when test="${basketList.MENU eq 2}">
+                  나눔해요
+              </c:when>
+              <c:when test="${basketList.MENU eq 3}">
+                  해주세요
+              </c:when>
+              <c:when test="${basketList.MENU eq 4}">
+                  커뮤니티
+              </c:when>
+              <c:when test="${basketList.MENU eq 5}">
+                  동네업체
+              </c:when>
+          </c:choose>
+          </td>
+        
+        <td>${basketList.WRITER_NICK }</td>
+      <td><fmt:formatDate pattern="yyyy-MM-dd" value="${basketList.writeDate}"/></td>
+   </tr>
 
 </c:forEach>
+</table>
+</div><!-- .tableScroll -->
+
+
 
 <!-- 회원탈퇴 버튼 -->
-<button type="button" class="btn btn-danger float-end" data-bs-toggle="modal" data-bs-target="#confirmationModal">회원탈퇴</button>
+<button type="button" style="margin-left: 1106px; margin-top: 15px; margin-bottom: -11px;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmationModal">회원탈퇴</button>
 
 <!-- <h1 data-bs-toggle="collapse" data-bs-target="#boardSection"> -->
 
