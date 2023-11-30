@@ -149,7 +149,7 @@ public interface UserProfileService {
 	public boolean updateRentCancel(Rent rent);
 	
 	/**
-	 * 
+	 * 유저테이블 정보 다 가져오는거 주현이가 뭐쓰는지 보고나서 *지움 
 	 * @param user 
 	 * @return
 	 */
