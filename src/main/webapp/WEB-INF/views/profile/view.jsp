@@ -601,9 +601,11 @@ $(function(){
 <div style="clear: both; margin-bottom: 35px;"></div>
 
 <!-- 업체 링크 -->
+<c:if test="${user.businessStatus eq 1 }">
 <div id="businessUrl">
 	<a href="http://${busy.BUSINESS_URL}" target="_blank">${busy.BUSINESS_URL}</a>
 </div>
+</c:if>
 
 <div id="introduce">
     <h2>자기소개</h2>

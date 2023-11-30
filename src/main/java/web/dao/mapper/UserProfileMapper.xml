@@ -379,6 +379,7 @@
 		FROM usertb
 		JOIN business ON usertb.id = business.id
 		WHERE usertb.business_status = '1'
+		AND usertb.id = #{id}
 	</select>
 	
 	<select id="selectId" parameterType="Board" resultType="String">
