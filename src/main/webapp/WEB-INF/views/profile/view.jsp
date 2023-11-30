@@ -183,27 +183,57 @@ $(function(){
 
 
 $(function(){
-	$(".cancelBtn").click(function(){
-		var cancelBtn = $(this);
-		  $.ajax({
-		         type: "post"
-		         , url: "/profile/cancel"
-		         , data: {
-		        	 rentNo: cancelBtn.data("rent_no")
-		             , boardNo: cancelBtn.data("board_no")
-		         }
-		         , dataType: "json"
-		         , success: function( res ) {
-		            console.log("AJAX 성공")
-		            location.reload()
 
-		         }
-		         , error: function() {
-		            console.log("AJAX 실패")
+   $(".cancelBtn").click(function() {
+	   var cancelBtn = $(this);
+	      
+	      $.ajax({
+	         type: "post"
+	         , url: "/cancel"
+	         , data: {
+	            merchantUid: cancelBtn.data("uid")
+	            , rentNo: cancelBtn.data("no")
+	            , boardNo: cancelBtn.data("board_no")
+	         }
+	         , dataType: "json"
+	         , success: function( data ) {
+	            console.log("결제취소, 대여 요청상태 변경 성공")
+	            
+	            alert("취소가 완료되었습니다.\n온라인결제를 하셨다면 환불처리 됩니다.")
+	            
+	            if(data.status === "success"){
+	            	location.reload();
+	            }
+	            
+	         }
+	         , error: function(xhr, status, error) {
+	            console.log("AJAX 실패", status, error)
+	         }
+	      })
+	      
+	   })	
+	
+// 	$(".cancelBtn").click(function(){
+// 		var cancelBtn = $(this);
+// 		  $.ajax({
+// 		         type: "post"
+// 		         , url: "/profile/cancel"
+// 		         , data: {
+// 		        	 rentNo: cancelBtn.data("rent_no")
+// 		             , boardNo: cancelBtn.data("board_no")
+// 		         }
+// 		         , dataType: "json"
+// 		         , success: function( res ) {
+// 		            console.log("AJAX 성공")
+// 		            location.reload()
 
-		         }
-		      })
-    })
+// 		         }
+// 		         , error: function() {
+// 		            console.log("AJAX 실패")
+
+// 		         }
+// 		      })
+//     })
     
 	
     $.ajax({
@@ -591,7 +621,7 @@ $(function(){
 			<td><button disabled="disabled">승인 완료</button></td>
 		</c:if>
 		<c:if test="${list.RENT_STATUS eq 1 }">
-			<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
+			<td><button class="cancelBtn" data-no="${list.RENT_NO }" data-uid="${list.MERCHANT_UID }" data-board_no="${list.BOARD_NO }">취소</button></td>
 		</c:if>
 		<c:if test="${list.RENT_STATUS eq 0 }">
 			<td><button disabled="disabled">취소 완료</button></td>
@@ -616,7 +646,7 @@ $(function(){
 	<tr>
 		<th>게시글 번호</th>
 		<th>예약 번호</th>
-		<th>예약자</th>
+		<th>주문번호</th>
 		<th>예약 날짜</th>
 		<th>예약 시작 시간</th>
 		<th>예약 끝 시간</th>
@@ -628,7 +658,7 @@ $(function(){
 	<tr>
 		<td>${list.BOARD_NO }</td>
 		<td>${list.RENT_NO }</td>
-		<td>${list.RENTER_ID }</td>
+		<td>${list.MERCHANT_UID }</td>
 		<td>${list.RENT_DATE }</td>
 		<c:choose>
 	    <c:when test="${list.START_TIME % 2 == 1}">
@@ -675,7 +705,7 @@ $(function(){
 		</c:if>
 		
 		<c:if test="${list.RENT_STATUS eq 1 }">
-			<td><button class="cancelBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">취소</button></td>
+			<td><button class="cancelBtn" data-no="${list.RENT_NO }" data-uid="${list.MERCHANT_UID }" data-board_no="${list.BOARD_NO }">취소</button></td>
 		</c:if>
 		<c:if test="${list.RENT_STATUS eq 0 }">
 			<td><button disabled="disabled">취소 완료</button></td>
