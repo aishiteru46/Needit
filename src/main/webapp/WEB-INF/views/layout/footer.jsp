@@ -64,7 +64,7 @@
 	font-size: 13px;
 }
 
-.floating {
+.footerFloating {
     position: fixed;
     bottom: 20px;
     right: 12px;
@@ -96,7 +96,7 @@ function downFunction() {
 </script>
 
 <!-- 플로팅 버튼 -->
-<div class="floating">
+<div class="footerFloating">
 <button onclick="topFunction()" class="policy-floating-button" id="scrollTop">
 <!-- svg 사진 url -->
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">

@@ -292,16 +292,76 @@
 	text-align: center;
 }
 
+/* 플로팅 버튼 */
+.policy-floating-button{
+    background-color:white;
+    color: black;
+    border: 0;
+    margin: 0;
+    width: 45px;
+    height: 45px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 2px #ccc;
+}
+
+#FloatMain{
+	margin: 5px 0px;
+	font-size: 13px;
+}
+
+.floating {
+	display: block;
+    position: fixed;
+    bottom: 20px;
+    right: 12px;
+}
+
 </style>
 
 
 <script type="text/javascript">
+function topFunction() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
 
-
+function downFunction() {
+    window.scrollTo({
+        top: 8000,
+        behavior: "smooth"
+    });
+}
 </script>
 
 <div id="container">
 
+<!-- 플로팅 버튼 -->
+<div class="floating">
+<button onclick="topFunction()" class="policy-floating-button" id="scrollTop">
+<!-- svg 사진 url -->
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+</svg>
+</button><br>
+<c:if test="${isLogin and (id eq admin)  }">
+	<a href="/admin"><button class="policy-floating-button" id="FloatMain">FAQ</button></a><br>
+</c:if>
+<c:if test="${not isLogin }">
+	<button class="policy-floating-button" id="FloatMain" data-bs-toggle="modal" data-bs-target="#exampleModal">FAQ</button><br>
+</c:if>
+<c:if test="${isLogin and (id ne admin) }">
+	<a href="/admin/chat"><button class="policy-floating-button" id="FloatMain" data-bs-toggle="modal" data-bs-target="#exampleModal">FAQ</button></a><br>
+</c:if>
+<button onclick="downFunction()" class="policy-floating-button" id="scrollDown">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+</svg>
+</button>
+</div><!-- .floating -->
 
 
 <!-- 이미지 불러오기 -->

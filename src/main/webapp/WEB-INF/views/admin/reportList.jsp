@@ -104,7 +104,16 @@ function deleteComment(cmtNo) {
 <c:forEach var="list" items="${reportBoardList }">
 	<tr>
 		<td>${list.BOARD_NO }</td>
-		<td>${list.TITLE }</td>
+		
+		<c:if test="${list.MENU eq 1}">
+			<td><a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU }&cate=${list.CATE }">${list.TITLE }</a></td>
+		</c:if>
+		<c:if test="${list.MENU eq 2}">
+			<td><a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU }&cate=${list.CATE }">${list.TITLE }</a></td>
+		</c:if>
+		<c:if test="${list.MENU eq 3}">
+			<td><a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU }&cate=${list.CATE }">${list.TITLE }</a></td>
+		</c:if>		
 		<td>${list.MENU }</td>
 		<td>${list.CATE }</td>
 		
