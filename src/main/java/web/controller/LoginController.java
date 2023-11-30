@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.User;
+import web.dto.UserFile;
+import web.service.face.UserProfileService;
 import web.service.face.UserService;
 
 
@@ -37,7 +40,7 @@ public class LoginController {
 
 	@Autowired UserService userService;
 	@Autowired JavaMailSender mailSender;
-
+	@Autowired UserProfileService userProfileService;
 
 	@GetMapping("/signup")
 	public void signUp() {}
@@ -73,10 +76,10 @@ public class LoginController {
 
 	
 	@GetMapping("/login")
-	public void login() {}
+	public void login(Model model,HttpSession session) {}
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> loginProc( User user, HttpSession session, HttpServletResponse response) {
+	public ResponseEntity<String> loginProc( User user, HttpSession session, HttpServletResponse response, Model model) {
 		
 		boolean islogin = userService.login(user);
 		user = userService.infoNick(user);
@@ -90,7 +93,8 @@ public class LoginController {
 			session.setAttribute("addr1", user.getAddr1());
 			session.setAttribute("email", user.getEmail());
 			session.setAttribute("name", user.getName());
-			
+			session.setAttribute("phone", user.getPhone());
+	
 			return ResponseEntity.ok("success");
 		} else {
 			logger.info("로그인 실패");
