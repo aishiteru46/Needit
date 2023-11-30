@@ -108,7 +108,7 @@ public class UserProfileController {
         model.addAttribute("img", img);
 
         //--------------------------------------------------------------
-        //이걸로 user테이블 정보 다 가져올게요
+        //이걸로 user테이블 정보 다가져옴 내가쓰는거 grade, join_date, addr1, addr2, intro
         User profile = userProfileService.userAllSelect(user);
 		
 		model.addAttribute("user", profile);
@@ -118,37 +118,37 @@ public class UserProfileController {
 		//내가 쓴 글 보기
 		
 		//페이징 계산
-		logger.info("내가쓴게시글용 파람 전:{}",param);
-		param.setUserId((String)session.getAttribute("id"));
-		logger.info("내가쓴게시글용 파람 후:{}",param);
-		
-		Paging myBoardPaging = userProfileService.getBoardPaging(param);
-		logger.info("내가 쓴 글 개수!!!!:{}",myBoardPaging );
-		
-		//내가 쓴 게시글 목록 조회
-		myBoardPaging.setUserId((String)session.getAttribute("id"));
-		List<Map<String, Object>> myBoardList = userProfileService.myBoardList(myBoardPaging);
-		logger.info("내가쓴글 list: {}", myBoardList);
-
-		model.addAttribute("paging", myBoardPaging);
-		model.addAttribute("myBoardList", myBoardList);
+//		logger.info("내가쓴게시글용 파람 전:{}",param);
+//		param.setUserId((String)session.getAttribute("id"));
+//		logger.info("내가쓴게시글용 파람 후:{}",param);
+//		
+//		Paging myBoardPaging = userProfileService.getBoardPaging(param);
+//		logger.info("내가 쓴 글 개수!!!!:{}",myBoardPaging );
+//		
+//		//내가 쓴 게시글 목록 조회
+//		myBoardPaging.setUserId((String)session.getAttribute("id"));
+//		List<Map<String, Object>> myBoardList = userProfileService.myBoardList(myBoardPaging);
+//		logger.info("내가쓴글 list: {}", myBoardList);
+//
+//		model.addAttribute("paging", myBoardPaging);
+//		model.addAttribute("myBoardList", myBoardList);
 		
 		
 		//------------------------------------------------------------------------------------
-		List<Board> boardList = userProfileService.boardSelectById(board);
-		logger.info("내가쓴글목록: {}", boardList);
-		
-		// 모델에 페이징 정보와 글 목록 추가
-		model.addAttribute("board", boardList);
+//		List<Board> boardList = userProfileService.boardSelectById(board);
+//		logger.info("내가쓴글목록: {}", boardList);
+//		
+//		// 모델에 페이징 정보와 글 목록 추가 board_no, menu, title, write_date, hit
+//		model.addAttribute("board", boardList);
 		//--------------------------------------------------------------
 
 		//내가 쓴 댓글 보기
 		
-		comment.setWriterId((String) session.getAttribute("id"));
-		
-		List<Map<String, Object>> commentList = userProfileService.commentSelectById(comment);
-		logger.info("내가쓴댓글목록: {}", commentList);
-		model.addAttribute("comment", commentList);
+//		comment.setWriterId((String) session.getAttribute("id"));
+//		
+//		List<Map<String, Object>> commentList = userProfileService.commentSelectById(comment);
+//		logger.info("내가쓴댓글목록: {}", commentList);
+//		model.addAttribute("comment", commentList);
 		
 		//---------------------------------------------------------------
 		
@@ -387,8 +387,34 @@ public class UserProfileController {
 	}
 	
 	
-	
-	
+	//내가 쓴 글 보기 뷰에서 분리함
+	 @RequestMapping("/myBoardList")
+	    public String myBoardList(Board board, Model model, HttpSession session) {
+		 
+		 	board.setWriterId((String) session.getAttribute("id"));
+		 	List<Board> boardList = userProfileService.boardSelectById(board);
+			logger.info("내가쓴글목록: {}", boardList);
+			
+			// 모델에 페이징 정보와 글 목록 추가 board_no, menu, title, write_date, hit
+			model.addAttribute("board", boardList);
+		 
+		 
+	        return "profile/myBoardList";
+	    }
+	 
+	 //내가 쓴 댓글 보기 뷰에서 분리함
+	 @RequestMapping("/myCmtList")
+	 	public String myBoardList(Comment comment, Model model, HttpSession session) {
+		 
+		 	comment.setWriterId((String) session.getAttribute("id"));
+			List<Map<String, Object>> commentList = userProfileService.commentSelectById(comment);
+			logger.info("내가쓴댓글목록: {}", commentList);
+			
+			model.addAttribute("comment", commentList);
+		 
+		 
+		 return "profile/myCmtList";
+	 }
 
 	
 	
