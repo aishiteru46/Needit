@@ -170,9 +170,6 @@ public interface UserProfileService {
 	 */
 	public boolean checkCancel(Rent rent);
 	
-	
-
-	
 	/**
 	 * 로그인세션아이디로 글찾기
 	 * @param paging 
@@ -269,6 +266,31 @@ public interface UserProfileService {
 	 * @param id 클릭한 아이디
 	 */
 	public User yourProfile(String id);
+	
+	/**
+	 * 다른사람 업체 정보
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public Map<String, Object> selectYourUrl(User user);
+	
+	/**
+	 * 뷰에 보여줄 회원프로필사진
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public UserFile yourImg(String id);
+	
+	/**
+	 * 
+	 * 
+	 * @param board
+	 * @return
+	 */
+	public List<Map<String, Object>> yourBoard(Board board);
+
 
 	
 

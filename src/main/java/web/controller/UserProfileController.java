@@ -152,11 +152,6 @@ public class UserProfileController {
 		
 	}
 	
-	private List<Map<String, Object>> userProfileService(Paging myBoardPaging) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 	//회원정보수정
 	@GetMapping("/infoupdate")
@@ -230,7 +225,7 @@ public class UserProfileController {
         // 프로필 사진 업로드 및 데이터베이스에 저장
         userProfileService.imgUpdate(file, userId);
         
-     // 사용자의 프로필 이미지 정보 가져오기
+        // 사용자의 프로필 이미지 정보 가져오기
         UserFile img = userProfileService.imgSelect(userId);
         logger.info("프로필이미지ajax {} : ", img);
         model.addAttribute("img", img);
@@ -417,18 +412,7 @@ public class UserProfileController {
 		
 	}
 	
-	@GetMapping("/yourProfile")
-	public void yourProfile(
-			User user, Model model
-			, @RequestParam("boardNo") String boardNo
-			) {
-		String id = userProfileService.selectyourId(boardNo);
-		logger.info("다른사람 프로필아이디{}", id);
-		
-		User your = userProfileService.yourProfile(id);
-		logger.info("다른사람 프로필정보{}", your);
-		model.addAttribute("your",your);
-	}
+
 	
 	
 	//내가 쓴 글 보기 뷰에서 분리함
@@ -459,6 +443,39 @@ public class UserProfileController {
 		 
 		 return "profile/myCmtList";
 	 }
+	 
+		@GetMapping("/yourProfile")
+		public void yourProfile(
+				User user, Model model
+				, Business busi, Board board
+				, @RequestParam("boardNo") String boardNo
+				) {
+			String id = userProfileService.selectyourId(boardNo);
+			user.setId(id);
+			logger.info("다른사람 프로필아이디{}", id);
+			
+			User your = userProfileService.yourProfile(id);
+			logger.info("다른사람 프로필정보{}", your);
+			model.addAttribute("your",your);
+			
+			//업체 링크
+			Map<String, Object>  link = userProfileService.selectYourUrl(user);
+			logger.info("업체링크{}",link);
+			model.addAttribute("link",link);
+			
+			UserFile img = userProfileService.yourImg(id);
+			logger.info("프로필이미지ajax {} : ", img);
+			model.addAttribute("img", img);
+			
+			board.setWriterId(id);
+		 	List<Map<String, Object>> yourList = userProfileService.yourBoard(board);
+			logger.info("내가쓴글목록: {}", yourList);
+			// 모델에 페이징 정보와 글 목록 추가 board_no, menu, title, write_date, hit
+			model.addAttribute("yourList", yourList);
+			
+			
+			
+		}
 
 	
 	

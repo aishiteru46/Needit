@@ -20,261 +20,12 @@ function setThumbnail(event) {
   reader.readAsDataURL(event.target.files[0]);
 }// .setThumbnail() End
 
-function confirmAndSubmit(userId) {
-    var confirmYes = window.confirm("정말 탈퇴하시겠습니까?");
-    
-    if (confirmYes) {
-        // 폼 생성
-        var form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "./delete");
-
-        // hidden input 필드 추가
-        var hiddenField = document.createElement("input");
-        hiddenField.setAttribute("type", "hidden");
-        hiddenField.setAttribute("name", "id");
-        hiddenField.setAttribute("value", userId);
-
-        // 폼에 hidden input 추가
-        form.appendChild(hiddenField);
-
-        // body에 폼 추가
-        document.body.appendChild(form);
-
-        // 폼 제출
-        form.submit();
-    }
-}
-
-//프로필사진바로삭제
-$(function(){
-
- $("#imgDelete").click(function(){
-    console.log("프로필사진 삭제 작동")
-    
-    $.ajax({
-        type: "get"
-        , url: "/profile/imgdelete"
-        , data: {}
-        , dataType: "json"
-        , success: function( res ) {  
-           console.log("AJAX 성공")
-          location.reload()
-          
-        }
-       , error: function() {
-           console.log("AJAX 실패")
-       
-        }
-    })
- })
- 
-});
-
-
-$(function(){
-
-   //프로필사진 등록
-    $("#imgUpdate").click(function(){
-       console.log("프로필사진 업데이트 작동")
-       
-       var formData = new FormData($("#uploadForm")[0]);
-       
-       $.ajax({
-           type: "post"
-           , url: "/profile/imgupdate"
-           , data: formData
-           , processData: false  // 필수
-                , contentType: false  // 필수
-           , dataType: "json"
-           , success: function( res ) {  
-              console.log("AJAX 성공")
-             location.reload()
-             
-           }
-          , error: function() {
-              console.log("AJAX 실패")
-          
-           }
-       })
-
-    })
-    
- });
-
-
- //자기소개 수정
- $(function(){
-    $("#introUpdate").click(function(){
-       console.log("자기소개 업데이트 작동")
-       
-       $.ajax({
-           type: "post"
-           , url: "/profile/introduce"
-           , data: {
-              
-              id : "${id}"
-              , intro : $("#intro").val()
-              
-              
-           }
-           , dataType: "json"
-           , success: function( res ) {  
-              console.log("자기소개 업데이트 성공")
-             
-           }
-          , error: function() {
-              console.log("AJAX 실패")
-          
-           }
-       })
-    })
-    
- });
  
  
 function toggleSection(sectionId) {
     var section = document.getElementById(sectionId);
     section.classList.toggle('hidden');
 }
-
-function toggleSection(sectionId) {
-  var section = document.getElementById(sectionId);
-  var arrow = document.getElementById(sectionId + 'Arrow');
-
-  if (section.style.display === 'none') {
-    section.style.display = 'block';
-    arrow.innerHTML = '▲'; // 펼쳐진 상태에 대한 원하는 기호로 변경
-  } else {
-    section.style.display = 'none';
-    arrow.innerHTML = '▼'; // 축소된 상태에 대한 원하는 기호로 변경
-  }
-}
-
-
-</script>
-
-<script type="text/javascript">
-
-//예약 승인 
-$(function(){
-   $("#confirmBtn").click(function(){
-      var confirmBtn = $(this);
-        $.ajax({
-            type: "post"
-            , url: "/profile/confirm"
-            , data: {
-               rentNo: confirmBtn.data("rent_no")
-                , boardNo: confirmBtn.data("board_no")
-            }
-            , dataType: "json"
-            , success: function( res ) {
-               console.log("AJAX 성공")
-               location.reload()
-            }
-            , error: function() {
-               console.log("AJAX 실패")
-   
-            }
-         })
-      
-   });
-})
-
-
-$(function(){
-
-   $(".cancelBtn").click(function() {
-      var cancelBtn = $(this);
-         
-         $.ajax({
-            type: "post"
-            , url: "/cancel"
-            , data: {
-               merchantUid: cancelBtn.data("uid")
-               , rentNo: cancelBtn.data("no")
-               , boardNo: cancelBtn.data("board_no")
-            }
-            , dataType: "json"
-            , success: function( data ) {
-               console.log("결제취소, 대여 요청상태 변경 성공")
-               
-               alert("취소가 완료되었습니다.\n온라인결제를 하셨다면 환불처리 됩니다.")
-               
-               if(data.status === "success"){
-                  location.reload();
-               }
-               
-            }
-            , error: function(xhr, status, error) {
-               console.log("AJAX 실패", status, error)
-            }
-         })
-         
-      })   
-   
-//    $(".cancelBtn").click(function(){
-//       var cancelBtn = $(this);
-//         $.ajax({
-//                type: "post"
-//                , url: "/profile/cancel"
-//                , data: {
-//                   rentNo: cancelBtn.data("rent_no")
-//                    , boardNo: cancelBtn.data("board_no")
-//                }
-//                , dataType: "json"
-//                , success: function( res ) {
-//                   console.log("AJAX 성공")
-//                   location.reload()
-
-//                }
-//                , error: function() {
-//                   console.log("AJAX 실패")
-
-//                }
-//             })
-//     })
-    
-   
-    $.ajax({
-        url: '/profile/checkEmail',
-        method: 'GET',
-        type:'json',
-        data: {},  // 수정된 부분: 빈 객체를 전달하지 않음
-        success: function (res) {
-           console.log(res);
-
-           if (res.email === true) {
-               $("input[name=emailAgr][value=1]").prop("checked", true);
-           } else {
-               $("input[name=emailAgr][value=0]").prop("checked", true);
-           }
-        },
-        error: function (error) {
-            console.error(error);
-        }
-    });
-
-    // 라디오 버튼 변경 시 서버에게 POST 요청
-    $("input[name=emailAgr]").change(function () {
-        var emailAgr = $("input[name=emailAgr]:checked").val();
-
-        $.ajax({
-            url: '/profile/email',
-            method: 'POST',
-            data: {
-                emailAgr: emailAgr
-            },
-            success: function (res) {
-                console.log(res);
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    });
-});
-
 </script>
 <style type="text/css">
 
@@ -495,17 +246,13 @@ $(function(){
 <div id="userUpdateSection" class="float-end mb-4">
    <!-- 업체등록 버튼 -->
 <!--    <a href="/profile/business"><button class="btn btn-info" style="color: white;">업체등록</button></a> -->
-	<c:if test="${your.businessStatus eq 0 }">
-   <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal">
-	  업체등록
-   </button>
-	</c:if>
-	
-	<c:if test="${your.businessStatus eq 1 }">
-   <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal" disabled="disabled">
-	  업체등록완료
-   </button>
-	</c:if>
+<c:choose>
+	<c:when test="${your.businessStatus eq 2}">
+	   <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal" disabled="disabled">
+		  업체등록완료
+  	   </button>
+   	</c:when>
+</c:choose>
    <a href="infoupdate" class="btn btn-success" >회원정보 수정</a>
 </div><!-- #userUpdateSection -->
 
@@ -518,29 +265,18 @@ $(function(){
 <div id="profileImgContainer" >
 <div id="profileImg">
    <c:if test="${not empty img}">
-       <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
+       <img id="profileImage" src="/upload/${img.thumbnailName}">
    </c:if>
    <c:if test="${empty img}">
-       <img id="profileImage" src="/resources/img/defaultProfile.png" alt="User Profile Image">
+       <img id="profileImage" src="/resources/img/defaultProfile.png">
    </c:if>
 </div><!-- #profileImg -->
 
-<div id="profileImgUpdate">
-   <!-- 이미지 등록 버튼 -->
-   <div class="btn btn-primary btn-sm" id="imgUpdate" >저장</div>
-   <!-- 이미지 삭제 버튼 -->
-   <div class="btn btn-danger btn-sm" id="imgDelete" >삭제</div>
-   <form style="margin-top: 5px; margin-left: -57px;" id="uploadForm" action="./imgupdate" method="post" enctype="multipart/form-data">
-      <label for="thumbnailFile" id="fileEdit">수정</label>
-      <input type="file" name="file" id="thumbnailFile" onchange="setThumbnail(event);" style="display: none;" />
-   </form>
-</div>
-</div><!-- #profileImgContainer -->
 
 
 <div class="panel panel-default" id="userContent">
 <h3>${nick}님의 프로필</h3>
-<c:if test="${user.businessStatus eq 1 }">
+<c:if test="${your.businessStatus eq 2 }">
    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-award" viewBox="0 0 16 16">
      <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z"/>
      <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"/>
@@ -588,9 +324,6 @@ $(function(){
          <td style="height: 73px;"><div>${your.addr1 }<br>
                ${your.addr2 }</div>
          </td>
-         <td style="border-bottom-right-radius: 5px;"><div><label>동의<input type="radio" name="emailAgr" value="1"></label>
-              <label>미동의<input type="radio" name="emailAgr" value="0"></label></div>
-        </td>
       </tr>
      </tbody>
    </table>
@@ -602,32 +335,19 @@ $(function(){
 
 <!-- 업체 링크 -->
 <div id="businessUrl">
-	<a href="http://${your.BUSINESS_URL}" target="_blank">${your.BUSINESS_URL}</a>
+	<a href="http://${link.BUSINESS_URL}" target="_blank">${link.BUSINESS_URL}</a>
 </div>
 
 <div id="introduce">
-    <h2>자기소개</h2>
+    <h2>${your.nick} 님의 소개 글</h2>
     
     <!-- 자기소개글을 입력하는 텍스트박스 -->
     <div>
-        <div>
-            <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100">${your.intro }</textarea>
-        </div>
-
-        <button type="submit" class="btn btn-primary mt-2" id="introUpdate">저장</button>
+        <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100">${your.intro }</textarea>
     </div>
 </div><!-- #introduce -->
 
-<hr>
-
-<a href="/profile/rentList"><button>대여목록 보기</button></a>
-<a href="/profile/basket"><button>내 찜 목록 보기</button></a>
-
-
-
-<hr>
-
-<h1 class="listH1">내가 쓴 글</h1>
+<h1 class="listH1">${your.nick}님이 쓴 글</h1>
 <div id="boardSection" class="tableScroll">
    <table class="listType rentTable">
          <tr>
@@ -637,178 +357,64 @@ $(function(){
             <th>작성일</th>
             <th>조회수</th>
          </tr>
-         <c:forEach items="${board }" var="board">
+         <c:forEach items="${yourList }" var="yourList">
             <tr>
-               <td>${board.boardNo }</td>
+               <td>${yourList.BOARD_NO }</td>
                <td>
                 <c:choose>
-                    <c:when test="${board.menu eq 1}">
-                        <a href="/rent/view?boardNo=${board.boardNo}">${board.title}</a>
+                    <c:when test="${yourList.MENU eq 1}">
+                        <a href="/rent/view?boardNo=${yourList.BOARD_NO}">${yourList.TITLE}</a>
                     </c:when>
-                    <c:when test="${board.menu eq 2}">
-                        <a href="/share/view?boardNo=${board.boardNo}">${board.title}</a>
+                    <c:when test="${yourList.MENU eq 2}">
+                        <a href="/share/view?boardNo=${yourList.BOARD_NO}">${yourList.TITLE}</a>
                     </c:when>
-                    <c:when test="${board.menu eq 3}">
-                        <a href="/please/view?boardNo=${board.boardNo}">${board.title}</a>
+                    <c:when test="${yourList.MENU eq 3}">
+                        <a href="/please/view?boardNo=${yourList.BOARD_NO}">${yourList.TITLE}</a>
                     </c:when>
-                    <c:when test="${board.menu eq 4}">
-                        <a href="/community/view?boardNo=${board.boardNo}">${board.title}</a>
+                    <c:when test="${yourList.MENU eq 4}">
+                        <a href="/community/view?boardNo=${yourList.BOARD_NO}">${yourList.TITLE}</a>
                     </c:when>
-                    <c:when test="${board.menu eq 5}">
-                        <a href="/business/view?boardNo=${board.boardNo}">${board.title}</a>
+                    <c:when test="${yourList.MENU eq 5}">
+                        <a href="/business/view?boardNo=${yourList.BOARD_NO}">${yourList.TITLE}</a>
                     </c:when>
                 </c:choose>
             </td>
                <td>
                      <c:choose>
-                    <c:when test="${board.menu eq 1}">
+                    <c:when test="${yourList.MENU eq 1}">
                         대여해요
                     </c:when>
-                    <c:when test="${board.menu eq 2}">
+                    <c:when test="${yourList.MENU eq 2}">
                         나눔해요
                     </c:when>
-                    <c:when test="${board.menu eq 3}">
+                    <c:when test="${yourList.MENU eq 3}">
                         해주세요
                     </c:when>
-                    <c:when test="${board.menu eq 4}">
+                    <c:when test="${yourList.MENU eq 4}">
                         커뮤니티
                     </c:when>
-                    <c:when test="${board.menu eq 5}">
+                    <c:when test="${yourList.MENU eq 5}">
                         동네업체
                     </c:when>
                 </c:choose>
                </td>
                <td>
                   <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
-                  <fmt:formatDate var="writeDate" value="${board.writeDate }" pattern="yyyyMMdd" />
+                  <fmt:formatDate var="writeDate" value="${yourList.WRTIE_DATE }" pattern="yyyyMMdd" />
                   <c:choose>
                      <c:when test="${writeDate lt curDate }">
-                        <fmt:formatDate value="${board.writeDate }" pattern="yyyy-MM-dd" />
+                        <fmt:formatDate value="${yourList.WRTIE_DATE }" pattern="yyyy-MM-dd" />
                      </c:when>
                      <c:otherwise>
-                        <fmt:formatDate value="${board.writeDate }" pattern="HH:mm" />
+                        <fmt:formatDate value="${yourList.WRTIE_DATE }" pattern="HH:mm" />
                      </c:otherwise>
                   </c:choose>
                </td>
-               <td>${board.hit}</td>
+               <td>${yourList.HIT}</td>
             </tr>
          </c:forEach>
    </table><!-- .listType -->
 </div><!-- .tableScroll -->
-
-<hr>
-
-<h1 class="listH1">내가 쓴 댓글</h1>
-<div id="commentSection" class="tableScroll">
-<table id="commentTable" class="rentTable">
-   <tr>
-      <th>No.</th>
-      <th>댓글</th>
-      <th>게시판</th>
-      <th>작성일</th>
-   </tr>
-   
-<c:forEach items="${comment }" var="comment" begin="0" end="10">
-   <tr>
-      <td>${comment.CMT_NO }</td>
-      <td>
-         <c:choose>
-               <c:when test="${comment.MENU eq 1}">
-                   <a href="/rent/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
-               </c:when>
-               <c:when test="${comment.MENU eq 2}">
-                   <a href="/share/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
-               </c:when>
-               <c:when test="${comment.MENU eq 3}">
-                   <a href="/please/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
-               </c:when>
-               <c:when test="${comment.MENU eq 4}">
-                   <a href="/community/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
-               </c:when>
-               <c:when test="${comment.MENU eq 5}">
-                   <a href="/business/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
-               </c:when>
-               
-           </c:choose>
-        </td>
-        
-        <td>
-             <c:choose>
-              <c:when test="${comment.MENU eq 1}">
-                  대여해요
-              </c:when>
-              <c:when test="${comment.MENU eq 2}">
-                  나눔해요
-              </c:when>
-              <c:when test="${comment.MENU eq 3}">
-                  해주세요
-              </c:when>
-              <c:when test="${comment.MENU eq 4}">
-                  커뮤니티
-              </c:when>
-              <c:when test="${comment.MENU eq 5}">
-                  동네업체
-              </c:when>
-          </c:choose>
-          </td>
-      <td><fmt:formatDate pattern="yyyy-MM-dd" value="${comment.writeDate}"/></td>
-   </tr>
-
-</c:forEach>
-</table>
-</div><!-- .tableScroll -->
-
-<hr>
-
-</div><!-- .container -->
-
-
-
-
-<!-- 회원탈퇴 버튼 -->
-<button type="button" style="margin-left: 1106px; margin-top: 20px; margin-bottom: -11px;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmationModal">회원탈퇴</button>
-
-<!-- <h1 data-bs-toggle="collapse" data-bs-target="#boardSection"> -->
-
-<%-- <c:import url="/WEB-INF/views/layout/paginationMyBoardList.jsp" /> --%>
-
-<!-- 업체등록 모달 -->
-<div class="modal fade" id="businessModal" tabindex="-1" aria-labelledby="businessModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="businessModal">업체 등록</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" style="margin: 0 auto;">
-        <%@ include file="/WEB-INF/views/profile/business.jsp" %>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<!-- 회원탈퇴 모달 -->
-<div class="modal fade" id="confirmationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="confirmationModalLabel">회원 탈퇴 확인</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>정말 탈퇴하시겠습니까?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">아니오</button>
-        <a href="/profile/delete"><button type="button" class="btn btn-danger" id="confirmYesButton">네</button></a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
 
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

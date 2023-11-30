@@ -158,13 +158,6 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
     }
 	
-
-	
-	
-	
-	
-	
-	
 	@Override
 	public Paging getPaging(Paging param) {
 		int totalCount = userProfileDao.selectCntAll(param);
@@ -358,12 +351,6 @@ public class UserProfileServiceImpl implements UserProfileService {
 		}
 	}
 
-
-
-
-
-	
-
 	@Override
 	public boolean checkAgree(User user) {
 		
@@ -393,8 +380,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public Map<String, Object> selectBusiness(User user) {
 		return userProfileDao.selectBusy(user);
 	}
-
-
+	
 	@Override
 	public String selectyourId(String boardNo) {
 		return userProfileDao.selectId(boardNo);
@@ -405,6 +391,26 @@ public class UserProfileServiceImpl implements UserProfileService {
 	public User yourProfile(String id) {
 		return userProfileDao.selectYourInfo(id);
 	}
+
+
+	@Override
+	public Map<String, Object> selectYourUrl(User user) {
+		return userProfileDao.selectYourLink(user);
+	}
+
+
+	@Override
+	public UserFile yourImg(String userId) {
+		return userProfileDao.yourThumb(userId);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> yourBoard(Board board) {
+		return userProfileDao.yourBoardList(board);
+	}
+
+	
 
 
 	

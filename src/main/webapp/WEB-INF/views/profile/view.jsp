@@ -353,7 +353,7 @@ $(function(){
 }
 /* 프로필 등록 삭제 버튼 배치 */
 #profileImgUpdate{
-   margin-left: 96px;
+   margin-left: 100px;
    margin-top: 6px;
 }
 /* 프로필 사진 크기 */
@@ -524,7 +524,7 @@ $(function(){
 /* 업체 링크 */
 #businessUrl{
    position: absolute;
-    margin-top: -69px;
+    margin-top: -41px;
     margin-left: 400px;
     margin-bottom: 24px;
     font-size: 18px;
@@ -533,6 +533,10 @@ $(function(){
     background-color: #ccc;
     color: black;
     border-radius: 5px;
+    vertical-align: middle;
+    text-align: center;
+}
+#businessUrl a{
     vertical-align: middle;
 }
 
@@ -557,11 +561,26 @@ $(function(){
     border-radius: 5px;
     vertical-align: middle;
 }
-
 #introUpdate {
-            display: none; /* 초기에는 저장 버튼을 숨김 */
-        }
+   display: none; /* 초기에는 저장 버튼을 숨김 */
+}
 
+/* 목록들 보기 버튼 */
+.listWatchBtn{
+	width: 260px;
+    height: 39px;
+    border-radius: 5px;
+    margin-bottom: 6px;
+    margin-left: 19px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: darkgrey;
+    color: white;
+    border: none;
+}
+#boardSection tr td, #commentSection tr td{
+	font-size: 14px;
+}
 </style>
 
 <div class="container">
@@ -570,17 +589,24 @@ $(function(){
 <div id="userUpdateSection" class="float-end mb-4">
    <!-- 업체등록 버튼 -->
 <!--    <a href="/profile/business"><button class="btn btn-info" style="color: white;">업체등록</button></a> -->
-	<c:if test="${user.businessStatus eq 0 }">
-   <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal">
-	  업체등록
-   </button>
-	</c:if>
-	
-	<c:if test="${user.businessStatus eq 1 }">
-   <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal" disabled="disabled">
-	  업체등록완료
-   </button>
-	</c:if>
+<c:choose>
+
+	<c:when test="${user.businessStatus eq 0}">
+	   <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal">
+		  업체등록
+	   </button>
+	</c:when>
+   	<c:when test="${user.businessStatus eq 0}">
+	   <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal" disabled="disabled">
+	   승인대기
+	   </button>
+   	</c:when>
+	<c:when test="${user.businessStatus eq 2}">
+	   <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal" disabled="disabled">
+		  업체등록완료
+   	</button>
+   	</c:when>
+</c:choose>
    <a href="infoupdate" class="btn btn-success" >회원정보 수정</a>
 </div><!-- #userUpdateSection -->
 
@@ -614,8 +640,9 @@ $(function(){
 
 
 <div class="panel panel-default" id="userContent">
-<h3>${nick}님의 프로필</h3>
-<c:if test="${user.businessStatus eq 1 }">
+
+<h3 style="font-size: 23px; font-weight: bold; margin-bottom: 7px;">${nick}님의 프로필</h3>
+<c:if test="${user.businessStatus eq 2 }">
    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-award" viewBox="0 0 16 16">
      <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z"/>
      <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"/>
@@ -676,14 +703,14 @@ $(function(){
 <div style="clear: both; margin-bottom: 35px;"></div>
 
 <!-- 업체 링크 -->
-<c:if test="${user.businessStatus eq 1 }">
+<c:if test="${user.businessStatus eq 2 }">
 <div id="businessUrl">
 	<a href="http://${busy.BUSINESS_URL}" target="_blank">${busy.BUSINESS_URL}</a>
 </div>
 </c:if>
 
 <div id="introduce">
-    <h2>자기소개</h2>
+    <h2 style="font-size: 26px; font-weight: bold;">자기소개</h2>
     
     <!-- 자기소개글을 입력하는 텍스트박스 -->
     <div>
@@ -697,21 +724,21 @@ $(function(){
 
 <hr>
 
-<a href="/profile/rentList"><button>대여목록 보기</button></a>
-<a href="/profile/basket"><button>내 찜 목록 보기</button></a>
+<a href="/profile/rentList"><button class="listWatchBtn" style="width: 126px;">대여목록 보기</button></a>
+<a href="/profile/basket"><button class="listWatchBtn" style="width: 126px; margin-left: 1px;">내 찜 목록 보기</button></a>
 
 
 
 <hr>
 
 
-<button id="myBoardList">내가 쓴 글 보기</button>
+<button id="myBoardList" class="listWatchBtn">내가 쓴 글 불러오기</button>
 <div id="boardSection" class="tableScroll" style="display: none;">
 </div><!-- .tableScroll -->
 
 <hr>
 
-<button id="myCmtList">내가 쓴 댓글 보기</button>
+<button id="myCmtList" class="listWatchBtn">내가 쓴 댓글 불러오기</button>
 <div id="commentSection" class="tableScroll" style="display: none;">
 </div><!-- .tableScroll -->
 
