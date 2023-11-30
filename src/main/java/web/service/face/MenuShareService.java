@@ -119,7 +119,7 @@ public interface MenuShareService {
 	 * @param comment 모든 댓글 보여줌
 	 * @return 댓글 리스트
 	 */
-	public List<Comment> list(Comment comment);
+	public List<Map<String, Object>> list(Comment comment);
 	
 	/**
 	 * 댓글 삭제

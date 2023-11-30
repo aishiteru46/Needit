@@ -127,7 +127,7 @@ public interface MenuShareDao {
 	 * @param comment 댓글 리스트
 	 * @return 댓글 리스트
 	 */
-	public List<Comment> cmtList(Comment comment);
+	public List<Map<String, Object>> cmtList(Comment comment);
 	
 	/**
 	 * 댓글 삭제
