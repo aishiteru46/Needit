@@ -30,87 +30,64 @@ import com.siot.IamportRestClient.response.Payment;
 
 import web.dto.Rent;
 import web.service.face.PaymentService;
+import web.service.face.UserProfileService;
 
 @Controller
 public class PaymentController {
-   private final Logger logger = LoggerFactory.getLogger( this.getClass() );
+	private final Logger logger = LoggerFactory.getLogger( this.getClass() );
    
-   @Autowired PaymentService paymentService;
+	@Autowired PaymentService paymentService;
+	@Autowired UserProfileService userProfileService;
    
-   //IamportClient타입 변수생성
-   private IamportClient iamportClient;
+	//IamportClient타입 변수생성
+    private IamportClient iamportClient;
    
-   //식별코드
-   private String apiKey = "0485646228871227";
-   private String secretKey = "zlwIDmhgdJZZ8fIJGYP0wnzmpkbc6fHksifefkrRrknfXylZcx7Ch37KJuCrWpxM5lfPmQt6VlxkvMXr";
+    //식별코드
+    private String apiKey = "0485646228871227";
+    private String secretKey = "zlwIDmhgdJZZ8fIJGYP0wnzmpkbc6fHksifefkrRrknfXylZcx7Ch37KJuCrWpxM5lfPmQt6VlxkvMXr";
    
-   public PaymentController() {
-      this.iamportClient = new IamportClient(apiKey, secretKey);
-   }
+    public PaymentController() {
+       this.iamportClient = new IamportClient(apiKey, secretKey);
+    }
    
-   @ResponseBody
-   @RequestMapping(value="/verify/{imp_uid}", method=RequestMethod.POST)
-   public IamportResponse<Payment> paymentByImpUid(
-		   Model model, Locale locale
-		   , HttpSession session
-		   , @PathVariable(value= "imp_uid") String imp_uid) throws IamportResponseException, IOException {   
+    @ResponseBody
+    @RequestMapping(value="/verify/{imp_uid}", method=RequestMethod.POST)
+    public IamportResponse<Payment> paymentByImpUid(
+	 	   Model model, Locale locale
+	 	   , HttpSession session
+ 		   , @PathVariable(value= "imp_uid") String imp_uid) throws IamportResponseException, IOException {   
    
-	   return iamportClient.paymentByImpUid(imp_uid);
+   	   return iamportClient.paymentByImpUid(imp_uid);
    
-   }
+    }
    
-//   @PostMapping("/confirm")
-//   @ResponseBody
-//   public void payment( String merchantUid, String impUid ) {
-//      logger.info("impUid : {} ", impUid);
-//      logger.info("merchantUid : {} ", merchantUid);
-//      
-//      RestTemplate restTemplate = new RestTemplate();
-//      
-//      HttpHeaders headers = new HttpHeaders();
-//      headers.setContentType(MediaType.APPLICATION_JSON);
-//      
-//      JSONObject body = new JSONObject();
-//      body.put("imp_key", "2441044643164541");
-//      body.put("imp_secret", "AMk8jwRgIAFwHVMupLUHozRWEEqGlCaCKfr50qmm7n4QJOpvNVTRlGj1QStriq9ZuzNlGfhOsYELviNX");
-////      MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-////      body.add("imp_key", "2441044643164541");
-////      body.add("imp_secret", "AMk8jwRgIAFwHVMupLUHozRWEEqGlCaCKfr50qmm7n4QJOpvNVTRlGj1QStriq9ZuzNlGfhOsYELviNX");
-//      
-//      HttpEntity<JSONObject> entity = new HttpEntity<>(body, headers);
-////      HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(body, headers);
-//      ResponseEntity<JSONObject> token = restTemplate.postForEntity("https://api.iamport.kr/users/getToken", entity, JSONObject.class);
-//      
-//      logger.info("token :{}", token);
-//      logger.info("token :{}", token.getStatusCode());
-//      logger.info("token :{}", token.getStatusCodeValue());
-//      logger.info("token :{}", token.getBody());
-//      logger.info("token :{}", token.getBody().get("response"));
-//      
-//   }
    
-   @PostMapping(value="/cancel")
-   @ResponseBody
-   public ResponseEntity<Map<String,Object>> cancel( Rent rent, String merchantUid ) throws IOException {
-      logger.info("merchantUid : {} ", merchantUid);
+    @PostMapping(value="/cancel")
+    @ResponseBody
+    public ResponseEntity<Map<String,Object>> cancel( Rent rent, String merchantUid ,Model model, HttpSession session ) throws IOException {
+       logger.info("merchantUid : {} ", merchantUid);
       
-//      try {
-         String token = paymentService.getToken(apiKey, secretKey);
-         logger.info("token : {} ", token);
-         paymentService.cancel(token, merchantUid);
+       try {
+          String token = paymentService.getToken(apiKey, secretKey);
+          logger.info("token : {} ", token);
+          paymentService.cancel(token, merchantUid);
          
-//      } catch (IOException e) {
-//         e.printStackTrace();
-//         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
-//      }
+       } catch (IOException e) {
+          e.printStackTrace();
+       }
       
-//      rentService.cancelBooking(rent);
+       //업데이트 여부 확인 cancel
+       boolean cancelStatus = userProfileService.updateRentCancel(rent);
+       logger.info("취소{}",cancelStatus);
+       model.addAttribute("cancel",cancelStatus);
       
-//      return ResponseEntity.ok().build();
-      return ResponseEntity.ok(Map.of("status","success"));
-//      return "redirect:/booking/main";
+       boolean checkCan = userProfileService.checkCancel(rent);
+       logger.info("컨트롤러 취소{}",checkCan);
+       model.addAttribute("checkCan", checkCan);
       
-   }
+       return ResponseEntity.ok(Map.of("status","success"));
+       
+    }
    
    
 }

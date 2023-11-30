@@ -76,7 +76,7 @@ public interface MenuRentDao {
 	public List<FileTb> selectFileByBoardNo(Board board);
 
 	/**
-	 * 
+	 * 파일 조회
 	 * 
 	 * @param fileTb
 	 * @return
@@ -114,14 +114,14 @@ public interface MenuRentDao {
 	public int selectTotalCntLike(Like like);
 
 	/**
-	 * 
+	 * 댓글 입력 
 	 * 
 	 * @param commentParam
 	 */
 	public void insertComment(Comment commentParam);
 
 	/**
-	 * 
+	 * 댓글 조회
 	 * 
 	 * @param commentParam
 	 * @return
@@ -129,7 +129,7 @@ public interface MenuRentDao {
 	public List<Map<String, Object>> selectAllComment(Comment commentParam);
 
 	/**
-	 * 
+	 * 댓글 삭제
 	 * 
 	 * @param commentDelete
 	 */
@@ -172,6 +172,13 @@ public interface MenuRentDao {
 	 * @return 삭제
 	 */
 	public int deleteBasket(Basket basket);
+
+	/**
+	 * 게시글 삭제
+	 * 
+	 * @param board
+	 */
+	public void deleteBoard(Board board);
 
 
 

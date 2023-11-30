@@ -146,6 +146,13 @@ public interface MenuRentService {
 	 */
 	public boolean checkBasket(Basket basket);
 
+	/**
+	 * 게시글 삭제
+	 * 
+	 * @param board - boardNo,menu,cate
+	 */
+	public void delete(Board board);
+
 
 
 

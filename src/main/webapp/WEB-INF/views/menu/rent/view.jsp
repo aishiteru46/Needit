@@ -15,14 +15,17 @@
 <%-- Style --%>
 <style type="text/css">
 
-#submitCmt{
+.view-container {
+	font-weight: normal;
+	font-size: medium;
+}
+#submitCmt {
 	margin: 3px 3px 3px 3px;
     width: 95%;
     font-size: 13px;
     border-radius: 5px;
     border: none;
 } 
-
 .report-options {
     font-size: 13px;
     background-color: white;
@@ -39,18 +42,19 @@
 	margin-left: 5px;
     margin-top: 5px;
 }
-#map-container {
-    overflow: hidden;
-    height: 0;
-    transition: height 0.3s ease;
-}
+/* #map-container { */
+/*     overflow: hidden; */
+/*     height: 0; */
+/*     transition: height 0.3s ease; */
+/* } */
 
-#map-container.expanded {
-    height: 350px;
-}
-
+/* #map-container.expanded { */
+/*     height: 350px; */
+/* } */
 #map {
 	margin: 0 auto;
+	width:250px; 
+	height:250px;
 }
 
 #del {
@@ -96,10 +100,18 @@ h6 {
 	display:inline;
 	color: blue;
 }
-
-.table td {
-	vertical-align: middle;
+#thumbnailBox {
+	width: 400px; /* 원하는 너비로 설정 */
+	height: 400px; /* 원하는 높이로 설정 */
+	overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
+	
 }
+#thumbnailBox img {
+    width: 100%; /* 부모 요소의 100% 너비로 이미지 크기 조절 */
+    height: auto; /* 가로 비율에 맞게 높이 자동 조절 */
+    background-size: cover;
+}
+
 </style>
 
 <%-- 추천, 댓글, 대여상태 --%>
@@ -351,12 +363,12 @@ $(()=>{
 		console.log('추천 이미 함')
 		$("#btnLike")
 			.addClass("bi bi-suit-heart-fill")
-			.html('좋아요 취소');
+// 			.html('좋아요 취소');
 	} else {
 		console.log('추천 아직 안함')
 		$("#btnLike")
 			.addClass("bi bi-suit-heart")
-			.html('좋아요');
+// 			.html('좋아요');
 	}// 추천 버튼 End.
 	
 	//추천, 취소 요청Ajax
@@ -432,13 +444,6 @@ $(()=>{
 	// 지도 객체 생성
 	var map = new kakao.maps.Map(mapContainer, mapOption); 
 	
-	// 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
-	var mapTypeControl = new kakao.maps.MapTypeControl();
-
-	// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
-	// kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
-	map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-
 	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
 	var zoomControl = new kakao.maps.ZoomControl();
 	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
@@ -458,17 +463,25 @@ $(()=>{
 	// 주소를 담을 변수
 	     var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 	
+	     var imageSrc = '/resources/img/marker.png', // 마커이미지의 주소입니다    
+         imageSize = new kakao.maps.Size(45, 45), // 마커이미지의 크기입니다
+         imageOption = {offset: new kakao.maps.Point(22, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+        var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+		
+	
 	//이건 마커 따로 만들어둬서 돼서 핵심 XXXX
 	     // 결과값으로 받은 위치를 마커로 표시합니다
 	     var marker = new kakao.maps.Marker({
 	         map: map,
-	         position: coords
+	         position: coords,
+	         image: markerImage
 	     });
 	
 	//이건 인포윈도우로 따로 만들어둬서 돼서 핵심 XXXX
 	     // 인포윈도우로 장소에 대한 설명을 표시합니다
 	     var infowindow = new kakao.maps.InfoWindow({
-	         content: '<div style="width:150px;text-align:center;padding:6px 0;">대여가능 위치<br><div style="font-size: 10px;">${board.location}<div></div>'
+// 	         content: '<div style="width:150px;text-align:center;padding:6px 0;">대여가능 위치<br><div style="font-size: 10px;">${board.location}<div></div>'
 	     });
 	     infowindow.open(map, marker);
 	
@@ -482,133 +495,132 @@ $(()=>{
 
 <%-- Body --%>
 <div class="container">
+<div class="view-container">
+
+<%-- 게시글 썸네일 --%>
+<!-- <div class="thumbnail-container"> -->
+<!-- 	<div id="thumbnailBox"> -->
+<%-- 		<c:forEach var="file" items="${fileTb }"> --%>
+<%-- 			<img src="/upload/${file.thumbnailName}"/> --%>
+<%-- 		</c:forEach> --%>
+<!-- 	</div> -->
+<!-- </div>.thumbnail-container -->
+
+<div class="thumbnail-container">
+    <div id="thumbnailBox">
+        <c:if test="${not empty fileTb and not empty fileTb[0]}">
+            <img src="/upload/${fileTb[0].thumbnailName}"/>
+        </c:if>
+        <c:if test="${empty fileTb[0]}">
+            <img src="/resources/img/noimg.png"/>
+        </c:if>
+    </div>
+</div><!-- .thumbnail-container -->
 
 <%-- 채팅 --%>
 <div class="chat-container">
 	<c:if test="${isLogin && (id ne board.writerId)}">
-		<a class="btn btn-primary" href="/message/list?boardNo=${param.boardNo }&menu=${board.menu}&cate=${board.cate}&receiverId=${board.writerId}">채팅하기</a>
+		<a href="/message/list?boardNo=${param.boardNo }&menu=${board.menu}&cate=${board.cate}&receiverId=${board.writerId}"><button>채팅하기</button></a>
 	</c:if>
 	<c:if test="${id eq board.writerId}">
-		<button class="btn btn-primary" id="rejectChat">채팅하기</button>
+		<button id="rejectChat">채팅하기</button>
 	</c:if>
 	<c:if test="${not isLogin }">
 		<a class="btn btn-primary" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">채팅하기</a>
 	</c:if>
 </div><!-- .chat-container End -->
 
-<%-- 게시글 썸네일 --%>
-<div class="thumbnail-container">
-	<div id="thumbnailBox">
-	<c:forEach var="file" items="${fileTb }">
-		<img class="preview" src="/upload/${file.thumbnailName}"/>
-	</c:forEach>
-	</div>
-</div><!-- .thumbnail-container -->
-
-<table class="table table-bordered">
-
-<colgroup>
-	<col style="width: 15%;">
-	<col style="width: 35%;">
-	<col style="width: 15%;">
-	<col style="width: 35%;">
-</colgroup>
-
-<tr>
-	<td class="table-info">글번호</td><td>${board.boardNo }</td>
-	<td class="table-info">
-		<c:if test="${isLogin }">
-		<div style="text-align: center;">
-			<div class="btn" id="btnLike"></div>
-		</div>
-		</c:if>		
-		<c:if test="${not isLogin }">
-		<div style="text-align: center;">
-			<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><div class="btn" id="btnLike"></div></a>
-		</div>
-		</c:if>		
-	</td><td id="like"><div id="likeNo">${cntLike }</div>명이 이 게시글을 좋아합니다.</td>
-</tr>
-<tr>
-	<td class="table-info">닉네임</td><td>${board.writerNick }</td>
-	<td class="table-info">가격</td><td><fmt:formatNumber value="${board.price }" pattern="#,###" />원</td>
-</tr>
-
-<tr>
-	<td class="table-info">조회수</td><td>${board.hit }</td>
-	<td class="table-info">작성일</td>
-	<td>
-	<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
-	<fmt:formatDate var="writeDate" value="${board.writeDate }" pattern="yyyyMMdd" />
-	<c:choose>
-		<c:when test="${writeDate lt curDate }">
-			<fmt:formatDate value="${board.writeDate }" pattern="yyyy-MM-dd HH:mm:ss" />
-		</c:when>
-		<c:otherwise>
-			<fmt:formatDate value="${board.writeDate }" pattern="HH:mm" />
-		</c:otherwise>
-	</c:choose>		
-	</td>
-</tr>
-<tr>
-	<td class="table-info">제목</td><td>${board.title }</td>
-	<td class="table-info">대여하기</td>
-	<td>
-		<!-- Button trigger modal -대여 -->
-		<c:if test="${isLogin and (id ne board.writerId) }">
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rentModal">대여하고싶어요</button>
-		</c:if>
-		<c:if test="${not isLogin }">
-			<a class="btn btn-danger" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">대여하고싶어요</a>
-		</c:if>
-		<c:if test="${id eq board.writerId }">
-			<button class="btn btn-primary" id="selfRent">대여하고싶어요</button>
-		</c:if>
-		<%-- Modal.대여 --%>
-		<c:import url="./rent.jsp"/>
-	</td>
-</tr>
-<tr>
-	<td class="table-info">첨부파일</td>
-	<td colspan="3">
-		<c:forEach var="file" items="${fileTb }">
-		<a class="file bi bi-paperclip" href="./download?fileNo=${file.fileNo }">${file.originName }</a><br>
-		</c:forEach>
-	</td>
-</tr>
-<tr>
-	<td class="table-info" colspan="4">본문</td>
-</tr>
-<tr>
-	<td colspan="4">
-		<div class="content">
-		${board.content }
-		</div>
-	</td>
-</tr>
-</table>
-
-<%-- 게시글 위치 --%>
-<div id="map" style="width:350px; height:350px;"></div><br>
-
-<%-- 추천버튼 --%>
-<%-- <c:if test="${isLogin }"> --%>
-<!-- <div style="text-align: center;"> -->
-<!-- 	<div class="btn" id="btnLike"></div> -->
-<!-- </div><br> -->
-<%-- </c:if> --%
-
-<%-- 목록,수정,삭제 --%>
-<div class="text-center">
-	<a class="btn btn-success" href="/rent/list?menu=1&cate=1">목록</a>
-	
-	<c:if test="${id eq board.writerId }">
-		<a href="/rent/update?boardNo=${board.boardNo }" class="btn btn-primary">수정</a>
-		<a href="/rent/delete?boardNo=${board.boardNo }" class="btn btn-danger">삭제</a>
+<!-- 대여 -->
+<div>
+	<c:if test="${isLogin and (id ne board.writerId) }">
+		<button data-bs-toggle="modal" data-bs-target="#rentModal">대여하고싶어요</button>
 	</c:if>
-</div><br>
+	<c:if test="${not isLogin }">
+		<a class="btn btn-danger" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">대여하고싶어요</a>
+	</c:if>
+	<c:if test="${id eq board.writerId }">
+		<button id="selfRent">대여하고싶어요</button>
+	</c:if>
+</div>
+<div><%-- Modal.대여 --%>
+	<c:import url="./rent.jsp"/>
+</div>
 
+<%-- 추천 --%>
+<div>
+	<c:if test="${isLogin }">
+		<div>
+			<div class="btn" id="btnLike"></div><p id="likeNo">${cntLike }</p>
+		</div>
+	</c:if>		
+	<c:if test="${not isLogin }">
+		<div>
+			<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><div class="btn" id="btnLike"></div></a><p id="likeNo">${cntLike }</p>
+		</div>
+	</c:if>		
+</div>
+
+<div>
+	<p>제목 : ${board.title }</p>
+</div>
+<div>
+	<p>글번호 : ${board.boardNo }</p>
+</div>
+<div>
+	<p>닉네임 : ${board.writerNick }</p>
+</div>	
+<div>
+	<p>가격 : <fmt:formatNumber value="${board.price }" pattern="#,###" />원</p>
+</div>
+<div>
+	<p>조회수 : ${board.hit }</p>
+</div>
+<div>
+	<p>작성일 : 
+		<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
+		<fmt:formatDate var="writeDate" value="${board.writeDate }" pattern="yyyyMMdd" />
+		<c:choose>
+			<c:when test="${writeDate lt curDate }">
+				<fmt:formatDate value="${board.writeDate }" pattern="yyyy-MM-dd HH:mm:ss" />
+			</c:when>
+			<c:otherwise>
+				<fmt:formatDate value="${board.writeDate }" pattern="HH:mm" />
+			</c:otherwise>
+		</c:choose>		
+	</p>
+</div>
+<div>
+	<p>첨부파일 :
+		<c:forEach var="file" items="${fileTb }">
+			<a class="file bi bi-paperclip" href="./download?fileNo=${file.fileNo }">${file.originName }</a>
+		</c:forEach>
+	</p>
+</div>
+<div>
+	<p>본문 : ${board.content }</p>
+</div>
+
+<%-- 위치 --%>
+<div class="map-container">
+	<div id="map"></div>
+</div>
+
+<div>
+	<a href="/rent/list?menu=1&cate=1"><button>목록</button></a>
+</div>
+
+<%-- 수정,삭제 --%>
+<div>
+	<c:if test="${id eq board.writerId }">
+		<a href="/rent/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>게시글 수정</button></a>
+		<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">게시글 삭제</button>
+	</c:if>
+</div>	
+
+</div> <!-- .view-container -->
 </div> <!-- .container -->
+
+<hr>
 
 <%-- 댓글 영역 --%>
 <div class="comment-container">
@@ -647,3 +659,22 @@ $(()=>{
 	
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
+
+
+<!-- 게시글 삭제Modal -->
+<div class="modal fade" id="deleteOBoardModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteOBoardModalLabel" aria-hidden="true" style="margin-top: 500px;display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>  
+      <div class="modal-body">
+        <p>게시글을 삭제하시겠습니까?</p>
+      </div>
+      <div class="modal-footer">  
+        <a href="/rent/delete?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button class="btn">예</button></a>
+        <button class="btn" data-bs-dismiss="modal">아니오</button>
+      </div>
+    </div>
+  </div>
+</div>

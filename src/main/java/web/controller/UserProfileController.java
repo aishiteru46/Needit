@@ -323,24 +323,24 @@ public class UserProfileController {
 		
 	}
 	
-	@RequestMapping("/cancel")
-	public String cancel(Rent rent, Model model, HttpSession session) {
-		logger.info("렌트 번호캔슬{}",rent);
-		
-		//업데이트 여부 확인 cancel
-		boolean cancelStatus = userProfileService.updateRentCancel(rent);
-		logger.info("취소{}",cancelStatus);
-        model.addAttribute("cancel",cancelStatus);
-        
-        boolean checkCan = userProfileService.checkCancel(rent);
-      	logger.info("컨트롤러 취소{}",checkCan);
-      	session.setAttribute("checkCan", checkCan);
-      	model.addAttribute("checkCan", checkCan);
-        
-
-		return "jsonView";
-
-	}
+//	@RequestMapping("/cancel")
+//	public String cancel(Rent rent, Model model, HttpSession session) {
+//		logger.info("렌트 번호캔슬{}",rent);
+//		
+//		//업데이트 여부 확인 cancel
+//		boolean cancelStatus = userProfileService.updateRentCancel(rent);
+//		logger.info("취소{}",cancelStatus);
+//        model.addAttribute("cancel",cancelStatus);
+//        
+//        boolean checkCan = userProfileService.checkCancel(rent);
+//      	logger.info("컨트롤러 취소{}",checkCan);
+//      	session.setAttribute("checkCan", checkCan);
+//      	model.addAttribute("checkCan", checkCan);
+//        
+//
+//		return "jsonView";
+//
+//	}
 	
 	@GetMapping("/business")
 	public void business() {

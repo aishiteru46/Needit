@@ -565,8 +565,8 @@ $(document).ready(function(){
 	           
 			   <%-- 알림보내기 --%>	          
 	           $.post( "/alert/sendnotification", { 
-	        		id: "${id}"
-        	        , sender: "${board.writerId}" 
+	        		id: "${board.writerId}"
+        	        , sender: "${id}"
         	        , content: 2
         	        , menu: "${param.menu}"
 	        		, boardNo: "${board.boardNo}"

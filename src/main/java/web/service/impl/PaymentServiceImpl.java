@@ -23,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import web.service.face.PaymentService;
 
-@Transactional
 @Slf4j
 @RequiredArgsConstructor
 @Service
