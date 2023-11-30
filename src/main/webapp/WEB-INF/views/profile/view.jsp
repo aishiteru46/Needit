@@ -645,7 +645,6 @@ $(function(){
 		<!-- 취소 빈칸 채우기 -->
 		<c:if test="${list.RENT_STATUS eq 1 }">
 			<td><button class="cancelBtn" data-no="${list.RENT_NO }" data-uid="${list.MERCHANT_UID }" data-board_no="${list.BOARD_NO }">취소</button></td>
-	  </c:if>
 		</c:if>
 		<c:if test="${list.RENT_STATUS eq 0 }">
 			<td><button disabled="disabled" class="agrBtn">취소 완료</button></td>
