@@ -240,7 +240,7 @@
 	</insert>
 
 	<!-- 댓글 리스트 -->
-	<select id="cmtList" resultType="Comment" parameterType="Comment">
+	<select id="cmtList" resultType="Map" parameterType="Comment">
 		SELECT * FROM (
 		    SELECT rownum rnum, B.*, uf.THUMBNAIL_NAME 
 		    FROM (

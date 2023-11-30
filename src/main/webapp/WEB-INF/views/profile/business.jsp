@@ -22,21 +22,21 @@
 	background-color: rgb(255,83,63);
     color: white;
     border: none;
-    width: 53px;
-    height: 25px;
+    width: 57px;
+    height: 28px;
     border-radius: 5px;
     margin-left: 121px;
-    margin-top: 7px;
+    margin-top: 11px;
 }
 #businessReq{
-	width: 338px;
-    height: 183px;
+    width: 364px;
+    height: 189px;
     border: 2px solid rgb(255,83,63);
-    border-radius: 5px; 
+    border-radius: 5px;
 }
 #businessReq form{
-	margin-left: 18px;
-    margin-top: 11px;
+	margin-left: 30px;
+    margin-top: 13px;
 } 
 </style>
 

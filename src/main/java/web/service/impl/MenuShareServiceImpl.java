@@ -253,7 +253,7 @@ public class MenuShareServiceImpl implements MenuShareService{
 	}
 
 	@Override
-	public List<Comment> list(Comment comment) {
+	public List<Map<String, Object>> list(Comment comment) {
 		return menuShareDao.cmtList(comment);
 	}
 
