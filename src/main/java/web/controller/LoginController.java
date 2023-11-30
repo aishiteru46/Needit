@@ -1,5 +1,7 @@
 package web.controller;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.User;
@@ -67,6 +70,7 @@ public class LoginController {
 		return result;
 		
 	}
+
 	
 	@GetMapping("/login")
 	public void login() {}
@@ -87,12 +91,6 @@ public class LoginController {
 			session.setAttribute("email", user.getEmail());
 			session.setAttribute("name", user.getName());
 			
-			// 자동 로그인을 위한 쿠키 생성 및 설정
-	        Cookie autoLoginCookie = new Cookie("autoLogin", user.getId());
-	        autoLoginCookie.setMaxAge(Integer.MAX_VALUE); // 무한
-	        autoLoginCookie.setPath("/");
-	        response.addCookie(autoLoginCookie);
-			
 			return ResponseEntity.ok("success");
 		} else {
 			logger.info("로그인 실패");
@@ -102,7 +100,7 @@ public class LoginController {
 	
 		
 	}
-	
+
 	@GetMapping("/findid")
 	public void findid() {}
 	
@@ -200,14 +198,22 @@ public class LoginController {
 	}
 	@PostMapping("/logout")
 	@ResponseBody
-    public void logoutPOST(HttpServletRequest request) throws Exception{
+    public void logoutPOST(HttpServletRequest request, HttpServletResponse response) throws Exception{
         
         logger.info("비동기 로그아웃 메서드 진입");
         
         HttpSession session = request.getSession();
         
         session.invalidate();
-        
+        // 쿠키 삭제
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                cookie.setMaxAge(0);
+                cookie.setPath("/");
+                response.addCookie(cookie);
+            }
+        }
     }
 	
 	// mailSending 코드
