@@ -1,5 +1,7 @@
 package web.service.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +79,22 @@ public class UserServiceImpl implements UserService {
 	public User socialinfo(User user) {
 		return userDao.selectByInfo(user);
 		
+	}
+
+	@Override
+	public List<User> findid(User user) {
+		return userDao.selectById(user);
+	}
+
+	@Override
+	public User findpw(User user) {
+		return userDao.selectByPw(user);
+	}
+
+	@Override
+	public void pwChange(User user) {
+		
+		userDao.updateByPw(user);
 	}
 
 

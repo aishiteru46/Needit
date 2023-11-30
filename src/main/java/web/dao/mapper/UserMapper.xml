@@ -68,4 +68,26 @@
 	
 	
 	</select>
+	
+	<select id="selectById" resultType="String" parameterType="String">
+		SELECT * FROM usertb
+			<where>
+				AND name = #{name}
+			</where>
+	
+	</select>
+	
+	<select id="selectByPw" resultType="User" parameterType="User">
+		SELECT * FROM usertb
+			<where>
+				AND id = #{id}
+			</where>
+	
+	</select>
+	
+	<update id="updateByPw" parameterType="String">
+		UPDATE usertb 
+ 		SET pw = #{pw}
+ 		WHERE id = #{id}
+	</update>
 </mapper>
