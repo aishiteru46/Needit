@@ -9,7 +9,7 @@
 <title>Insert title here</title>
 <script type="text/javascript">
 $(function(){
-	$("#writer").click(function(){
+	$("input[name=reportType]").click(function(){
 		var reportType = $(this).val()
 		   $.ajax({
 		         type: "post"
@@ -35,36 +35,7 @@ $(function(){
 	
 })
 
-$(function(){
-	$("#cmtReportBtn").click(function(){
-		console.log("댓글 신고버튼 작동!")
-		
-		var cmtNo = $(this).data("cmtNo");
-		var reportType = $(this).val()
-		console.log("신고된 댓글번호 :", cmtNo )
 
-		$.ajax({
-			 type: "post"
-			 , url: "/cmtReport"
-			 , data: {
-				boardNo : "${param.boardNo }"
-				, reportId : "${id }"
-				, reportType: reportType
-				, cmtNo : cmtNo
-			
-			 }
-			 , dataType: "json"
-			 , success: function( res  ) {
-			    console.log("AJAX 성공")
-			
-			 }
-			 , error: function() {
-			    console.log("AJAX 실패")
-			
-			 }
-		})
-	})
-})
 
 </script>
 <style type="text/css">

@@ -385,12 +385,17 @@ form {
     <div class="write-container">
        <div class="write-container-head">
 <%--            <div class="no">no.${list.BOARD_NO}</div> --%>
-
+			
+			
             <c:if test="${list.BASKET_STATUS eq 1}">
+            	<c:if test="${isLogin }">
                 <span class="heart"><img class="star a" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/star.png"></span>
+            	</c:if>
             </c:if>
             <c:if test="${list.BASKET_STATUS eq 0}">
+            	<c:if test="${isLogin }">
                 <span class="heart"><img class="star b" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/emptyStar.png"></span>
+            	</c:if>
             </c:if>
          
            <div class="no">Title.</div>

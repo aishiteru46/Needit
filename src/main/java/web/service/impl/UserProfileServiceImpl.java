@@ -389,6 +389,24 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 
 
+	@Override
+	public Map<String, Object> selectBusiness(User user) {
+		return userProfileDao.selectBusy(user);
+	}
+
+
+	@Override
+	public String selectyourId(String boardNo) {
+		return userProfileDao.selectId(boardNo);
+	}
+
+
+	@Override
+	public User yourProfile(String id) {
+		return userProfileDao.selectYourInfo(id);
+	}
+
+
 	
 
 

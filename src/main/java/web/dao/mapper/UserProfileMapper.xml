@@ -373,6 +373,28 @@
 			AND id = #{id}
 		</where>
 	</update>
+	
+	<select id="selectBusy" parameterType="Map">
+		SELECT business.BUSINESS_URL
+		FROM usertb
+		JOIN business ON usertb.id = business.id
+		WHERE usertb.business_status = '1'
+	</select>
+	
+	<select id="selectId" parameterType="Board" resultType="String">
+		SELECT writer_id FROM board
+		<where>
+			board_no = #{boardNo}
+		</where>
+	</select>
+	
+	<select id="selectYourInfo" resultType="User" parameterType="String">
+		SELECT * FROM userTB
+		<where>
+			id = #{id}
+		</where>
+	
+	</select>
 
  </mapper>
  

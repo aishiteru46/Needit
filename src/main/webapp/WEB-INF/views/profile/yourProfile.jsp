@@ -495,13 +495,13 @@ $(function(){
 <div id="userUpdateSection" class="float-end mb-4">
    <!-- 업체등록 버튼 -->
 <!--    <a href="/profile/business"><button class="btn btn-info" style="color: white;">업체등록</button></a> -->
-	<c:if test="${user.businessStatus eq 0 }">
+	<c:if test="${your.businessStatus eq 0 }">
    <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal">
 	  업체등록
    </button>
 	</c:if>
 	
-	<c:if test="${user.businessStatus eq 1 }">
+	<c:if test="${your.businessStatus eq 1 }">
    <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal" disabled="disabled">
 	  업체등록완료
    </button>
@@ -562,9 +562,9 @@ $(function(){
       
       <tbody>
       <tr>
-         <td style="border-top-right-radius: 5px;"><div>${id }</div></td> 
-         <td><div>${nick }</div></td>
-         <td><div>Lv.${user.grade }
+         <td style="border-top-right-radius: 5px;"><div>${your.id }</div></td> 
+         <td><div>${your.nick }</div></td>
+         <td><div>Lv.${your.grade }
          <!-- 회원등급 -->
          <c:choose>
             <c:when test="${userGrade eq 1}">
@@ -584,9 +584,9 @@ $(function(){
             </c:when>
          </c:choose></div>
          </td>
-          <td><div><fmt:formatDate pattern="yyyy-MM-dd" value="${user.joinDate }"/></div></td>
-         <td style="height: 73px;"><div>${user.addr1 }<br>
-               ${user.addr2 }</div>
+          <td><div><fmt:formatDate pattern="yyyy-MM-dd" value="${your.joinDate }"/></div></td>
+         <td style="height: 73px;"><div>${your.addr1 }<br>
+               ${your.addr2 }</div>
          </td>
          <td style="border-bottom-right-radius: 5px;"><div><label>동의<input type="radio" name="emailAgr" value="1"></label>
               <label>미동의<input type="radio" name="emailAgr" value="0"></label></div>
@@ -602,7 +602,7 @@ $(function(){
 
 <!-- 업체 링크 -->
 <div id="businessUrl">
-	<a href="http://${busy.BUSINESS_URL}" target="_blank">${busy.BUSINESS_URL}</a>
+	<a href="http://${your.BUSINESS_URL}" target="_blank">${your.BUSINESS_URL}</a>
 </div>
 
 <div id="introduce">
@@ -611,7 +611,7 @@ $(function(){
     <!-- 자기소개글을 입력하는 텍스트박스 -->
     <div>
         <div>
-            <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100">${user.intro }</textarea>
+            <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100">${your.intro }</textarea>
         </div>
 
         <button type="submit" class="btn btn-primary mt-2" id="introUpdate">저장</button>

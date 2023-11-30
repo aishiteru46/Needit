@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -27,7 +26,6 @@ import web.dto.Like;
 import web.dto.Rent;
 import web.dto.User;
 import web.dto.UserFile;
-import web.service.face.MenuPleaseService;
 import web.service.face.UserProfileService;
 import web.util.Paging;
 
@@ -72,14 +70,6 @@ public class UserProfileController {
 		Paging paging = userProfileService.getPaging(param);
 		paging.setUserId((String)session.getAttribute("id"));
 
-		//내 게시물에 예약한 정보
-		List<Map<String,Object>> myList = userProfileService.myRentList(paging,user);
-		logger.info("예약 정보 나와라아아아아{}",myList);
-		model.addAttribute("myList",myList);
-		
-		//내가 예약한 정보
-		List<Map<String,Object>> list = userProfileService.rentList(user);
-		model.addAttribute("list",list);
 		
 		//----------------------------------
 		// 세션에서 사용자 ID 가져오기
@@ -110,7 +100,6 @@ public class UserProfileController {
         //--------------------------------------------------------------
         //이걸로 user테이블 정보 다 가져올게요
         User profile = userProfileService.userAllSelect(user);
-		
 		model.addAttribute("user", profile);
         
 		//--------------------------------------------------------------
@@ -152,10 +141,11 @@ public class UserProfileController {
 		
 		//---------------------------------------------------------------
 		
-		//내 찜 목록
-		List<Map<Board, Object>> basketList = userProfileService.selectBasketList(board);
-		logger.info("바스켓또{}",basketList);
-		model.addAttribute("basketList",basketList);
+		//업체 링크
+		Map<String, Object> busy = userProfileService.selectBusiness(user);
+		logger.info("업체링크{}",busy);
+		model.addAttribute("busy",busy);
+		
 		
 		return "profile/view";
 		
@@ -339,20 +329,26 @@ public class UserProfileController {
 //	}
 	
 	@GetMapping("/business")
-	public void business() {
+	public void business( User user
+			, HttpSession session, Model model
+			) {
+		user.setId((String) session.getAttribute("id"));
 		
 	}
 	
 	@PostMapping("/business")
 	public String businessProc(
 			Business busi, User user
-			, HttpSession session) {
+			, HttpSession session, Model model
+			) {
 		logger.info("업체{}",busi);
 		
 		busi.setId((String) session.getAttribute("id"));
 		user.setId((String) session.getAttribute("id"));
 		
-		
+		Map<String, Object> busy = userProfileService.selectBusiness(user);
+		logger.info("업체링크{}",busy);
+		model.addAttribute("busy",busy);
 		userProfileService.insertBusiness(busi, user);
 		return "redirect:/profile/view";
 	}
@@ -384,6 +380,54 @@ public class UserProfileController {
 		
 		return "jsonView";
 		
+	}
+	
+	@GetMapping("/rentList")
+	public String rentList(
+			Paging paging, User user
+			, HttpSession session, Model model) {
+		user.setId((String)session.getAttribute("id"));
+		
+		//내 게시물에 예약한 정보
+		List<Map<String,Object>> myList = userProfileService.myRentList(paging,user);
+		logger.info("예약 정보 나와라아아아아{}",myList);
+		model.addAttribute("myList",myList);
+		
+		//내가 예약한 정보
+		List<Map<String,Object>> list = userProfileService.rentList(user);
+		model.addAttribute("list",list);
+		
+		return "/profile/rentList";
+		
+	}
+	
+	@GetMapping("/basket")
+	public String basket(
+			Board board, Model model
+			, HttpSession session ) {
+		
+		board.setWriterId((String)session.getAttribute("id"));
+
+		//내 찜 목록
+		List<Map<Board, Object>> basketList = userProfileService.selectBasketList(board);
+		logger.info("바스켓또{}",basketList);
+		model.addAttribute("basketList",basketList);
+		
+		return "/profile/basket";
+		
+	}
+	
+	@GetMapping("/yourProfile")
+	public void yourProfile(
+			User user, Model model
+			, @RequestParam("boardNo") String boardNo
+			) {
+		String id = userProfileService.selectyourId(boardNo);
+		logger.info("다른사람 프로필아이디{}", id);
+		
+		User your = userProfileService.yourProfile(id);
+		logger.info("다른사람 프로필정보{}", your);
+		model.addAttribute("your",your);
 	}
 	
 	

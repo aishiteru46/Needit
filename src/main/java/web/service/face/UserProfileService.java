@@ -246,6 +246,29 @@ public interface UserProfileService {
 	 * @return true 수신 동의 상태 false 수신 미동의 상태
 	 */
 	public boolean checkAgree(User user);
+	
+	/**
+	 * 업체 링크 가져오기
+	 * 
+	 * @param busi 아이디
+	 * @return 해당 아이디에 업체링크 가져오기
+	 */
+	public Map<String, Object> selectBusiness(User user);
+	
+	/**
+	 * 닉네임 클릭시 해당
+	 * 유저 아이디 가져오기
+	 * 
+	 * @param boardNo 보드넘버
+	 */
+	public String selectyourId(String boardNo);
+	
+	/**
+	 * 다른사람 정보
+	 * 
+	 * @param id 클릭한 아이디
+	 */
+	public User yourProfile(String id);
 
 	
 

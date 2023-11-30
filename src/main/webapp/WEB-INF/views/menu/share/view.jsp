@@ -437,7 +437,7 @@ $(()=>{
 	</td><td id="like"><div id="likeNo">${cntLike }</div>명이 이 게시글을 좋아합니다.</td>
 </tr>
 <tr>
-	<td class="table-info">닉네임</td><td>${view.writerNick }</td>
+	<td class="table-info">닉네임</td><td><a href="/profile/yourProfile?boardNo=${view.boardNo }">${view.writerNick }</a></td>
 	<td class="table-info">가격</td><td><fmt:formatNumber value="${view.price }" pattern="#,###" />0원</td>
 </tr>
 
