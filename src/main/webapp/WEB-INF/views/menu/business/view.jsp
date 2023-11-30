@@ -94,18 +94,6 @@ h6 {
 	color: blue;
 }
 
-/* 내가추가함 ㅠ */
-
-button:hover { scale: 1.1;}
-#upAndDel button {     
-	color: white;
-    border: none;
-    width: 50px;
-    border-radius: 5px;
-    background: #ff533f;
-    font-weight: bold;
-}
-
 a:hover { text-decoration: none; }
 .viewHeader { width: 900px; height: 500px; margin: 0 auto; margin-top: 70px }
 .viewheader > div { float: left;}
@@ -154,7 +142,7 @@ a:hover { text-decoration: none; }
 .viewFile { width: 900px; margin: 0 auto;border: 1px solid #ccc; }
 .viewContent { width: 900px; min-height: 400px; margin: 0 auto; border: 1px solid #ccc; border-radius: 0 0 10px 10px; }
 #viewContent { margin: 20px 50px; }
-#viewContent p img { width: 750px; }
+#viewContent p img { max-width: 750px; }
 
 </style>
 
@@ -174,7 +162,7 @@ function cmtReport(cmtNo) {
 function loadComments() {
 	$.ajax({
 	    type: "GET",
-	    url: "/rent/comment/list",
+	    url: "/business/comment/list",
 	    data: {
 	        boardNo: ${board.boardNo}
 	    },
@@ -326,7 +314,7 @@ function deleteComment( cmtNo ) {
 	
 		$.ajax({
 			type: "GET"
-	     	, url: "/rent/comment/delete"
+	     	, url: "/business/comment/delete"
 	     	, data: { 
 	     		boardNo : ${board.boardNo },
 	     		cmtNo : cmtNo
@@ -365,7 +353,7 @@ $(()=>{
 
 		$.ajax({
 			type: "POST"
-         	, url: "/rent/comment"
+         	, url: "/business/comment"
          	, data: { 
          		boardNo : ${board.boardNo },
          		writerId : "${id }",
@@ -419,7 +407,7 @@ $(()=>{
 		
 		$.ajax({
 			type: "GET"
-			, url: "/rent/like"
+			, url: "/business/like"
 			, data: {  
 				boardNo : ${board.boardNo }
 			}
@@ -537,15 +525,7 @@ $(()=>{
 <div class="container">
 <div class="viewWrap">
 <div id="borderContainer">
-	
 	<div class="viewHeader">
-		<div id="upAndDel" style="float: right; margin: 15px;">
-			<c:if test="${id eq board.writerId }">
-				<a href="/rent/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>수정</button></a>
-				<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">삭제</button>
-			</c:if>
-		</div>	
-		<div style="clear: both;"></div>
 		<div class="thumb">
 		    <div id="thumbImg" style="border-radius: 0px 10px 0px 0px">
 		        <c:if test="${not empty fileTb and not empty fileTb[0]}">
@@ -559,15 +539,16 @@ $(()=>{
 		
 		<div class="viewInfo">
 			<div class="infoMenu" style="border-radius: 0px 10px 0px 0px">
-				<c:if test="${board.menu eq 1 and board.cate eq 1}">
-					<span id="infoMenu">대여해요 [물품]</span>
-				</c:if>		
-				<c:if test="${board.menu eq 1 and board.cate eq 2}">
-					<span id="infoMenu">대여해요 [인력]</span>
+
+				<c:if test="${board.menu eq 5 and board.cate eq 1}">
+					<span id="infoMenu">동네업체 [물품]</span>
 				</c:if>
-				<c:if test="${board.menu eq 1 and board.cate eq 3}">
-					<span id="infoMenu">대여해요 [공간]</span>
+				<c:if test="${board.menu eq 5 and board.cate eq 2}">
+					<span id="infoMenu">동네업체 [인력]</span>
 				</c:if>
+				<c:if test="${board.menu eq 5 and board.cate eq 3}">
+					<span id="infoMenu">동네업체 [공간]</span>
+				</c:if>				
 			</div><!-- .infoMenu -->
 			
 			<div class="infoTitle">
@@ -662,8 +643,16 @@ $(()=>{
 	</div><!-- #borderContainer -->
 	
 	<div id="btnList">
-		<a href="/rent/list?menu=${param.menu }&cate=${param.cate }"><button>목록</button></a>
+		<a href="/business/list?menu=${param.menu }&cate=${param.cate }"><button>목록</button></a>
 	</div>
+
+<%-- 수정,삭제 --%>
+<div>
+	<c:if test="${id eq board.writerId }">
+		<a href="/business/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>게시글 수정</button></a>
+		<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">게시글 삭제</button>
+	</c:if>
+</div>	
 
 </div> <!-- .viewWrap -->
 </div> <!-- .container -->
@@ -720,7 +709,7 @@ $(()=>{
         <p>게시글을 삭제하시겠습니까?</p>
       </div>
       <div class="modal-footer">  
-        <a href="/rent/delete?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button class="btn">예</button></a>
+        <a href="/business/delete?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button class="btn">예</button></a>
         <button class="btn" data-bs-dismiss="modal">아니오</button>
       </div>
     </div>
