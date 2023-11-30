@@ -379,7 +379,7 @@
       SELECT business.BUSINESS_URL
       FROM usertb
       JOIN business ON usertb.id = business.id
-      WHERE usertb.business_status = '1'
+      WHERE usertb.business_status = '2'
       AND usertb.id = #{id}
    </select>
 	
@@ -395,7 +395,27 @@
 		<where>
 			id = #{id}
 		</where>
+	</select>
 	
+	<select id="selectYourLink" parameterType="User" resultType="Map">
+		SELECT business.BUSINESS_URL
+		FROM usertb
+		JOIN business ON usertb.id = business.id
+		WHERE usertb.business_status = '2'
+		AND usertb.id = #{id}
+	</select>
+	
+	<select id="yourThumb" resultType="UserFile" parameterType="String">
+		SELECT id, profile_imgno, origin_name, stored_name, thumbnail_name, file_type
+		FROM user_file
+        WHERE id = #{id}
+	</select>
+	
+	<select id="yourBoardList" resultType="Map" parameterType="Board">
+		SELECT board_no, menu, title, write_date, hit
+		FROM board
+		WHERE writer_id = #{writerId}
+		ORDER BY board_no DESC
 	</select>
 
  </mapper>

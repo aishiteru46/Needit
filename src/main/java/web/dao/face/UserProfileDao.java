@@ -318,10 +318,29 @@ public interface UserProfileDao {
 	/**
 	 * 유저 아이디로 유저정보 찾기
 	 * 
-	 * @param id 유저 아이디
+	 * @param busi 유저 아이디
 	 * @return 유저정보
 	 */
 	public User selectYourInfo(String id);
+
+	/**
+	 * 다른사람 업체 링크
+	 * 
+	 * @param id 다른사람 아이디
+	 * @return 링크
+	 */
+	public Map<String, Object> selectYourLink(User user);
+
+	/**
+	 * 타인 썸네일 가져오기 
+	 * 
+	 * @param userId 타인 아이디
+	 * @return 썸네일
+	 */
+	public UserFile yourThumb(String userId);
+
+	
+	public List<Map<String, Object>> yourBoardList(Board board);
 
 
 	
