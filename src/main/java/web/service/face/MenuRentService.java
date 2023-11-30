@@ -153,6 +153,15 @@ public interface MenuRentService {
 	 */
 	public void delete(Board board);
 
+	/**
+	 * 게시글 수정
+	 * 
+	 * @param updateParam
+	 * @param file
+	 * @param delFileno
+	 */
+	public void updateBoard(Board updateParam, List<MultipartFile> file, int[] delFileno);
+
 
 
 

@@ -257,5 +257,34 @@ public class MenuRentServiceImpl implements MenuRentService {
 		menuRentDao.deleteBoard(board);
 	}
 
+	@Override
+	public void updateBoard(Board updateParam, List<MultipartFile> file, int[] delFileno) {
+	
+		if( updateParam.getTitle() == null || "".equals(updateParam.getTitle()) ) {
+			updateParam.setTitle("(제목없음)");
+		}
+		
+		menuRentDao.updateBoard( updateParam );
+
+		//---------------------------------------------------------------------------
+		
+		//첨부파일이 없을 경우 처리
+		if( file.size() == 0 ) {
+			return;
+		}
+
+		for(MultipartFile f : file) {
+			this.fileinsert( f, updateParam.getBoardNo() );
+		}
+
+		//---------------------------------------------------------------------------
+
+		//삭제할 첨부 파일 처리
+		if( delFileno != null ) {
+			menuRentDao.deleteFiles( delFileno );
+		}
+	
+	}
+
 
 }
