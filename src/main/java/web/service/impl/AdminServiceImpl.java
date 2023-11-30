@@ -24,6 +24,7 @@ import web.dto.Board;
 import web.dto.Business;
 import web.dto.Comment;
 import web.dto.FileTb;
+import web.dto.Report;
 import web.dto.User;
 import web.service.face.AdminService;
 import web.util.Paging;
@@ -194,5 +195,5 @@ public class AdminServiceImpl implements AdminService {
 		adminDao.cancelBusiness(business);
 		
 	}
-	
+
 }
