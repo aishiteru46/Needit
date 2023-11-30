@@ -25,6 +25,7 @@ import web.dto.Booking;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
+import web.dto.User;
 import web.service.face.MenuPleaseService;
 import web.util.Paging;
 
@@ -167,12 +168,14 @@ public class MenuPleaseController {
  	//게시글 작성 처리
  	@PostMapping("/write")
  	public String writeProc( Board writeParam, List<MultipartFile> file, HttpSession session ) {
+ 		
  		logger.info("writeParam : {}", writeParam );
  		
  		//작성자 id, nick 세팅
  		writeParam.setWriterId((String) session.getAttribute("id"));
  		writeParam.setWriterNick((String) session.getAttribute("nick"));
  		writeParam.setLocation((String)session.getAttribute("addr1"));
+ 		
  		//게시글 저장
  		menuPleaseService.write( writeParam, file );
  		
