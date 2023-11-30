@@ -11,12 +11,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-
-<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
-
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
 <script type="text/javascript">
 //이메일 작성
@@ -46,7 +40,24 @@ function sendEmail() {
 		});
 	}
 }
+// $(document).ready(function() {
+// 	  $(".next").click(function(event) {
+// 		  console.log("작동됨")
+// 	    // 폼 제출 기본 동작을 막습니다.
+// 	    event.preventDefault();
 
+// 	    // 슬라이드 아웃을 시작하기 전에 필요한 유효성 검사 등을 수행합니다.
+
+// 	    // 슬라이드 아웃 효과를 시작하려면 slide-out 클래스를 추가합니다.
+// 	    $("form").addClass("slide-out");
+
+// 	    // setTimeout을 사용하여 리디렉션이나 기타 작업을 지연시킬 수 있습니다.
+// 	    setTimeout(function() {
+// 	      // 다음 페이지로 리디렉션하거나 다른 작업을 수행합니다.
+// 	      // 예: window.location.href = "다음-페이지.html";
+// 	    }, 500); // 트랜지션 기간에 맞게 지연 시간을 조정하세요.
+// 	  });
+// 	});
 
 </script>
 <style type="text/css">
@@ -58,15 +69,8 @@ html {
 form {
      width: 450px; 
      padding: 20px;
-     
-}
-#login {
-	height: 5.8em;
-	padding: 0;
-	width: 130px; 
-	color: white; 
-	background-color: #ff533f;
-	border-color: #ff533f;
+     transform: translate(-50%,-50%)
+  
 }
 #needit{
 	color: white; 
@@ -80,34 +84,33 @@ form {
 }
 .logo{
     position: absolute;
-    top: -70px;
+    top: -45px;
     left: 80px;
+    transform: translate(-50%,-365%);
+    z-index: 6;
 }
 .find{
-	font-family: "SB 어그로",serif,inherit;
 	text-align: center;
 	font-weight: bold;
 }
 .code{
 	position: absolute;
-    right: 7px;
-    top: 17px;
+    right: 0px;
+    top: 12px;
 }
-#social{margin-bottom: 5px;}
-#naver{float: left;}
-#kakao{float: right;}
 
 .slide-out {
-  transform: translateX(100%);
-  transition: transform 0.5s ease-out;
+  transform: translate(-400%,-50%);
+  transition: transform 1s ease-out;
 }
+
 </style>
 </head>
 <body>
 
 
-<form action="./findid" method="post"  class="card shadow-lg position-absolute top-50 start-50 translate-middle form-signin" inputmode="text">
-<img class="logo" src="/resources/img/needit01.png" width="300" height="60" >
+<img class="logo top-50 start-50" src="/resources/img/needit01.png" width="300" height="60" >
+<form action="./findid" method="post"  class="card shadow-lg position-absolute top-50 start-50 form-signin" inputmode="text">
 <fieldset style="width: 150;">
 <legend class="find">아이디 찾기</legend>
 
@@ -115,17 +118,17 @@ form {
 	<div class="row">
   		<div class="col">
   			<label >이름</label>
-    		<input type="text" class="form-control form-control-lg mb-3" id="name" name="name" placeholder="이름을 입력해주세요" required="required">
+    		<input type="text" class="form-control form-control mb-3" id="name" name="name" placeholder="이름을 입력해주세요" required="required">
     		<div class="position-relative">
     		<label >이메일</label>  
     		</div>
-   	 		<input type="text" class="form-control form-control-lg mb-3" name="email" id="email" placeholder="이메일을 입력해주세요" required="required">
+   	 		<input type="text" class="form-control form-control mb-3" name="email" id="email" placeholder="이메일을 입력해주세요" required="required">
    	 		<div class="position-relative">
   			<label >인증번호</label>
   			<span class="position-absolute top-50 end-0 translate-middle-y" id="codecheck_blank" style="font-size: 15px;"><input id="needit" class="code btn btn-danger" type="button" value="인증코드 발송" onclick="sendEmail()"></span>
     		</div>
-			<input  type="text" class="form-control form-control-lg mb-3" id="codeInput" placeholder="인증번호 입력"  required="required" disabled="disabled">
-			<button id="needit"class="btn btn-danger float-end" >다음</button>
+			<input  type="text" class="form-control form-control mb-3" id="codeInput" placeholder="인증번호 입력"  required="required" disabled="disabled" required="required">
+			<button id="needit"class="next btn btn-danger float-end" >다음</button>
 		</div>
 	</div>
 </div>

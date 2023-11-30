@@ -1,9 +1,12 @@
 package web.controller;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -13,14 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import web.dto.Board;
 import web.dto.User;
 import web.service.face.UserService;
 
@@ -71,7 +72,7 @@ public class LoginController {
 	public void login() {}
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> loginProc( User user, HttpSession session) {
+	public ResponseEntity<String> loginProc( User user, HttpSession session, HttpServletResponse response) {
 		
 		boolean islogin = userService.login(user);
 		user = userService.infoNick(user);
@@ -85,6 +86,12 @@ public class LoginController {
 			session.setAttribute("addr1", user.getAddr1());
 			session.setAttribute("email", user.getEmail());
 			session.setAttribute("name", user.getName());
+			
+			// 자동 로그인을 위한 쿠키 생성 및 설정
+	        Cookie autoLoginCookie = new Cookie("autoLogin", user.getId());
+	        autoLoginCookie.setMaxAge(Integer.MAX_VALUE); // 무한
+	        autoLoginCookie.setPath("/");
+	        response.addCookie(autoLoginCookie);
 			
 			return ResponseEntity.ok("success");
 		} else {
@@ -100,14 +107,40 @@ public class LoginController {
 	public void findid() {}
 	
 	@PostMapping("/findid")
-	public void findidProc() {}
+	public String findidProc(User user, HttpSession session) {
+		
+		List<User> ids = userService.findid(user);
+		session.setAttribute("ids", ids);
+		
+		return "redirect:/user/findIdInfo";
+	}
+	
+	@GetMapping("/findIdInfo")
+	public void findIdInfo() {}
 	
 	@GetMapping("/findpw")
 	public void findpw() {}
 	
 	@PostMapping("/findpw")
-	public void findpwProc() {}
+	public String findpwProc(User user, HttpSession session) {
+		
+		user = userService.findpw(user);
+		
+		session.setAttribute("id", user.getId());
+		
+		return "redirect:/user/findPwInfo";
+	}
 	
+	@GetMapping("/findPwInfo")
+	public void findPwInfo() {}
+	
+	@PostMapping("/findPwInfo")
+	public String findPwInfoProc(User user) {
+		
+		userService.pwChange(user);
+		
+		return "redirect:/main";
+	}
 	
 	@GetMapping("/naver")
 	public void naver() {}
@@ -128,6 +161,7 @@ public class LoginController {
 			session.setAttribute("email", user.getEmail());
 			session.setAttribute("name", user.getName());
 			
+		
 			return ResponseEntity.ok("success");
 		} else {
 			logger.info("회원가입");

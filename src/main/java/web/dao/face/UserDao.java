@@ -1,5 +1,7 @@
 package web.dao.face;
 
+import java.util.List;
+
 import web.dto.User;
 
 public interface UserDao {
@@ -24,6 +26,15 @@ public interface UserDao {
 
 	//소셜 정보
 	public User selectByInfo(User user);
+
+	//아이디 찾기
+	public List<User> selectById(User user);
+
+	//비밀번호 찾기
+	public User selectByPw(User user);
+	
+	//비밀번호 변경
+	public void updateByPw(User user);
 
 
 }
