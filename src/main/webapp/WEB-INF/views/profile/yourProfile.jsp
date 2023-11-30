@@ -114,7 +114,8 @@ $(function(){
            , data: {
               
               id : "${id}"
-              , intro : $("#introText").val()
+              , intro : $("#intro").val()
+              
               
            }
            , dataType: "json"
@@ -132,55 +133,24 @@ $(function(){
  });
  
  
- 
- //내가 쓴 글 분리해서 ajax로 띄우기
- $(function(){
-    $("#myBoardList").click(function(){
-       console.log("내가 쓴 글 ajax 작동")
-       
-       $.ajax({
-           type: "get"
-           , url: "myBoardList"
-           , dataType: "html"
-           , success: function( data ) {  
-              console.log("내가 쓴 글 ajax 성공")
-              $("#boardSection").html(data).show();  // 받아온 HTML 데이터를 boardSection에 적용
-             
-           }
-          , error: function() {
-              console.log("AJAX 실패")
-          
-           }
-       })
-    })
-    
- });
- 
- 
- //내가 쓴 댓글 분리해서 ajax로 띄우기
- $(function(){
-    $("#myCmtList").click(function(){
-       console.log("내가 쓴 댓글 ajax 작동")
-       
-       $.ajax({
-           type: "get"
-           , url: "myCmtList"
-           , dataType: "html"
-           , success: function( data ) {  
-              console.log("내가 쓴 댓글 ajax 성공")
-              $("#commentSection").html(data).show();  // 받아온 HTML 데이터를 commentSection에 적용
-             
-           }
-          , error: function() {
-              console.log("AJAX 실패")
-          
-           }
-       })
-    })
-    
- });
- 
- 
+function toggleSection(sectionId) {
+    var section = document.getElementById(sectionId);
+    section.classList.toggle('hidden');
+}
+
+function toggleSection(sectionId) {
+  var section = document.getElementById(sectionId);
+  var arrow = document.getElementById(sectionId + 'Arrow');
+
+  if (section.style.display === 'none') {
+    section.style.display = 'block';
+    arrow.innerHTML = '▲'; // 펼쳐진 상태에 대한 원하는 기호로 변경
+  } else {
+    section.style.display = 'none';
+    arrow.innerHTML = '▼'; // 축소된 상태에 대한 원하는 기호로 변경
+  }
+}
+
 
 </script>
 
@@ -517,28 +487,6 @@ $(function(){
     border-radius: 5px;
     vertical-align: middle;
 }
-
-/* 업체 마크 */
-#userContent svg{
-   display: inline-block;
-   margin-left: 5px;
-   margin-top: -11px;
-   color: rgb(255,83,63);
-}
-/* 업체 링크 */
-#businessUrl{
-   position: absolute;
-    margin-top: -69px;
-    margin-left: 400px;
-    margin-bottom: 24px;
-    font-size: 18px;
-    width: 776px;
-    height: 50px;
-    background-color: #ccc;
-    color: black;
-    border-radius: 5px;
-    vertical-align: middle;
-}
 </style>
 
 <div class="container">
@@ -547,13 +495,13 @@ $(function(){
 <div id="userUpdateSection" class="float-end mb-4">
    <!-- 업체등록 버튼 -->
 <!--    <a href="/profile/business"><button class="btn btn-info" style="color: white;">업체등록</button></a> -->
-	<c:if test="${user.businessStatus eq 0 }">
+	<c:if test="${your.businessStatus eq 0 }">
    <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal">
 	  업체등록
    </button>
 	</c:if>
 	
-	<c:if test="${user.businessStatus eq 1 }">
+	<c:if test="${your.businessStatus eq 1 }">
    <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal" disabled="disabled">
 	  업체등록완료
    </button>
@@ -614,9 +562,9 @@ $(function(){
       
       <tbody>
       <tr>
-         <td style="border-top-right-radius: 5px;"><div>${id }</div></td> 
-         <td><div>${nick }</div></td>
-         <td><div>Lv.${user.grade }
+         <td style="border-top-right-radius: 5px;"><div>${your.id }</div></td> 
+         <td><div>${your.nick }</div></td>
+         <td><div>Lv.${your.grade }
          <!-- 회원등급 -->
          <c:choose>
             <c:when test="${userGrade eq 1}">
@@ -636,9 +584,9 @@ $(function(){
             </c:when>
          </c:choose></div>
          </td>
-          <td><div><fmt:formatDate pattern="yyyy-MM-dd" value="${user.joinDate }"/></div></td>
-         <td style="height: 73px;"><div>${user.addr1 }<br>
-               ${user.addr2 }</div>
+          <td><div><fmt:formatDate pattern="yyyy-MM-dd" value="${your.joinDate }"/></div></td>
+         <td style="height: 73px;"><div>${your.addr1 }<br>
+               ${your.addr2 }</div>
          </td>
          <td style="border-bottom-right-radius: 5px;"><div><label>동의<input type="radio" name="emailAgr" value="1"></label>
               <label>미동의<input type="radio" name="emailAgr" value="0"></label></div>
@@ -654,7 +602,7 @@ $(function(){
 
 <!-- 업체 링크 -->
 <div id="businessUrl">
-	<a href="http://${busy.BUSINESS_URL}" target="_blank">${busy.BUSINESS_URL}</a>
+	<a href="http://${your.BUSINESS_URL}" target="_blank">${your.BUSINESS_URL}</a>
 </div>
 
 <div id="introduce">
@@ -663,7 +611,7 @@ $(function(){
     <!-- 자기소개글을 입력하는 텍스트박스 -->
     <div>
         <div>
-            <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100">${user.intro }</textarea>
+            <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100">${your.intro }</textarea>
         </div>
 
         <button type="submit" class="btn btn-primary mt-2" id="introUpdate">저장</button>
@@ -679,15 +627,135 @@ $(function(){
 
 <hr>
 
-
-<button id="myBoardList">내가 쓴 글 불러오기</button>
-<div id="boardSection" class="tableScroll" style="display: none;">
+<h1 class="listH1">내가 쓴 글</h1>
+<div id="boardSection" class="tableScroll">
+   <table class="listType rentTable">
+         <tr>
+            <th>No.</th>
+            <th class="title">제목</th>
+            <th>게시판</th>
+            <th>작성일</th>
+            <th>조회수</th>
+         </tr>
+         <c:forEach items="${board }" var="board">
+            <tr>
+               <td>${board.boardNo }</td>
+               <td>
+                <c:choose>
+                    <c:when test="${board.menu eq 1}">
+                        <a href="/rent/view?boardNo=${board.boardNo}">${board.title}</a>
+                    </c:when>
+                    <c:when test="${board.menu eq 2}">
+                        <a href="/share/view?boardNo=${board.boardNo}">${board.title}</a>
+                    </c:when>
+                    <c:when test="${board.menu eq 3}">
+                        <a href="/please/view?boardNo=${board.boardNo}">${board.title}</a>
+                    </c:when>
+                    <c:when test="${board.menu eq 4}">
+                        <a href="/community/view?boardNo=${board.boardNo}">${board.title}</a>
+                    </c:when>
+                    <c:when test="${board.menu eq 5}">
+                        <a href="/business/view?boardNo=${board.boardNo}">${board.title}</a>
+                    </c:when>
+                </c:choose>
+            </td>
+               <td>
+                     <c:choose>
+                    <c:when test="${board.menu eq 1}">
+                        대여해요
+                    </c:when>
+                    <c:when test="${board.menu eq 2}">
+                        나눔해요
+                    </c:when>
+                    <c:when test="${board.menu eq 3}">
+                        해주세요
+                    </c:when>
+                    <c:when test="${board.menu eq 4}">
+                        커뮤니티
+                    </c:when>
+                    <c:when test="${board.menu eq 5}">
+                        동네업체
+                    </c:when>
+                </c:choose>
+               </td>
+               <td>
+                  <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
+                  <fmt:formatDate var="writeDate" value="${board.writeDate }" pattern="yyyyMMdd" />
+                  <c:choose>
+                     <c:when test="${writeDate lt curDate }">
+                        <fmt:formatDate value="${board.writeDate }" pattern="yyyy-MM-dd" />
+                     </c:when>
+                     <c:otherwise>
+                        <fmt:formatDate value="${board.writeDate }" pattern="HH:mm" />
+                     </c:otherwise>
+                  </c:choose>
+               </td>
+               <td>${board.hit}</td>
+            </tr>
+         </c:forEach>
+   </table><!-- .listType -->
 </div><!-- .tableScroll -->
 
 <hr>
 
-<button id="myCmtList">내가 쓴 댓글 불러오기</button>
-<div id="commentSection" class="tableScroll" style="display: none;">
+<h1 class="listH1">내가 쓴 댓글</h1>
+<div id="commentSection" class="tableScroll">
+<table id="commentTable" class="rentTable">
+   <tr>
+      <th>No.</th>
+      <th>댓글</th>
+      <th>게시판</th>
+      <th>작성일</th>
+   </tr>
+   
+<c:forEach items="${comment }" var="comment" begin="0" end="10">
+   <tr>
+      <td>${comment.CMT_NO }</td>
+      <td>
+         <c:choose>
+               <c:when test="${comment.MENU eq 1}">
+                   <a href="/rent/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+               </c:when>
+               <c:when test="${comment.MENU eq 2}">
+                   <a href="/share/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+               </c:when>
+               <c:when test="${comment.MENU eq 3}">
+                   <a href="/please/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+               </c:when>
+               <c:when test="${comment.MENU eq 4}">
+                   <a href="/community/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+               </c:when>
+               <c:when test="${comment.MENU eq 5}">
+                   <a href="/business/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+               </c:when>
+               
+           </c:choose>
+        </td>
+        
+        <td>
+             <c:choose>
+              <c:when test="${comment.MENU eq 1}">
+                  대여해요
+              </c:when>
+              <c:when test="${comment.MENU eq 2}">
+                  나눔해요
+              </c:when>
+              <c:when test="${comment.MENU eq 3}">
+                  해주세요
+              </c:when>
+              <c:when test="${comment.MENU eq 4}">
+                  커뮤니티
+              </c:when>
+              <c:when test="${comment.MENU eq 5}">
+                  동네업체
+              </c:when>
+          </c:choose>
+          </td>
+      <td><fmt:formatDate pattern="yyyy-MM-dd" value="${comment.writeDate}"/></td>
+   </tr>
+
+</c:forEach>
+</table>
 </div><!-- .tableScroll -->
 
 <hr>

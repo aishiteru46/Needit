@@ -300,6 +300,29 @@ public interface UserProfileDao {
 	 */
 	public void insertImage(UserFile userFile);
 
+	/**
+	 * 업체 링크 가져오기
+	 * 
+	 * @param busi 아이디
+	 * @return 링크
+	 */
+	public Map<String, Object> selectBusy(User user);
+
+	/**
+	 * 유저 아이디찾기
+	 * 
+	 * @param boardNo 보드번호
+	 */
+	public String selectId(String boardNo);
+
+	/**
+	 * 유저 아이디로 유저정보 찾기
+	 * 
+	 * @param id 유저 아이디
+	 * @return 유저정보
+	 */
+	public User selectYourInfo(String id);
+
 
 	
 
