@@ -27,6 +27,16 @@
 	position: sticky;
     top: 0px;
 }
+
+/* Webkit 브라우저를 위한 스타일 */
+#reportBoard::-webkit-scrollbar { width: 12px; }
+#reportBoard::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+#reportBoard::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 10px;background: #ff533f; }
+
+#reportComment::-webkit-scrollbar { width: 12px; }
+#reportComment::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+#reportComment::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 10px;background: #ff533f; }
+
 </style>
 
 <script type="text/javascript">

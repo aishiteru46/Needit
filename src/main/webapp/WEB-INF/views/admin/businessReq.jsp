@@ -18,20 +18,18 @@
 #tableWrapper{
 	overflow-x: hidden;
 	overflow-y: scroll;
-	height: 213px;
+	height: 315px;
 }
 
 #AdminContent{
 	width: 80%;
 }
 
-.approveButton.req{
-	
-}
+/* Webkit 브라우저를 위한 스타일 */
+#tableWrapper::-webkit-scrollbar { width: 12px; }
+#tableWrapper::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+#tableWrapper::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 10px;background: #ff533f; }
 
-.approveButton.done{
-
-}
 </style>
 
 <script type="text/javascript">
