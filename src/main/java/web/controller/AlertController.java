@@ -84,7 +84,7 @@ public class AlertController {
 		List<Alert> list = alertService.getList(alert); // 유저에게 쌓인(기존에 읽지 않은) 알림 목록을 가져온다 - 새로 생긴 알림과 다름
 		model.addAttribute("list", list); // 알람 목록을 Model값으로 보내준다
 		logger.info("list : {}", list);
-		return "alert/jong"; // list JSP로 리턴
+		return "/alert/jong"; // list JSP로 리턴
 	} // alert 끝
 	
 	@PostMapping("/read")
