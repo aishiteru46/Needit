@@ -100,6 +100,15 @@ function setThumbnail(event) {
    <input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해주세요" required>
 </div>
 
+
+<c:if test="${param.menu == 4 && param.cate == 2 }">
+<div class="form-group mb-3">
+   <label class="form-label" for="location">위치</label>
+   <input type="text" class="form-control" readonly="readonly" name="location" value="${addr1 }" id="location">
+</div>
+</c:if>
+
+
 <div class="form-group mb-3">
    <label class="form-label" for="thumbnailFile">썸네일</label>
    <div id="thumbnail_container"></div>

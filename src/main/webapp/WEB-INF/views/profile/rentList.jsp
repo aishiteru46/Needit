@@ -178,6 +178,11 @@ $(function(){
     margin-left: 20px;
     display: inline-block;
 }
+
+/* Webkit 브라우저를 위한 스타일 */
+.tableScroll::-webkit-scrollbar { width: 12px; }
+.tableScroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+.tableScroll::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 10px;background: #ff533f; }
 /* 사진 수정 버튼 */
 #fileEdit{
     border: 1px solid rgb(255,83,63);

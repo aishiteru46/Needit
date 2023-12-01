@@ -14,6 +14,36 @@
 
 <%-- Style --%>
 <style type="text/css">
+.report-options {
+    font-size: 13px;
+    background-color: white;
+    position: absolute;
+    border-radius: 5px;
+    width: 100px;
+    border: 1px solid #ccc;
+    display: block;
+    margin-left: 1110px;
+    margin-top: -19px;
+    z-index: 2;
+}
+.report-options input {
+	margin-left: 5px;
+    margin-top: 5px;
+}
+#cmtReportBtn {
+	border: none;
+    background-color: inherit;
+    font-size: 13px;
+    float: right;
+    margin-top: 15px;
+}
+#submitCmt {
+	margin: 3px 3px 3px 3px;
+    width: 95%;
+    font-size: 13px;
+    border-radius: 5px;
+    border: none;
+} 
 #map-container {
     overflow: hidden;
     height: 0;
@@ -118,6 +148,17 @@ h6 {
     font-weight: bold;
 }
 
+#viewLocation {
+    float: right;
+    font-size: 0.9em;
+    margin-right: 14px;
+    color: black;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #ff533f;
+}
 </style>
 
 <%-- 추천, 댓글 --%>
@@ -136,7 +177,7 @@ function cmtReport(cmtNo) {
 function loadComments() {
 	$.ajax({
 	    type: "GET",
-	    url: "/rent/comment/list",
+	    url: "/community/comment/list",
 	    data: {
 	        boardNo: ${board.boardNo}
 	    },
@@ -288,7 +329,7 @@ function deleteComment( cmtNo ) {
 	
 		$.ajax({
 			type: "GET"
-	     	, url: "/rent/comment/delete"
+	     	, url: "/community/comment/delete"
 	     	, data: { 
 	     		boardNo : ${board.boardNo },
 	     		cmtNo : cmtNo
@@ -327,7 +368,7 @@ $(()=>{
 
 		$.ajax({
 			type: "POST"
-         	, url: "/rent/comment"
+         	, url: "/community/comment"
          	, data: { 
          		boardNo : ${board.boardNo },
          		writerId : "${id }",
@@ -377,9 +418,11 @@ $(()=>{
 	
 	//추천, 취소 요청Ajax
 	$("#btnLike").click(()=>{
+		
+		
 		$.ajax({
 			type: "GET"
-			, url: "/rent/like"
+			, url: "/community/like"
 			, data: {  
 				boardNo : ${board.boardNo }
 			}
@@ -435,7 +478,7 @@ function sendNofiLike() {
 	<div class="viewWrap">
 		<div id="upAndDel" style="float: right; margin: 15px;">
 			<c:if test="${id eq board.writerId }">
-				<a href="/rent/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>수정</button></a>
+				<a href="/community/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>수정</button></a>
 				<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">삭제</button>
 			</c:if>
 		</div>	
@@ -445,7 +488,7 @@ function sendNofiLike() {
 			<span id="viewHit">👀[${board.hit }]</span>
 		</div><!-- .viewTitle -->
 		<div class="viewNick">
-			<span id="viewNick">${board.writerNick}</span>
+			<a href="/profile/yourProfile?boardNo=${board.boardNo }"><span id="viewNick">${board.writerNick}</span></a> 		
 			<span id="viewDate">🕑
 			<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
 			<fmt:formatDate var="writeDate" value="${board.writeDate }" pattern="yyyyMMdd" />
@@ -458,6 +501,9 @@ function sendNofiLike() {
 				</c:otherwise>
 			</c:choose>
 			</span>	
+			<c:if test="${param.menu == 4 && param.cate == 2 }">
+				<span id="viewLocation" style="float: right;"><i style="color: rgb(255,83,63)" class="bi bi-geo-alt-fill"></i> ${board.location }</span>
+			</c:if>
 		</div><!-- .viewNick -->
 		<div class="viewContent">${board.content }</div><!-- .viewContent  -->
 		<div class="viewLike">
@@ -481,7 +527,7 @@ function sendNofiLike() {
 
 	<%-- 목록,수정,삭제 --%>
 	<div class="text-left">
-		<a class="btn" href="/community/list?menu=1&cate=1">목록</a>
+		<a class="btn" href="/community/list?menu=${param.menu }&cate=${param.cate}">목록</a>
 	</div><br>
 
 </div> <!-- .container -->
@@ -523,3 +569,21 @@ function sendNofiLike() {
 	
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
+
+<!-- 게시글 삭제Modal -->
+<div class="modal fade" id="deleteOBoardModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteOBoardModalLabel" aria-hidden="true" style="margin-top: 500px;display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>  
+      <div class="modal-body">
+        <p>게시글을 삭제하시겠습니까?</p>
+      </div>
+      <div class="modal-footer">  
+        <a href="/community/delete?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button class="btn">예</button></a>
+        <button class="btn" data-bs-dismiss="modal">아니오</button>
+      </div>
+    </div>
+  </div>
+</div>

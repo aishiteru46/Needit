@@ -10,6 +10,8 @@
 
 <script type="text/javascript">
 $(()=>{
+	
+    <%-- 검색버튼 CSS적용 --%>
 	$("#searchBtn").mouseover(function(){
 		$("#searchBtn")	
 			.css("color", "white")
@@ -21,6 +23,21 @@ $(()=>{
         .css("background-color", "")
         .text("Search");
 	});
+	
+     var $menu = ${param.menu};
+     var $cate = ${param.cate};
+     
+     // "location" 옵션의 DOM 요소를 가져옴
+     var locationOption = $('option[value="location"]');
+     
+     if ($menu == 4 && $cate == 2) {
+         // Enable the "location" option
+         locationOption.css('display', 'block');
+     } else {
+         // Disable the "location" option
+         locationOption.css('display', 'none');
+     }
+        
 });
 </script>
 
@@ -71,7 +88,7 @@ $(()=>{
 }
 
 #locationBox {
-	width: 116px;
+	width: 240px;
   	overflow: hidden;
  	text-overflow: ellipsis; 
  	white-space: nowrap; 
@@ -249,12 +266,13 @@ th {
 
 <!--게시글 검색-->
 <div class="search-container">
-	<form id="searchForm"  action="/community/search" method="get">
+	<form id="searchForm"  action="/community/searchType" method="get">
     <select name="selectSub" id="selectSub" required="required">
     	<option value="" selected disabled hidden>선택&#9660;</option>
     	<option value="title">제목</option>
     	<option value="content">내용</option>
     	<option value="writerNick">작성자</option>
+   		<option value="location">지역</option>
     </select>
     
     <input type="text" name="searchText" id="searchText" placeholder=" Need it Now!" 
@@ -284,10 +302,73 @@ th {
 </div>
 
 <div class="listContainer">
+	<c:choose>
 	
+	<c:when test="${param.menu == 4 && param.cate == 2 }">
 	<div class="table-container">
 		<table class="listType">
 		
+			<col style="width:5%;">
+			<col style="width:45%;">
+			<col style="width:20%;">
+			<col style="width:10%;">
+			<col style="width:15%;">
+			<col style="width:5%;">
+		</colgroup>
+		
+		<thead>
+			<tr>
+				<th style="border-top-left-radius: 8px;">No.</th><th>제목</th><th>위치</th><th>작성자</th><th>작성일</th><th style="border-top-right-radius: 8px;">조회</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+		<c:forEach var="list" items="${list }">
+			<tr>
+				<td>${list.BOARD_NO }</td>
+				<td>
+					<div>
+				        <c:if test="${ not empty list.THUMBNAIL_NAME  }">
+					        <div class="thumbnail">
+					        	<a href="/community/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
+					        </div>
+				        </c:if>
+				        <c:if test="${ empty list.THUMBNAIL_NAME  }">
+					        <div class="thumbnail">
+					        	<a href="/community/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/resources/img/noimg.png"/></a>
+					        </div>
+				        </c:if>
+				        <div class="titlebox">					
+							<a href="/community/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE }</div></a>
+						</div>
+					</div>
+				</td>
+				<td><div id="locationBox">${list.LOCATION }</div></td>
+				<td>${list.WRITER_NICK }</td>
+				<td>
+					<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
+					<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" />
+					<c:choose>
+						<c:when test="${writeDate lt curDate }">
+							<fmt:formatDate value="${list.WRITE_DATE }" pattern="yyyy-MM-dd" />
+						</c:when>
+						<c:otherwise>
+							<fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" />
+						</c:otherwise>
+					</c:choose>				
+				</td>
+				<td>${list.HIT}</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+		
+		</table>
+	</div><br>
+	</c:when>
+	
+		<c:otherwise>
+	<div class="table-container">
+		<table class="listType">
 		<colgroup width="100px">
 			<col style="width:5%;">
 			<col style="width:45%;">
@@ -342,7 +423,10 @@ th {
 		</tbody>
 		
 		</table>
-	</div><br>
+	</div><br><!-- .tableContainer  -->
+	</c:otherwise>
+	
+	</c:choose>
 
 <small class="float-end" style="margin-right: 8px; margin-top: -10px;">total : ${paging.totalCount }</small>
 

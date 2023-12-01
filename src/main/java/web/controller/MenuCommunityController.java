@@ -36,8 +36,6 @@ public class MenuCommunityController {
 	//게시판 목록 그리드타입 띄우기
 	@GetMapping("/list")
 	public String list( Paging param, Model model ) {
-		logger.info("param : {}", param);
-		
 		//페이징 계산
 		Paging paging = menuCommunityService.getPaging(param);
 		
@@ -52,8 +50,6 @@ public class MenuCommunityController {
 	//게시판 목록 리스트타입 띄우기
 	@GetMapping("/listType")
 	public String listType( Paging param, Model model ) {
-		logger.info("param : {}", param);
-		
 		//페이징 계산
 		Paging paging = menuCommunityService.getPaging(param);
 		
@@ -109,7 +105,6 @@ public class MenuCommunityController {
 		//게시글 상세 조회
 		board = menuCommunityService.view(board);
 		model.addAttribute("board", board);
-		logger.info(board.toString());
 		
 		//첨부파일 정보 전달
 		List<FileTb> fileTb = menuCommunityService.getAttachFile( board );
@@ -148,8 +143,6 @@ public class MenuCommunityController {
 	//게시글 작성 처리
 	@PostMapping("/write")
 	public String writeProc( Board writeParam, List<MultipartFile> file, HttpSession session ) {
-		logger.info("writeParam : {}", writeParam );
-		
 		//작성자 id, nick 세팅
 		writeParam.setWriterId((String) session.getAttribute("id"));
 		writeParam.setWriterNick((String) session.getAttribute("nick"));
@@ -190,12 +183,6 @@ public class MenuCommunityController {
 			, int[] delFileno
 			, HttpSession session
 			, Model model) {
-		
-		logger.info("updateParam {}", updateParam);
-		logger.info("file {}", file);
-		logger.info("delFileno {}", Arrays.toString(delFileno));
-
-
 		updateParam.setWriterId((String) session.getAttribute("id"));
 		updateParam.setWriterNick((String) session.getAttribute("nick"));
 		
@@ -210,7 +197,6 @@ public class MenuCommunityController {
 	public String delete(Board board, HttpSession session) {
 		board.setWriterId((String) session.getAttribute("id"));
 		menuCommunityService.delete(board);
-		
 		return "redirect:/community/list?menu=" + board.getMenu() + "&cate=" + board.getCate();
 	}
 
