@@ -1,5 +1,6 @@
 package web.controller;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -66,19 +67,15 @@ public class MenuCommunityController {
 
 	//검색한 게시판 목록 그리드타입 띄우기
 	@GetMapping("/search")
-	public String search( Board board, Model model, Paging param ) {
-		logger.info("검색주제 : {}", param.getSelectSub());
-		logger.info("검색어 : {}", param.getSearchText());
-		logger.info("검색한 메뉴 : {}", param.getMenu());
-		logger.info("검색한 카테 : {}", param.getCate());
+	public String search( Board board, Model model, Paging param, HttpSession session ) {
 		
 		//페이징 계산
 		Paging paging = menuCommunityService.getPaging(param);
-		logger.info("검색된 게시글 수  : {}", paging.getTotalCount());
+		//각 유저가 찜한 상품목록 조회를 위한 Id 저장
+		paging.setUserId((String)session.getAttribute("id"));
 		
+		//게시글 목록 조회
 		List<Map<String, Object>> list = menuCommunityService.searchList(paging);
-		logger.info("검색된 게시글 내용  : {}", list);
-		
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
@@ -88,18 +85,12 @@ public class MenuCommunityController {
 	//검색한 게시판 목록 리스트타입 띄우기
 	@GetMapping("/searchType")
 	public String searchType( Board board, Model model, Paging param ) {
-		logger.info("검색주제 : {}", param.getSelectSub());
-		logger.info("검색어 : {}", param.getSearchText());
-		logger.info("검색한 메뉴 : {}", param.getMenu());
-		logger.info("검색한 카테 : {}", param.getCate());
 		
 		//페이징 계산
 		Paging paging = menuCommunityService.getPaging(param);
-		logger.info("검색된 게시글 수  : {}", paging.getTotalCount());
 		
+		//게시글 목록 조회
 		List<Map<String, Object>> list = menuCommunityService.searchList(paging);
-		logger.info("검색된 게시글 내용  : {}", list);
-		
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
@@ -171,20 +162,62 @@ public class MenuCommunityController {
 
 	//게시글 수정 폼
 	@GetMapping("/update")
-	public void update() {} 
-
+	public String update(Board updateParam, Model model) {
+		
+		if( updateParam.getBoardNo() < 1 ) {
+			return "redirect:./list";
+		}
+		//상세보기 페이지 아님 표시
+		updateParam.setHit(-1);
+		
+		
+		//상세보기 게시글 조회
+		updateParam = menuCommunityService.view(updateParam);
+		model.addAttribute("updateBoard", updateParam);
+		
+		//첨부파일 정보 전달
+		List<FileTb> boardfile = menuCommunityService.getAttachFile( updateParam );
+		model.addAttribute("boardfile", boardfile);
+		
+		return "menu/community/update";
+	} 
+	
 	//게시글 수정 처리
 	@PostMapping("/update")
-	public void updateProc() {} 
+	public String updateProc(
+			Board updateParam
+			, List<MultipartFile> file
+			, int[] delFileno
+			, HttpSession session
+			, Model model) {
+		
+		logger.info("updateParam {}", updateParam);
+		logger.info("file {}", file);
+		logger.info("delFileno {}", Arrays.toString(delFileno));
+
+
+		updateParam.setWriterId((String) session.getAttribute("id"));
+		updateParam.setWriterNick((String) session.getAttribute("nick"));
+		
+		menuCommunityService.updateBoard(updateParam, file, delFileno);
+		
+		return "redirect:/community/view?boardNo=" + updateParam.getBoardNo() + "&menu=" + updateParam.getMenu() + "&cate=" + updateParam.getCate();
+		 
+	} 
 
 	//게시글 삭제
 	@RequestMapping("/delete")
-	public void delete() {}
+	public String delete(Board board, HttpSession session) {
+		board.setWriterId((String) session.getAttribute("id"));
+		menuCommunityService.delete(board);
+		
+		return "redirect:/community/list?menu=" + board.getMenu() + "&cate=" + board.getCate();
+	}
+
 
 	//추천 적용
 	@GetMapping("/like")
 	public ModelAndView like( Like like, ModelAndView mav, HttpSession session  ) {
-		logger.info("like : {}", like);
 		
 		//추천 정보 토글
 		like.setLikeId((String) session.getAttribute("id"));
@@ -203,9 +236,6 @@ public class MenuCommunityController {
 	//댓글 입력하기
 	@PostMapping("/comment")
 	public String insert(Comment commentParam, Board board) {
-		logger.info("댓글 전달인자 commentParam: {}", commentParam);
-		logger.info("댓글 전달인자 board: {}", board);
-		
 		menuCommunityService.commentInsert(commentParam);
 		
 		return "redirect: /community/view?boardNo=" + board.getBoardNo();
@@ -214,8 +244,6 @@ public class MenuCommunityController {
 	//댓글 불러오기
 	@GetMapping("/comment/list")
 	public String viewComment(Comment commentParam, Model model) {
-		logger.info("commentParam: {}", commentParam);
-		
 		//댓글 목록 조회
 		List<Map<String,Object>> commentList = menuCommunityService.viewComment(commentParam);
 		model.addAttribute("commentList", commentList);
@@ -226,8 +254,6 @@ public class MenuCommunityController {
 	//댓글 삭제
 	@GetMapping("/comment/delete")
 	public String delete(Comment commentDelete) {
-		logger.info("commentDelete : {}", commentDelete);
-		
 		menuCommunityService.delete(commentDelete);
 		
 		return "jsonView";

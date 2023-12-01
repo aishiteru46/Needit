@@ -10,7 +10,7 @@
 	<sql id="selectBoard">
 		SELECT 
 		    board_no, writer_id, writer_nick, 
-		    hit, menu, cate, title, price, content, location,
+		    hit, menu, cate, title, content,
 		    CAST(write_date AS DATE) AS write_date, 
 		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
 		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
@@ -31,9 +31,6 @@
 	    </if>
 	    <if test='selectSub =="writerNick"'> 
 	        AND writer_nick LIKE '%' || #{searchText} || '%'
-	    </if>
-	    <if test='selectSub =="location"'> 
-	        AND location LIKE '%' || #{searchText} || '%'
 	    </if>
 	</sql>
 	
@@ -62,7 +59,7 @@
 	        SELECT rownum rnum, B.* FROM (
 	            SELECT 
 	                board_no, writer_id, writer_nick, 
-	                hit, menu, cate, title, price, content, location,
+	                hit, menu, cate, title, content,
 	                CAST(write_date AS DATE) AS write_date, 
 	                (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
 	                (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
@@ -78,9 +75,6 @@
 	                </if>
 	                <if test='selectSub =="writerNick"'> 
 	                    AND writer_nick LIKE '%' || #{searchText} || '%'
-	                </if>
-	                <if test='selectSub =="location"'> 
-	                    AND location LIKE '%' || #{searchText} || '%'
 	                </if>
 	            ORDER BY board_no DESC
 	        ) B
@@ -113,7 +107,7 @@
 		SELECT
 			board_no, writer_id, writer_nick
 			, write_date, hit, menu, cate
-			, title, price, content, location
+			, title, content
 		FROM board
 		<where>
 			board_no = #{boardNo }
@@ -221,5 +215,34 @@
 			AND board_no = #{boardNo }
 		</where>
 	</delete>
+	
+		<!-- 게시글 삭제  -->
+	<delete id="deleteBoard" parameterType="Board">
+		DELETE board
+		<where>
+			AND board_no = #{boardNo}
+			AND writer_id = #{writerId}
+		</where>
+	</delete>
+	
+	<!-- 게시판 수정 -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE board
+		SET title = #{title } 
+		, content = #{content } 
+		
+		<where> 
+			board_no = #{boardNo }
+		</where>
+	</update>
+	
+	<!-- 여러개 파일 삭제 -->
+	<delete id="deleteFiles" parameterType="int[]">
+		DELETE fileTb
+		<where>
+		file_no IN
+		<foreach collection="array" item="no" open="(" close=")" separator=","> #{no } </foreach>
+		</where>
+	</delete> 
 	
 </mapper>

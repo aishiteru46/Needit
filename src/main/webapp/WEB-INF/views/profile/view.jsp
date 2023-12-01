@@ -369,8 +369,9 @@ $(function(){
     float: left;
 }
 .userInfo thead{
-   width: 200px;
-    background-color: azure;
+	width: 200px;
+    background-color: rgb(255 83 63 / 6%);
+    border-radius: 8px;
 }
 .userInfo tbody td{
    width: 575px;
@@ -524,7 +525,7 @@ $(function(){
 /* 업체 링크 */
 #businessUrl{
    position: absolute;
-    margin-top: -41px;
+    margin-top: -50px;
     margin-left: 400px;
     margin-bottom: 24px;
     font-size: 18px;
@@ -561,8 +562,13 @@ $(function(){
     border-radius: 5px;
     vertical-align: middle;
 }
+#businessUrl a {
+    vertical-align: -webkit-baseline-middle;
+    color: blue;
+    text-decoration: underline;
+}
 #introUpdate {
-   display: none; /* 초기에는 저장 버튼을 숨김 */
+	display: none; /* 초기에는 저장 버튼을 숨김 */
 }
 
 /* 목록들 보기 버튼 */
@@ -641,7 +647,7 @@ $(function(){
 
 <div class="panel panel-default" id="userContent">
 
-<h3 style="font-size: 23px; font-weight: bold; margin-bottom: 7px;">${nick}님의 프로필</h3>
+<h3 style="font-size: 23px; font-weight: bold; margin-bottom: 12px; display: inline-block;">${nick}님의 프로필</h3>
 <c:if test="${user.businessStatus eq 2 }">
    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-award" viewBox="0 0 16 16">
      <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z"/>

@@ -112,7 +112,7 @@ form {
 <img class="logo top-50 start-50" src="/resources/img/needit01.png" width="300" height="60" >
 <form action="./findpw" method="post"  class="card shadow-lg position-absolute top-50 start-50 form-signin" inputmode="text">
 <fieldset style="width: 150;">
-<legend class="find">아이디 찾기</legend>
+<legend class="find">비밀번호 찾기</legend>
 
 <div class="form-floating">
 	<div class="row">

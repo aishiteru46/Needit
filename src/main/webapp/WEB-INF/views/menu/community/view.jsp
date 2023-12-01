@@ -377,8 +377,6 @@ $(()=>{
 	
 	//추천, 취소 요청Ajax
 	$("#btnLike").click(()=>{
-		
-		
 		$.ajax({
 			type: "GET"
 			, url: "/rent/like"
@@ -472,8 +470,8 @@ function sendNofiLike() {
 			
 			<c:if test="${not isLogin }">
 				<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal" >
-					<div class="bi bi-suit-heart" id="btnLike">
-						<span style="color: white">좋아요</span>
+					<div class="btn bi bi-suit-heart" id="btnLike">
+						<span style="color: white; font-weight: normal;">좋아요</span>
 						<span id="likeNo" style="color: #ff533f;">${cntLike }</span>
 					</div>
 				</a>
@@ -514,7 +512,6 @@ function sendNofiLike() {
 			<div class="col col-9">
 				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;" readonly="readonly" placeholder="로그인 후 댓글 작성 가능"></textarea>
 			</div>
-<%-- 				<a class="btn btn-danger col-1" href="/user/login?boardNo=${board.boardNo }&menu=${board.menu}&cate=${board.cate }&type=community">로그인</a> --%>
 				<a class="btn btn-danger col-1" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">로그인</a>
 		</div>
 	</c:if><br>

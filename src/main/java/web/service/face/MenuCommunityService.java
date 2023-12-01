@@ -5,10 +5,12 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import web.dto.Basket;
 import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
+import web.dto.Rent;
 import web.util.Paging;
 
 public interface MenuCommunityService {
@@ -122,6 +124,22 @@ public interface MenuCommunityService {
 	 * @param commentDelete - boardNo, cmtNo
 	 */
 	public void delete(Comment commentDelete);
+
+	/**
+	 * 게시글 삭제
+	 * 
+	 * @param board - boardNo,menu,cate
+	 */
+	public void delete(Board board);
+
+	/**
+	 * 게시글 수정
+	 * 
+	 * @param updateParam
+	 * @param file
+	 * @param delFileno
+	 */
+	public void updateBoard(Board updateParam, List<MultipartFile> file, int[] delFileno);
 
 
 }
