@@ -76,7 +76,9 @@ public class LoginController {
 
 	
 	@GetMapping("/login")
-	public void login(Model model,HttpSession session) {}
+	public void login(Model model,HttpSession session) {
+		logger.info("[get]");
+	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<String> loginProc( User user, HttpSession session, HttpServletResponse response, Model model) {
