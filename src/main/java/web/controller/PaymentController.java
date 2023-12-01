@@ -44,7 +44,7 @@ public class PaymentController {
    
     //식별코드
     private String apiKey = "0485646228871227";
-    private String secretKey = "zlwIDmhgdJZZ8fIJGYP0wnzmpkbc6fHksifefkrRrknfXylZcx7Ch37KJuCrWpxM5lfPmQt6VlxkvMXr";
+    private String secretKey = "KCtaNRDPxLorpxRgCwyU9DRi1yOrYrgBE1zcPiaiQwWPc9x3bKjmZKe07TjvzYaZTAPanZg7F2UpRiO5";
    
     public PaymentController() {
        this.iamportClient = new IamportClient(apiKey, secretKey);
@@ -66,6 +66,7 @@ public class PaymentController {
     @ResponseBody
     public ResponseEntity<Map<String,Object>> cancel( Rent rent, String merchantUid ,Model model, HttpSession session ) throws IOException {
        logger.info("merchantUid : {} ", merchantUid);
+       logger.info("rent 결제 취소 param: {} ", rent);
       
        try {
           String token = paymentService.getToken(apiKey, secretKey);

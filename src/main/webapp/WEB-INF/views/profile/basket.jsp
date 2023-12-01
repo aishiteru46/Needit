@@ -260,6 +260,7 @@
 </style>
 
 <!-- 찜목록 -->
+<c:if test="${not empty isLogin }">
 
 <h1 class="listH1">찜 목록</h1>
 <div id="basketListSection" class="tableScroll">
@@ -322,6 +323,10 @@
 </c:forEach>
 </table>
 </div><!-- .tableScroll -->
+</c:if>
 
+<c:if test="${empty isLogin}">
+	<h1>로그인후 이용해주세용~!</h1>
+</c:if>
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
