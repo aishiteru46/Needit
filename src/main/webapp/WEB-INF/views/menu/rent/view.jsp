@@ -94,9 +94,12 @@ h6 {
 	color: blue;
 }
 
-/* 내가추가함 ㅠ */
-
 button:hover { scale: 1.1;}
+#upAndDel {
+    float: right;
+    margin-right: 151px;
+    margin-bottom: 13px;
+}
 #upAndDel button {     
 	color: white;
     border: none;
@@ -107,7 +110,14 @@ button:hover { scale: 1.1;}
 }
 
 a:hover { text-decoration: none; }
-.viewHeader { width: 900px; height: 500px; margin: 0 auto; margin-top: 70px }
+#borderContainer {
+	width: 900px;
+    height: auto;
+    margin: 0 auto;
+    border: 1px solid;
+    border-radius: 10px;
+}
+.viewHeader { width: 900px; height: 500px; margin: 0 auto; margin-top: -30px; }
 .viewheader > div { float: left;}
 .thumb {
 	width: 500px; /* 원하는 너비로 설정 */
@@ -154,7 +164,7 @@ a:hover { text-decoration: none; }
 .viewFile { width: 900px; margin: 0 auto;border: 1px solid #ccc; }
 .viewContent { width: 900px; min-height: 400px; margin: 0 auto; border: 1px solid #ccc; border-radius: 0 0 10px 10px; }
 #viewContent { margin: 20px 50px; }
-#viewContent p img { width: 750px; }
+#viewContent p img { max-width: 750px; }
 
 </style>
 
@@ -536,15 +546,15 @@ $(()=>{
 <%-- Body --%>
 <div class="container">
 <div class="viewWrap">
+	<div id="upAndDel">
+		<c:if test="${id eq board.writerId }">
+			<a href="/rent/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>수정</button></a>
+			<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">삭제</button>
+		</c:if>
+	</div>	
 <div id="borderContainer">
 	
 	<div class="viewHeader">
-		<div id="upAndDel" style="float: right; margin: 15px;">
-			<c:if test="${id eq board.writerId }">
-				<a href="/rent/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>수정</button></a>
-				<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">삭제</button>
-			</c:if>
-		</div>	
 		<div style="clear: both;"></div>
 		<div class="thumb">
 		    <div id="thumbImg" style="border-radius: 0px 10px 0px 0px">
