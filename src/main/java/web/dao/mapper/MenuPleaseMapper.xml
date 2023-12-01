@@ -316,4 +316,11 @@
 		</where>
 	</delete>
   
+  
+  	<select id="selectWriteAddr" resultType="User" parameterType="User">
+  		SELECT addr1
+  		FROM usertb
+  		where id = #{id}
+  	</select>
+  
  </mapper>

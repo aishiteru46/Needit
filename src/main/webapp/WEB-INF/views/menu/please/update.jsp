@@ -9,35 +9,51 @@
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
     
-<script type="text/javascript">
-$(() => {
-	$("#title").focus()
-	
-	$("#content").summernote({
-		height: 300
-	})
-})
-
-function setThumbnail(event) {
-    var reader = new FileReader();
-
-    reader.onload = function (event) {
-        var thumbnailContainer = document.querySelector("#thumnail_container");
-        thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
-    };
-
-    reader.readAsDataURL(event.target.files[0]);
+<style type="text/css">
+.file {
+	color: blue;
+	font-size: 14px;
+}
+.del { 
+    vertical-align: middle;
+    font-size: 18px;
+    color: red;
+    margin-left: 3px;
+    margin-bottom: 3px;
+}
+.del:hover {
+	cursor: pointer;
+}
+#originFile {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+#originFile div{
+	margin-left: 5px;
+}
+.note-editor .dropdown-toggle::after { 
+	all: unset; 
 }
 
-</script>
+.note-editor .note-toolbar .note-dropdown-menu, .note-popover .popover-content .note-dropdown-menu {
+    font-size: 16px;
+    text-align: left;
+    min-width: 160px;
+}
+.note-editor.note-airframe .note-editing-area, .note-editor.note-frame .note-editing-area {
+    overflow: hidden;
+    height: 500px;
+}
 
-<style type="text/css">
-
-#thumnail_container{
-    border: 1px solid #ccc;
-    width: 200px;
-    height: 200px;
+#thumbnailBox{
+    outline: 1px solid #ccc;
+    width: 300px;
+    height: 300px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,14 +61,127 @@ function setThumbnail(event) {
     background-repeat: no-repeat;
     background-position: center center;
 }
-
+#thumbnailBox img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+}
+#thumbnail_container{
+    margin-top: 42px;
+    position: absolute;
+    outline: 1px solid #ccc;
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+#btnWrite {
+	border: none;
+	border-radius: 5px;
+	background-color: #ccc;
+	font-size: 16px;
+}
+#rollBack  {
+    text-align: center;
+    vertical-align: middle;
+	color:black;
+	font-weight: normal;
+	width: 113.63px;
+	height: 26px;
+	border: none;
+	border-radius: 5px;
+	background-color: #ccc;
+	font-size: 16px;
+}
+#rollBackBtn {
+    margin-bottom: 40px;
+}
+.text-center {
+	margin-top: 40px;
+    margin-bottom: 40px;
+    text-align: center;
+}
 </style>
 
+<script type="text/javascript">
+$(() => {
+   $("#title").focus()
+   
+   	$(".del").click(e => {
+		$(e.target).prev().toggleClass("text-decoration-line-through")
+		
+		$(e.target).next().prop("checked", ()=>{return !$(e.target).next().prop("checked");})
+	})
+   
+   $('#content').summernote('fontName', 'Arial');
+   $('#content').summernote('fontSize', 16);
+   $('#content').summernote('style', 'clear');
+   
+   $("#content").summernote({
+      height: 300,
+      toolbar: [
+          ['fontname', ['fontname']],
+          ['fontsize', ['fontsize']],
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['color', ['color']],
+          ['table', ['table']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']],
+          ['insert',['picture','link']],
+        ],
+      fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+      fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+   })
+})
+
+//썸네일 미리보기
+function setThumbnail(event) {
+	
+	$("#defaultImg").css("display", "none")
+    var reader = new FileReader();
+
+    reader.onload = function (event) {
+        var thumbnailContainer = document.querySelector("#thumbnail_container");
+        thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+}// .setThumbnail() End
+
+//가격란에 문자,높은 금액, 0원 입력 방지
+$(document).ready(function() {
+    $("#price").on("keyup", function() {
+        var checkType = $("#price").val();
+
+        if (isNaN(checkType)) {
+            alert("숫자만 입력 가능합니다");
+            $("#price").val("");
+            $("#price").focus();
+        }
+
+        if ( checkType > 1000000) {
+            alert("가격은 30분에 1,000,000원 보다 높을 수 없습니다.");
+            $("#price").val("");
+            $("#price").focus();
+        }
+    
+        if ( checkType == 0 ) {
+            alert("가격은 0원 보다 높아야 합니다.");
+            $("#price").val("");
+            $("#price").focus();
+        }
+
+    });
+});
+</script>
+
+
 <div class="container">
-
-<h1>글 작성</h1>
-<hr>
-
+<br><br>
 
 <div class="col-10 mx-auto">
 <form action="./update" method="post" enctype="multipart/form-data">

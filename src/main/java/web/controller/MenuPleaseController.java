@@ -36,7 +36,7 @@ public class MenuPleaseController {
    
    @Autowired private MenuPleaseService menuPleaseService;
    
- //게시판 목록 띄우기
+ //게시판 목록 띄우기 그리드타입
  	@GetMapping("/list")
  	public String list( Paging param, Model model, HttpSession session ) {
  		logger.info("param : {}", param);
@@ -161,20 +161,29 @@ public class MenuPleaseController {
    
    //게시글 작성 폼
  	@GetMapping("/write")
- 	public String write() {
+ 	public String write(User user, Model model, HttpSession session ) {
+ 		
+ 		
+ 		user.setId((String)session.getAttribute("id"));
+ 		User writeUser = menuPleaseService.writeAddrSelect(user);
+ 		model.addAttribute("user", writeUser);
+ 		logger.info("바뀐주소 : {}", writeUser);
+ 		
  		return "menu/please/write";
  	}
  	
  	//게시글 작성 처리
  	@PostMapping("/write")
- 	public String writeProc( Board writeParam, List<MultipartFile> file, HttpSession session ) {
+ 	public String writeProc( Board writeParam, List<MultipartFile> file, HttpSession session) {
  		
  		logger.info("writeParam : {}", writeParam );
+ 		
  		
  		//작성자 id, nick 세팅
  		writeParam.setWriterId((String) session.getAttribute("id"));
  		writeParam.setWriterNick((String) session.getAttribute("nick"));
- 		writeParam.setLocation((String)session.getAttribute("addr1"));
+ 		
+ 		
  		
  		//게시글 저장
  		menuPleaseService.write( writeParam, file );
@@ -196,7 +205,7 @@ public class MenuPleaseController {
    
    
    
-   
+   //글수정
    @GetMapping("/update")
    public String update(Board updateParam, Model model) {
 	   
@@ -253,7 +262,7 @@ public class MenuPleaseController {
    }
    
    
-   
+   //글삭제
    @RequestMapping("/delete")
    public String delete(Board deleteParam, Model model ) {
 	   

@@ -23,6 +23,7 @@ import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
+import web.dto.User;
 import web.service.face.MenuPleaseService;
 import web.util.Paging;
 
@@ -314,6 +315,12 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 		}
 		
 	}
+
+	@Override
+	public User writeAddrSelect(User user) {
+		return menuPleaseDao.selectWriteAddr(user);
+	}
+
 
 //	@Override
 //	public List<Map<String, Object>> getStatus(Board board) {

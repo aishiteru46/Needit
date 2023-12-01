@@ -8,6 +8,7 @@ import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
+import web.dto.User;
 import web.util.Paging;
 
 public interface MenuPleaseDao {
@@ -228,6 +229,21 @@ public interface MenuPleaseDao {
 	 * @param basket
 	 */
 	public void insertBasket(Basket basket);
+
+
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public User selectWriteAddr(User user);
+
+
+	/**
+	 * 세션이 회원정보수정전 주소 가져오는것 때문에 추가함
+	 * @param user
+	 * @return
+	 */
 
 
 	
