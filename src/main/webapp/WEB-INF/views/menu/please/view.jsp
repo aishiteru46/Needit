@@ -44,15 +44,6 @@
 	margin-left: 5px;
     margin-top: 5px;
 }
-/* #map-container { */
-/*     overflow: hidden; */
-/*     height: 0; */
-/*     transition: height 0.3s ease; */
-/* } */
-
-/* #map-container.expanded { */
-/*     height: 350px; */
-/* } */
 #map {
 	margin: 0 auto;
 	width:400px; 
@@ -103,9 +94,12 @@ h6 {
 	color: blue;
 }
 
-/* 내가추가함 ㅠ */
-
 button:hover { scale: 1.1;}
+#upAndDel {
+    float: right;
+    margin-right: 151px;
+    margin-bottom: 13px;
+}
 #upAndDel button {     
 	color: white;
     border: none;
@@ -116,7 +110,14 @@ button:hover { scale: 1.1;}
 }
 
 a:hover { text-decoration: none; }
-.viewHeader { width: 900px; height: 500px; margin: 0 auto; margin-top: 70px }
+#borderContainer {
+	width: 900px;
+    height: auto;
+    margin: 0 auto;
+    border: 1px solid;
+    border-radius: 10px;
+}
+.viewHeader { width: 900px; height: 500px; margin: 0 auto; margin-top: -30px; }
 .viewheader > div { float: left;}
 .thumb {
 	width: 500px; /* 원하는 너비로 설정 */
@@ -163,7 +164,7 @@ a:hover { text-decoration: none; }
 .viewFile { width: 900px; margin: 0 auto;border: 1px solid #ccc; }
 .viewContent { width: 900px; min-height: 400px; margin: 0 auto; border: 1px solid #ccc; border-radius: 0 0 10px 10px; }
 #viewContent { margin: 20px 50px; }
-#viewContent p img { width: 750px; }
+#viewContent p img { max-width: 750px; }
 
 </style>
 
@@ -197,82 +198,89 @@ function loadComments() {
          		const id = '${id}'
         	    const nick = '${nick}' //세션 닉네임
 
-         		
-                for (var i = 0; i < res.commentList.length; i++) {
-                	
-                	var boardMaster = "${board.writerNick }" //게시글 작성자
-        	        var commentWriter = res.commentList[i].WRITER_NICK//댓글 작성자
-                	
-    	            console.log("res.commentList[i].thumbnailName :" , res.commentList[i].THUMBNAIL_NAME);
+        	    	 if( res.commentList != null && res.commentList.length > 0 ){
+        		        	console.log("댓글 있음")
+        			        for (var i = 0; i < res.commentList.length; i++) {
+        		
+        			            var boardMaster = "${board.writerNick }" //게시글 작성자
+        			            var commentWriter = res.commentList[i].WRITER_NICK//댓글 작성자
+        			            
+        			            commentListHtml += '<hr>'; 
+        			            commentListHtml += '<div class="media mb-4">';
+        			            //프로필사진 유무 처리
+        			            if( res.commentList[i].THUMBNAIL_NAME != null || res.commentList[i].THUMBNAIL_NAME > 0 ){
+        			            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
+        			            } else {
+        				            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/resources/img/defaultProfile.png">';
+        			            }
+        			            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
+        			            //댓글 작성자 구분 처리                                                                                    
+        			            if (commentWriter === boardMaster && commentWriter === nick) { 
+        			                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+        			            } else if (commentWriter === nick) {
+        			                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+        			            } else if (commentWriter === boardMaster) {
+        			                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter">작성자</div>' + '</h6>';
+        			            } else {
+        			                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '</h6>';
+        			            }
+        			            //댓글내용
+        			            commentListHtml += '    <h5 class="text-start">' + res.commentList[i].CONTENT + '</h5>';
+        			            //댓글작성 일자
+        			            commentListHtml += '    <p style="font-size: 13px; display: inline-block;">' + formatDate(new Date(res.commentList[i].writeDate)) + '</p>';
+        			            //본인 댓글 삭제가능 처리
+        			            if (id && id == res.commentList[i].WRITER_ID) {
+        			                commentListHtml += '    <button id="del" onclick="deleteComment(' + res.commentList[i].CMT_NO + ');">';
+        			                commentListHtml += '	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">';
+        			                commentListHtml += '	<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>';
+        			                commentListHtml += '	</svg>'
+        			                commentListHtml += '    </button>';
+        			            }
+        			            //댓글신고 버튼
+        			            if (id != null) {
+        			            commentListHtml += '	<button id="cmtReportBtn" onclick="cmtReport(' + res.commentList[i].CMT_NO + ');">'; 
+        			            commentListHtml += '신고하기';
+        			            commentListHtml += '	</button>';
+        			            commentListHtml += '<div id="reportSelect_' + res.commentList[i].CMT_NO + '" class="report-options" style="display:none;">';
+        			            commentListHtml += '  <input type="radio" name="reportType" value="광고">광고</input>';
+        			            commentListHtml += '  <input type="radio" name="reportType" value="욕설">욕설</input><br>';
+        			            commentListHtml += '  <input type="radio" name="reportType" value="비방">비방</input>';
+        			            commentListHtml += '  <input type="radio" name="reportType" value="음란">음란</input><br>';
+        			            commentListHtml += '  <input type="radio" name="reportType" value="불법">불법</input><br>';
+        			            commentListHtml += '  <button id="submitCmt" onclick="submitReport(' + res.commentList[i].CMT_NO + ');">제출</button>';
+        			            commentListHtml += '</div>';
+        			            }
+        			            commentListHtml += '</div>';
+        			            commentListHtml += '  </div>';
+        			            commentListHtml += '</div>';
+        			        }
+        			        // 렌더링된 HTML을 추가
+        			        $("#commentList").html(commentListHtml);
+        			        
+//         			     	// 닉네임 클릭 이벤트 바인딩
+//         	                $(".comment-nickname").on("click", function () {
+//         	                    console.log("작동")
+//         	                    window.location.href = '/yourProfileCmt?cmtNo=' + res.commentList[i].CMT_NO;
+//         	                });
 
-                	commentListHtml += '<hr>'; 
-     	            commentListHtml += '<div class="media mb-4">';
-     	         	//프로필사진 유무 처리
-		            if( res.commentList[i].THUMBNAIL_NAME != null || res.commentList[i].THUMBNAIL_NAME > 0 ){
-		            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
-		            } else {
-			            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/resources/img/defaultProfile.png">';
-		            }
-		            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
-     	            
-     	         	//댓글 작성자 구분 처리                                                                                    
-    	            if (commentWriter === boardMaster && commentWriter === nick) { 
-    	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
-    	            } else if (commentWriter === nick) {
-    	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
-    	            } else if (commentWriter === boardMaster) {
-    	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter">작성자</div>' + '</h6>';
-    	            } else {
-    	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '</h6>';
-    	            }
-     	         	//댓글내용
-    	            commentListHtml += '    <h5 class="text-start">' + res.commentList[i].CONTENT + '</h5>';
-    	            //작성일자
-    	            commentListHtml += '    <p style="font-size: 13px; display: inline-block;">' + formatDate(new Date(res.commentList[i].writeDate)) + '</p>';
-    	            //본인 댓글 삭제가능 처리
-    	            if (id && id == res.commentList[i].WRITER_ID) {
-    	                commentListHtml += '    <button id="del" onclick="deleteComment(' + res.commentList[i].CMT_NO + ');">';
-    	                commentListHtml += '	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">';
-    	                commentListHtml += '	<path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>';
-    	                commentListHtml += '	</svg>'
-    	                commentListHtml += '    </button>';
-    	            }
-    	          //댓글신고 버튼
-		            if (id != null) {
-		            commentListHtml += '	<button id="cmtReportBtn" onclick="cmtReport(' + res.commentList[i].CMT_NO + ');">'; 
-		            commentListHtml += '신고하기';
-		            commentListHtml += '	</button>';
-		            commentListHtml += '<div id="reportSelect_' + res.commentList[i].CMT_NO + '" class="report-options" style="display:none;">';
-		            commentListHtml += '  <input type="radio" name="reportType" value="광고">광고</input>';
-		            commentListHtml += '  <input type="radio" name="reportType" value="욕설">욕설</input><br>';
-		            commentListHtml += '  <input type="radio" name="reportType" value="비방">비방</input>';
-		            commentListHtml += '  <input type="radio" name="reportType" value="음란">음란</input><br>';
-		            commentListHtml += '  <input type="radio" name="reportType" value="불법">불법</input><br>';
-		            commentListHtml += '  <button id="submitCmt" onclick="submitReport(' + res.commentList[i].CMT_NO + ');">제출</button>';
-		            commentListHtml += '</div>';
-		            }
-		            commentListHtml += '</div>';
-		            commentListHtml += '  </div>';
-		            commentListHtml += '</div>';
-		        } else {
-		        	console.log("댓글 없음")
-		            commentListHtml += '<hr>'; 
-		            commentListHtml += '<div class="media mb-4">';
-		            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
-		            commentListHtml += '    <p style="text-align: center; color: rgb(255,83,63); margin-bottom: 100px;">작성된 댓글이 없습니다.</p>';
-		            commentListHtml += '  </div>';
-		            commentListHtml += '</div>';
-		        }
-    	
-    	        // 렌더링된 HTML을 추가
-    	        $("#commentList").html(commentListHtml);
-    	
-    	    },
-    	    error: function () {
-    	        console.log("댓글창 반응 실패");
-    	    }
-    	
-    	});	
+        		        } else {
+        		        	console.log("댓글 없음")
+        		            commentListHtml += '<hr>'; 
+        		            commentListHtml += '<div class="media mb-4">';
+        		            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
+        		            commentListHtml += '    <p style="text-align: center; color: rgb(255,83,63); margin-bottom: 100px;">작성된 댓글이 없습니다.</p>';
+        		            commentListHtml += '  </div>';
+        		            commentListHtml += '</div>';
+        		        }
+        		        // 렌더링된 HTML을 추가
+        		        $("#commentList").html(commentListHtml);
+        		        
+        		    },
+        		    error: function () {
+        		        console.log("댓글창 반응 실패");
+        		    }
+        		
+        		});
 	
 	function formatDate(date) {
 	    var curDate = new Date();
@@ -445,8 +453,7 @@ $(()=>{
 				}
 				
 				//추천수 적용
-				$("#like")
-				.html('<div id="likeNo">' + data.cnt + '</div>명이 이 게시글을 좋아합니다');
+				$("#likeNo").text(data.cnt)
 				
 			}
 			, error: function() {
@@ -477,7 +484,7 @@ function sendNofiLike() {
 
 </script>
 
-<!-- Kakao Map API -->
+<%-- Kakao Map API --%>
 <script type="text/javascript">
 $(()=>{
 	
@@ -500,7 +507,6 @@ $(()=>{
 	
 	var location = '${board.location}';
 	console.log("게시글 위치", location);
-
 	
 	//주소로 좌표를 검색합니다
 	geocoder.addressSearch( location, function(result, status) {
@@ -516,19 +522,20 @@ $(()=>{
          imageOption = {offset: new kakao.maps.Point(22, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
         // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+		
 	
 	//이건 마커 따로 만들어둬서 돼서 핵심 XXXX
 	     // 결과값으로 받은 위치를 마커로 표시합니다
 	     var marker = new kakao.maps.Marker({
 	         map: map,
-	         position: coords
+	         position: coords,
 	         image: markerImage
 	     });
 	
 	//이건 인포윈도우로 따로 만들어둬서 돼서 핵심 XXXX
 	     // 인포윈도우로 장소에 대한 설명을 표시합니다
 	     var infowindow = new kakao.maps.InfoWindow({
-	         content: '<div style="width:150px;text-align:center;padding:6px 0;">대여가능 위치</div>'
+	         content: '<div style="width:150px;text-align:center;padding:6px 0;">대여가능 위치<br><div style="font-size: 10px;">${board.location}<div></div>'
 	     });
 	     infowindow.open(map, marker);
 	
@@ -543,8 +550,16 @@ $(()=>{
 <%-- Body --%>
 <div class="container">
 <div class="viewWrap">
+	<div id="upAndDel">
+		<c:if test="${id eq board.writerId }">
+			<a href="/please/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>수정</button></a>
+			<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">삭제</button>
+		</c:if>
+	</div>	
 <div id="borderContainer">
+	
 	<div class="viewHeader">
+		<div style="clear: both;"></div>
 		<div class="thumb">
 		    <div id="thumbImg" style="border-radius: 0px 10px 0px 0px">
 		        <c:if test="${not empty fileTb and not empty fileTb[0]}">
@@ -558,31 +573,11 @@ $(()=>{
 		
 		<div class="viewInfo">
 			<div class="infoMenu" style="border-radius: 0px 10px 0px 0px">
-				<c:if test="${board.menu eq 1 and board.cate eq 1}">
-					<span id="infoMenu">대여해요 [물품]</span>
-				</c:if>
-				<c:if test="${board.menu eq 2 and board.cate eq 1}">
-					<span id="infoMenu">나눔해요 [물품]</span>
-				</c:if>
 				<c:if test="${board.menu eq 3 and board.cate eq 1}">
 					<span id="infoMenu">해주세요 [물품]</span>
-				</c:if>
-				
-				<c:if test="${board.menu eq 1 and board.cate eq 2}">
-					<span id="infoMenu">대여해요 [인력]</span>
-				</c:if>
-				<c:if test="${board.menu eq 2 and board.cate eq 2}">
-					<span id="infoMenu">나눔해요 [인력]</span>
-				</c:if>
+				</c:if>		
 				<c:if test="${board.menu eq 3 and board.cate eq 2}">
 					<span id="infoMenu">해주세요 [인력]</span>
-				</c:if>
-				
-				<c:if test="${board.menu eq 1 and board.cate eq 3}">
-					<span id="infoMenu">대여해요 [공간]</span>
-				</c:if>
-				<c:if test="${board.menu eq 2 and board.cate eq 3}">
-					<span id="infoMenu">나눔해요 [공간]</span>
 				</c:if>
 				<c:if test="${board.menu eq 3 and board.cate eq 3}">
 					<span id="infoMenu">해주세요 [공간]</span>
@@ -592,7 +587,7 @@ $(()=>{
 			<div class="infoTitle">
 				<div class="titleWrap">
 					<div id="infoTitle">${board.title }</div>
-					<div style="margin-bottom: 5px">${board.writerNick }</div>
+					<div style="margin-bottom: 5px"><a href="/profile/yourProfile?boardNo=${board.boardNo }">${board.writerNick }</a></div>
 					<div>
 						<p style="margin: 0; font-size: 0.8em; color: #ccc; ">
 							<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
@@ -638,20 +633,20 @@ $(()=>{
 						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><button>채팅</button></a>
 					</c:if>
 				</div><!-- .chat-container End -->
-<!-- 				<div id="btnPrice"> -->
-<%-- 					<c:if test="${isLogin and (id ne board.writerId) }"> --%>
-<!-- 						<button data-bs-toggle="modal" data-bs-target="#rentModal">대여</button> -->
-<%-- 					</c:if> --%>
-<%-- 					<c:if test="${not isLogin }"> --%>
-<!-- 						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><button>대여</button></a> -->
-<%-- 					</c:if> --%>
-<%-- 					<c:if test="${id eq board.writerId }"> --%>
-<!-- 					<button id="selfRent">대여</button> -->
-<%-- 					</c:if> --%>
-<!-- 				</div> -->
-<!-- 				<div>Modal.대여 -->
+				<div id="btnPrice">
+					<c:if test="${isLogin and (id ne board.writerId) }">
+						<button data-bs-toggle="modal" data-bs-target="#rentModal">대여</button>
+					</c:if>
+					<c:if test="${not isLogin }">
+						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><button>대여</button></a>
+					</c:if>
+					<c:if test="${id eq board.writerId }">
+					<button id="selfRent">대여</button>
+					</c:if>
+				</div>
+				<div>Modal.대여
 <%-- 					<c:import url="./rent.jsp"/> --%>
-<!-- 				</div> -->
+				</div>
 			</div><!-- .infoPrice -->
 			<div class="infoMap">
 				<div id="map"></div>
@@ -680,27 +675,17 @@ $(()=>{
 	
 	</div><!-- #borderContainer -->
 	
-	
-
-	<%-- 수정,삭제 --%>
-	<div>
-		<c:if test="${id eq board.writerId }">
-			<a href="/please/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>게시글 수정</button></a>
-			<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">게시글 삭제</button>
-		</c:if>
-	</div>	
-
 	<div id="btnList">
 		<a href="/please/list?menu=${param.menu }&cate=${param.cate }"><button>목록</button></a>
 	</div>
-	
+
 </div> <!-- .viewWrap -->
-</div><!-- .container -->
+</div> <!-- .container -->
 
 <hr>
 
 <%-- 댓글 영역 --%>
-<div class="comment_container">
+<div class="comment-container">
 	
 	<%-- 로그인 상태 --%>
 	<c:if test="${isLogin }">
@@ -732,8 +717,8 @@ $(()=>{
 	<%-- 댓글 목록 --%>
 	<div id="commentList"></div>
 	
-</div><!-- .comment_container End. -->
-
+</div><!-- .comment-container End. -->
+	
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
 

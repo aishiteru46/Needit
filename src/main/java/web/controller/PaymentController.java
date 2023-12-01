@@ -66,6 +66,7 @@ public class PaymentController {
     @ResponseBody
     public ResponseEntity<Map<String,Object>> cancel( Rent rent, String merchantUid ,Model model, HttpSession session ) throws IOException {
        logger.info("merchantUid : {} ", merchantUid);
+       logger.info("rent 결제 취소 param: {} ", rent);
       
        try {
           String token = paymentService.getToken(apiKey, secretKey);

@@ -410,6 +410,13 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userProfileDao.yourBoardList(board);
 	}
 
+
+//	@Override
+//	public String selectYourCmtId(String cmtNo) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
 	
 
 

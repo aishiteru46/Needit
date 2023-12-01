@@ -423,7 +423,6 @@ $(()=>{
             </c:choose>                    
         </div><!-- #write-conatiner-time -->
         <div id="write-conatiner-price">💸<fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</div>
-        
         <div id="write-conatiner-loc" ><i style="color: rgb(255,83,63)" class="bi bi-geo-alt-fill"></i>${list.LOCATION } </div>
     </div><!-- .write-container -->
     

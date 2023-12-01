@@ -468,7 +468,7 @@ function downFunction() {
 <div id="mainTitle">니딧 인증 업체</div>
 	<c:forEach var="businessInfo" items="${businessInfo}">
 		<div id="MainTumbnailDiv">
-		<a href="/menu/business?menu=5&cate=${businessInfo.CATE }">
+		<a href="/business/view?boardNo=${businessInfo.BOARD_NO }&menu=5&cate=${businessInfo.CATE }">
 			<c:if test="${not empty businessInfo.THUMBNAIL_NAME }">
 				<div><img src="/upload/${businessInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></div>
 			</c:if>

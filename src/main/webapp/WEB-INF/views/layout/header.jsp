@@ -102,14 +102,12 @@ function performLogin(userId, userPw) {
     });
 }
 });
-var result = 0;
 $(function() {
 	 var sessionId = "${id}";
 	 if (sessionId) {
 		
-		pollForNewAlerts();
-		hasNew() //페이지 로드 시 'hashNew' 함수를 호출하여 새로운 알림을 확인
-		loadAlert()    
+		hasNew();
+		loadAlert();
 		var urlEndPoint = "/alert/get?id=" + sessionId //Sse세션 생성 시 접속한 세션의 id를 보내준다
 		var eventSource = new EventSource(urlEndPoint) //SSE를 위한 'EventSource'를 생성
 		console.log(urlEndPoint)
@@ -126,19 +124,23 @@ $(function() {
 		console.log("hasNew :" + hasNew)
 		console.log("alert :" + alert)
 		
+		 if (hasNew > 0) {
+                $("#new-icon").show();
+                $("#new-alert").text(hasNew).show();
+                $("#badge").text(hasNew).show(); // Update the badge in real-time
+            } else {
+                $("#new-alert").hide();
+                $("#new-icon").hide();
+                $("#badge").hide();
+            }
 		$("#new-icon").show() // new 알림표시 표시
 		$("#new-alert").html(hasNew).show() // 새로온 알림 갯수 표시
-
+		
 		loadAlert() //알림을 로드하는 함수를 호출
 	   	}
 	 }
 })// 제이쿼리 펑션 끝
-	function pollForNewAlerts() {
-	    setInterval(function() {
-	        hasNew();
-	    }, 5000); // 5초마다 서버에 새로운 알림 여부를 물어봄
-	}
-
+	
 	function hasNew() { // 새로운 알림 확인 함수
 	   $.ajax({
 	      type: "get"
@@ -151,18 +153,14 @@ $(function() {
 	         if( res.hasNew == 0 ) { //hasNew 값이 0이면 알람을 숨긴다
 	            $("#new-alert").hide()
 	            $("#new-icon").hide()
+	            $("#badge").hide()
 	         } else { // 0이 아니면 알림을 보여준다
+	        	 console.log("res.hasNew",res.hasNew)
 	            $("#new-alert").text(res.hasNew).show()
+	            $("#badge").text(res.hasNew).show()
 	            $("#new-icon").show()
 	         }
-	         result = res.hasNew;
-	        if(result == 0){
-	        	 $("#badge").hide()
-	         }else if(result == 99){
-	        	 $("#badge").text("+99").show()
-	         }else{
-	        	 $("#badge").text(result).show()
-	         }
+	    
 	      }
 	      , error: function() {
 	         console.log("AJAX 실패")
@@ -207,6 +205,7 @@ $(document).ready(function(){
 	// 마우스 over 시
 	$('.gnb').mouseenter(function () {
 	// menu bg
+	
 		var menuHeight = $('#header').outerHeight();
 	
 		$('.hd_bg').css({
@@ -223,6 +222,7 @@ $(document).ready(function(){
 	});
 	 
 	$('.gnb > li').mouseenter(function () {
+		
 	    $(this).addClass('active');
 	    $(this).siblings().removeClass('active')
 	});
@@ -278,7 +278,10 @@ $(document).ready(function(){
 		            var currentPageUrl = window.location.href;
 		            console.log(currentPageUrl.indexOf("/profile/view"))
 // 		            만약 현재 페이지가 마이페이지라면 메인 페이지로 리다이렉트
-		            if (currentPageUrl.indexOf("/profile/view") !== -1 || currentPageUrl.indexOf("/message/list") !== -1 ) {
+		            if (currentPageUrl.indexOf("/profile/view") !== -1 ||
+		            		currentPageUrl.indexOf("/message/list") !== -1 ||
+		            		currentPageUrl.indexOf("/profile/rentList") !== -1 ||
+		            		currentPageUrl.indexOf("/profile/basket") !== -1) {
 		                window.location.href = "/main";
 		            } else {
 		            	document.location.reload();
@@ -311,6 +314,7 @@ $(document).ready(function(){
 		            // 'thumbnailName'이 존재하는지 확인
 		          
 		            if (data.thumbnailName !== 'defaultProfile.png') {
+		                console.log('썸네일 있음.');
 		                // 이미지의 URL 생성
 		                var imageUrl = '/upload/' + data.thumbnailName;
 		                // 이미지 소스 설정
@@ -321,10 +325,12 @@ $(document).ready(function(){
 		                $('.profileImage').attr('src', '/resources/img/defaultProfile.png');
 		            }
 		        } else {
+		        	$('.profileImage').attr('src', '/resources/img/defaultProfile.png');
 		            console.log('서버로부터 데이터를 받지 못했습니다.');
 		        }
 		    },
 		    error: function() {
+		    	$('.profileImage').attr('src', '/resources/img/defaultProfile.png');
 		        console.error('프로필 이미지 로드에 실패했습니다.');
 		    }
 		});
@@ -353,8 +359,7 @@ nav {
 }
 
 nav li {
-	width: 150px;
-	margin-right: 20px;
+	width: 170px;
 }
 
 .wrap {
@@ -408,8 +413,7 @@ nav li {
 #header .nav ul.gnb li ul.sub {
 	position: absolute;
 	padding-left: 0px;
-	opacity: 0;
-	visibility: hidden;
+	display: none;
 	padding-top: 10px;
 	z-index: 4;
 	width: 100%
@@ -425,26 +429,21 @@ nav li {
 }
 
 #header .nav ul.gnb:hover li ul.sub {
-	visibility: visible;
-	opacity: 1;
+	display: block;
 	transform: translateY(0px);
 }
 
-#header .nav ul.gnb li:hover {
+#header .nav ul.gnb li{
 	display: inline-block;
 	margin-bottom: 0px;
 }
 
-#header .nav ul.gnb li a:hover {
-	background-color: #f1f1f1;
-}
 
 #header.open .hd_bg {
 	position: absolute;
 	width: 100%;
 	background: #fff;
-	z-index: 1;
-	transition: all .3s;
+	transition: all ;
 	border-top: 1px solid #dcdcdc;
 	opacity: 95%;
 	z-index: 3;
@@ -706,7 +705,7 @@ nav li {
 			
 			<div class="dropdown">
 			<div id="profileImageContainer">
-		   		<img class="profileImage" id="dropdownBtn2" src="#" alt="Profile Image">
+		   		<img class="profileImage" id="dropdownBtn2" src="">
 			</div>
 			
 				<div class="dropdown-content2">
