@@ -216,19 +216,16 @@ function toggleSection(sectionId) {
 #businessUrl{
    position: absolute;
     margin-top: -50px;
-    margin-left: 414px;
+    margin-left: 415px;
     margin-bottom: 24px;
     font-size: 18px;
     width: 777px;
     height: 50px;
-    background-color: #ccc;
+    background-color: rgb(255 83 63 / 4%);
     color: black;
     border-radius: 5px;
     vertical-align: middle;
     text-align: center;
-}
-#businessUrl a{
-    vertical-align: middle;
 }
 
 /* 업체 마크 */
@@ -238,20 +235,7 @@ function toggleSection(sectionId) {
    margin-top: -11px;
    color: rgb(255,83,63);
 }
-/* 업체 링크 */
-#businessUrl{
-   position: absolute;
-    margin-top: -69px;
-    margin-left: 400px;
-    margin-bottom: 24px;
-    font-size: 18px;
-    width: 776px;
-    height: 50px;
-    background-color: #ccc;
-    color: black;
-    border-radius: 5px;
-    vertical-align: middle;
-}
+
 #businessUrl a {
     vertical-align: -webkit-baseline-middle;
     color: blue;
@@ -301,7 +285,7 @@ function toggleSection(sectionId) {
 
 <div class="panel panel-default" id="userContent">
 <h3 style="font-size: 23px; font-weight: bold; margin-bottom: 12px; display: inline-block;">${your.nick}님의 프로필</h3>
-<c:if test="${user.businessStatus eq 2 }">
+<c:if test="${your.businessStatus eq 2 }">
    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-award" viewBox="0 0 16 16">
      <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z"/>
      <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"/>
@@ -328,19 +312,19 @@ function toggleSection(sectionId) {
          <td><div>Lv.${your.grade }
          <!-- 회원등급 -->
          <c:choose>
-            <c:when test="${userGrade eq 1}">
+            <c:when test="${your.grade eq 1}">
                <img src="/resources/img/계란.png"/>
             </c:when>
-            <c:when test="${userGrade eq 2}">
+            <c:when test="${your.grade eq 2}">
                <img src="/resources/img/금간계란.png"/>
             </c:when>
-            <c:when test="${userGrade eq 3}">
+            <c:when test="${your.grade eq 3}">
                <img src="/resources/img/병아리.png"/>
             </c:when>
-            <c:when test="${userGrade eq 4}">
+            <c:when test="${your.grade eq 4}">
                <img src="/resources/img/닭.png"/>
             </c:when>
-            <c:when test="${userGrade eq 5}">
+            <c:when test="${your.grade eq 5}">
                <img src="/resources/img/치킨.png"/>
             </c:when>
          </c:choose></div>
@@ -359,9 +343,9 @@ function toggleSection(sectionId) {
 <div style="clear: both; margin-bottom: 85px;"></div>
 
 <!-- 업체 링크 -->
-<c:if test="${user.businessStatus eq 2 }">
+<c:if test="${your.businessStatus eq 2 }">
 <div id="businessUrl">
-	<a href="http://${busy.BUSINESS_URL}" target="_blank">${busy.BUSINESS_URL}</a>
+	<span style="vertical-align: -webkit-baseline-middle; color: black;">업체주소 : </span><a href="http://${link.BUSINESS_URL}" target="_blank">${link.BUSINESS_URL}</a>
 </div>
 </c:if>
 

@@ -36,6 +36,11 @@ $(function(){
 
    $(".cancelBtn").click(function() {
       var cancelBtn = $(this);
+      console.log("취소버튼 클릭됨")
+      console.log("merchantUid", cancelBtn.data("uid"))
+      console.log("rentNo", cancelBtn.data("no"))
+      console.log("boardNo", cancelBtn.data("board_no") )
+      
          
          $.ajax({
             type: "post"
@@ -58,6 +63,7 @@ $(function(){
             }
             , error: function(xhr, status, error) {
                console.log("AJAX 실패", status, error)
+               alert("취소 실패하였습니다.\n관리자에게 문의주세요.")
             }
          })
          
@@ -312,26 +318,30 @@ $(function(){
 }
 </style>
 
-<h1 class="listH1">빌려줄 예약 목록</h1>
+<h1 class="listH1">빌려준거 목록</h1>
 <div class="tableScroll">
 <table class="rentTable">
    <tr>
-      <th>게시글 번호</th>
       <th>예약 번호</th>
+      <th>게시글 번호</th>
+      <th>주문번호</th>
       <th>예약자</th>
-      <th>예약 날짜</th>
-      <th>예약 시작 시간</th>
-      <th>예약 끝 시간</th>
+      <th>신청 일자</th>
+      <th>사용 날짜</th>
+      <th>사용 시작 시간</th>
+      <th>사용 끝 시간</th>
       <th>결제 상태</th>
-      <th>승인 처리</th>
+      <th>승인 여부</th>
       <th>취소</th>
       
    </tr>
 <c:forEach items="${myList }" var="list" begin="0" end="10">
    <tr>
-      <td>${list.BOARD_NO }</td>
       <td>${list.RENT_NO }</td>
+      <td>${list.BOARD_NO }</td>
+      <td>${list.MERCHANT_UID }</td>
       <td>${list.RENTER_ID }</td>
+      <td>${list.CURRENT_TIME }</td>
       <td class="rentDate">${list.RENT_DATE }</td>
       <c:choose>
        <c:when test="${list.START_TIME % 2 == 1}">
@@ -360,27 +370,41 @@ $(function(){
    
       <!-- 종료 시간 출력 -->
       <td>${endHour}:${endMinute}</td>
+      
+      <!-- 결제상태 -->
       <c:choose>
-            <c:when test="${list.PAYMENT_TYPE eq 1}">
-                <td><button disabled="disabled" class="agrBtn">결제됨</button></td>
-            </c:when>
-            <c:when test="${list.PAYMENT_TYPE eq 0}">
-                <td><button disabled="disabled" class="agrBtn">직거래</button></td>
-            </c:when>
-        </c:choose>
+	      <c:when test="${list.PAYMENT_TYPE eq 1}">
+	          <td><div style="color: blue;">결제됨</div></td>
+	      </c:when>
+	      <c:when test="${list.PAYMENT_TYPE eq 0}">
+	          <td><div style="color: green;">직거래</div></td>
+	      </c:when>
+      </c:choose>
+      
+      <!-- 승인 여부 -->  
       <c:if test="${list.RENT_STATUS eq 1 }">
-         <td><button id="confirmBtn" class="agrBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
+      	<c:if test="${not empty isLogin }">
+      	  <c:if test="${list.RENTER_ID ne id }">
+   	    	<td><button id="confirmBtn" class="agrBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인하기</button></td>
+      	  </c:if>
+      	</c:if>
       </c:if>
-      <c:if test="${list.RENT_STATUS eq 0 || list.RENT_STATUS eq 2 }">
-         <td><button disabled="disabled" class="agrBtn">승인 완료</button></td>
-      </c:if>
-
-      <!-- 취소 빈칸 채우기 -->
-      <c:if test="${list.RENT_STATUS eq 1 }">
-         <td><button class="cancelBtn" data-no="${list.RENT_NO }" data-uid="${list.MERCHANT_UID }" data-board_no="${list.BOARD_NO }">취소</button></td>
+      <c:if test="${list.RENT_STATUS eq 2 }">
+         <td><div style="color: blue;">완료</div></td>
       </c:if>
       <c:if test="${list.RENT_STATUS eq 0 }">
-         <td><button disabled="disabled" class="agrBtn">취소 완료</button></td>
+         <td><div style="color: red;">승인 불가</div></td>
+      </c:if>
+
+      <!-- 취소 여부 -->
+      <c:if test="${list.RENT_STATUS eq 0 }">
+         <td><div style="color: red;">거절됨</div></td>
+      </c:if>
+      <c:if test="${list.RENT_STATUS eq 1 }">
+         <td><button class="cancelBtn" data-no="${list.RENT_NO }" data-uid="${list.MERCHANT_UID }" data-board_no="${list.BOARD_NO }">거절</button></td>
+      </c:if>
+      <c:if test="${list.RENT_STATUS eq 2 }">
+		<td><div style="color: red;">취소불가</div></td>      
       </c:if>
     
    </tr>
@@ -396,25 +420,27 @@ $(function(){
 <hr>
 
 
-<h1 class="listH1">빌린 예약 목록</h1>
+<h1 class="listH1">빌린거 목록</h1>
 <div class="tableScroll">
 <table class="rentTable">
    <tr>
-      <th>게시글 번호</th>
       <th>예약 번호</th>
+      <th>게시글 번호</th>
       <th>주문번호</th>
-      <th>예약 날짜</th>
-      <th>예약 시작 시간</th>
-      <th>예약 끝 시간</th>
+      <th>신청 일자</th>
+      <th>사용 날짜</th>
+      <th>사용 시작 시간</th>
+      <th>사용 끝 시간</th>
       <th>결제 상태</th>
-      <th>승인 처리</th>
+      <th>승인 여부</th>
       <th>취소</th>
    </tr>
 <c:forEach items="${list }" var="list" begin="0" end="10">
    <tr>
-      <td>${list.BOARD_NO }</td>
       <td>${list.RENT_NO }</td>
+      <td>${list.BOARD_NO }</td>
       <td>${list.MERCHANT_UID }</td>
+      <td>${list.CURRENT_TIME }</td>
       <td>${list.RENT_DATE }</td>
 
       <c:choose>
@@ -445,29 +471,36 @@ $(function(){
       <!-- 종료 시간 출력 -->
       <td>${endHour}:${endMinute}</td>
       
+      <!-- 결제상태 -->
       <c:choose>
             <c:when test="${list.PAYMENT_TYPE eq 1}">
-                <td><button disabled="disabled" class="agrBtn">결제됨</button></td>
+                <td><div>결제됨</div></td>
             </c:when>
             <c:when test="${list.PAYMENT_TYPE eq 0}">
-                <td><button disabled="disabled" class="agrBtn">직거래</button></td>
+                <td><div>직거래</div></td>
             </c:when>
-        </c:choose>
+      </c:choose>
       
-      <c:if test="${list.RENT_STATUS eq 1 }">
-         <td><button id="confirmBtn" class="agrBtn" data-rent_no="${list.RENT_NO }" data-board_no="${list.BOARD_NO }">승인</button></td>
+      <!-- 승인 여부 -->
+      <c:if test="${list.RENT_STATUS eq 0 }">
+		 <td><span style="color: red;">거절됨</span></td>      
       </c:if>
-      <c:if test="${list.RENT_STATUS eq 0 || list.RENT_STATUS eq 2 }">
-         <td><button disabled="disabled" class="agrBtn">승인 완료</button></td>
+      <c:if test="${list.RENT_STATUS eq 1 }">
+         <td><span style="color: green;">대기중</span></td>
+      </c:if>
+      <c:if test="${list.RENT_STATUS eq 2 }">
+         <td><span style="color: blue;">승인됨</span>< /td>
       </c:if>
 
-
-      <!-- 취소 빈칸 채우기 -->
+      <!-- 취소 여부 -->
       <c:if test="${list.RENT_STATUS eq 1 }">
-         <td><button class="cancelBtn" data-no="${list.RENT_NO }" data-uid="${list.MERCHANT_UID }" data-board_no="${list.BOARD_NO }">취소</button></td>
+         <td><button class="cancelBtn" data-no="${list.RENT_NO }" data-uid="${list.MERCHANT_UID }" data-board_no="${list.BOARD_NO }">요청</button></td>
       </c:if>
       <c:if test="${list.RENT_STATUS eq 0 }">
-         <td><button disabled="disabled" class="agrBtn">취소 완료</button></td>
+         <td><div style="color: red;">불가</div></td>
+      </c:if>
+      <c:if test="${list.RENT_STATUS eq 2 }">
+         <td><div style="color: red;">불가</div></td>
       </c:if>
    </tr>
 </c:forEach>
