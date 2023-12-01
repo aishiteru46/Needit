@@ -10,6 +10,7 @@ import web.dto.Board;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
+import web.dto.User;
 import web.util.Paging;
 
 public interface MenuPleaseService {
@@ -199,6 +200,18 @@ public interface MenuPleaseService {
 	 * @return true 찜 가능 false 찜 불가능
 	 */
 	public boolean checkBasket(Basket basket);
+
+
+
+
+	
+
+	/**
+	 * 글쓰기할때 회원정보수정전 주소가져오는거때문에 주소가져오는거 추가함
+	 * @param user
+	 * @return
+	 */
+	public User writeAddrSelect(User user);
 
 
 //	/** 

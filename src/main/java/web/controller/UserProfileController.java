@@ -477,6 +477,20 @@ public class UserProfileController {
 			
 			
 		}
+		
+		
+//		@GetMapping("/yourProfileCmt")
+//		public void yourProfileCmt(
+//				User user, Model model
+//				, Business busi, Comment comment
+//				, @RequestParam("cmtNo") String cmtNo
+//				) {
+//			
+//			
+//			String id = userProfileService.selectYourCmtId(cmtNo);
+//			logger.info("댓글번호 리퀘스트파람: {}",cmtNo);
+//		}
+//		
 
 	
 	

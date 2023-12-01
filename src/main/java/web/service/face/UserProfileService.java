@@ -291,6 +291,13 @@ public interface UserProfileService {
 	 */
 	public List<Map<String, Object>> yourBoard(Board board);
 
+//	/**
+//	 * 
+//	 * @param cmtNo
+//	 * @return
+//	 */
+//	public String selectYourCmtId(String cmtNo);
+
 
 	
 
