@@ -105,6 +105,16 @@ h6 {
 
 /* 내가추가함 ㅠ */
 
+button:hover { scale: 1.1;}
+#upAndDel button {     
+	color: white;
+    border: none;
+    width: 50px;
+    border-radius: 5px;
+    background: #ff533f;
+    font-weight: bold;
+}
+
 a:hover { text-decoration: none; }
 .viewHeader { width: 900px; height: 500px; margin: 0 auto; margin-top: 70px }
 .viewheader > div { float: left;}
@@ -153,6 +163,7 @@ a:hover { text-decoration: none; }
 .viewFile { width: 900px; margin: 0 auto;border: 1px solid #ccc; }
 .viewContent { width: 900px; min-height: 400px; margin: 0 auto; border: 1px solid #ccc; border-radius: 0 0 10px 10px; }
 #viewContent { margin: 20px 50px; }
+#viewContent p img { width: 750px; }
 
 </style>
 
@@ -167,8 +178,6 @@ function cmtReport(cmtNo) {
         reportOptions.style.display = 'none';
     }
 }
-
-
 
 //댓글목록 불러오기
 function loadComments() {
@@ -198,8 +207,13 @@ function loadComments() {
 
                 	commentListHtml += '<hr>'; 
      	            commentListHtml += '<div class="media mb-4">';
-     	            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
-     	            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
+     	         	//프로필사진 유무 처리
+		            if( res.commentList[i].THUMBNAIL_NAME != null || res.commentList[i].THUMBNAIL_NAME > 0 ){
+		            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
+		            } else {
+			            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/resources/img/defaultProfile.png">';
+		            }
+		            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
      	            
      	         	//댓글 작성자 구분 처리                                                                                    
     	            if (commentWriter === boardMaster && commentWriter === nick) { 
@@ -211,7 +225,9 @@ function loadComments() {
     	            } else {
     	                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '</h6>';
     	            }
+     	         	//댓글내용
     	            commentListHtml += '    <h5 class="text-start">' + res.commentList[i].CONTENT + '</h5>';
+    	            //작성일자
     	            commentListHtml += '    <p style="font-size: 13px; display: inline-block;">' + formatDate(new Date(res.commentList[i].writeDate)) + '</p>';
     	            //본인 댓글 삭제가능 처리
     	            if (id && id == res.commentList[i].WRITER_ID) {
@@ -221,9 +237,32 @@ function loadComments() {
     	                commentListHtml += '	</svg>'
     	                commentListHtml += '    </button>';
     	            }
-    	            commentListHtml += '  </div>';
-    	            commentListHtml += '</div>';
-    	        }
+    	          //댓글신고 버튼
+		            if (id != null) {
+		            commentListHtml += '	<button id="cmtReportBtn" onclick="cmtReport(' + res.commentList[i].CMT_NO + ');">'; 
+		            commentListHtml += '신고하기';
+		            commentListHtml += '	</button>';
+		            commentListHtml += '<div id="reportSelect_' + res.commentList[i].CMT_NO + '" class="report-options" style="display:none;">';
+		            commentListHtml += '  <input type="radio" name="reportType" value="광고">광고</input>';
+		            commentListHtml += '  <input type="radio" name="reportType" value="욕설">욕설</input><br>';
+		            commentListHtml += '  <input type="radio" name="reportType" value="비방">비방</input>';
+		            commentListHtml += '  <input type="radio" name="reportType" value="음란">음란</input><br>';
+		            commentListHtml += '  <input type="radio" name="reportType" value="불법">불법</input><br>';
+		            commentListHtml += '  <button id="submitCmt" onclick="submitReport(' + res.commentList[i].CMT_NO + ');">제출</button>';
+		            commentListHtml += '</div>';
+		            }
+		            commentListHtml += '</div>';
+		            commentListHtml += '  </div>';
+		            commentListHtml += '</div>';
+		        } else {
+		        	console.log("댓글 없음")
+		            commentListHtml += '<hr>'; 
+		            commentListHtml += '<div class="media mb-4">';
+		            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
+		            commentListHtml += '    <p style="text-align: center; color: rgb(255,83,63); margin-bottom: 100px;">작성된 댓글이 없습니다.</p>';
+		            commentListHtml += '  </div>';
+		            commentListHtml += '</div>';
+		        }
     	
     	        // 렌더링된 HTML을 추가
     	        $("#commentList").html(commentListHtml);
@@ -438,9 +477,8 @@ function sendNofiLike() {
 
 </script>
 
+<!-- Kakao Map API -->
 <script type="text/javascript">
-
-//Kakao Map API
 $(()=>{
 	
 	// 지도 객체 설정
@@ -600,18 +638,18 @@ $(()=>{
 						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><button>채팅</button></a>
 					</c:if>
 				</div><!-- .chat-container End -->
-				<div id="btnPrice">
-					<c:if test="${isLogin and (id ne board.writerId) }">
-						<button data-bs-toggle="modal" data-bs-target="#rentModal">대여</button>
-					</c:if>
-					<c:if test="${not isLogin }">
-						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><button>대여</button></a>
-					</c:if>
-					<c:if test="${id eq board.writerId }">
-					<button id="selfRent">대여</button>
-					</c:if>
-				</div>
-				<div>Modal.대여
+<!-- 				<div id="btnPrice"> -->
+<%-- 					<c:if test="${isLogin and (id ne board.writerId) }"> --%>
+<!-- 						<button data-bs-toggle="modal" data-bs-target="#rentModal">대여</button> -->
+<%-- 					</c:if> --%>
+<%-- 					<c:if test="${not isLogin }"> --%>
+<!-- 						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><button>대여</button></a> -->
+<%-- 					</c:if> --%>
+<%-- 					<c:if test="${id eq board.writerId }"> --%>
+<!-- 					<button id="selfRent">대여</button> -->
+<%-- 					</c:if> --%>
+<!-- 				</div> -->
+<!-- 				<div>Modal.대여 -->
 <%-- 					<c:import url="./rent.jsp"/> --%>
 <!-- 				</div> -->
 			</div><!-- .infoPrice -->
@@ -642,18 +680,20 @@ $(()=>{
 	
 	</div><!-- #borderContainer -->
 	
+	
+
+	<%-- 수정,삭제 --%>
+	<div>
+		<c:if test="${id eq board.writerId }">
+			<a href="/please/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>게시글 수정</button></a>
+			<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">게시글 삭제</button>
+		</c:if>
+	</div>	
+
 	<div id="btnList">
-		<a href="/please/list?menu=1&cate=1"><button>목록</button></a>
+		<a href="/please/list?menu=${param.menu }&cate=${param.cate }"><button>목록</button></a>
 	</div>
-
-<%-- 수정,삭제 --%>
-<div>
-	<c:if test="${id eq board.writerId }">
-		<a href="/please/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>게시글 수정</button></a>
-		<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">게시글 삭제</button>
-	</c:if>
-</div>	
-
+	
 </div> <!-- .viewWrap -->
 </div><!-- .container -->
 
