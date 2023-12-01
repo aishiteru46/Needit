@@ -10,7 +10,7 @@
 	<sql id="selectBoard">
 		SELECT 
 		    board_no, writer_id, writer_nick, 
-		    hit, menu, cate, title, content,
+		    hit, menu, cate, title, content, location,
 		    CAST(write_date AS DATE) AS write_date, 
 		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
 		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
@@ -31,6 +31,9 @@
 	    </if>
 	    <if test='selectSub =="writerNick"'> 
 	        AND writer_nick LIKE '%' || #{searchText} || '%'
+	    </if>
+   	    <if test='selectSub =="location"'> 
+	        AND location LIKE '%' || #{searchText} || '%'
 	    </if>
 	</sql>
 	
@@ -59,7 +62,7 @@
 	        SELECT rownum rnum, B.* FROM (
 	            SELECT 
 	                board_no, writer_id, writer_nick, 
-	                hit, menu, cate, title, content,
+	                hit, menu, cate, title, content, location, 
 	                CAST(write_date AS DATE) AS write_date, 
 	                (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
 	                (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
@@ -76,6 +79,9 @@
 	                <if test='selectSub =="writerNick"'> 
 	                    AND writer_nick LIKE '%' || #{searchText} || '%'
 	                </if>
+                  	<if test='selectSub =="location"'> 
+	     			   AND location LIKE '%' || #{searchText} || '%'
+	  				</if>	
 	            ORDER BY board_no DESC
 	        ) B
 	    ) WHERE rnum BETWEEN #{startNo} AND #{endNo}
@@ -107,7 +113,7 @@
 		SELECT
 			board_no, writer_id, writer_nick
 			, write_date, hit, menu, cate
-			, title, content
+			, title, content, location
 		FROM board
 		<where>
 			board_no = #{boardNo }

@@ -24,8 +24,22 @@ $(()=>{
         .text("Search");
 	});
 	
-
+     var $menu = ${param.menu};
+     var $cate = ${param.cate};
+     
+     // "location" 옵션의 DOM 요소를 가져옴
+     var locationOption = $('option[value="location"]');
+     
+     if ($menu == 4 && $cate == 2) {
+         // Enable the "location" option
+         locationOption.css('display', 'block');
+     } else {
+         // Disable the "location" option
+         locationOption.css('display', 'none');
+     }
+        
 });
+
 </script>
 
 <style type="text/css">
@@ -111,19 +125,27 @@ $(()=>{
 	margin-top: 4px;
 }
 #write-conatiner-nick {
-    float: left;
     position: relative;
     font-size: 18px;
     margin-top: -8px;
     margin-left: 4px;
+    text-align: left;
 }
 #write-conatiner-time {
-    float: left;
-    position: absolute;
     font-size: 18px;
-    margin-top: 20px;
     margin-left: 4px;
+    text-align: left;
 }
+
+#write-conatiner-loc {
+    font-size: 19px;
+   	overflow: hidden; 
+ 	text-overflow: ellipsis; 
+ 	white-space: nowrap;
+    margin-left: 4px;
+    text-align: left;
+}
+
 #nickIcon{
 	float: none;
 	display: inline-block;
@@ -263,7 +285,7 @@ $(()=>{
     	<option value="" selected disabled hidden>선택&#9660;</option>
     	<option value="title">제목</option>
     	<option value="content">내용</option>
-    	<option value="writerNick">작성자</option>
+   		<option value="location">지역</option>
     </select>
     
     <input type="text" name="searchText" id="searchText" placeholder=" Need it Now!" 
@@ -331,6 +353,9 @@ $(()=>{
                 </c:otherwise> 
             </c:choose>                    
         </div><!-- #write-conatiner-time -->
+		<c:if test="${list.MENU eq '4' && list.CATE eq '2' }">
+        <div id="write-conatiner-loc" ><i style="color: rgb(255,83,63)" class="bi bi-geo-alt-fill"></i> ${list.LOCATION } </div>
+        </c:if>
     </div><!-- .write-container -->
     
   <c:if test="${loop.index % 3 == 2 || loop.index + 1 == yourList.size()}">
