@@ -317,7 +317,6 @@ function toggleSection(sectionId) {
          
          <th><div>가입일</div></th>
          <th style="height: 73px;"><div style="margin-top: 19px;">주소</div></th>
-         <th style="border-bottom-left-radius: 5px;"><div>이메일 수신</div></th>
       </tr>
      </thead>
       

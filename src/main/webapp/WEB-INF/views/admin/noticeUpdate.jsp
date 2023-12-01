@@ -23,6 +23,12 @@
 #AdminContent{
 	width: 80%;
 }
+
+/* Webkit 브라우저를 위한 스타일 */
+#tableWrapper::-webkit-scrollbar { width: 12px; }
+#tableWrapper::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+#tableWrapper::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 10px;background: #ff533f; }
+
 </style>
 
 <script type="text/javascript">
@@ -46,6 +52,25 @@ $(() => {
         }
     }
 });
+
+document.getElementById('content').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+
+        const textarea = document.getElementById('content');
+
+        const cursorPosition = textarea.selectionStart;
+
+        const value = textarea.value;
+        const textBeforeCursor = value.substring(0, cursorPosition);
+        const textAfterCursor = value.substring(cursorPosition);
+
+        textarea.value = textBeforeCursor + '\n' + textAfterCursor;
+
+        textarea.setSelectionRange(cursorPosition + 1, cursorPosition + 1);
+    }
+});
+
 </script>
 
 <!-- 안쪽 내용 -->

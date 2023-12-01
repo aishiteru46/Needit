@@ -37,6 +37,12 @@
     overflow-x: hidden;
     overflow-y: scroll; 
 }
+
+/* Webkit 브라우저를 위한 스타일 */
+#emailSendList::-webkit-scrollbar { width: 12px; }
+#emailSendList::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+#emailSendList::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 10px;background: #ff533f; }
+
 </style>
 
 <script type="text/javascript">
@@ -180,17 +186,17 @@ function showCheckboxes() {
 <div id="emailSendList" class="ms-2">
 <div class="verticalContent">
     <input type="checkbox" id="selectSend1" name="selectSend" data-title="Needit 서버점검 공지"
-           data-content="<strong>서버점검이 있을 예정입니다</strong>
-                            금일 오전 10시 ~ 오후 1시 까지 서버가 작동하지 않을 수 있습니다
-                            양해 부탁드립니다
+           data-content="<strong>서버점검이 있을 예정입니다.</strong>
+                            금일 오전 10시 ~ 오후 1시 까지 서버가 작동하지 않을 수 있습니다.
+                            양해 부탁드립니다.
                             
-                            감사합니다">
+                            감사합니다.">
     <label for="selectSend1">Needit 서버점검 공지</label><br>
     <label for="selectSend1">
-        <strong>서버점검이 있을 예정입니다</strong><br>
-        금일 오전 10시 ~ 오후 1시 까지 서버가 작동하지 않을 수 있습니다<br>
-        양해 부탁드립니다<br><br>
-        감사합니다<br>
+        <strong>서버점검이 있을 예정입니다.</strong><br>
+        금일 오전 10시 ~ 오후 1시 까지 서버가 작동하지 않을 수 있습니다.<br>
+        양해 부탁드립니다.<br><br>
+        감사합니다.<br>
     </label><br>
 </div>
 
