@@ -13,12 +13,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-<!-- include summernote css/js -->
-<!-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet"> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script> -->
-
-
-
 <script type="text/javascript">
 $(document).ready(function() {
     // 쿠키에서 사용자 정보를 가져옴
@@ -112,33 +106,38 @@ var result = 0;
 $(function() {
 	 var sessionId = "${id}";
 	 if (sessionId) {
+		
+		pollForNewAlerts();
+		hasNew() //페이지 로드 시 'hashNew' 함수를 호출하여 새로운 알림을 확인
+		loadAlert()    
+		var urlEndPoint = "/alert/get?id=" + sessionId //Sse세션 생성 시 접속한 세션의 id를 보내준다
+		var eventSource = new EventSource(urlEndPoint) //SSE를 위한 'EventSource'를 생성
+		console.log(urlEndPoint)
+		console.log('왜안돼?')
+		
+		eventSource.onmessage = function (event) { // sendNotification 발생시 생기는 메소드
+		console.log(event)
+		var data = JSON.parse(event.data) // sendNotification에서 보내준 data { hasNew : hasNew, alert : alert }
+		console.log(data)
+		
+		var hasNew = data.hasNew
+		var alert = data.alert
+		
+		console.log("hasNew :" + hasNew)
+		console.log("alert :" + alert)
+		
+		$("#new-icon").show() // new 알림표시 표시
+		$("#new-alert").html(hasNew).show() // 새로온 알림 갯수 표시
 
-	   hasNew() //페이지 로드 시 'hashNew' 함수를 호출하여 새로운 알림을 확인
-	   loadAlert()    
-	   var urlEndPoint = "/alert/get?id=" + sessionId //Sse세션 생성 시 접속한 세션의 id를 보내준다
-	   var eventSource = new EventSource(urlEndPoint) //SSE를 위한 'EventSource'를 생성
-	   console.log(urlEndPoint)
-	   console.log('왜안돼?')
-	   
-	   eventSource.onmessage = function (event) { // sendNotification 발생시 생기는 메소드
-	      console.log(event)
-	       var data = JSON.parse(event.data) // sendNotification에서 보내준 data { hasNew : hasNew, alert : alert }
-	       console.log(data)
-	       
-	       var hasNew = data.hasNew
-	       var alert = data.alert
-	      
-	       console.log("hasNew :" + hasNew)
-	       console.log("alert :" + alert)
-			
-	       $("#new-icon").show() // new 알림표시 표시
-	       $("#new-alert").html(hasNew).show() // 새로온 알림 갯수 표시
-	      
-	      loadAlert() //알림을 로드하는 함수를 호출
-	   }
+		loadAlert() //알림을 로드하는 함수를 호출
+	   	}
 	 }
-	})// 제이쿼리 펑션 끝
-
+})// 제이쿼리 펑션 끝
+	function pollForNewAlerts() {
+	    setInterval(function() {
+	        hasNew();
+	    }, 5000); // 5초마다 서버에 새로운 알림 여부를 물어봄
+	}
 
 	function hasNew() { // 새로운 알림 확인 함수
 	   $.ajax({
@@ -148,8 +147,6 @@ $(function() {
 	      }
 	      , dataType: "json" // int타입인 hasNew를 받아옴
 	      , success: function( res ) {
-	         console.log("AJAX 성공")
-	         console.log("hasNew() 실행")
 	         
 	         if( res.hasNew == 0 ) { //hasNew 값이 0이면 알람을 숨긴다
 	            $("#new-alert").hide()
@@ -281,11 +278,10 @@ $(document).ready(function(){
 		            var currentPageUrl = window.location.href;
 		            console.log(currentPageUrl.indexOf("/profile/view"))
 // 		            만약 현재 페이지가 마이페이지라면 메인 페이지로 리다이렉트
-		            if (currentPageUrl.indexOf("/profile/view") !== -1) {
+		            if (currentPageUrl.indexOf("/profile/view") !== -1 || currentPageUrl.indexOf("/message/list") !== -1 ) {
 		                window.location.href = "/main";
 		            } else {
-		                // 다른 페이지에서는 이전 동작(기존에는 이전 페이지로 돌아가는 동작)
-		                document.location.reload();
+		            	document.location.reload();
 		            }
 		        } 
 		    }); // ajax 
@@ -305,6 +301,33 @@ $(document).ready(function(){
 				}
 			})
 		})
+		$.ajax({
+		    url: '/layout/header',
+		    method: 'GET',
+		    dataType: 'json',
+		    success: function(data) {
+		        if (data != null) {
+		            // UserFile 객체가 'thumbnailName' 속성을 가지고 있는지 확인
+		            // 'thumbnailName'이 존재하는지 확인
+		          
+		            if (data.thumbnailName !== 'defaultProfile.png') {
+		                // 이미지의 URL 생성
+		                var imageUrl = '/upload/' + data.thumbnailName;
+		                // 이미지 소스 설정
+		                $('.profileImage').attr('src', imageUrl);
+		                console.log(data)
+		            } else {
+		                console.log('썸네일 없음.');
+		                $('.profileImage').attr('src', '/resources/img/defaultProfile.png');
+		            }
+		        } else {
+		            console.log('서버로부터 데이터를 받지 못했습니다.');
+		        }
+		    },
+		    error: function() {
+		        console.error('프로필 이미지 로드에 실패했습니다.');
+		    }
+		});
 });
 
 
@@ -458,6 +481,13 @@ nav li {
 	position: relative;
 	display: inline-block;
 	z-index: 5;
+}
+
+#dropdownBtn2{
+	width: 40px;
+	height: 40px;
+	border-radius: 40px;
+	cursor: pointer;
 }
 
 .dropdown-content1 {
@@ -644,22 +674,21 @@ nav li {
 			
 		<c:if test="${not empty isLogin and isLogin }">
 		
-		 <c:choose>
+		<c:choose>
             <c:when test="${id eq 'admin'}">
                 <!-- 사용자가 'admin' 역할을 가지고 있는 경우의 코드 -->
-              
 				<div class="dropdown">
 					<img id="dropdownBtn2" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
-						<div class="dropdown-content2">
-							<div class="dropdown-title">${nick }</div>
-							<a href="/admin">관리자 페이지</a>
-			                <a href="/message/list">내 채팅</a>
-			                <a href=""id="logout_button">로그아웃</a>
-						</div>
+					<div class="dropdown-content2">
+						<div class="dropdown-title">${nick }</div>
+						<a href="/admin">관리자 페이지</a>
+		                <a href="/message/list">내 채팅</a>
+		                <a href=""id="logout_button">로그아웃</a>
+					</div>
 				</div>
 				
-            </c:when>
-            <c:otherwise>
+           </c:when>
+           <c:otherwise>
 
            <div class="dropdown">
 				<img id="dropdownBtn1" src="/resources/img/jong.png" class="dropbtn" style="height: 40px; width: 40px;">
@@ -676,20 +705,22 @@ nav li {
 			</div>
 			
 			<div class="dropdown">
-				<img id="dropdownBtn2" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
-					<div class="dropdown-content2">
-						<div class="dropdown-title">${nick }</div>
-						<a href="/profile">마이페이지</a>
-		                <a href="/message/list">내 채팅</a>
-		                <a href="#">빌린거/빌려준거</a>
-		                <a href="#">장바구니</a>
-		                <a href="#">고객센터</a>
-		                <a href=""id="logout_button">로그아웃</a>
-					</div>
+			<div id="profileImageContainer">
+		   		<img class="profileImage" id="dropdownBtn2" src="#" alt="Profile Image">
+			</div>
+			
+				<div class="dropdown-content2">
+					<div class="dropdown-title">${nick }</div>
+					<a href="/profile">마이페이지</a>
+					<a href="/message/list">내 채팅</a>
+					<a href="/profile/rentList ">빌린거/빌려준거</a>
+					<a href="/profile/basket">장바구니</a>
+					<a href=""id="logout_button">로그아웃</a>
+				</div>
 			</div>
             </c:otherwise>
         </c:choose>
-			</c:if>
+		</c:if>
 		</div>
 	<div class="mx-auto p-4" style="width: 1200px;" >
 		<div class="mx-auto p-2">
@@ -738,9 +769,9 @@ nav li {
                 
                 <li><label id="needitFont" style="font-size: 28px;">동네업체</label>
                 	<ul class="sub">
-                		<li><a href="/menu/business/list?menu=5&cate=1">물품</a></li>
-						<li><a href="/menu/business/list?menu=5&cate=2">인력</a></li>
-						<li><a href="/menu/business/list?menu=5&cate=3">공간</a></li>
+                		<li><a href="/business/list?menu=5&cate=1">물품</a></li>
+						<li><a href="/business/list?menu=5&cate=2">인력</a></li>
+						<li><a href="/business/list?menu=5&cate=3">공간</a></li>
 					</ul>
                 </li>
                 
