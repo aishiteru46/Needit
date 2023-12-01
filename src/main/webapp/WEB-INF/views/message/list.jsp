@@ -267,6 +267,7 @@ pageEncoding="UTF-8"%>
 	to { opacity: 0.7; }
 }
 
+
 </style>
 <script >
 var roomNo;
@@ -314,6 +315,14 @@ $(function() {
 			if(stompId && newChatMsg && makingRoom){
 				stompId.send("/pub/chat/" + receiverId + "/sendStatus",{},JSON.stringify(newChatMsg))
 			}
+			
+			$.post( "/alert/sendnotification", { 
+	        	id: receiverId
+	        	, sender: currentUserId
+	        	, content: 5
+	        	, menu: 6
+	        }); // $.post 끝
+			
 		} // if-else 문 끝
 	
 	$(this).find('input[name="message"]').val(''); // input 필드를 지움
@@ -344,7 +353,7 @@ $(function() {
 		, success: function(res){
 			$('.messages-container').empty(); // 이전 채팅방 메시지들 비우기
 			$(".msgProfile").empty();
-			console.log(res)
+			console.log('지금여기로오고있나용??ㅇㅇㅇㅇㅇ')
 			
 			var messages = res.messages;
 			var boardInfo = res.boardInfo;
@@ -391,10 +400,22 @@ $(function() {
 				$imgContent = $('<img alt="고객센터" src="/resources/img/gogakcenter.png">')
 			}
 			
-			console.log( $imgContent )
+			var $board = res.boardInfo			
+			
+			if( $board.menu == 1 ){
+				var link = '<a href="/rent/view?boardNo=' + $board.boardNo + '&menu=' + $board.menu + '&cate=' + $board.cate + '" style="color: white;">' + $board.title + '</a>';
+			} else if( $board.menu == 2 ) {
+				var link = '<a href="/share/view?boardNo=' + $board.boardNo + '&menu=' + $board.menu + '&cate=' + $board.cate + '" style="color: white;">' + $board.title + '</a>';
+			} else if( $board.menu == 3 ) {
+				var link = '<a href="/please/view?boardNo=' + $board.boardNo + '&menu=' + $board.menu + '&cate=' + $board.cate + '" style="color: white;">' + $board.title + '</a>';
+			} else if( $board.menu == 5 ) {
+				var link = '<a href="/business/view?boardNo=' + $board.boardNo + '&menu=' + $board.menu + '&cate=' + $board.cate + '" style="color: white;">' + $board.title + '</a>';
+			} else {
+				var link = '<a href="/business/view?boardNo=' + $board.boardNo + '&menu=0&cate=0 style="color: white;">' + $board.title + '</a>';
+			}
 			
 			var $desc = $('<div class="profileDesc">'); // 글제목, 가격, 링크 들어가는 부분을 감싸는 DIV 
-			var $title = $('<div class="profileTitle">').text(boardInfo.title); // 글 제목이 들어갈 부분 ////
+			var $title = $('<div class="profileTitle">').html(link); // 글 제목이 들어갈 부분 ////
 			var $price = $('<div class="profilePrice">').text(price); // 가격이 들어갈 부분 ////
 			
 			$('.msgProfile').append($body);
@@ -854,7 +875,14 @@ function formatDate(timestamp) {
 							</c:otherwise>
 						</c:choose>
 						<div class="msgObject-content">
-							<div class="msgObject-username">${list.otherUserNick}</div>
+							<c:choose>
+							<c:when test="${list.otherUserNick eq '관리자닉'}">
+								<div class="msgObject-username">관리자 1:1 문의</div>
+							</c:when>
+							<c:otherwise>
+								<div class="msgObject-username">${list.otherUserNick}</div>
+							</c:otherwise>
+							</c:choose>
 							<div class="messagePreview">
 								<c:choose>
 								<c:when test="${fn:length(list.messagePreview) > 10}">

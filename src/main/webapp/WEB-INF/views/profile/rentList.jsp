@@ -19,7 +19,7 @@ $(function(){
             }
             , dataType: "json"
             , success: function( res ) {
-               console.log("AJAX 성공")
+               console.log("AJAX 왜 이새끼로 들어와?")
                location.reload()
             }
             , error: function() {
@@ -36,7 +36,12 @@ $(function(){
 
    $(".cancelBtn").click(function() {
       var cancelBtn = $(this);
-         
+      
+      console.log("취소버튼 클릭됨")
+      console.log("merchantUid", cancelBtn.data("uid"))
+      console.log("rentNo", cancelBtn.data("no"))
+      console.log("boardNo", cancelBtn.data("board_no") )   
+      
          $.ajax({
             type: "post"
             , url: "/cancel"

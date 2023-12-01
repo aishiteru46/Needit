@@ -61,6 +61,7 @@ function onPaymentTypeChange() {
 // 이벤트 핸들러 등록
 $(document).ready(function () {
 	$("#paymentType").change(onPaymentTypeChange);
+	randomMerchantUid = generateRandomMerchantUid()*1;
 });
 
 var IMP = window.IMP;
@@ -69,7 +70,6 @@ IMP.init("imp47417351");
 
 function requestPay() {
 	
-	randomMerchantUid = generateRandomMerchantUid()*1;
 	console.log("온라인결제 버튼 눌린 후 주문번호 : ", randomMerchantUid )
 	
   IMP.request_pay(
@@ -521,7 +521,7 @@ function formatNumber(number) {
 // 대여신청 버튼 클릭 시 서버로 전송
 $(document).ready(function(){
   $("#makeRent").click(function () {
-	  randomMerchantUid = generateRandomMerchantUid()*1;
+	  
       var selectedPaymentType = $("#paymentType").val();
       if (!selectedPaymentType) {
         alert('결제 방법을 선택해주세요.');
