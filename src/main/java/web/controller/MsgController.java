@@ -41,11 +41,9 @@ public class MsgController {
 			@RequestParam(value = "receiverId", required = false,defaultValue = "anonymous") String receiverId) throws JsonProcessingException {
 		User user = new User(); // 유저 dto 생성
 		user.setId(session.getAttribute("id").toString()); // 현재 접속한 유저의 ID
-		logger.info(session.getAttribute("id").toString()); // log
 		
 		List<Map<String,Object>> list  = new ArrayList<Map<String,Object>>(); // 메시지 리스트 생성
 		list = msgService.getmsglist(user); // 채팅방 목록 가져오기
-		logger.info(list.toString()); // log
 		
 		Map<String,Object> map = new HashMap<String, Object>(); // map(List) 생성
 		
@@ -69,6 +67,7 @@ public class MsgController {
 		} // 새로운 채팅방 생성 끝
 		model.addAttribute("list",list); // 채팅 목록 보내기
 		
+		System.err.println("list" + list.toString());
 		return "/message/list";
 	}
 

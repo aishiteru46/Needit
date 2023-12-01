@@ -45,9 +45,8 @@
     margin-top: 5px;
 }
 #map {
-	margin: 0 auto;
-	width:400px; 
-	height:238px;
+	width:389px; 
+	height:236px;
 }
 
 #del {
@@ -657,16 +656,16 @@ $(()=>{
 	</div><!-- .viewHeader -->
 	<div style="clear: both;"></div>
 	
+	<div class="viewContent">
+		<div id="viewContent">${board.content }</div>
+	</div>
+
 	<div class="viewFile">
 		<p style="margin: 0">첨부파일 :
 			<c:forEach var="file" items="${fileTb }">
 				<a class="file bi bi-paperclip" href="./download?fileNo=${file.fileNo }">${file.originName }</a>
 			</c:forEach>
 		</p>
-	</div>
-	
-	<div class="viewContent">
-		<div id="viewContent">${board.content }</div>
 	</div>
 	
 	</div><!-- #borderContainer -->

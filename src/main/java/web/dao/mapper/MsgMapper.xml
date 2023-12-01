@@ -45,7 +45,7 @@
          FROM msgTB) m ON r.ROOM_NO = m.ROOM_NO AND m.rn = 1
     JOIN
         usertb u ON u.id = CASE WHEN r.ROOM_id1 = #{id} THEN r.ROOM_id2 ELSE r.ROOM_id1 END
-    JOIN
+    LEFT JOIN
         user_file uf ON uf.id = CASE WHEN r.ROOM_id1 = #{id} THEN r.ROOM_id2 ELSE r.ROOM_id1 END
     WHERE 
         #{id} IN (r.room_id1, r.room_id2)
