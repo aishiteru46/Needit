@@ -44,7 +44,7 @@ public interface UserProfileDao {
 	 * 
 	 * @param rent 예약 정보
 	 */
-	public List<Map<String,Object>> selectMyRentList(Paging paging);
+	public List<Map<String,Object>> selectMyRentList(Board board);
 	
 	/**
 	 * 내가 예약한 정보 확인

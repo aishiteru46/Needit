@@ -170,9 +170,9 @@ public class UserProfileServiceImpl implements UserProfileService {
 	}
 	
 	@Override
-	public List<Map<String,Object>> myRentList(Paging paging, User user) {
+	public List<Map<String,Object>> myRentList(Board board) {
 		
-		return userProfileDao.selectMyRentList(paging);
+		return userProfileDao.selectMyRentList(board);
 	}
 	
 	@Override

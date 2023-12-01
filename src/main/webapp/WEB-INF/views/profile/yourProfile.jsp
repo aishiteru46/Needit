@@ -7,21 +7,6 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <script type="text/javascript">
-//썸네일 미리보기
-function setThumbnail(event) {
-  var reader = new FileReader();
-
-  reader.onload = function (event) {
-      var thumbnailContainer = document.querySelector("#thumbnail_container");
-      thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
-      document.getElementById("previewSection").style.display = "block"; // 파일 선택 시 보이도록 설정
-  };
-
-  reader.readAsDataURL(event.target.files[0]);
-}// .setThumbnail() End
-
- 
- 
 function toggleSection(sectionId) {
     var section = document.getElementById(sectionId);
     section.classList.toggle('hidden');

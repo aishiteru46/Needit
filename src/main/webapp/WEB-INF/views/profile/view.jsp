@@ -625,10 +625,10 @@ $(function(){
 <div id="profileImgContainer" >
 <div id="profileImg">
    <c:if test="${not empty img}">
-       <img id="profileImage" src="/upload/${img.thumbnailName}" alt="User Profile Image">
+       <img id="profileImage" src="/upload/${img.thumbnailName}">
    </c:if>
    <c:if test="${empty img}">
-       <img id="profileImage" src="/resources/img/defaultProfile.png" alt="User Profile Image">
+       <img id="profileImage" src="/resources/img/defaultProfile.png">
    </c:if>
 </div><!-- #profileImg -->
 

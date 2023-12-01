@@ -5,7 +5,65 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>    
 
 <c:import url="/WEB-INF/views/layout/header.jsp" />
+<script type="text/javascript">
+//예약 승인
+$(function(){
+   $("#confirmBtn").click(function(){
+      var confirmBtn = $(this);
+        $.ajax({
+            type: "post"
+            , url: "/profile/confirm"
+            , data: {
+               rentNo: confirmBtn.data("rent_no")
+                , boardNo: confirmBtn.data("board_no")
+            }
+            , dataType: "json"
+            , success: function( res ) {
+               console.log("AJAX 성공")
+               location.reload()
+            }
+            , error: function() {
+               console.log("AJAX 실패")
+   
+            }
+         })
+      
+   });
+})
 
+
+$(function(){
+
+   $(".cancelBtn").click(function() {
+      var cancelBtn = $(this);
+         
+         $.ajax({
+            type: "post"
+            , url: "/cancel"
+            , data: {
+               merchantUid: cancelBtn.data("uid")
+               , rentNo: cancelBtn.data("no")
+               , boardNo: cancelBtn.data("board_no")
+            }
+            , dataType: "json"
+            , success: function( data ) {
+               console.log("결제취소, 대여 요청상태 변경 성공")
+               
+               alert("취소가 완료되었습니다.\n온라인결제를 하셨다면 환불처리 됩니다.")
+               
+               if(data.status === "success"){
+                  location.reload();
+               }
+               
+            }
+            , error: function(xhr, status, error) {
+               console.log("AJAX 실패", status, error)
+            }
+         })
+         
+      })
+})
+</script>
 <style type="text/css">
 
 /* 썸네일 미리보기 */

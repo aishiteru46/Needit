@@ -57,7 +57,7 @@ public interface UserProfileService {
 	 * @param book 예약 정보
 	 * @return 
 	 */
-	public List<Map<String,Object>> myRentList(Paging param, User user);
+	public List<Map<String,Object>> myRentList(Board board);
 	
 	/**
 	 * 내가 예약한 리스트
