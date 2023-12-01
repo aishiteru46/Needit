@@ -133,5 +133,24 @@ public interface MenuCommunityDao {
 	 */
 	public void deleteComment(Comment commentDelete);
 
+	/**
+	 * 게시글 삭제
+	 * 
+	 * @param board
+	 */
+	public void deleteBoard(Board board);
 
+	/**
+	 * 게시글 수정
+	 * 
+	 * @param updateParam
+	 */
+	public void updateBoard(Board updateParam);
+
+	/**
+	 * 게시글 수정, 파일삭제용
+	 * 
+	 * @param delFileno
+	 */
+	public void deleteFiles(int[] delFileno);	
 }

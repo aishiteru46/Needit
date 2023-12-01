@@ -214,7 +214,7 @@ th {
 .listContainer {
 	margin-top: 20px;
 }
-form {
+#searchForm {
     width: 450px;
     padding: 20px;
     margin-left: -20px;
@@ -228,34 +228,30 @@ form {
 	<c:if test="${list.MENU eq '4' && list.CATE eq '1' }">
 		<div id="communityText1"> 커뮤니티 
 			<div id="communityText2">[공지사항]</div>
-<!-- 			<img src="/resources/img/borrowIcon.png" style="width: 45px; height: 45px; margin-top: -28px;"> -->
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '4' && list.CATE eq '2' }">
 		<div id="communityText1"> 커뮤니티
 			<div id="communityText2">[우리동네 소식]</div>
-<!-- 			 <img src="/resources/img/humanpower.png" style="width: 45px; height: 45px; margin-top: -28px;"> -->
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '4' && list.CATE eq '3' }">
 		<div id="communityText1"> 커뮤니티
 			<div id="communityText2">[자유 게시판]</div>
-<!-- 			 <img src="/resources/img/place.png" style="width: 45px; height: 45px; margin-top: -26px;"> -->
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '4' && list.CATE eq '4' }">
 		<div id="communityText1"> 커뮤니티
 			<div id="communityText2">[팁 게시판]</div>
-<!-- 			 <img src="/resources/img/place.png" style="width: 45px; height: 45px; margin-top: -26px;"> -->
 		</div>
 	</c:if>
 </c:forEach>
 
 <!--게시글 검색-->
 <div class="search-container">
-	<form action="/community/search" method="get">
+	<form id="searchForm"  action="/community/search" method="get">
     <select name="selectSub" id="selectSub" required="required">
-    	<option value="" selected disabled hidden>선택&#129047;</option>
+    	<option value="" selected disabled hidden>선택&#9660;</option>
     	<option value="title">제목</option>
     	<option value="content">내용</option>
     	<option value="writerNick">작성자</option>

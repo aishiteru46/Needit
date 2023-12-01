@@ -115,7 +115,6 @@ th {
 .thumbnail {
 	display:inline-block;
 	float: left;
-
 }
 
 .table-container {
@@ -185,6 +184,7 @@ th {
     color: white;
 }
 #selectSub {
+    width: 50px;
 	text-align: center;
 	vertical-align:top;
     height: 30px;
@@ -214,7 +214,7 @@ th {
 .listContainer {
 	margin-top: 20px;
 }
-form {
+#searchForm {
     width: 450px;
     padding: 20px;
     margin-left: -20px;
@@ -250,11 +250,36 @@ form {
 		</div>
 	</c:if>
 </c:forEach>
+
+<%-- 검색후 메뉴표시 --%>
+<c:if test="${empty list }">
+	<c:if test="${list.MENU eq '4' && list.CATE eq '1' }">
+		<div id="comuText1"> 커뮤니티 
+			<div id="communityText2">[공지사항]</div>
+		</div>
+	</c:if>
+	<c:if test="${list.MENU eq '4' && list.CATE eq '2' }">
+		<div id="comuText1"> 커뮤니티
+			<div id="communityText2">[우리동네 소식]</div>
+		</div>
+	</c:if>
+	<c:if test="${list.MENU eq '4' && list.CATE eq '3' }">
+		<div id="comuText1"> 커뮤니티
+			<div id="communityText2">[자유 게시판]</div>
+		</div>
+	</c:if>
+	<c:if test="${list.MENU eq '4' && list.CATE eq '4' }">
+		<div id="comuText1"> 커뮤니티
+			<div id="communityText2">[팁 게시판]</div>
+		</div>
+	</c:if>
+</c:if>
+
 <!--게시글 검색-->
 <div class="search-container">
-	<form action="/community/search" method="get">
+	<form id="searchForm" action="/community/search" method="get">
     <select name="selectSub" id="selectSub" required="required">
-    	<option value="" selected disabled hidden>선택&#129047;</option>
+    	<option value="" selected disabled hidden>선택&#9660;</option>
     	<option value="title">제목</option>
     	<option value="content">내용</option>
     	<option value="writerNick">작성자</option>
@@ -286,12 +311,23 @@ form {
 
 </div>
 
+<%-- 검색 결과 없음표시 --%>
+<c:if test="${empty list }">
+<div class="listContainer">
+	<div style="text-align: center; font-size: 20px; margin: 125px 0;">
+		검색된 내용이 없습니다.
+	</div>
+</div>
+</c:if>
+
+<%-- 검색 결과 --%>
+<c:if test="${not empty list }">
 <div class="listContainer">
 	
 	<div class="table-container">
 		<table class="listType">
 		
-		<colgroup>
+		<colgroup width="100px">
 			<col style="width:5%;">
 			<col style="width:45%;">
 			<col style="width:20%;">
@@ -351,11 +387,12 @@ form {
 
 <br>
 </div><!-- .listContainer -->
+</c:if>
 
 </div> <!-- .container -->
 
 
-<c:import url="/WEB-INF/views/layout/paginationForList.jsp" />
+<c:import url="/WEB-INF/views/layout/paginationSearchList.jsp" />
 
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

@@ -120,21 +120,6 @@ $(()=>{
     margin-top: 20px;
     margin-left: 4px;
 }
-#write-conatiner-price {
-	float: right;
-    margin-top: -5px;
-    margin-bottom: 19px;
-    margin-right: 6px;
-    font-size: 30px;
-    text-align: center;
-}
-#write-conatiner-loc {
-	width: 353px;
-    font-size: 19px;
-   	overflow: hidden; 
- 	text-overflow: ellipsis; 
- 	white-space: nowrap;
-}
 #nickIcon{
 	float: none;
 	display: inline-block;
@@ -236,7 +221,7 @@ $(()=>{
 	margin-right: 2px;
 }
 
-form {
+#searchForm {
     width: 450px;
     padding: 20px;
     margin-left: -20px;
@@ -274,9 +259,9 @@ form {
 
 <!--게시글 검색-->
 <div class="search-container">
-	<form action="/community/search" method="get">
+	<form id="searchForm" action="/community/search" method="get">
     <select name="selectSub" id="selectSub" required="required">
-    	<option value="" selected disabled hidden>선택&#129047;</option>
+    	<option value="" selected disabled hidden>선택&#9660;</option>
     	<option value="title">제목</option>
     	<option value="content">내용</option>
     	<option value="writerNick">작성자</option>
@@ -308,13 +293,25 @@ form {
 
 </div>
 
+<%-- 검색 결과 없음표시 --%>
+<c:if test="${empty list }">
 <div class="gridContainer">
+	<div style="text-align: center; font-size: 20px; margin: 125px 0;">
+		검색된 내용이 없습니다.
+	</div>
+</div><!-- empty .gridContainer -->
+</c:if>
+
+<%-- 검색 결과 --%>
+<c:if test="${not empty list }">
+<div class="gridContainer">
+
 <c:forEach items="${list}" var="list" varStatus="loop">
   <c:if test="${loop.index % 3 == 0}">
   <div class="row">
   </c:if>
   	
-    <div class="write-container">
+   <div class="write-container">
  		<div class="write-container-head">
 <%-- 	        <div class="no">no.${list.BOARD_NO}</div> --%>
 	        <div class="no">Title.</div>
@@ -356,11 +353,13 @@ form {
 
 <small class="float-end" style="margin-right: 8px; margin-top: -10px;">total : ${paging.totalCount }</small>
 
+</div><!-- .gridContainer -->
+</c:if>
+
 </div> <!-- .container -->
 <br>
-</div><!-- .gridContainer -->
 
-<c:import url="/WEB-INF/views/layout/pagination.jsp" />
+<c:import url="/WEB-INF/views/layout/paginationSearch.jsp" />
 
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
