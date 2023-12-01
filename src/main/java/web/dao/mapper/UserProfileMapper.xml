@@ -412,7 +412,9 @@
 	</select>
 	
 	<select id="yourBoardList" resultType="Map" parameterType="Board">
-		SELECT board_no, menu, title, write_date, hit
+		SELECT board_no, menu, cate, title,
+		CAST(write_date AS DATE) AS "write_date",
+		hit
 		FROM board
 		WHERE writer_id = #{writerId}
 		ORDER BY board_no DESC

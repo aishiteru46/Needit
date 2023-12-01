@@ -35,14 +35,14 @@
     text-align: center;
     display: inline-block;
     position: absolute;
-	margin-top: -83px;
-    margin-left: 108px;
-	width: 80px;
-	height: 30px;
-	border-radius: 5px;
-	background-color: rgb(255,83,63);
-	border: 0;
-	color: white;
+    margin-top: 2px;
+    margin-left: -3px;
+    width: 240px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: rgb(255,83,63);
+    border: 0;
+    color: white;
 }
 
 /* 플로팅 버튼 */
@@ -126,21 +126,20 @@ function downFunction() {
 <div id="fooeterStart">
 <hr style="margin-bottom: 1em;">
 
-<span style="font-size: 20px; margin-left: 40px;"><strong>고객센터 1111-2222</strong></span>
+<span style="font-size: 20px; margin-left: 40px; font-size: 24px;"><strong>고객센터 1200-1342</strong></span>
 
-<span style="margin-left: 100px;">
+<span style="margin-left: 73px;">
 <span style=" margin-right: 90px;"><a href="/opening" id="footer-text">소개 페이지</a></span>
 <span style=" margin-right: 90px;"><a href="/terms/term" id="footer-text">이용 약관</a></span>
 <span style=" margin-right: 90px;"><a href="/terms/privacyPolicy" id="footer-text">개인정보처리방침</a></span>
 <span style=" margin-right: 90px;"><a href="/terms/locationPolicy" id="footer-text">위치기반서비스 이용약관</a></span>
 
-<span><a href="/admin/noticeList" id="footer-text">공지사항</a></span><br><br>
+<span><a href="/admin/noticeList" id="footer-text">공지사항</a></span><br>
 </span>
+<div style="margin-bottom: 7px;"></div>
 
-<div style="margin-left: 40px;">
-<div style="font-size: 20px; margin-bottom: 5px;"><strong>상담 시간</strong></div>
-<div style="font-size: 12px;">평일 09:00 - 18:00</div>
-<div style="font-size: 12px; margin-bottom: 12px; display: inline-block;">주말, 공휴일 휴뮤</div>
+<div style="margin-left: 40px; display: inline-block;">
+<div style="font-size: 20px; margin-bottom: 5px; font-size: 25px;"><strong>상담 시간</strong></div>
 <c:if test="${isLogin and (id eq admin)  }">
 	<div style="clear: both;"><form action="/admin" method="get"><button id="footer-report-button1">1:1 문의</button></form></div>
 </c:if>
@@ -151,15 +150,18 @@ function downFunction() {
 	<div style="clear: both;"><form action="/admin/chat" method="get"><button id="footer-report-button1">1:1 문의</button></form></div>
 </c:if>
 </div>
-
+<div style="display: inline-block; font-size: 12px; margin-left: 12px;">
+	<div>평일 09:00 - 18:00</div>
+	<div>주말, 공휴일 휴무</div>
+</div>
 <%-- <c:if test="${not empty isLogin }"> --%>
-	<span style="float: right; font-size: 10px; color: #ccc; margin-top: -38px; margin-right: 44px;">Copyright ⓒNeedit</span>
+	<span style="float: right; font-size: 10px; color: #575757; margin-top: 61px; margin-right: 40px;">Copyright ⓒNeedit</span>
 <%-- </c:if> --%>
 <%-- <c:if test="${empty isLogin }"> --%>
 <!-- 	<span style="float: right; font-size: 10px; color: #ccc; margin-top: -75px; margin-right: 42px;">Copyright ⓒNeedit</span> -->
 <%-- </c:if> --%>
 </div><!-- #fooeterStart -->
-<div style="margin-bottom: 20px;"></div>
+<div style="margin-bottom: 110px;"></div>
 
 </div><!-- .wrap -->
 
