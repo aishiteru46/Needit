@@ -73,12 +73,12 @@
 	</select>
 	
  	
- 	<!-- 예약 목록 -->
- 	<select id="selectMyRentList" resultType="Map" parameterType="web.util.Paging">
+ 	<!-- 예약 받은 목록 -->
+ 	<select id="selectMyRentList" resultType="Map" parameterType="Board">
 	 	SELECT B.board_no, A.renter_id, A.rent_no, A.rent_date, A.start_time, A.end_time, A.rent_status, A.payment_type, A.merchant_uid
 		FROM rent A
 		INNER JOIN board B ON B.board_no = A.board_no
-		WHERE B.writer_id = #{userId}
+		WHERE B.writer_id = #{writerId}
 		ORDER BY B.board_no DESC
  	</select>
  	

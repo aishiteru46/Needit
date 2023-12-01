@@ -7,21 +7,6 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <script type="text/javascript">
-//썸네일 미리보기
-function setThumbnail(event) {
-  var reader = new FileReader();
-
-  reader.onload = function (event) {
-      var thumbnailContainer = document.querySelector("#thumbnail_container");
-      thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
-      document.getElementById("previewSection").style.display = "block"; // 파일 선택 시 보이도록 설정
-  };
-
-  reader.readAsDataURL(event.target.files[0]);
-}// .setThumbnail() End
-
- 
- 
 function toggleSection(sectionId) {
     var section = document.getElementById(sectionId);
     section.classList.toggle('hidden');
@@ -275,7 +260,7 @@ function toggleSection(sectionId) {
 
 
 <div class="panel panel-default" id="userContent">
-<h3>${nick}님의 프로필</h3>
+<h3>${your.nick}님의 프로필</h3>
 <c:if test="${your.businessStatus eq 2 }">
    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-award" viewBox="0 0 16 16">
      <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z"/>
