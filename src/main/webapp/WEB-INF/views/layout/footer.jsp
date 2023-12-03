@@ -89,7 +89,7 @@ function topFunction() {
 
 function downFunction() {
     window.scrollTo({
-        top: 8000,
+        top: 20000,
         behavior: "smooth"
     });
 }
@@ -110,7 +110,7 @@ function downFunction() {
 	<button class="policy-floating-button" id="FloatMain" data-bs-toggle="modal" data-bs-target="#exampleModal">FAQ</button><br>
 </c:if>
 <c:if test="${isLogin and (id ne admin) }">
-	<a href="/admin/chat"><button class="policy-floating-button" id="FloatMain" data-bs-toggle="modal" data-bs-target="#exampleModal">FAQ</button></a><br>
+	<a href="/message/list?boardNo=-1&menu=0&cate=0&receiverId=admin"><button class="policy-floating-button" id="FloatMain">FAQ</button></a><br>
 </c:if>
 <button onclick="downFunction()" class="policy-floating-button" id="scrollDown">
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
@@ -139,7 +139,8 @@ function downFunction() {
 <div style="margin-bottom: 7px;"></div>
 
 <div style="margin-left: 40px; display: inline-block;">
-<div style="font-size: 20px; margin-bottom: 5px; font-size: 25px;"><strong>상담 시간</strong></div>
+<div style="font-size: 20px; margin-bottom: 5px; font-size: 25px;"><stron
+g>상담 시간</strong></div>
 <c:if test="${isLogin and (id eq admin)  }">
 	<div style="clear: both;"><form action="/admin" method="get"><button id="footer-report-button1">1:1 문의</button></form></div>
 </c:if>

@@ -52,7 +52,7 @@
 	          AND cate = 1
 	        ORDER BY board_no DESC
 	    )
-	    ORDER BY board_no
+	    ORDER BY board_no DESC
 	</select>
 	
 	<resultMap id="egomap" type="map">
@@ -179,8 +179,7 @@
 		       u.id, u.business_status
 		FROM business b
 		JOIN usertb u ON b.id = u.id
-		WHERE u.business_status = 1
-		OR u.business_status = 2
+		WHERE u.business_status IN (1,2)
 		ORDER BY b.id
 	</select>
 
@@ -197,5 +196,12 @@
 		SET business_status = 0
 		WHERE id = #{id}
 	</update>
+	
+	<delete id="deleteBusiness" parameterType="Business">
+		DELETE business
+		<where>
+			id = #{id}
+		</where>
+	</delete>
 
 </mapper>

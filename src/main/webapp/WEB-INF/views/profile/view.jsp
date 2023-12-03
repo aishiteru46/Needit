@@ -525,20 +525,17 @@ $(function(){
 /* 업체 링크 */
 #businessUrl{
    position: absolute;
-    margin-top: -50px;
+    margin-top: -69px;
     margin-left: 400px;
     margin-bottom: 24px;
     font-size: 18px;
     width: 776px;
     height: 50px;
-    background-color: #ccc;
+    background-color: rgb(255 83 63 / 4%);
     color: black;
     border-radius: 5px;
     vertical-align: middle;
     text-align: center;
-}
-#businessUrl a{
-    vertical-align: middle;
 }
 
 /* 업체 마크 */
@@ -548,21 +545,8 @@ $(function(){
    margin-top: -11px;
    color: rgb(255,83,63);
 }
-/* 업체 링크 */
-#businessUrl{
-   position: absolute;
-    margin-top: -69px;
-    margin-left: 400px;
-    margin-bottom: 24px;
-    font-size: 18px;
-    width: 776px;
-    height: 50px;
-    background-color: #ccc;
-    color: black;
-    border-radius: 5px;
-    vertical-align: middle;
-}
 #businessUrl a {
+    vertical-align: middle;
     vertical-align: -webkit-baseline-middle;
     color: blue;
     text-decoration: underline;
@@ -598,17 +582,17 @@ $(function(){
 <c:choose>
 
 	<c:when test="${user.businessStatus eq 0}">
-	   <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal">
+	   <button type="button" class="btn btn-danger" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal">
 		  업체등록
 	   </button>
 	</c:when>
-   	<c:when test="${user.businessStatus eq 0}">
-	   <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal" disabled="disabled">
+   	<c:when test="${user.businessStatus eq 1}">
+	   <button type="button" class="btn btn-danger" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal" disabled="disabled">
 	   승인대기
 	   </button>
    	</c:when>
 	<c:when test="${user.businessStatus eq 2}">
-	   <button type="button" class="btn btn-info" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal" disabled="disabled">
+	   <button type="button" class="btn btn-danger" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal" disabled="disabled">
 		  업체등록완료
    	</button>
    	</c:when>

@@ -192,7 +192,10 @@ public class AdminServiceImpl implements AdminService {
 	}
 	@Override
 	public void cancelBusiness(Business business) {
-		adminDao.cancelBusiness(business);
+		int res = adminDao.cancelBusiness(business);
+		if ( res > 0 ) {
+			adminDao.deleteBusiness(business);
+		}
 		
 	}
 

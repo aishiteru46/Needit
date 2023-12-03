@@ -135,7 +135,7 @@ function cancelBusiness(id) {
 			<td><button class="approveButton req" data-id="${list.ID}">승인</button></td>
 		</c:if>
 		<c:if test="${list.BUSINESS_STATUS eq 2 }">
-			<td><button class="approveButton done" data-id="${list.ID}">승인됨</button></td>
+			<td><button class="approveButton done" data-id="${list.ID}" disabled="disabled">승인됨</button></td>
 		</c:if>
 		<c:if test="${list.BUSINESS_STATUS eq 1 }">
         	<td><button class="cancelButton" data-id="${list.ID}">거절</button></td>
