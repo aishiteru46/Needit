@@ -155,6 +155,13 @@ public interface MenuShareService {
 	 * @return
 	 */
 	public List<Map<String, Object>> searchList(Paging paging);
+
+	/**
+    * 게시글마다 댓글수카운트
+    * @param boardNo
+    * @return
+    */
+	public int getCmtCnt(String boardNo);
 	
 	
 	

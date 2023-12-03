@@ -200,6 +200,13 @@ public interface MenuShareDao {
 	 * @return 리스트 
 	 */
 	public List<Map<String, Object>> selectSearch(Paging paging);
+
+	/**
+    * 게시글별 댓글수 카운트
+    * @param boardNo
+    * @return
+    */
+	public int getCntCmt(String boardNo);
 	
 	
 	

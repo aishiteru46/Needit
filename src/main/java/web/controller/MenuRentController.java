@@ -64,6 +64,8 @@ public class MenuRentController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
+		
+		
 		return "menu/rent/listType";
 	}
 

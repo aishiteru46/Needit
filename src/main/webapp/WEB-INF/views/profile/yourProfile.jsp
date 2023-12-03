@@ -344,7 +344,7 @@ function toggleSection(sectionId) {
 <!-- 업체 링크 -->
 <c:if test="${your.businessStatus eq 2 }">
 <div id="businessUrl">
-	<span style="vertical-align: -webkit-baseline-middle; color: black;">업체주소 : </span><a href="http://${link.BUSINESS_URL}" target="_blank">${link.BUSINESS_URL}</a>
+<%-- 	<span style="vertical-align: -webkit-baseline-middle; color: black;">업체주소 : </span><a href="http://${link.BUSINESS_URL}" target="_blank">${link.BUSINESS_URL}</a> --%>
 </div>
 </c:if>
 

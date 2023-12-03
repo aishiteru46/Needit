@@ -285,6 +285,8 @@ public class MenuRentServiceImpl implements MenuRentService {
 		}
 	
 	}
+	
+	
 
 
 }
