@@ -359,7 +359,7 @@ tr { height: 40px; }
 				<td>${list.BOARD_NO }</td>
 				<td>
 			        <div class="titlebox">					
-						<a href="/community/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE } <span style="color: #ff533f ; font-size: 0.8em;">[${list.cmtCnt }]</span></div></a>
+						<a href="/community/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div style="text-align: left;" id="title">${list.TITLE } <span style="color: #ff533f ; font-size: 0.8em;">[${list.cmtCnt }]</span></div></a>
 					</div>
 				</td>
 				<td><div id="locationBox" style="width: 100%;">${list.LOCATION }</div></td>
@@ -409,7 +409,7 @@ tr { height: 40px; }
 				<td>
 					<div>
 				        <div class="titlebox">					
-							<a href="/community/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE } <span style="color: #ff533f ; font-size: 0.8em;">[${list.cmtCnt }]</span></div></a>
+							<a href="/community/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div style="text-align: left;" id="title">${list.TITLE } <span style="color: #ff533f ; font-size: 0.8em;">[${list.cmtCnt }]</span></div></a>
 						</div>
 					</div>
 				</td>
