@@ -69,7 +69,7 @@ $(function(){
 
 /* 썸네일 미리보기 */
 #thumbnail_container{
-   width: 350px;
+	width: 350px;
     height: 350px;
     float: left;
     position: absolute;
@@ -80,74 +80,74 @@ $(function(){
 }
 /* 프로필 사진 */
 #profileImg{
-   width: 350px;
-    height: 350px;
-    background-size: cover;
-    object-fit: cover;
+	width: 350px;
+	height: 350px;
+	background-size: cover;
+	object-fit: cover;
 }
 /* 프로필사진, 닉네임, 사진등록 삭제 */
 #profileImgContainer{ 
-   width: 400px; 
-    float: left; 
-    margin-top: 67px;
+	width: 400px; 
+	float: left; 
+	margin-top: 67px;
 /*     display: inline-block; */
 }
 /* 프로필 등록 삭제 버튼 배치 */
 #profileImgUpdate{
-   margin-left: 96px;
-   margin-top: 6px;
+	margin-left: 96px;
+	margin-top: 6px;
 }
 /* 프로필 사진 크기 */
 #profileImage{
-   width: 350px;
-   border-radius: 310px;
+	width: 350px;
+	border-radius: 310px;
 }
 /* 유저 정보 */
 #userContent{
     width: 775px;
     height: 332px;
 /*     display: inline-block; */
-    float: left;
+	float: left;
 }
 .userInfo thead{
-   width: 200px;
-    background-color: azure;
+	width: 200px;
+	background-color: azure;
 }
 .userInfo tbody td{
-   width: 575px;
-   vertical-align: middle;
-     display: table-cell;
+	width: 575px;
+	vertical-align: middle;
+	display: table-cell;
 }
 .userInfo th{
-   height: 48px;
+	height: 48px;
 }
 .userInfo td{
-   height: 48px;
+	height: 48px;
 }
 /* 유저 정보 테이블 둥글게 */
 #userContent table{
-   border-radius: 10px;
+	border-radius: 10px;
 }
 /* 회원등급 사진 */
 #userGrade{
-   display: inline-block;
+	display: inline-block;
 }
 #userGrade img{
-   width: 20px;
-   height: 30px;
-   display: inline-block;
-   vertical-align: top;
+	width: 20px;
+	height: 30px;
+	display: inline-block;
+	vertical-align: top;
 }
 /* 자기소개 너비 */
 #introduce{
-   width: 1134px;
-    clear: both;
-    margin: 0 auto;
+	width: 1134px;
+	clear: both;
+	margin: 0 auto;
 }
 /* 자기소개 id */
 #introId{
-   margin-bottom: 10px;
-   border: 1px solid #ccc;
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
 }
 /* 자기소개칸 둥글게 */
 #introId, #introText{
@@ -159,26 +159,26 @@ $(function(){
 }
 /* 테이블 th 색상 */
 .rentTable th{
-   background-color: rgb(255,83,63);
-   color: white;
-   text-align: center;
+	background-color: rgb(255,83,63);
+	color: white;
+	text-align: center;
 }
 /* 목록 테이블 둥글게 */
 .rentTable{
-   border-radius: 5px;
-   width: 99%;
+	border-radius: 5px;
+	width: 99%;
 }
 .userInfo td{
-   border-bottom: 1px solid #cccccc40;
+	border-bottom: 1px solid #cccccc40;
 }
 /* 목록들 스크롤 */
 .tableScroll{
-   overflow-x: hidden;
-    overflow-y: scroll;
-    height: 200px;
-    width: 1139px;
-    margin-left: 20px;
-    display: inline-block;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	height: 200px;
+	width: 1139px;
+	margin-left: 20px;
+	display: inline-block;
 }
 
 /* Webkit 브라우저를 위한 스타일 */
@@ -232,45 +232,45 @@ $(function(){
     vertical-align: top;
 }
 .userInfo th div, .userInfo td div{
-   margin-top: 7px;
+	margin-top: 7px;
 }
 /* 취소 승인 버튼 */
 .agrBtn{
-   font-size: 16px;
-   font-weight: bold;
+	font-size: 16px;
+	font-weight: bold;
     width: 99%;
     height: 34px;
     margin-left: 1px;
     border-radius: 5px;
 }
 .rentDate{
-   width: 287px;
+	width: 287px;
 }
 .rentTable tr th:first-child {
-   border-top-left-radius: 5px;
+	border-top-left-radius: 5px;
 }
 .rentTable tr th:last-child {
-   border-top-right-radius: 5px;
-   border: none;
+	border-top-right-radius: 5px;
+	border: none;
 }
 .rentTable th{
-   border-right: 1px solid #ccc;
+	border-right: 1px solid #ccc;
 }
 .rentTable td{
-   border-bottom: 1px solid #ccc;
-   font-weight: normal;
+	border-bottom: 1px solid #ccc;
+	font-weight: normal;
 }
 
 /* 업체 마크 */
 #userContent svg{
-   display: inline-block;
-   margin-left: 5px;
-   margin-top: -11px;
-   color: rgb(255,83,63);
+	display: inline-block;
+	margin-left: 5px;
+	margin-top: -11px;
+	color: rgb(255,83,63);
 }
 /* 업체 링크 */
 #businessUrl{
-   position: absolute;
+	position: absolute;
     margin-top: -69px;
     margin-left: 400px;
     margin-bottom: 24px;
@@ -285,14 +285,14 @@ $(function(){
 
 /* 업체 마크 */
 #userContent svg{
-   display: inline-block;
-   margin-left: 5px;
-   margin-top: -11px;
-   color: rgb(255,83,63);
+	display: inline-block;
+	margin-left: 5px;
+	margin-top: -11px;
+	color: rgb(255,83,63);
 }
 /* 업체 링크 */
 #businessUrl{
-   position: absolute;
+	position: absolute;
     margin-top: -69px;
     margin-left: 400px;
     margin-bottom: 24px;
