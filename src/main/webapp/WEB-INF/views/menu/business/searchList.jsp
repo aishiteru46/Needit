@@ -385,7 +385,7 @@ $(()=>{
 		<a type="button" href="/business/search/searchType?selectSub=${param.selectSub}&searchText=${param.searchText}&menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
 	</div>
 
-	<c:if test="${not empty isLogin and isLogin and business }">
+	<c:if test="${not empty isLogin and isLogin }">
 		<a class="btn" href="/business/search/write?menu=${param.menu }&cate=${param.cate }">✍️글쓰기</a>
 	</c:if>
 	<c:if test="${empty isLogin and not isLogin }">
