@@ -308,12 +308,6 @@ form {
 			<tr>
 				<td>${list.BOARD_NO }</td>
 				<td>
-				<c:if test="${list.BASKET_STATUS eq 1}">
-		              <span class="heart"><img class="star a" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/star.png"></span>
-		        </c:if>
-		        <c:if test="${list.BASKET_STATUS eq 0}">
-		            <span class="heart"><img class="star b" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/emptyStar.png"></span>
-		        </c:if>
 					<div>
 				        <c:if test="${ not empty list.THUMBNAIL_NAME  }">
 					        <div class="thumbnail">
@@ -326,7 +320,7 @@ form {
 					        </div>
 				        </c:if>
 				        <div class="titlebox">					
-							<a href="/share/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE }</div></a>
+							<a href="/share/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE } <span style="color: #ff533f ; font-size: 0.8em;">[${list.cmtCnt }]</span></div></a>
 						</div>
 					</div>
 				</td>

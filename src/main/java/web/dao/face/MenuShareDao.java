@@ -9,6 +9,8 @@ import web.dto.Booking;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
+import web.dto.Rent;
+import web.dto.User;
 import web.util.Paging;
 
 public interface MenuShareDao {
@@ -207,8 +209,18 @@ public interface MenuShareDao {
     * @return
     */
 	public int getCntCmt(String boardNo);
-	
-	
-	
 
+	/**
+	 * 세션이 회원정보수정전 주소 가져오는것 때문에 추가함
+	 * @param user
+	 * @return
+	 */
+	public User selectWriteAddr(User user);
+	
+	/**
+	 * 대여 신청하기
+	 * 
+	 * @param rentParam
+	 */
+	public void makeRent(Rent rentParam);
 }

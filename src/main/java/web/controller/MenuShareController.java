@@ -25,6 +25,8 @@ import web.dto.Booking;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
+import web.dto.Rent;
+import web.dto.User;
 import web.service.face.MenuShareService;
 import web.util.Paging;
 
@@ -57,6 +59,12 @@ public class MenuShareController {
 		model.addAttribute("list",list);
 		model.addAttribute("paging",paging);
 		
+		//댓글 수 조회
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuShareFace.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}
 		
 		logger.info("메뉴{}",paging);
 		logger.info("카테고리 들어오나?{}",param.getCate());
@@ -158,9 +166,24 @@ public class MenuShareController {
 		return "menu/share/view";
 	}
 	
-	@GetMapping("/write")
-	public String write( Board board ) {
+	//대여 처리
+	@PostMapping("/rent")
+	public String rent( Rent rentParam, Model model ) {
+		logger.info("결제파라미터 : {}", rentParam);
 		
+		//대여신청 대기처리
+		menuShareFace.rent(rentParam);
+		
+		return "jsonView";
+	}
+	
+	@GetMapping("/write")
+	public String write( User user, Model model, HttpSession session  ) {
+		
+ 		user.setId((String)session.getAttribute("id"));
+ 		User writeUser = menuShareFace.writeAddrSelect(user);
+ 		model.addAttribute("user", writeUser);
+ 		logger.info("바뀐주소 : {}", writeUser);
 		return "menu/share/write";
 	}
 	

@@ -41,9 +41,9 @@ $(()=>{
                type: "post"
                , url: "/share/basket"
                , data: {
-               boardNo : boardNo
-               , menu : menu
-               , cate : cate
+	               boardNo : boardNo
+	               , menu : menu
+	               , cate : cate
                }
                , dataType: "json"
                , success: function( res ) {
@@ -306,6 +306,13 @@ form {
    margin-bottom: 8px; 
 }
 
+.link {
+	cursor: pointer; /* 커서 모양 변경 */
+}
+.link:hover {
+	color: orange; /* 마우스 오버 시 텍스트 색상 변경 */
+}
+
 </style>
 
 <div class="container">
@@ -391,7 +398,7 @@ form {
             </c:if>
          
            <div class="no">Title.</div>
-           <a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE }</div></a>
+           <a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE }<span style="color: black; font-size: 0.8em;">[${list.cmtCnt}]</span></div></a>
         <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>
         <div id="write-conatiner-hit">👀  ${list.HIT}</div>
         </div><!-- .write-container-head -->
@@ -407,7 +414,7 @@ form {
            </div>
         </c:if>
         <hr id="rentListHr">
-        <div id="write-conatiner-nick"><div id="nickIcon">✍️</div>${list.WRITER_NICK }</div>
+        <div id="write-conatiner-nick"><div id="nickIcon">✍️</div><a href="/profile/yourProfile?boardNo=${list.BOARD_NO }" class="link">${list.WRITER_NICK }</a></div>
         <div id="write-conatiner-time">🕟
             <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" /> 
             <fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" /> 
@@ -420,7 +427,7 @@ form {
                 </c:otherwise> 
             </c:choose>                    
         </div><!-- #write-conatiner-time -->
-        <div id="write-conatiner-price">💸<fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</div>
+        <div id="write-conatiner-price">나눔❤️</div>
         
         <div id="write-conatiner-loc" ><i style="color: rgb(255,83,63)" class="bi bi-geo-alt-fill"></i>${list.LOCATION } </div>
     </div><!-- .write-container -->

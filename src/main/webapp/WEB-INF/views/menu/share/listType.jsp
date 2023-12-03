@@ -220,6 +220,13 @@ form {
     margin-left: -20px;
     margin-top: 4px;
 }
+
+.link {
+   cursor: pointer; /* 커서 모양 변경 */
+}
+.link:hover {
+   color: orange; /* 마우스 오버 시 텍스트 색상 변경 */
+}
 </style>
 
 <div class="container">
@@ -320,13 +327,13 @@ form {
 					        </div>
 				        </c:if>
 				        <div class="titlebox">					
-							<a href="/share/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE } [${list.cmtCnt}]</div></a>
+							<a href="/share/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE } <span style="color: #ff533f ; font-size: 0.8em;">[${list.cmtCnt }]</span></div></a>
 						</div>
 					</div>
 				</td>
-				<td><fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</td>
+				<td>나눔❤️</td>
 				<td><div id="locationBox">${list.LOCATION }</div></td>
-				<td>${list.WRITER_NICK }</td>
+				<td><a href="/profile/yourProfile?boardNo=${list.BOARD_NO }" class="link">${list.WRITER_NICK }</a></td>
 				<td>
 					<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
 					<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" />

@@ -61,6 +61,7 @@ function onPaymentTypeChange() {
 // 이벤트 핸들러 등록
 $(document).ready(function () {
 	$("#paymentType").change(onPaymentTypeChange);
+	randomMerchantUid = generateRandomMerchantUid()*1;
 });
 
 var IMP = window.IMP;
@@ -69,7 +70,6 @@ IMP.init("imp47417351");
 
 function requestPay() {
 	
-	randomMerchantUid = generateRandomMerchantUid()*1;
 	console.log("온라인결제 버튼 눌린 후 주문번호 : ", randomMerchantUid )
 	
   IMP.request_pay(
@@ -112,6 +112,7 @@ function requestPay() {
 
 .Calendar {
     text-align: center;
+    width: 100%;
 }
 
 .Calendar>thead>tr:first-child>td {
@@ -521,7 +522,7 @@ function formatNumber(number) {
 // 대여신청 버튼 클릭 시 서버로 전송
 $(document).ready(function(){
   $("#makeRent").click(function () {
-	  randomMerchantUid = generateRandomMerchantUid()*1;
+	  
       var selectedPaymentType = $("#paymentType").val();
       if (!selectedPaymentType) {
         alert('결제 방법을 선택해주세요.');
@@ -545,9 +546,9 @@ $(document).ready(function(){
     // 대여신청 정보를 서버로 전송
 	    $.ajax({
 	        type: "POST",
-	        url: "/rent/rent"
+	        url: "/share/rent"
 	        , data: {
-	        	boardNo: "${board.boardNo }",
+	        	boardNo: "${view.boardNo }",
 	        	renterId: "${id }",
 	        	rentDate: new Date(parseInt(selectedDate)),
 	        	startTime: startTime,
@@ -566,11 +567,11 @@ $(document).ready(function(){
 	           
 			   <%-- 알림보내기 --%>	          
 	           $.post( "/alert/sendnotification", { 
-	        		id: "${board.writerId}"
+	        		id: "${view.writerId}"
         	        , sender: "${id}"
         	        , content: 2
         	        , menu: "${param.menu}"
-	        		, boardNo: "${board.boardNo}"
+	        		, boardNo: "${view.boardNo}"
 	        	});// $.post 끝
 	           
 	           // 페이지 새로고침
