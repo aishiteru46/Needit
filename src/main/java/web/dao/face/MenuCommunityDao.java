@@ -152,5 +152,12 @@ public interface MenuCommunityDao {
 	 * 
 	 * @param delFileno
 	 */
-	public void deleteFiles(int[] delFileno);	
+	public void deleteFiles(int[] delFileno);
+
+	/**
+	 * 게시글별 댓글수 카운트
+	 * @param boardNo
+	 * @return
+	 */
+	public int getCntCmt(String boardNo);
 }

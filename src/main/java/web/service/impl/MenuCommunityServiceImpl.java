@@ -252,5 +252,10 @@ public class MenuCommunityServiceImpl implements MenuCommunityService {
 	
 	}
 
+	@Override
+	public int getCmtCnt(String boardNo) {
+		return menuCommunityDao.getCntCmt(boardNo);
+	}
+
 
 }
