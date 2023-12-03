@@ -393,9 +393,9 @@ $(()=>{
     	
     	
         	<div class="no">Title.</div>
-        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">${list.TITLE } [${list.cmtCnt}]</h6></a>
+        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">${list.TITLE } <span style="color: black; font-size: 0.8em;">[${list.cmtCnt}]</span></h6></a>
         <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>
-        <div id="write-conatiner-hit">👀  ${list.HIT}</div>
+        <div id="write-conatiner-hit">👀  ${list.HIT}</div> 
         </div><!-- .write-container-head -->
         <hr id="pleaseListHr">
         <c:if test="${ not empty list.THUMBNAIL_NAME  }">

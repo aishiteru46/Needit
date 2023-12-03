@@ -186,6 +186,7 @@ a:hover { text-decoration: none; }
 #download{
 	float: left;
 	margin-left: 8px;
+	position: absolute;
 }
 </style>
 
@@ -722,7 +723,7 @@ $(()=>{
 			<div class="col col-9">
 				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;"></textarea>
 			</div>
-			<button id="btnCommInsert" class="btn btn-primary col-1">작성</button>
+			<button id="btnCommInsert" class="btn btn-secondary col-1">작성</button>
 		</div>
 	</c:if><br>
 
