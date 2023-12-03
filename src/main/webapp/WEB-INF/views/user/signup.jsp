@@ -110,7 +110,7 @@ $(document).ready(function() {
         // Update the input value with the cleaned id
         $(this).val(idRegex);
 
-        if (idRegex.length < 4 || idRegex.length > 15 || !(/[a-zA-Z]/.test(idRegex) && /[0-9]/.test(idRegex))) {
+        if (idRegex.length < 4 || idRegex.length > 15 || !(/[a-zA-Z]/.test(idRegex) || /[0-9]/.test(idRegex))) {
             $("#label1").css("color", "red").css("display", "block").text("ID로 사용할 수 없습니다.");
             $("#idLimit").css("color", "red").css("display", "block").text("영문자와 숫자를 포함한 4~15글자 대문자 미포함, 특수문자 사용 불가");
             idCheck = false;
