@@ -173,8 +173,8 @@ a:hover { text-decoration: none; }
 #btnList button { width: 60px; height: 40px; margin-top: 10px; border: none; background: #ff533f; color: white; font-weight: bold; border-radius: 10px 10px 10px 10px;}
 .infoMap { height: 239px }
 .viewFile { width: 900px; margin: 0 auto;border: 1px solid #ccc; border-radius: 0px 0px 10px 10px;}
-.viewContent { width: 900px; min-height: 400px; margin: 0 auto; border: 1px solid #ccc; }
-#viewContent { margin: 20px 50px; }
+.viewContent { width: 900px; min-height: 400px; margin: 0 auto; border: 1px solid #ccc;}
+#viewContent { margin: 20px 50px;  text-align: left;}
 #viewContent p img { max-width: 750px; }
 
 .card {
