@@ -6,7 +6,7 @@
 <c:import url="/WEB-INF/views/admin/admin.jsp" />
 
 <style>
-#AdminBusiness{
+#adminBusiness{
 	background-color: #ff8108;
 	width: 302px;
 }
@@ -21,7 +21,7 @@
 	height: 315px;
 }
 
-#AdminContent{
+#adminContent{
 	width: 80%;
 }
 
@@ -94,7 +94,7 @@ function cancelBusiness(id) {
 
 
 <!-- 안쪽 내용 -->
-<div id="AdminContent">
+<div id="adminContent">
 
 <div id="tableWrapper">
 <table class="table table-striped table-sm">
@@ -149,7 +149,7 @@ function cancelBusiness(id) {
 </table>
 
 </div><!-- #tableWrapper -->
-</div><!-- #AdminContent -->
+</div><!-- #adminContent -->
 
 </body>
 </html>

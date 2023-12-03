@@ -17,11 +17,11 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 페이지</title>
-
+<link rel="icon" href="/resources/img/favicon.ico">
 <style type="text/css">
 
 /* 로고 크기 */
-#AdminImg{
+#adminImg{
 	float: left;
  	position: fixed;
 	z-index: 1;
@@ -31,7 +31,7 @@
 }
 
 /* 로그아웃 버튼 */
-#AdminBtn{
+#adminBtn{
 	float: right;
 	position: relative;
 	z-index:2;
@@ -44,7 +44,7 @@
 }
 
 /* 목록 글씨체 */
-#AdminUl li{
+#adminUl li{
 	list-style: none;
 	color: white;
 	font-size: 35px;
@@ -60,7 +60,7 @@ li:hover{
 }
 
 /* 위쪽 배경 */
-#AdminTop{
+#adminTop{
 	border: 0px solid rgb(255,83,63);
 	width: 100%;
 	height: 100px;
@@ -79,7 +79,7 @@ li:hover{
 
 
 /* 왼쪽 배경 */
-#AdminLeft{
+#adminLeft{
 	float: left;
 	position: fixed;
 	border: 0px solid rgb(255,83,63);
@@ -89,7 +89,7 @@ li:hover{
 }
 
 /* 목록 전체 div */
-#AdminList{
+#adminList{
 	float: left;
 	position: fixed;
 	z-index:1;
@@ -98,7 +98,7 @@ li:hover{
 }
 
 /* 안쪽 내용 중간 배치 */
-#AdminContent {
+#adminContent {
     float: left;
     position: fixed;
     width: 80%;
@@ -107,13 +107,13 @@ li:hover{
 }
 
 /* 목록 링크 링크색 제거 */
-#AdminList li a{
+#adminList li a{
 	text-decoration: none;
 	color: white;
 }
 
 /* 로고와 목록 띄우기 */
-#AdminDayVisit{
+#adminDayVisit{
 	margin-top: 8px;
 }
 /* 로그인중일때 */
@@ -134,45 +134,45 @@ li:hover{
 </head>
 <body>
 
-<div id="AdminAll" style="width: 1200px;">
+<div id="adminAll" style="width: 1200px;">
 <!-- 니딧 로고 -->
-<img alt="니딧로고" src="/resources/img/needitAdmin_white.png" id="AdminImg">
+<img alt="니딧로고" src="/resources/img/needitAdmin_white.png" id="adminImg">
 
 
 <!-- 위쪽 배경 -->
-<div id="AdminTop">
+<div id="adminTop">
 <!-- 로그아웃 버튼 -->
 	<div id="mainButton">
 	<form action="/main" method="post">
-	<button id="AdminBtn">로그아웃</button>
+	<button id="adminBtn">로그아웃</button>
 	<c:if test="${not empty isLogin}">
 		<div id="ifLogin"></div>
 	</c:if>
 	</form>
-	<a href="/main"><button id="AdminBtn">메인으로</button></a>
+	<a href="/main"><button id="adminBtn">메인으로</button></a>
 	</div><!-- #mainButton -->
-</div><!-- #AdminTop -->
+</div><!-- #adminTop -->
 
 
 <!-- 왼쪽 배경 -->
-<div id="AdminLeft"></div>
+<div id="adminLeft"></div>
 
 
 <!-- 목록 -->
-<div id="AdminList">
-<ul id="AdminUl">
-<!-- <li id="AdminDayVisit"><a href="/admin/dayVisit">방문자수 조회</a></li> -->
-<li id="AdminChat"><a href="/admin/chat">1:1 채팅문의 목록</a></li>
-<li id="AdminReport"><a href="/admin/reportList">신고접수 목록</a></li>
-<li id="AdminBusiness"><a href="/admin/businessReq">업체요청 목록</a></li>
+<div id="adminList">
+<ul id="adminUl">
+<!-- <li id="adminDayVisit"><a href="/admin/dayVisit">방문자수 조회</a></li> -->
+<li id="adminChat"><a href="/admin/chat">1:1 채팅문의 목록</a></li>
+<li id="adminReport"><a href="/admin/reportList">신고접수 목록</a></li>
+<li id="adminBusiness"><a href="/admin/businessReq">업체요청 목록</a></li>
 
-<li id="AdminBanner"><a href="/admin/bannerUpdate">메인배너 수정</a></li>
-<li id="AdminNotice"><a href="/admin/noticeUpdate">공지등록</a></li>
-<li id="AdminEmail"><a href="/admin/emailSend">회원 이메일 발송</a></li>
+<li id="adminBanner"><a href="/admin/bannerUpdate">메인배너 수정</a></li>
+<li id="adminNotice"><a href="/admin/noticeUpdate">공지등록</a></li>
+<li id="adminEmail"><a href="/admin/emailSend">회원 이메일 발송</a></li>
 </ul>
 </div>
 
-</div><!-- #AdminAll -->
+</div><!-- #adminAll -->
 
 </body>
 </html>

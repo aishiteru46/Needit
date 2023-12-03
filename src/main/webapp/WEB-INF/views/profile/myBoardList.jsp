@@ -199,6 +199,7 @@
 }
 .rentTable th{
 	border-right: 1px solid #ccc;
+	text-align: center;
 }
 .rentTable td{
 	border-bottom: 1px solid #ccc;

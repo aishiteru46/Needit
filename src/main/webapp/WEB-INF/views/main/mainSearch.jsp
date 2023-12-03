@@ -7,15 +7,15 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <style>
-/* 검색 */ 
-#MainSearchDiv{
+/* 검색 */
+#mainSearchDiv{
     position: relative;
     vertical-align: top;
 /*     margin-top: -46px; */
     margin-left: 781px;
 }
 /* 검색input */
-#MainSearch{
+#mainSearch{
     position: inherit;
     vertical-align: top;
     width: 355px;
@@ -25,7 +25,7 @@
     border-bottom-left-radius: 5px;
 }
 /* 검색버튼 */
-#MainBtnSearch{
+#mainBtnSearch{
     position: absolute;
     vertical-align: top;
     height: 35px;
@@ -36,7 +36,7 @@
     border-bottom-right-radius: 5px;
 }
 /* 검색버튼 focus 없애기 */
-#MainSearch:focus, #MainBtnSearch:focus{
+#mainSearch:focus, #mainBtnSearch:focus{
 	outline: none;
 }
 
@@ -205,18 +205,18 @@ $(document).ready(function() {
 <div id="container" style="margin-left: 12px; margin-top: 20px">
 
 <!-- 검색버튼 -->
-<div id="MainSearchDiv">
+<div id="mainSearchDiv">
   <form action="/mainSearch" method="get" id="searchForm">
 <!--     <select name="selectSub" id="selectSub" required="required"> -->
 <!--     	<option value="rent">대여해요</option> -->
 <!--     	<option value="share">나눔해요</option> -->
 <!--     	<option value="please">해주세요</option> -->
 <!--     </select> -->
-	<input type="text" name="searchText" id="MainSearch" placeholder=" 필요한 것을 검색해보세요."
+	<input type="text" name="searchText" id="mainSearch" placeholder=" 필요한 것을 검색해보세요."
 		required oninvalid="this.setCustomValidity('제목을 입력해주세요')" oninput="this.setCustomValidity('')"/>
-	<button id="MainBtnSearch">검색</button>
+	<button id="mainBtnSearch">검색</button>
   </form>
-</div><!-- #MainSearchDiv -->
+</div><!-- #mainSearchDiv -->
 <div style="margin-bottom: -29px;"></div>
 
 <!-- 검색결과 -->

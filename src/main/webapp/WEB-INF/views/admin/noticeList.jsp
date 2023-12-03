@@ -6,16 +6,22 @@
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
 <style>
-#NoticeTop{
-	text-align: center;
-	font-size: 50px;
-	margin-bottom: 30px;
+#noticeTop{
+    background: #ff533f;
+    color: white;
+    border-radius: 10px 10px 0 0;
+    font-size: 2.8em;
+    padding: 5px;
+    text-align: center;
 }
-#NoticeDiv{
-	border-bottom: 1px solid black;
-	margin-bottom: 15px;
+#noticeDiv {
+    margin-top: 18px;
 }
-#NoticeFloat{
+
+#noticeDiv + #noticeDiv {
+    border-top: 1px solid black;
+}
+#noticeFloat{
 	float: left;
 	position: relative;
 	width: 50px;
@@ -27,14 +33,16 @@
 	border-radius: 5px;
 	text-align: center;
 	vertical-align: middle;
-	margin-top: 3px;
+	margin-top: 19px;
 	margin-right: 4px;
 	
+	
 }
-#NoticeTitleContent{
+#noticeTitleContent{
 	width: 1100px;
+	margin-top: 15px;
 }
-#NoticeTitle{
+#noticeTitle{
 	display: block;
 	height: 100%;
 	font-size: 20px;
@@ -42,13 +50,13 @@
 	overflow: hidden;
     margin-bottom: 5px;
 }
-#NoticeContent{
+#noticeContent{
 	display: block;
 	height: 100%;
 	font-size: 16px;
     margin-left: 54px;
 }
-#NoticeDate{
+#noticeDate{
 	display: inline-block;
 	float: right;
 	position: relative;
@@ -62,18 +70,18 @@
 <div style="margin-top: 5%;"></div>
 
 <!-- 공지사항 -->
-<div id="NoticeTop">⭐NOTICE.공지사항</div>
+<div id="noticeTop">Notice</div>
 <c:forEach var="list" items="${noticeList }">
-	<div id="NoticeDiv">
-		<div id="NoticeFloat">공지</div>
+	<div id="noticeDiv">
+		<div id="noticeFloat">공지</div>
 <%-- <a href="/admin/noticeView?boardNo=${list.boardNo }&menu=4&cate=1"> --%>
-	<div id="NoticeTitleContent">
-		<span id="NoticeTitle">${list.title }</span>
-		<span id="NoticeContent">${list.content }</span>
+	<div id="noticeTitleContent">
+		<span id="noticeTitle">${list.title }</span>
+		<span id="noticeContent">${list.content }</span>
 <!-- </a> -->
-	</div><!-- #NoticeTitleContent -->
-		<div id="NoticeDate"><fmt:formatDate value="${list.writeDate }" pattern="yyyy-MM-dd"/></div>
-	</div><!-- #NoticeDiv -->
+	</div><!-- #noticeTitleContent -->
+		<div id="noticeDate"><fmt:formatDate value="${list.writeDate }" pattern="yyyy-MM-dd"/></div>
+	</div><!-- #noticeDiv -->
 </c:forEach>
 
 

@@ -6,7 +6,7 @@
 <c:import url="/WEB-INF/views/admin/admin.jsp" />
 
 <style>
-#AdminReport{
+#adminReport{
 	background-color: #ff8108;
 	width: 302px;
 }
@@ -20,7 +20,7 @@
 	overflow-y: scroll;
 	height: 213px;
 }
-#AdminContent{
+#adminContent{
 	width: 80%;
 }
 #reportBoard th, #reportComment th{
@@ -77,7 +77,7 @@ function deleteComment(cmtNo) {
 </script>
 
 <!-- 안쪽 내용 -->
-<div id="AdminContent">
+<div id="adminContent">
 
 <!-- 게시글 신고 목록 -->
 <h3>게시글 신고 목록</h3>
@@ -200,7 +200,7 @@ function deleteComment(cmtNo) {
 
 
 
-</div><!-- .AdminContent -->
+</div><!-- #adminContent -->
 
 
 
