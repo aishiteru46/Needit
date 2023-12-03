@@ -25,6 +25,7 @@ import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
 import web.dto.Rent;
+import web.dto.User;
 import web.service.face.MenuRentService;
 import web.util.Paging;
 
@@ -49,6 +50,13 @@ public class MenuRentController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
+ 		//게시글마다 댓글 몇개 달렸는지 카운트
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuRentService.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}
+		
 		return "menu/rent/list";
 	}
 	
@@ -63,8 +71,13 @@ public class MenuRentController {
 		List<Map<String, Object>> list = menuRentService.list(paging); 
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
-		
-		
+
+ 		//게시글마다 댓글 몇개 달렸는지 카운트
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuRentService.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}		
 		
 		return "menu/rent/listType";
 	}
@@ -82,6 +95,13 @@ public class MenuRentController {
 		List<Map<String, Object>> list = menuRentService.searchList(paging);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
+
+ 		//게시글마다 댓글 몇개 달렸는지 카운트
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuRentService.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}		
 		
 		return "menu/rent/searchList";
 	}
@@ -97,7 +117,14 @@ public class MenuRentController {
 		List<Map<String, Object>> list = menuRentService.searchList(paging);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
-		
+
+ 		//게시글마다 댓글 몇개 달렸는지 카운트
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuRentService.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}		
+ 		
 		return "menu/rent/searchType";
 	}
 	
@@ -161,7 +188,13 @@ public class MenuRentController {
 	
 	//게시글 작성 폼
 	@GetMapping("/write")
-	public String write() {
+	public String write( User user, Model model, HttpSession session ) {
+		
+ 		user.setId((String)session.getAttribute("id"));
+ 		User writeUser = menuRentService.writeAddrSelect(user);
+ 		model.addAttribute("user", writeUser);
+ 		logger.info("바뀐주소 : {}", writeUser);
+ 		
 		return "menu/rent/write";
 	}
 	

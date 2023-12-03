@@ -9,6 +9,7 @@ import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
 import web.dto.Rent;
+import web.dto.User;
 import web.util.Paging;
 
 public interface MenuRentDao {
@@ -193,6 +194,20 @@ public interface MenuRentDao {
 	 * @param delFileno
 	 */
 	public void deleteFiles(int[] delFileno);
+
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public User selectWriteAddr(User user);
+
+	/**
+	 * 
+	 * @param boardNo
+	 * @return
+	 */
+	public int getCntCmt(String boardNo);
 
 
 

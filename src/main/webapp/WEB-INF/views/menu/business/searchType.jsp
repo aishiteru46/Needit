@@ -27,7 +27,12 @@ $(()=>{
 
 <%-- CSS --%>
 <style type="text/css">
-
+.link {
+   cursor: pointer; /* 커서 모양 변경 */
+}
+.link:hover {
+   color: orange; /* 마우스 오버 시 텍스트 색상 변경 */
+}
 .write {
 	float: right;
     padding-top: 18px;
@@ -293,7 +298,7 @@ th {
 		<a type="button" href="/business/searchType?selectSub=${param.selectSub}&searchText=${param.searchText}&menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
 	</div>
 	
-	<c:if test="${not empty isLogin and isLogin }">
+	<c:if test="${not empty isLogin and isLogin and business }">
 		<a class="btn" href="/business/write?menu=${param.menu }&cate=${param.cate }">✍️글쓰기</a>
 	</c:if>
 	<c:if test="${empty isLogin and not isLogin }">
@@ -351,13 +356,13 @@ th {
 					        </div>
 				        </c:if>
 				        <div class="titlebox">					
-							<a href="/business/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE }</div></a>
+							<a href="/business/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE }<span style="color: #ff533f ; font-size: 0.8em;">[${list.cmtCnt }]</span></div></a>
 						</div>
 					</div>
 				</td>
 				<td><fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</td>
 				<td><div id="locationBox">${list.LOCATION }</div></td>
-				<td>${list.WRITER_NICK }</td>
+				<td><a href="/profile/yourProfile?boardNo=${list.BOARD_NO }" class="link">${list.WRITER_NICK }</a></td>
 				<td>
 					<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
 					<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" />

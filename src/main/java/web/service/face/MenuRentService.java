@@ -11,6 +11,7 @@ import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
 import web.dto.Rent;
+import web.dto.User;
 import web.util.Paging;
 
 public interface MenuRentService {
@@ -161,6 +162,22 @@ public interface MenuRentService {
 	 * @param delFileno
 	 */
 	public void updateBoard(Board updateParam, List<MultipartFile> file, int[] delFileno);
+	
+	/**
+	 * 게시글에 댓글개수 표시
+	 * 
+	 * @param boardNo
+	 * @return
+	 */
+	public int getCmtCnt(String boardNo);
+
+	/**
+	 * 글 작성시 작성자 위치 가져오기
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public User writeAddrSelect(User user);
 
 
 
