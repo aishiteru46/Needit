@@ -271,7 +271,7 @@ th {
 
 <div class="write">
 	<!-- 그리드타입,리스트타입 선택 -->
-	<div class="float-end" id="viewType">
+	<div id="viewType">
 		<a type="button" href="/please/list?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
 		<a type="button" href="/please/listType?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
 	</div>
