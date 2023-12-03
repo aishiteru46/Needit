@@ -563,7 +563,7 @@ nav li {
 	margin-bottom: 8px;
 	
 }
-#del{
+#alertDel{
 	display: flex;
   	justify-content: flex-end;
 }
@@ -670,7 +670,7 @@ nav li {
 					<span id="badge"></span>
 					<div class="dropdown-content1 ">
 						<div class="dropdown-title" style="text-align: center;">알림</div>
-							<div id="del"><button id="allDel">전체삭제</button></div>
+							<div id="alertDel"><button id="allDel">전체삭제</button></div>
 							<div class="scrollbar">
 								<a id="new-icon">
 									<label id="new-icon-text">NEW</label>
