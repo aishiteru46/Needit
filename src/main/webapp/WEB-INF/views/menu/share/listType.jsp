@@ -320,7 +320,7 @@ form {
 					        </div>
 				        </c:if>
 				        <div class="titlebox">					
-							<a href="/share/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE }</div></a>
+							<a href="/share/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE } [${list.cmtCnt}]</div></a>
 						</div>
 					</div>
 				</td>

@@ -80,6 +80,13 @@ public class MenuShareController {
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
 		
+		//게시글마다 댓글 몇개 달렸는지 카운트
+       for (Map<String, Object> postMap : list) {
+          String boardNo = postMap.get("BOARD_NO").toString(); 
+          int cmtCnt = menuShareFace.getCmtCnt(boardNo);
+          postMap.put("cmtCnt", cmtCnt);
+      }
+		
 		return "menu/share/listType";
 	}
 	//검색한 게시판 목록 그리드타입 띄우기
@@ -214,7 +221,7 @@ public class MenuShareController {
 		
 		menuShareFace.updateBoard(updateParam, file, delFileno);
 		
-		return "redirect:./view?boardNo=" + updateParam.getBoardNo();
+		return "redirect:./view?boardNo=" + updateParam.getBoardNo() + "&menu=" + updateParam.getMenu() + "&cate=" + updateParam.getCate();
 	}
 	
 	@RequestMapping("/delete")
