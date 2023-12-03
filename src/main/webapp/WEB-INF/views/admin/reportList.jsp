@@ -85,8 +85,9 @@ function deleteComment(cmtNo) {
 <table class="table table-striped table-sm">
 
 <colgroup>
+	<col style="width: 5%;">
 	<col style="width: 16%;">
-	<col style="width: 22%;">
+	<col style="width: 17%;">
 	<col style="width: 6%;">
 	<col style="width: 8%;">
 	
@@ -98,6 +99,7 @@ function deleteComment(cmtNo) {
 
 <thead>
 	<tr class="table-danger">
+		<th>신고번호</th>
 		<th>게시글번호</th>
 		<th>제목</th>
 		<th>메뉴</th>
@@ -113,6 +115,7 @@ function deleteComment(cmtNo) {
 <tbody>
 <c:forEach var="list" items="${reportBoardList }">
 	<tr>
+		<td>${list.REPORT_NO }</td>
 		<td>${list.BOARD_NO }</td>
 		
 		<c:if test="${list.MENU eq 1}">
@@ -150,9 +153,10 @@ function deleteComment(cmtNo) {
 <table class="table table-striped table-sm">
 
 <colgroup>
+	<col style="width: 5%;">
 	<col style="width: 8%;">
 	<col style="width: 8%;">
-	<col style="width: 22%;">
+	<col style="width: 17%;">
 	<col style="width: 6%;">
 	<col style="width: 8%;">
 
@@ -165,6 +169,7 @@ function deleteComment(cmtNo) {
 
 <thead>
 	<tr class="table-danger">
+		<th>신고번호</th>
 		<th>게시글번호</th>
 		<th>댓글번호</th>
 		<th>댓글내용</th>
@@ -181,6 +186,7 @@ function deleteComment(cmtNo) {
 <tbody>
 <c:forEach var="list" items="${reportCmtList }">
 	<tr>
+		<td>${list.REPORT_NO }</td>
 		<td>${list.BOARD_NO }</td>
 		<td>${list.CMT_NO }</td>
 		<td>${list.CONTENT }</td>

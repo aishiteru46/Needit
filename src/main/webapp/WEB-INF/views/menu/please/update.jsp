@@ -1,16 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
-    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<!-- HEADER -->
 <c:import url="/WEB-INF/views/layout/header.jsp" />
-    
+
 <!-- include summernote css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
-    
+
 <style type="text/css">
 .file {
 	color: blue;
@@ -179,86 +179,86 @@ $(document).ready(function() {
 });
 </script>
 
-
 <div class="container">
 <br><br>
 
 <div class="col-10 mx-auto">
-<form action="./update" method="post" enctype="multipart/form-data">
-
-<input type="hidden" name="boardNo" value="${updateBoard.boardNo }" readonly="readonly">
+<form action="/please/update" method="post" enctype="multipart/form-data">
 
 <div class="form-group mb-3">
-	<label class="form-label">작성자</label>
-	<input type="text" class="form-control" readonly="readonly" value="${nick }">
+   <label class="form-label">작성자(수정불가)</label>
+   <input type="text" class="form-control" readonly="readonly" name="writerNick" value="${nick }">
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="title">제목</label>
-	<input type="text" class="form-control" name="title" id="title" value="${updateBoard.title }">
+   <label class="form-label" for="title">제목 수정</label>
+   <input type="text" class="form-control" name="title" id="title" value="${updateBoard.title }">
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="location">지역</label>
-	<input type="text" class="form-control" name="location" id="location" value="${updateBoard.location }">
+   <label class="form-label" for="location">위치(수정불가)</label>
+   <input type="text" class="form-control" id="location" name="location" value="${updateBoard.location }" readonly="readonly" >
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="price">가격</label>
-	<input type="text" class="form-control" name="price" id="price" value="${updateBoard.price }">
-</div>
-
-<div class="form-group mb-3">
-   <label class="form-label" for="thumbnailFile">썸네일</label>
-   <input type="file" class="form-control form-control-user" name="file" id="thumbnailFile" onchange="setThumbnail(event);"><br>
-   <div id="thumbnail_container"></div>
-</div>
-
-<div class="form-group mb-3">
-	<label class="form-label" for="content">본문</label>
-	<textarea class="form-control" name="content" id="content">${updateBoard.content }</textarea>
+   <label class="form-label" for="price">가격 수정(30분 기준)</label>
+   <input type="text" class="form-control" name="price" id="price" value="${updateBoard.price }">
 </div>
 
 
-<%-- 새로운 첨부파일 --%>
+<div style="margin-top:15px;"></div>
+<div id="thumbnail_container"></div>
+<div class="form-group mb-1">
+   <label class="form-label" for="thumbnailFile">썸네일 수정</label>
+   <input type="file" class="form-control form-control-user" name="file" id="thumbnailFile" onchange="setThumbnail(event);" 
+   	style="width:500px; margin-top:-38px; margin-left:310px; width:500px;position: absolute;margin-top: 267px;">
+</div>
+<div id="thumbnailBox">
+    <c:if test="${not empty fileTb and not empty fileTb[0]}">
+        <img id="defaultImg" src="/upload/${fileTb[0].thumbnailName}"/>
+    </c:if>
+    <c:if test="${empty fileTb[0]}">
+        <img id="defaultImg" src="/resources/img/noimg.png"/>
+    </c:if>
+</div>
+<div style="margin-top:15px;"></div>
+
 <div id="newFile">
-
-<div class="form-group mb-3">
-	<label class="form-label" for="file">첨부파일</label>
-	<input type="file" class="form-control" name="file" id="file" multiple="multiple">
-</div>
-
-</div>
-
-<%-- 기존 첨부파일 --%>
-<div id="originFile">
-
-<c:forEach var="boardfile" items="${boardfile }">
-	<div>
-		<a href="./download?fileNo=${boardfile.fileNo }">${boardfile.originName }</a>
-		<span class="del fw-bold fs-4 text-danger">X</span>
-		
-		<input type="checkbox" class="d-none" name="delFileno" value="${boardfile.fileNo }">
+	<div class="form-group mb-3">
+	   <label class="form-label" for="file">첨부파일(추가,삭제)</label>
+	   <input type="file" class="form-control" name="file" id="file" multiple="multiple">
 	</div>
-</c:forEach>
-
 </div>
 
+<div id="originFile">
+	<c:forEach var="fileTb" items="${fileTb }">
+		<div>
+			<a class="file bi bi-paperclip" href="./download?fileNo=${fileTb.fileNo }">${fileTb.originName }</a>
+			<span class="del">X</span>
+			
+			<input type="checkbox" class="d-none" name="delFileno" value="${fileTb.fileNo }">
+		</div>
+	</c:forEach>
+</div>
+
+<div style="font-weight: normal;" class="form-group mb-3">
+   <label style="font-weight: bold;" class="form-label" for="content">본문</label>
+   <textarea style="font-weight: normal;" class="form-control" name="content" id="content">${updateBoard.content }</textarea>
+</div>
+
+<input type="hidden" id="boardNo" name="boardNo" value="${updateBoard.boardNo }" />
+<input type="hidden" id="menu" name="menu" value="${updateBoard.menu }" />
+<input type="hidden" id="cate" name="cate" value="${updateBoard.cate }" />
 
 <div class="text-center">
-	<button class="btn btn-primary" id="btnUpdate">수정</button>
-	<button type="reset" class="btn btn-danger" id="btnCancel">취소</button>
+	<button id="btnWrite">수정내용 저장</button>
+	<a id="rollBack" type="button" href="/please/view?boardNo=${updateBoard.boardNo }&menu=${updateBoard.menu }&cate=${updateBoard.cate}">돌아가기</a>
 </div>
-
-
-
-
 
 </form>
+
 </div>
-</div><!-- .container -->
+</div> <!-- .container -->
 
-
-
-
+<!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

@@ -351,7 +351,7 @@ th {
 					        </div>
 				        </c:if>
 				        <div class="titlebox">					
-							<a href="/please/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE }</div></a>
+							<a href="/please/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE } <span style="color: black; font-size: 0.8em;">[${list.cmtCnt}]</span></div></a>
 						</div>
 					</div>
 				</td>

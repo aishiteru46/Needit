@@ -141,5 +141,13 @@ public interface MenuCommunityService {
 	 */
 	public void updateBoard(Board updateParam, List<MultipartFile> file, int[] delFileno);
 
+	/**
+	 * 게시글마다 댓글수카운트
+	 * @param boardNo
+	 * @return
+	 */
+	public int getCmtCnt(String boardNo);
+
+
 
 }

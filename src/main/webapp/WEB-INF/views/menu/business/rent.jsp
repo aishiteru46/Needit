@@ -111,6 +111,7 @@ function requestPay() {
 
 .Calendar {
     text-align: center;
+    width: 100%;    
 }
 
 .Calendar>thead>tr:first-child>td {

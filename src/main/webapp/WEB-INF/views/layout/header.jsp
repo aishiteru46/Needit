@@ -23,85 +23,74 @@ $(document).ready(function() {
   	var isLogin = <%= session.getAttribute("isLogin") %>;
 
     // isLogin 변수를 사용하여 로그인 상태 확인
-    if (isLogin) {
-        // 사용자가 이미 로그인한 상태이므로 로그인 처리 로직을 실행하지 않음
-        console.log("사용자가 이미 로그인한 상태입니다.");
-        // 여기에서 다른 동작을 추가하거나 필요한 경우 break 문을 사용할 수 있습니다.
-    } else {
-        // 사용자 정보를 파싱하여 로그인 처리하는 로직 추가
-        var userInfo = getCookie("userInfo");
+    if (!isLogin) {
+    	var userInfo = getCookie("userInfo");
         if (userInfo) {
-            var user = JSON.parse(userInfo);
-            performLogin(user.userId, user.userPw);
-            // 여기에서 다른 동작을 추가하거나 필요한 경우 break 문을 사용할 수 있습니다.
-        }
+             var user = JSON.parse(userInfo);
+             performLogin(user.userId, user.userPw);
+    	} 
     }
 
+	// 쿠키에서 특정 이름의 쿠키값을 가져오는 함수
+	function getCookie(name) {
+	    var value = "; " + document.cookie;
+	    var parts = value.split("; " + name + "=");
+	    
+	    if (parts.length === 2) {
+	        return parts.pop().split(";").shift();
+	    }
+	}
+
+	// userInfo 쿠키 가져오기
+	var userInfoCookie = getCookie("userInfo");
 
 
-// 쿠키에서 특정 이름의 쿠키값을 가져오는 함수
-function getCookie(name) {
-    var value = "; " + document.cookie;
-    var parts = value.split("; " + name + "=");
-    
-    if (parts.length === 2) {
-        return parts.pop().split(";").shift();
-    }
-}
-
-// userInfo 쿠키 가져오기
-var userInfoCookie = getCookie("userInfo");
-
-// 가져온 쿠키를 출력
-console.log(userInfoCookie);
-
-// 여기에 실제로 로그인 처리하는 함수를 추가
-function performLogin(userId, userPw) {
-    // 로그인 처리 로직
-     sessionStorage.setItem('previousUrl', window.location.href);
-    var previousUrl = sessionStorage.getItem('previousUrl');
-	$.ajax({
-        type: "POST",
-        url: "/user/login",
-        data: {
-            id: userId,
-            pw: userPw
-        },
-        success: function (response) {
-        	if (response === "success") {
-                console.log("로그인 성공")
-                 var autoLoginChecked = $("#autoLoginCheckbox").prop("checked");
-
-			    
-                if (previousUrl) {
-                // 이전 페이지로 이동
-                window.location.href = previousUrl
-                
-           	 	} else {
-                // 이전 페이지가 없으면 기본적으로 홈 페이지로 이동
-                window.location.href = '/main'
-           		}
-                
-            } else if(response === "singup"){
-            	
-            	 window.location.href = '/user/singup'
-            	 
-            } else{
-            	console.log("로그인 실패")
-
-                $("#label1")
-                	.text("ID/PW 가 올바르지 않습니다.")
-
-            }
-        },
-        error: function () {
-            console.log("로그인 실패")
-            // AJAX 요청 자체가 실패한 경우에 대한 처리
-            alert("로그인 요청에 실패했습니다.")
-        }
-    });
-}
+	// 여기에 실제로 로그인 처리하는 함수를 추가
+	function performLogin(userId, userPw) {
+	    // 로그인 처리 로직
+	    sessionStorage.setItem('previousUrl', window.location.href);
+	    var previousUrl = sessionStorage.getItem('previousUrl');
+		$.ajax({
+	        type: "POST",
+	        url: "/user/login",
+	        data: {
+	            id: userId,
+	            pw: userPw
+	        },
+	        success: function (response) {
+	        	if (response === "success") {
+	                var autoLoginChecked = $("#autoLoginCheckbox").prop("checked");
+				    
+	                if (previousUrl) {
+	                // 이전 페이지로 이동
+	                window.location.href = previousUrl
+	                
+	           	 	} else {
+	                // 이전 페이지가 없으면 기본적으로 홈 페이지로 이동
+	                window.location.href = '/main'
+	           		}
+	                
+	            } else if(response === "singup"){
+	            	
+	            	 window.location.href = '/user/singup'
+	            	 
+	            } else{
+	            	console.log("로그인 실패")
+	
+	                $("#label1")
+	                	.text("ID/PW 가 올바르지 않습니다.")
+	
+	            }
+	        },
+	        error: function () {
+	            console.log("로그인 실패")
+	            // AJAX 요청 자체가 실패한 경우에 대한 처리
+	            alert("로그인 요청에 실패했습니다.")
+	        }
+	    });
+	}
 });
+
 $(function() {
 	 var sessionId = "${id}";
 	 if (sessionId) {
@@ -110,19 +99,12 @@ $(function() {
 		loadAlert();
 		var urlEndPoint = "/alert/get?id=" + sessionId //Sse세션 생성 시 접속한 세션의 id를 보내준다
 		var eventSource = new EventSource(urlEndPoint) //SSE를 위한 'EventSource'를 생성
-		console.log(urlEndPoint)
-		console.log('왜안돼?')
 		
 		eventSource.onmessage = function (event) { // sendNotification 발생시 생기는 메소드
-		console.log(event)
 		var data = JSON.parse(event.data) // sendNotification에서 보내준 data { hasNew : hasNew, alert : alert }
-		console.log(data)
 		
 		var hasNew = data.hasNew
 		var alert = data.alert
-		
-		console.log("hasNew :" + hasNew)
-		console.log("alert :" + alert)
 		
 		 if (hasNew > 0) {
                 $("#new-icon").show();
@@ -141,50 +123,45 @@ $(function() {
 	 }
 })// 제이쿼리 펑션 끝
 	
-	function hasNew() { // 새로운 알림 확인 함수
-	   $.ajax({
-	      type: "get"
-	      , url: "/alert/new"
-	      , data: {
-	      }
-	      , dataType: "json" // int타입인 hasNew를 받아옴
-	      , success: function( res ) {
-	         
-	         if( res.hasNew == 0 ) { //hasNew 값이 0이면 알람을 숨긴다
-	            $("#new-alert").hide()
-	            $("#new-icon").hide()
-	            $("#badge").hide()
-	         } else { // 0이 아니면 알림을 보여준다
-	        	 console.log("res.hasNew",res.hasNew)
-	            $("#new-alert").text(res.hasNew).show()
-	            $("#badge").text(res.hasNew).show()
-	            $("#new-icon").show()
-	         }
-	    
-	      }
-	      , error: function() {
-	         console.log("AJAX 실패")
-	      }
-	   })
-	} // hasNew 함수 끝
+function hasNew() { // 새로운 알림 확인 함수
+   $.ajax({
+      type: "get"
+      , url: "/alert/new"
+      , data: {
+      }
+      , dataType: "json" // int타입인 hasNew를 받아옴
+      , success: function( res ) {
+         
+         if( res.hasNew == 0 ) { //hasNew 값이 0이면 알람을 숨긴다
+            $("#new-alert").hide()
+            $("#new-icon").hide()
+            $("#badge").hide()
+         } else { // 0이 아니면 알림을 보여준다
+            $("#new-alert").text(res.hasNew).show()
+            $("#badge").text(res.hasNew).show()
+            $("#new-icon").show()
+         }
+    
+      }
+      , error: function() {
+      }
+   })
+} // hasNew 함수 끝
 
-	function loadAlert() { // 알림을 로드하는 함수
-	    $.ajax({
-	        type: "get"
-	        , url: "/alert/jong"
-	        , data: {}
-	        , dataType: "html"
-	        , success: function( res ) { // Alert객체를 받아넣어준 list JSP를 HTML 타입으로 불러온다
-	           console.log("AJAX 성공")
-				
-	           
-	         $("#alert").html(res)
-	        }
-	        , error: function() {
-	           console.log("AJAX 실패")
-	        }
-	     })
-	} // loadAlert 함수 끝
+function loadAlert() { // 알림을 로드하는 함수
+    $.ajax({
+        type: "get"
+        , url: "/alert/jong"
+        , data: {}
+        , dataType: "html"
+        , success: function( res ) { // Alert객체를 받아넣어준 list JSP를 HTML 타입으로 불러온다
+           
+         $("#alert").html(res)
+        }
+        , error: function() {
+        }
+     })
+} // loadAlert 함수 끝
 
 
 
@@ -218,7 +195,7 @@ $(document).ready(function(){
 		     
 	$('.gnb').mouseleave(function () {
 		$('.hd_bg').css('height', '0');
-	     $('#header').removeClass('open');
+	    $('#header').removeClass('open');
 	});
 	 
 	$('.gnb > li').mouseenter(function () {
@@ -231,100 +208,103 @@ $(document).ready(function(){
 	    $(this).removeClass('active');
 	});
 	
-
-	 $('#dropdownBtn1').click(function () {
-          // Toggle the visibility of the dropdown content
-          $('.dropdown-content1').toggle();
-          $('.dropdown-content2').hide();
-          event.stopPropagation();
-      });
-	 $('.dropdown-content1').click(function (event) {
-		    // Prevent the click event inside the dropdown content from reaching the document click handler
-		    event.stopPropagation();
-		});
-	  $(document).click(function(event) {
-	        var dropdownContent = $('.dropdown-content1');
-	        if (!dropdownContent.is(event.target) && dropdownContent.has(event.target).length === 0) {
-	            dropdownContent.hide();
-	          
-	        }
-	    });	
-	 $('#dropdownBtn2').click(function () {
-          // Toggle the visibility of the dropdown content
-          $('.dropdown-content2').toggle();
-          $('.dropdown-content1').hide();
-          event.stopPropagation();
-      });
-	  $(document).click(function(event) {
-	        var dropdownContent = $('.dropdown-content2');
-	        if (!dropdownContent.is(event.target) && dropdownContent.has(event.target).length === 0) {
-	            dropdownContent.hide();
-	            $('.dropdown-content1').hide();
-	        }
-	    });	
+	$('#dropdownBtn1').click(function () {
+		// Toggle the visibility of the dropdown content
+		$('.dropdown-content1').toggle();
+		$('.dropdown-content2').hide();
+		event.stopPropagation();
+	});
+	
+	$('.dropdown-content1').click(function (event) {
+		// Prevent the click event inside the dropdown content from reaching the document click handler
+		event.stopPropagation();
+	});
+	
+	$(document).click(function(event) {
+		var dropdownContent = $('.dropdown-content1');
+		if (!dropdownContent.is(event.target) && dropdownContent.has(event.target).length === 0) {
+		    dropdownContent.hide();
+		}
+	});	
+	
+	$('#dropdownBtn2').click(function () {
+	    // Toggle the visibility of the dropdown content
+	    $('.dropdown-content2').toggle();
+	    $('.dropdown-content1').hide();
+	    event.stopPropagation();
+	});
+	
+	$(document).click(function(event) {
+	    var dropdownContent = $('.dropdown-content2');
+	    if (!dropdownContent.is(event.target) && dropdownContent.has(event.target).length === 0) {
+	        dropdownContent.hide();
+	        $('.dropdown-content1').hide();
+	    }
+	});	
+	
 	// 쿠키 삭제 함수
-	  function deleteCookie(name) {
-	      document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-	  }
-	  $("#logout_button").click(function(){
-		  // 쿠키 삭제 함수 호출
-		    deleteCookie("userInfo");
-		    //alert("버튼 작동");
-		    $.ajax({
-		        type: "POST",
-		        url: "/user/logout",
-		        success: function(data){
-		       
-		        	window.location.href = "/main";
-		           
-		        } 
-		    }); // ajax 
-		});
-	  $("#allDel").click(function() {
-	    	var $id = "${id}"
-			$.ajax({
-				type: "post"
-				, url: "/alert/delAll"
-				, data: { id : $id }
-				, success: function( res ) {
-					loadAlert() // 알람을 읽었을 때 안읽은 알람들을 불러옴
-					hasNew() // 알람을 읽었을 때 새로 생긴 알람이 있는지 확인해서 불러옴
-				}
-				, error: function() {
-					console.log("AJAX 실패")
-				}
-			})
-		})
+	function deleteCookie(name) {
+	    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+	 }
+	$("#logout_button").click(function(){
+	    // 쿠키 삭제 함수 호출
+		deleteCookie("userInfo");
+	    //alert("버튼 작동");
 		$.ajax({
-		    url: '/layout/header',
-		    method: 'GET',
-		    dataType: 'json',
-		    success: function(data) {
-		        if (data != null) {
-		            // UserFile 객체가 'thumbnailName' 속성을 가지고 있는지 확인
-		            // 'thumbnailName'이 존재하는지 확인
-		          
-		            if (data.thumbnailName !== 'defaultProfile.png') {
-		                console.log('썸네일 있음.');
-		                // 이미지의 URL 생성
-		                var imageUrl = '/upload/' + data.thumbnailName;
-		                // 이미지 소스 설정
-		                $('.profileImage').attr('src', imageUrl);
-		                console.log(data)
-		            } else {
-		                console.log('썸네일 없음.');
-		                $('.profileImage').attr('src', '/resources/img/defaultProfile.png');
-		            }
-		        } else {
-		        	$('.profileImage').attr('src', '/resources/img/defaultProfile.png');
-		            console.log('서버로부터 데이터를 받지 못했습니다.');
-		        }
-		    },
-		    error: function() {
-		    	$('.profileImage').attr('src', '/resources/img/defaultProfile.png');
-		        console.error('프로필 이미지 로드에 실패했습니다.');
-		    }
-		});
+		    type: "POST",
+		    url: "/user/logout",
+		    success: function(data){
+		   
+		    	window.location.href = "/main";
+		       
+		    } 
+		}); // ajax 
+	});
+	
+	$("#allDel").click(function() {
+	   	var $id = "${id}"
+		$.ajax({
+			type: "post"
+			, url: "/alert/delAll"
+			, data: { id : $id }
+			, success: function( res ) {
+				loadAlert() // 알람을 읽었을 때 안읽은 알람들을 불러옴
+				hasNew() // 알람을 읽었을 때 새로 생긴 알람이 있는지 확인해서 불러옴
+			}
+			, error: function() {
+				console.log("AJAX 실패")
+			}
+		})
+	})
+	
+	$.ajax({
+	    url: '/layout/header',
+	    method: 'GET',
+	    dataType: 'json',
+	    success: function(data) {
+	        if (data != null) {
+	            // UserFile 객체가 'thumbnailName' 속성을 가지고 있는지 확인
+	            // 'thumbnailName'이 존재하는지 확인
+	          
+	            if (data.thumbnailName !== 'defaultProfile.png') {
+	                // 이미지의 URL 생성
+	                var imageUrl = '/upload/' + data.thumbnailName;
+	                // 이미지 소스 설정
+	                $('.profileImage').attr('src', imageUrl);
+	                
+	            } else {
+	                $('.profileImage').attr('src', '/resources/img/defaultProfile.png');
+	            }
+	            
+	        } else {
+	        	$('.profileImage').attr('src', '/resources/img/defaultProfile.png');
+	        }
+	    },
+	    error: function() {
+	    	$('.profileImage').attr('src', '/resources/img/defaultProfile.png');
+	        console.error('프로필 이미지 로드에 실패했습니다.');
+	    }
+	});
 });
 
 
@@ -400,7 +380,7 @@ nav li {
 	transition: .8s ease;
 	text-transform: uppercase;
 }
-#header .nav ul.gnb li a:hover {
+#header .nav ul.gnb li ul li a:hover {
 	color: blue;
 }
 
@@ -464,7 +444,6 @@ nav li {
 	background-color: #ccc
 }
 
-/* Style The Dropdown Button */
 .dropbtn {
 	border: none;
 	cursor: pointer;
@@ -508,7 +487,6 @@ nav li {
 }
 
 .dropdown-content1 .alertData {
-	/*     color: black; */
 	padding: 12px 16px;
 	text-decoration: none;
 	display: block;
@@ -543,7 +521,6 @@ nav li {
 }
 
 .dropdown-content2 a {
-	/*     color: black; */
 	padding: 12px 16px;
 	text-decoration: none;
 	display: block;
@@ -576,13 +553,20 @@ nav li {
 	border-bottom: 10px solid #ff533f;
 }
 #allDel {
-	float: right;
 	font-size: 12px;
+	border-radius: 30px;
+	border: none;
+	background-color: #ff533f;
 	color: white;
-    border: none;       /* 테두리 없애기 */
-    background: none;   /* 배경 없애기 */
-    cursor: pointer;    /* 커서 스타일 변경 (선택사항) */
-  }
+	margin-top: 3px;
+	margin-right: 8px;
+	margin-bottom: 8px;
+	
+}
+#del{
+	display: flex;
+  	justify-content: flex-end;
+}
 .p-2 {
 	margin-top: 30px;
 	margin-bottom: 20px;
@@ -606,8 +590,8 @@ nav li {
 }
 
 .scrollbar { 
-  height: 285px;
-  overflow-y: scroll; /*  */
+  height: 260px;
+  overflow-y: scroll;
 }
 
 /* 스크롤바의 폭 너비 */
@@ -650,9 +634,9 @@ nav li {
 		
 			<div class="dropdown">
 				<img id="dropdownBtn2" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
-					<div class="dropdown-content2">
-						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"> 로그인 </a>
-					</div>
+				<div class="dropdown-content2">
+					<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"> 로그인 </a>
+				</div>
 			</div>
 			
 			<!-- Modal -->
@@ -667,115 +651,111 @@ nav li {
 		</c:if>
 			
 		<c:if test="${not empty isLogin and isLogin }">
-		
-		<c:choose>
-            <c:when test="${id eq 'admin'}">
-                <!-- 사용자가 'admin' 역할을 가지고 있는 경우의 코드 -->
-				<div class="dropdown">
-					<img id="dropdownBtn2" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
+			<c:choose>
+				<c:when test="${id eq 'admin'}">
+					<!-- 사용자가 'admin' 역할을 가지고 있는 경우의 코드 -->
+					<div class="dropdown">
+						<img id="dropdownBtn2" src="/resources/img/mypageicon.png" class="dropbtn" style="height: 40px; width: 40px;">
 					<div class="dropdown-content2">
 						<div class="dropdown-title">${nick }</div>
-						<a href="/admin">관리자 페이지</a>
-		                <a href="/message/list">내 채팅</a>
-		                <a href=""id="logout_button">로그아웃</a>
-					</div>
-				</div>
-				
-           </c:when>
-           <c:otherwise>
-
-           <div class="dropdown">
-				<img id="dropdownBtn1" src="/resources/img/jong.png" class="dropbtn" style="height: 40px; width: 40px;">
-				<span id="badge"></span>
-					<div class="dropdown-content1 ">
-						<div class="dropdown-title" style="text-align: center;">알림<button id="allDel">전체삭제</button></div>
-						<div class="scrollbar">
-							<a id="new-icon">
-								<label id="new-icon-text">NEW</label>
-							</a>
-							<a id="alert"></a> 
+							<a href="/admin">관리자 페이지</a>
+					              <a href="/message/list">내 채팅</a>
+					              <a href=""id="logout_button">로그아웃</a>
 						</div>
 					</div>
-			</div>
-			
-			<div class="dropdown">
-			<div id="profileImageContainer">
-		   		<img class="profileImage" id="dropdownBtn2" src="">
-			</div>
-			
-				<div class="dropdown-content2">
-					<div class="dropdown-title">${nick }</div>
-					<a href="/profile">마이페이지</a>
-					<a href="/message/list">내 채팅</a>
-					<a href="/profile/rentList ">빌린거/빌려준거</a>
-					<a href="/profile/basket">찜 목록</a>
-					<a href=""id="logout_button">로그아웃</a>
-				</div>
-			</div>
-            </c:otherwise>
-        </c:choose>
+				</c:when>
+				<c:otherwise>
+					<div class="dropdown">
+						<img id="dropdownBtn1" src="/resources/img/jong.png" class="dropbtn" style="height: 40px; width: 40px;">
+					<span id="badge"></span>
+					<div class="dropdown-content1 ">
+						<div class="dropdown-title" style="text-align: center;">알림</div>
+							<div id="del"><button id="allDel">전체삭제</button></div>
+							<div class="scrollbar">
+								<a id="new-icon">
+									<label id="new-icon-text">NEW</label>
+								</a>
+								<a id="alert"></a> 
+							</div>
+						</div>
+					</div>
+					
+					<div class="dropdown">
+					<div id="profileImageContainer">
+					<img class="profileImage" id="dropdownBtn2" src="">
+					</div>
+						<div class="dropdown-content2">
+							<div class="dropdown-title">${nick }</div>
+							<a href="/profile">마이페이지</a>
+							<a href="/message/list">내 채팅</a>
+							<a href="/profile/rentList ">빌린거/빌려준거</a>
+							<a href="/profile/basket">찜 목록</a>
+							<a href=""id="logout_button">로그아웃</a>
+						</div>
+					</div>
+				</c:otherwise>	
+	        </c:choose>
 		</c:if>
 		</div>
+	
 	<div class="mx-auto p-4" style="width: 1200px;" >
 		<div class="mx-auto p-2">
-		<a class="logo" href="/main"><img src="/resources/img/needit..png" width="350" height="70"></a>
+			<a class="logo" href="/main"><img src="/resources/img/needit..png" width="350" height="70"></a>
 		</div>
 	</div>
 	
-<header id="header" >
-	
-	<div class="container ">
-	
-		<nav class="nav justify-content-center">
-            <ul class="gnb">
-                <li><label id="needitFont" style="font-size: 28px;">대여해요</label>
-                    <ul class="sub">
-                        <li><a href="/rent/list?menu=1&cate=1">물품</a></li>
-                        <li><a href="/rent/list?menu=1&cate=2">인력</a></li>
-                        <li><a href="/rent/list?menu=1&cate=3">공간</a></li>
-                    </ul>
-                </li>
-                
-                <li><label id="needitFont" style="font-size: 28px;">나눔해요</label>
-                     <ul class="sub">
-                        <li><a href="/share/list?menu=2&cate=1">물품</a></li>
-                        <li><a href="/share/list?menu=2&cate=2">인력</a></li>
-                        <li><a href="/share/list?menu=2&cate=3">공간</a></li>
-                    </ul>
-                </li>
-                
-                <li><label id="needitFont" style="font-size: 28px;">해주세요</label>
-                     <ul class="sub">
-                    	<li><a href="/please/list?menu=3&cate=1">물품</a>
-						<li><a href="/please/list?menu=3&cate=2">인력</a>
-						<li><a href="/please/list?menu=3&cate=3">공간</a>
-                    </ul>
-                </li>
-                
-                <li><label id="needitFont" style="font-size: 28px;">커뮤니티</label>
-                     <ul class="sub">
-               			<li><a href="/admin/noticeList">공지사항</a>
-						<li><a href="/community/list?menu=4&cate=2">우리동네 소식</a>
-						<li><a href="/community/list?menu=4&cate=3">자유 게시판</a>
-						<li><a href="/community/list?menu=4&cate=4">팁 게시판</a>
-                    </ul>
-                </li>
-                
-                <li><label id="needitFont" style="font-size: 28px;">동네업체</label>
-                	<ul class="sub">
-                		<li><a href="/business/list?menu=5&cate=1">물품</a></li>
-						<li><a href="/business/list?menu=5&cate=2">인력</a></li>
-						<li><a href="/business/list?menu=5&cate=3">공간</a></li>
-					</ul>
-                </li>
-                
-                <li><a id="needitFont" href="/map" style="font-size: 28px;">주변지도</a></li>
-            </ul>
-		</nav>
-	</div>
-	<hr>
-	
-<div class="hd_bg"></div>
-</header>
-</div>
+	<header id="header" >
+		<div class="container ">
+			<nav class="nav justify-content-center">
+	            <ul class="gnb">
+	                <li><label id="needitFont" style="font-size: 28px;">대여해요</label>
+	                    <ul class="sub">
+	                        <li><a href="/rent/list?menu=1&cate=1">물품</a></li>
+	                        <li><a href="/rent/list?menu=1&cate=2">인력</a></li>
+	                        <li><a href="/rent/list?menu=1&cate=3">공간</a></li>
+	                    </ul>
+	                </li>
+	                
+	                <li><label id="needitFont" style="font-size: 28px;">나눔해요</label>
+	                     <ul class="sub">
+	                        <li><a href="/share/list?menu=2&cate=1">물품</a></li>
+	                        <li><a href="/share/list?menu=2&cate=2">인력</a></li>
+	                        <li><a href="/share/list?menu=2&cate=3">공간</a></li>
+	                    </ul>
+	                </li>
+	                
+	                <li><label id="needitFont" style="font-size: 28px;">해주세요</label>
+	                     <ul class="sub">
+	                    	<li><a href="/please/list?menu=3&cate=1">물품</a>
+							<li><a href="/please/list?menu=3&cate=2">인력</a>
+							<li><a href="/please/list?menu=3&cate=3">공간</a>
+	                    </ul>
+	                </li>
+	                
+	                <li><label id="needitFont" style="font-size: 28px;">커뮤니티</label>
+	                     <ul class="sub">
+	               			<li><a href="/admin/noticeList">공지사항</a>
+							<li><a href="/community/list?menu=4&cate=2">우리동네 소식</a>
+							<li><a href="/community/list?menu=4&cate=3">자유 게시판</a>
+							<li><a href="/community/list?menu=4&cate=4">팁 게시판</a>
+	                    </ul>
+	                </li>
+	                
+	                <li><label id="needitFont" style="font-size: 28px;">동네업체</label>
+	                	<ul class="sub">
+	                		<li><a href="/business/list?menu=5&cate=1">물품</a></li>
+							<li><a href="/business/list?menu=5&cate=2">인력</a></li>
+							<li><a href="/business/list?menu=5&cate=3">공간</a></li>
+						</ul>
+	                </li>
+	                
+	                <li><a id="needitFont" href="/map" style="font-size: 28px;">주변지도</a></li>
+	            </ul>
+			</nav>
+		</div>
+		<hr>
+		
+	<div class="hd_bg"></div>
+	</header>
+</div><!-- header -->
 

@@ -200,11 +200,11 @@
 
 #loadingOverlay {
     display: none;
-    position: fixed;
-    top: 0;
+    position: absolute;
+    top: 18px;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 105%;
     background: rgba(255, 255, 255, 0.8);
     z-index: 9999;
     margin: 0 auto;
@@ -212,9 +212,10 @@
 }
 
 .droplet_spinner {
-  display: flex;
-  justify-content: center;
-  margin: 450px;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    margin-top: 250px;
 }
 
 .droplet_spinner .droplet {
@@ -222,7 +223,7 @@
   height: 15px;
   margin: 0 5px;
   
-  background-color: #e14242;
+  background-color: #ff533f;
   border-radius: 50%;
   transform-origin: center bottom;
   
@@ -863,16 +864,16 @@ function hideLoading() {
 
 </script>	
 
-<div id="loadingOverlay">
-  <div class="droplet_spinner">
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-    <div class="droplet"></div>
-  </div>
-</div>
 
 <!-- 지도를 담을 DIV  -->
 <div id="mapArea" style="position: relative; top: -35px; height: 500px">
+	<div id="loadingOverlay">
+	  <div class="droplet_spinner">
+	    <div class="droplet"></div>
+	    <div class="droplet"></div>
+	    <div class="droplet"></div>
+	  </div>
+	</div>
 	<div class="searchMap">
 	    <select id="selectSub">
 	        <option value="title">제목</option>

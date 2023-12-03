@@ -24,6 +24,7 @@ import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
 import web.dto.Rent;
+import web.dto.User;
 import web.service.face.MenuBusinessService;
 import web.util.Paging;
 
@@ -285,6 +286,18 @@ public class MenuBusinessServiceImpl implements MenuBusinessService {
 		}
 	
 	}
+
+	@Override
+	public User writeAddrSelect(User user) {
+		return menuBusinessDao.selectWriteAddr(user);
+	}	
+	
+	@Override
+	public int getCmtCnt(String boardNo) {
+		return menuBusinessDao.getCntCmt(boardNo);
+	}
+
+
 
 
 }

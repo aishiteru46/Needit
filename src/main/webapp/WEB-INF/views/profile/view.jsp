@@ -539,13 +539,6 @@ $(function(){
     text-align: center;
 }
 
-/* 업체 마크 */
-#userContent svg{
-   display: inline-block;
-   margin-left: 5px;
-   margin-top: -11px;
-   color: rgb(255,83,63);
-}
 #businessUrl a {
     vertical-align: middle;
     vertical-align: -webkit-baseline-middle;
@@ -588,6 +581,22 @@ $(function(){
     border: 1px solid rgb(255,83,63);
     margin-left: 10px;
 }
+
+.board-link {
+    cursor: pointer; /* 커서 모양 변경 */
+}
+.board-link:hover {
+    color: orange; /* 마우스 오버 시 텍스트 색상 변경 */
+}
+
+.comment-link {
+    cursor: pointer; /* 커서 모양 변경 */
+}
+.comment-link:hover {
+    color: orange; /* 마우스 오버 시 텍스트 색상 변경 */
+}
+
+
 </style>
 
 <div class="container">
@@ -649,6 +658,7 @@ $(function(){
 <div class="panel panel-default" id="userContent">
 
 <h3 style="font-size: 23px; font-weight: bold; margin-bottom: 12px; display: inline-block;">${nick}님의 프로필</h3>
+<!-- 업체 인증 마크 -->
 <c:if test="${user.businessStatus eq 2 }">
    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-award" viewBox="0 0 16 16">
      <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z"/>

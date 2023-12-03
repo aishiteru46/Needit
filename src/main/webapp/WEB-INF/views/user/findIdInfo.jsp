@@ -17,7 +17,6 @@
 </script>
 <style type="text/css">
 html {
-/* 	background-color: #ff533f; */
  	background-size : cover; 
 	background-image: url('../resources/img/3.jpg') ;  
 }

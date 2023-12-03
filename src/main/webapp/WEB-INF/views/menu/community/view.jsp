@@ -36,6 +36,7 @@
     font-size: 13px;
     float: right;
     margin-top: 15px;
+    color: red;
 }
 #submitCmt {
 	margin: 3px 3px 3px 3px;
@@ -548,7 +549,7 @@ function sendNofiLike() {
 			<div class="col col-9">
 				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;"></textarea>
 			</div>
-			<button id="btnCommInsert" class="btn btn-primary col-1">작성</button>
+			<button id="btnCommInsert" class="btn btn-secondary col-1">작성</button>
 		</div>
 	</c:if><br>
 

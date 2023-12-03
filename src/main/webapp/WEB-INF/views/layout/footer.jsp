@@ -139,8 +139,7 @@ function downFunction() {
 <div style="margin-bottom: 7px;"></div>
 
 <div style="margin-left: 40px; display: inline-block;">
-<div style="font-size: 20px; margin-bottom: 5px; font-size: 25px;"><stron
-g>상담 시간</strong></div>
+<div style="font-size: 20px; margin-bottom: 5px; font-size: 25px;">상담 시간</div>
 <c:if test="${isLogin and (id eq admin)  }">
 	<div style="clear: both;"><form action="/admin" method="get"><button id="footer-report-button1">1:1 문의</button></form></div>
 </c:if>

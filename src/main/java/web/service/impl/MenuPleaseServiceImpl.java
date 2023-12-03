@@ -41,7 +41,7 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 	   int totalCount = menuPleaseDao.selectCntAll(param);
 	   
 	   //페이징 객체 생성(페이징 계산)
-	   Paging paging = new Paging(param.getMenu(), param.getCate(), totalCount, param.getCurPage(), 12 ,10);
+	   Paging paging = new Paging( param.getMenu(), param.getCate(), param.getSelectSub(), param.getSearchText(),totalCount, param.getCurPage(), 12, 10 );
 	   
 	   return paging;
    }

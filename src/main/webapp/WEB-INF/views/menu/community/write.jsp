@@ -35,36 +35,8 @@ $(() => {
 	})
 </script>
 
-<script type="text/javascript">
-
-//썸네일 미리보기
-function setThumbnail(event) {
-    var reader = new FileReader();
-
-    reader.onload = function (event) {
-        var thumbnailContainer = document.querySelector("#thumbnail_container");
-        thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
-    };
-
-    reader.readAsDataURL(event.target.files[0]);
-}// .setThumbnail() End
-
-</script>
-
 <style type="text/css">
    
-#thumbnail_container{
-    border: 1px solid #ccc;
-    width: 200px;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-}
-
 .note-editor .dropdown-toggle::after { 
 	all: unset; 
 }
@@ -107,14 +79,6 @@ function setThumbnail(event) {
    <input type="text" class="form-control" readonly="readonly" name="location" value="${addr1 }" id="location">
 </div>
 </c:if>
-
-
-<div class="form-group mb-3">
-   <label class="form-label" for="thumbnailFile">썸네일</label>
-   <div id="thumbnail_container"></div>
-   <input type="file" class="form-control form-control-user" name="file" id="thumbnailFile" onchange="setThumbnail(event);" 
-   	style="width:500px; margin-top:-38px; margin-left:310px; width:500px;">
-</div>
 
 <div style="font-weight: normal;" class="form-group mb-3">
    <label style="font-weight: normal;" class="form-label" for="content">본문</label>

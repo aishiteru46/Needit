@@ -13,11 +13,14 @@
     font-size: 2.8em;
     padding: 5px;
     text-align: center;
+    margin-bottom: 10px;
 }
 #noticeDiv {
     margin-top: 18px;
 }
-
+.first-notice #noticeFloat {
+    margin-top: 4px;
+}
 #noticeDiv + #noticeDiv {
     border-top: 1px solid black;
 }
@@ -25,6 +28,7 @@
 	float: left;
 	position: relative;
 	width: 50px;
+	height: 22px;
 	height: 22px;
 	border: 1px solid red;
 	font-size: 15px;
@@ -35,8 +39,6 @@
 	vertical-align: middle;
 	margin-top: 19px;
 	margin-right: 4px;
-	
-	
 }
 #noticeTitleContent{
 	width: 1100px;
@@ -71,8 +73,8 @@
 
 <!-- 공지사항 -->
 <div id="noticeTop">Notice</div>
-<c:forEach var="list" items="${noticeList }">
-	<div id="noticeDiv">
+<c:forEach var="list" items="${noticeList }" varStatus="loop">
+	<div id="noticeDiv" class="${loop.first ? 'first-notice' : ''}">
 		<div id="noticeFloat">공지</div>
 <%-- <a href="/admin/noticeView?boardNo=${list.boardNo }&menu=4&cate=1"> --%>
 	<div id="noticeTitleContent">

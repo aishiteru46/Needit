@@ -44,7 +44,6 @@ public class NeeditOpeningController {
 	public UserFile header(Model model, HttpSession session) {
 		String userId = (String) session.getAttribute("id");
 		UserFile  pimg = userProfileService.imgSelect(userId);
-        logger.info("이미지 {} : ", pimg);
         //모델에 이미지 정보 추가
         model.addAttribute("pimg", pimg);
         

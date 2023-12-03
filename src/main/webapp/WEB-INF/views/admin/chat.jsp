@@ -6,12 +6,12 @@
 <c:import url="/WEB-INF/views/admin/admin.jsp" />
 
 <style>
-#AdminChat{
+#adminChat{
 	background-color: #ff8108;
 	width: 302px;
 }
 
-#AdminContent{
+#adminContent{
 	width: 80%;
 }
 
@@ -21,7 +21,7 @@
 
 <hr>
 
-<div class="AdminContent">
+<div class="adminContent">
 
 
 </div>
