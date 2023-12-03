@@ -725,12 +725,12 @@ a:hover { text-decoration: none; }
 	<div class="viewFile">
 	   <div id="Download"> Downloads :</div>
 	   <p style="margin: 0">
-	      <c:if test="${not empty fileTb }">
-	      <c:forEach var="file" items="${fileTb }">
+	      <c:if test="${not empty boardfile }">
+	      <c:forEach var="file" items="${boardfile }">
 	         <a class="file bi bi-paperclip" href="./download?fileNo=${file.fileNo }">${file.originName }</a><br>
 	      </c:forEach>
 	      </c:if>
-	      <c:if test="${empty fileTb }">
+	      <c:if test="${empty boardfile }">
 	         <p>첨부된 파일이 없습니다.</p>
 	      </c:if>
 	   </p>
