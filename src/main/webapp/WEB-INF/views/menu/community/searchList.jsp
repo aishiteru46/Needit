@@ -336,7 +336,7 @@ tr { height: 40px; }
 	
 	<c:when test="${param.menu == 4 && param.cate == 2 }">
 	<div class="table-container">
-		<table class="listType">
+		<table class="listType" style="width: 100%;}">
 		
 		<colgroup>
 			<col style="width:5%;">
@@ -446,7 +446,7 @@ tr { height: 40px; }
 </div> <!-- .container -->
 
 
-<c:import url="/WEB-INF/views/layout/paginationSearchList.jsp" />
+<c:import url="/WEB-INF/views/layout/paginationSearchListComu.jsp" />
 
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
