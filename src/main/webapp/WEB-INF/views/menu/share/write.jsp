@@ -6,13 +6,32 @@
 <!-- HEADER -->
 <c:import url="/WEB-INF/views/layout/header.jsp" />
 
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
 <script type="text/javascript">
 $(() => {
-	$("#title").focus()
-	
-	$("#content").summernote({
-		height: 300
-	})
+   $("#title").focus()
+   $('#content').summernote('fontName', 'Arial');
+   $('#content').summernote('fontSize', 16);
+   $('#content').summernote('style', 'clear');
+   
+   $("#content").summernote({
+      height: 300,
+      toolbar: [
+          ['fontname', ['fontname']],
+          ['fontsize', ['fontsize']],
+          ['style', ['bold', 'italic', 'underline', 'clear']],
+          ['color', ['color']],
+          ['table', ['table']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['height', ['height']],
+          ['insert',['picture','link']],
+        ],
+      fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+      fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+   })
 })
 </script>
 
@@ -30,7 +49,17 @@ function setThumbnail(event) {
 </script>
 
 <style type="text/css">
-	
+
+.note-editor.note-airframe .note-editing-area, .note-editor.note-frame .note-editing-area {
+    overflow: hidden;
+    height: 700px;
+}
+.note-editor.note-airframe .note-editing-area .note-editable, .note-editor.note-frame .note-editing-area .note-editable {
+    padding: 10px;
+    overflow: auto;
+    word-wrap: break-word;
+    height: 700px;
+}
 #thumbnail_container{
     border: 1px solid #ccc;
     width: 200px;
