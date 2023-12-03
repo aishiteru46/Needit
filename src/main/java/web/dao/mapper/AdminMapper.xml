@@ -109,7 +109,7 @@
 	        report r ON b.board_no = r.board_no
 	    WHERE
 	        r.cmt_no IS NULL
-	    ORDER BY b.board_no DESC
+	    ORDER BY r.report_no DESC
 	</select>
 	
 	<!-- 신고된 댓글 목록 -->
@@ -119,6 +119,7 @@
 			b.menu,
 			b.cate,
 			b.writer_id,
+			r.report_no,
 			r.cmt_no,
 			c.content,
 			r.report_type,
@@ -128,7 +129,7 @@
 			board b ON r.board_no = b.board_no
 		INNER JOIN
 			commenttb c ON r.cmt_no = c.cmt_no
-		ORDER BY b.board_no DESC
+		ORDER BY r.report_no DESC
 	</select>
 	
 	<!-- 사진 삭제 -->
