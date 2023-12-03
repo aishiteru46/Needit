@@ -324,6 +324,7 @@ $(function(){
 });
 
 </script>
+
 <style type="text/css">
 
 /* 썸네일 미리보기 */
@@ -421,6 +422,7 @@ $(function(){
 .rentTable th{
    background-color: rgb(255,83,63);
    color: white;
+   text-align: center;
 }
 /* 목록 테이블 둥글게 */
 .rentTable{
@@ -442,18 +444,17 @@ $(function(){
 /* 사진 수정 버튼 */
 #fileEdit{
     border: 1px solid rgb(255,83,63);
-    border-radius: 5px;
-    background-color: rgb(255,83,63);
-    color: white;
+	border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255,83,63);
     width: 46px;
     height: 31px;
     text-align: center;
-    font-size: 15px;
+	font-size: 14.2px;
     font-weight: normal;
     padding: 3px;
     float: left;
-    margin-top: -36px;
-    margin-left: 162px;
+    margin-left: 10px;
 }
 
 /* 유저 정보 */
@@ -553,6 +554,9 @@ $(function(){
 }
 #introUpdate {
 	display: none; /* 초기에는 저장 버튼을 숨김 */
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255,83,63);
+    border: 1px solid rgb(255,83,63);
 }
 
 /* 목록들 보기 버튼 */
@@ -571,6 +575,19 @@ $(function(){
 #boardSection tr td, #commentSection tr td{
 	font-size: 14px;
 }
+#imgUpdate {
+	float: left;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255,83,63);
+    border: 1px solid rgb(255,83,63);
+}
+#imgDelete {
+	float: left;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(255,83,63);
+    border: 1px solid rgb(255,83,63);
+    margin-left: 10px;
+}
 </style>
 
 <div class="container">
@@ -580,7 +597,6 @@ $(function(){
    <!-- 업체등록 버튼 -->
 <!--    <a href="/profile/business"><button class="btn btn-info" style="color: white;">업체등록</button></a> -->
 <c:choose>
-
 	<c:when test="${user.businessStatus eq 0}">
 	   <button type="button" class="btn btn-danger" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal">
 		  업체등록
@@ -588,13 +604,13 @@ $(function(){
 	</c:when>
    	<c:when test="${user.businessStatus eq 1}">
 	   <button type="button" class="btn btn-danger" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal" disabled="disabled">
-	   승인대기
+	   	  승인대기
 	   </button>
    	</c:when>
 	<c:when test="${user.businessStatus eq 2}">
 	   <button type="button" class="btn btn-danger" style="color: white;" data-bs-toggle="modal" data-bs-target="#businessModal" disabled="disabled">
 		  업체등록완료
-   	</button>
+   	   </button>
    	</c:when>
 </c:choose>
    <a href="infoupdate" class="btn btn-success" >회원정보 수정</a>
@@ -618,14 +634,15 @@ $(function(){
 
 <div id="profileImgUpdate">
    <!-- 이미지 등록 버튼 -->
-   <div class="btn btn-primary btn-sm" id="imgUpdate" >저장</div>
-   <!-- 이미지 삭제 버튼 -->
-   <div class="btn btn-danger btn-sm" id="imgDelete" >삭제</div>
-   <form style="margin-top: 5px; margin-left: -57px;" id="uploadForm" action="./imgupdate" method="post" enctype="multipart/form-data">
+   <div class="btn btn-sm" id="imgUpdate">저장</div>
+   <form style="" id="uploadForm" action="./imgupdate" method="post" enctype="multipart/form-data">
       <label for="thumbnailFile" id="fileEdit">수정</label>
       <input type="file" name="file" id="thumbnailFile" onchange="setThumbnail(event);" style="display: none;" />
    </form>
+   <!-- 이미지 삭제 버튼 -->
+   <div class="btn btn-sm" id="imgDelete">삭제</div>
 </div>
+<div style="clear:both; "></div>
 </div><!-- #profileImgContainer -->
 
 
@@ -708,7 +725,7 @@ $(function(){
             <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100" onclick="showSaveButton()" spellcheck="false">${user.intro }</textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-2" id="introUpdate">저장</button>
+        <button type="submit" class="btn mt-2" id="introUpdate">저장</button>
     </div>
 </div><!-- #introduce -->
 
@@ -717,10 +734,7 @@ $(function(){
 <a href="/profile/rentList"><button class="listWatchBtn" style="width: 126px;">대여목록 보기</button></a>
 <a href="/profile/basket"><button class="listWatchBtn" style="width: 126px; margin-left: 1px;">내 찜 목록 보기</button></a>
 
-
-
 <hr>
-
 
 <button id="myBoardList" class="listWatchBtn">내가 쓴 글 불러오기</button>
 <div id="boardSection" class="tableScroll" style="display: none;">
@@ -735,9 +749,6 @@ $(function(){
 <hr>
 
 </div><!-- .container -->
-
-
-
 
 <!-- 회원탈퇴 버튼 -->
 <button type="button" style="margin-left: 1106px; margin-top: 20px; margin-bottom: -11px;" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmationModal">회원탈퇴</button>
@@ -761,7 +772,6 @@ $(function(){
   </div>
 </div>
 
-
 <!-- 회원탈퇴 모달 -->
 <div class="modal fade" id="confirmationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -780,9 +790,6 @@ $(function(){
     </div>
   </div>
 </div>
-
-
-
 
 
 <c:import url="/WEB-INF/views/layout/footer.jsp" />
