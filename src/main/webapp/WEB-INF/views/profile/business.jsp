@@ -45,10 +45,10 @@
 
 <div id="businessReq">
 <form action="/profile/business" method="post">
-	<label>업체 이름</label><input type="text" name="businessName"><br>
-	<label>업체 번호</label><input type="text" name="businessPhone"><br>
-	<label>업체 주소</label><input type="text" name="businessAddr"><br>
-	<label>업체 링크</label><input type="text" name="businessUrl"><br>
+	<label>업체 이름</label><input type="text" name="businessName" required="required"><br>
+	<label>업체 번호</label><input type="text" name="businessPhone" required="required"><br>
+	<label>업체 주소</label><input type="text" name="businessAddr" required="required"><br>
+	<label>업체 링크</label><input type="text" name="businessUrl" required="required"><br>
 	
 	<button>등록</button>
 	
