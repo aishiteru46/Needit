@@ -11,6 +11,8 @@ import web.dto.Booking;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
+import web.dto.Rent;
+import web.dto.User;
 import web.util.Paging;
 
 public interface MenuShareService {
@@ -128,6 +130,12 @@ public interface MenuShareService {
 	 */
 	public void commentdelete(Comment commentDelete);
 	
+	/**
+	 * 대여신청 하기
+	 * 
+	 * @param rentParam
+	 */
+	public void rent(Rent rentParam);
 	
 	/**
 	 * 예약 정보 확인
@@ -162,6 +170,13 @@ public interface MenuShareService {
     * @return
     */
 	public int getCmtCnt(String boardNo);
+	
+	/**
+	 * 글쓰기할때 회원정보수정전 주소가져오는거때문에 주소가져오는거 추가함
+	 * @param user
+	 * @return
+	 */
+	public User writeAddrSelect(User user);
 	
 	
 	

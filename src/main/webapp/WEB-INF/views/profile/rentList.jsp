@@ -495,8 +495,8 @@ $(function(){
       <td>${list.MERCHANT_UID }</td>
 <%--       <td>${list.CURRENT_TIME }</td> --%>
 <%--       <td>${list.RENT_DATE }</td> --%>
-      <td><fmt:formatDate value="${list.CURRENT_TIME }" pattern="yyyy-MM-dd" /></td>
-      <td><fmt:formatDate value="${list.RENT_DATE }" pattern="yyyy-MM-dd" /></td>
+      <td>${list.CURRENT_TIME }</td>
+      <td>${list.RENT_DATE }</td>
 
       <c:choose>
        <c:when test="${list.START_TIME % 2 == 1}">

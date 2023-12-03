@@ -25,6 +25,8 @@ import web.dto.Booking;
 import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
+import web.dto.Rent;
+import web.dto.User;
 import web.service.face.MenuShareService;
 import web.util.Paging;
 
@@ -309,6 +311,15 @@ public class MenuShareServiceImpl implements MenuShareService{
 	      return menuShareDao.getCntCmt(boardNo);
 	}
 
+	@Override
+	public User writeAddrSelect(User user) {
+		return menuShareDao.selectWriteAddr(user);
+	}
+	
+	@Override
+	public void rent(Rent rentParam) {
+		menuShareDao.makeRent(rentParam);
+	}
 	
 
 

@@ -381,7 +381,7 @@ form {
             </c:if>
             
 	        <div class="no">Title.</div>
-	        <a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE }</div></a>
+	        <a href="/share/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE } <span style="color: black; font-size: 0.8em;">[${list.cmtCnt}]</span></div></a>
         <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>
         <div id="write-conatiner-hit">👀  ${list.HIT}</div>
         </div><!-- .write-container-head -->
