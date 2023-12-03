@@ -4,6 +4,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<style>
+.rentTable td{
+	text-align: center;
+}
+
+</style>
 
 <table class="listType rentTable">
       <tr>
@@ -16,7 +22,7 @@
       <c:forEach items="${board }" var="board">
          <tr>
             <td>${board.boardNo }</td>
-            <td>
+            <td style="text-align: left;">
 	    <c:choose>
 	        <c:when test="${board.menu eq 1}">
 	            <a href="/rent/view?boardNo=${board.boardNo}" class="board-link">${board.title}</a>
