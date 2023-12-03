@@ -123,17 +123,17 @@ $(document).ready(function() {
 
 <div class="form-group mb-3">
 	<label class="form-label" for="title">제목</label>
-	<input type="text" class="form-control" name="title" id="title">
+	<input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해주세요" required>
 </div>
 
 <div class="form-group mb-3">
 	<label class="form-label" for="location">지역</label>
-	<input type="text" class="form-control" name="location" id="location" value="${user.addr1}">
+	<input type="text" class="form-control" readonly="readonly" name="location" id="location" value="${user.addr1}">
 </div>
 
 <div class="form-group mb-3">
 	<label class="form-label" for="price">가격</label>
-	<input type="text" class="form-control" name="price" id="price">
+	<input type="text" class="form-control" name="price" id="price" placeholder="30분당 가격을 입력해주세요" required>
 </div>
 
 <div class="form-group mb-3">

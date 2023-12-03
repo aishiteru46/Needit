@@ -1,6 +1,5 @@
 package web.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +32,6 @@ public class MenuCommunityController {
 	
 	@Autowired private MenuCommunityService menuCommunityService;
 	
-	//게시판 목록 그리드타입 띄우기
 	@GetMapping("/list")
 	public String list( Paging param, Model model ) {
 		//페이징 계산
@@ -42,55 +40,39 @@ public class MenuCommunityController {
 		//게시글 목록 조회
 		List<Map<String, Object>> list = menuCommunityService.list(paging); 
 		model.addAttribute("paging", paging);
+		
+ 		//게시글마다 댓글 몇개 달렸는지 카운트
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuCommunityService.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}
+		
 		model.addAttribute("list", list);
 		
 		return "menu/community/list";
 	}
 	
-	//게시판 목록 리스트타입 띄우기
-	@GetMapping("/listType")
-	public String listType( Paging param, Model model ) {
-		//페이징 계산
-		Paging paging = menuCommunityService.getPaging(param);
-		
-		//게시글 목록 조회
-		List<Map<String, Object>> list = menuCommunityService.list(paging); 
-		model.addAttribute("paging", paging);
-		model.addAttribute("list", list);
-		
-		return "menu/community/listType";
-	}
-
 	//검색한 게시판 목록 그리드타입 띄우기
 	@GetMapping("/search")
 	public String search( Board board, Model model, Paging param, HttpSession session ) {
-		
 		//페이징 계산
 		Paging paging = menuCommunityService.getPaging(param);
-		//각 유저가 찜한 상품목록 조회를 위한 Id 저장
-		paging.setUserId((String)session.getAttribute("id"));
 		
 		//게시글 목록 조회
 		List<Map<String, Object>> list = menuCommunityService.searchList(paging);
 		model.addAttribute("paging", paging);
+		
+ 		//게시글마다 댓글 몇개 달렸는지 카운트
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuCommunityService.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}
+ 		
 		model.addAttribute("list", list);
 		
 		return "menu/community/searchList";
-	}
-	
-	//검색한 게시판 목록 리스트타입 띄우기
-	@GetMapping("/searchType")
-	public String searchType( Board board, Model model, Paging param ) {
-		
-		//페이징 계산
-		Paging paging = menuCommunityService.getPaging(param);
-		
-		//게시글 목록 조회
-		List<Map<String, Object>> list = menuCommunityService.searchList(paging);
-		model.addAttribute("paging", paging);
-		model.addAttribute("list", list);
-		
-		return "menu/community/searchType";
 	}
 	
 	//게시글 상세 조회

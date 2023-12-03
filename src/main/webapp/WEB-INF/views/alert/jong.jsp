@@ -52,12 +52,10 @@ $(function() {
 			, data: { alertNo: $(this).data("alert") }
 			, dataType: "json"
 			, success: function( res ) {
-				console.log("AJAX 성공")
 				loadAlert() // 알람을 읽었을 때 안읽은 알람들을 불러옴
 				hasNew() // 알람을 읽었을 때 새로 생긴 알람이 있는지 확인해서 불러옴
 			}
 			, error: function() {
-				console.log("AJAX 실패")
 			}
 		})
 	})
@@ -73,7 +71,6 @@ $(function() {
 				hasNew() // 알람을 읽었을 때 새로 생긴 알람이 있는지 확인해서 불러옴
 			}
 			, error: function() {
-				console.log("AJAX 실패")
 			}
 		})
 	})
@@ -85,12 +82,10 @@ $(function() {
 			, url: "/alert/delAll"
 			, data: { id : $id }
 			, success: function( res ) {
-				console.log(res)
 				loadAlert() // 알람을 읽었을 때 안읽은 알람들을 불러옴
 				hasNew() // 알람을 읽었을 때 새로 생긴 알람이 있는지 확인해서 불러옴
 			}
 			, error: function() {
-				console.log("AJAX 실패")
 			}
 		})
 	})

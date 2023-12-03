@@ -6,7 +6,7 @@
 <c:import url="/WEB-INF/views/admin/admin.jsp" />
 
 <style>
-#AdminDayVisit{
+#adminDayVisit{
 	background-color: #ff8108;
 	width: 302px;
 }
@@ -14,10 +14,10 @@
 </style>
 
 <!-- 안쪽 내용 -->
-<div id="AdminContent">
+<div id="adminContent">
 
 
-</div><!-- .AdminContent -->
+</div><!-- #adminContent -->
 
 
 </body>

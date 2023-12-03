@@ -76,8 +76,6 @@ li:hover{
     width: 85%;
     right: 145px;
 }
-
-
 /* 왼쪽 배경 */
 #adminLeft{
 	float: left;
@@ -87,7 +85,6 @@ li:hover{
 	height: 100%;
 	background: rgb(255,83,63);
 }
-
 /* 목록 전체 div */
 #adminList{
 	float: left;

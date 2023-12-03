@@ -12,8 +12,8 @@
 		    board_no, writer_id, writer_nick, 
 		    hit, menu, cate, title, content, location,
 		    CAST(write_date AS DATE) AS write_date, 
-		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
-		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
+		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt
+<!-- 		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name -->
 		FROM board B
 		<where>
 			AND menu = #{menu }
@@ -45,7 +45,6 @@
 		)
 	</select>
 	
-
 	<!-- 해당 메뉴 게시글 조회 -->
 	<select id="selectAll" resultType="Map" parameterType="web.util.Paging">
 		SELECT * FROM (
@@ -64,8 +63,8 @@
 	                board_no, writer_id, writer_nick, 
 	                hit, menu, cate, title, content, location, 
 	                CAST(write_date AS DATE) AS write_date, 
-	                (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
-	                (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name
+	                (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt
+<!-- 	                (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name -->
 	            FROM board B
 	            WHERE
 	                menu = #{menu}
@@ -100,16 +99,6 @@
 	
 	<!-- 게시글 상세 조회 -->
 	<select id="selectByBoardNo" resultType="Board" parameterType="Board">
-<!-- 	    SELECT -->
-<!-- 	        board_no, writer_id, writer_nick, write_date, hit, menu, -->
-<!-- 	        title, price, content, U.addr1 as location -->
-<!-- 	    FROM -->
-<!-- 	        board B -->
-<!-- 	    JOIN -->
-<!-- 	        usertb U ON B.writer_id = U.id -->
-<!-- 	    <where> -->
-<!-- 	        board_no = #{boardNo } -->
-<!-- 	    </where> -->
 		SELECT
 			board_no, writer_id, writer_nick
 			, write_date, hit, menu, cate
@@ -160,7 +149,7 @@
 	
 	<!-- 사용자 추천수 유무 조회 -->
 	<select id="selectCntLike" resultType="int" parameterType="Like">
-		SELECT count(*) FROM liketb
+		SELECT count(like_no) FROM liketb
 		<where>
 			AND like_id = #{likeId}
 			AND board_no = #{boardNo}
@@ -184,7 +173,7 @@
 	
 	<!-- 총 추천수 조회 -->
 	<select id="selectTotalCntLike" resultType="int" parameterType="Like">
-		SELECT COUNT(*) FROM liketb
+		SELECT COUNT(like_no) FROM liketb
 		<where>
 			AND board_no = #{boardNo}
 		</where>
@@ -250,5 +239,11 @@
 		<foreach collection="array" item="no" open="(" close=")" separator=","> #{no } </foreach>
 		</where>
 	</delete> 
+	
+  	<select id="getCntCmt" resultType="int" parameterType="String" >
+  		SELECT count(cmt_no)
+  		FROM commenttb
+  		WHERE board_no = #{boardNo}
+  	</select>
 	
 </mapper>

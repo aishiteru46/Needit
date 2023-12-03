@@ -28,7 +28,7 @@ function sendEmail() {
 			type: "get",
 			data: {'m_email':email},
 			success: function(rnum) {
-				//alert("s");
+				
 				alert("기입하신 이메일로 인증번호를 전송했습니다.");
 				
 				$("#codeInput").attr("disabled", false); //입력칸 활성화
@@ -40,29 +40,10 @@ function sendEmail() {
 		});
 	}
 }
-// $(document).ready(function() {
-// 	  $(".next").click(function(event) {
-// 		  console.log("작동됨")
-// 	    // 폼 제출 기본 동작을 막습니다.
-// 	    event.preventDefault();
-
-// 	    // 슬라이드 아웃을 시작하기 전에 필요한 유효성 검사 등을 수행합니다.
-
-// 	    // 슬라이드 아웃 효과를 시작하려면 slide-out 클래스를 추가합니다.
-// 	    $("form").addClass("slide-out");
-
-// 	    // setTimeout을 사용하여 리디렉션이나 기타 작업을 지연시킬 수 있습니다.
-// 	    setTimeout(function() {
-// 	      // 다음 페이지로 리디렉션하거나 다른 작업을 수행합니다.
-// 	      // 예: window.location.href = "다음-페이지.html";
-// 	    }, 500); // 트랜지션 기간에 맞게 지연 시간을 조정하세요.
-// 	  });
-// 	});
 
 </script>
 <style type="text/css">
 html {
-/* 	background-color: #ff533f; */
  	background-size : cover; 
 	background-image: url('../resources/img/3.jpg') ;  
 }
@@ -127,7 +108,7 @@ form {
   			<label >인증번호</label>
   			<span class="position-absolute top-50 end-0 translate-middle-y" id="codecheck_blank" style="font-size: 15px;"><input id="needit" class="code btn btn-danger" type="button" value="인증코드 발송" onclick="sendEmail()"></span>
     		</div>
-			<input  type="text" class="form-control form-control mb-3" id="codeInput" placeholder="인증번호 입력"  required="required" disabled="disabled" required="required">
+			<input  type="text" class="form-control form-control mb-3" id="codeInput" placeholder="인증번호 입력"  required="required" disabled="disabled">
 			<button id="needit"class="next btn btn-danger float-end" >다음</button>
 		</div>
 	</div>

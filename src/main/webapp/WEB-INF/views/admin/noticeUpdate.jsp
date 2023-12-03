@@ -95,10 +95,10 @@ document.getElementById('content').addEventListener('keydown', function(event) {
 <!-- </div> -->
 
 <!-- <div class="text-center"> -->
-<div class="ms-3">
+<div id="submitBtn">
 	<button class="btn btn-primary" id="btnWrite">작성</button>
 	<button type="reset" class="btn btn-danger" id="btnCancel">취소</button>
-</div>
+</div><!-- #submitBtn -->
 
 </form>
 </div><!-- .col-10 mx-auto -->

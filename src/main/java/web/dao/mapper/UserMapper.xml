@@ -73,6 +73,7 @@
 		SELECT * FROM usertb
 			<where>
 				AND name = #{name}
+				AND email = #{email}
 			</where>
 	
 	</select>

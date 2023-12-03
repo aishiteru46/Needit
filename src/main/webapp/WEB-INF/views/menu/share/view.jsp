@@ -406,7 +406,6 @@ $(()=>{
 
 <%-- Style --%>
 <style type="text/css">
-
 .viewWrap {
 	width: 1200px;
 	text-align: center;
@@ -468,7 +467,6 @@ $(()=>{
 }
 h5 {
 	font-size: 15px;
-
 }
 h6 {
     font-weight: bolder;

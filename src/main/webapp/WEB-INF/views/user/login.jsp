@@ -15,8 +15,6 @@
 
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 
-
-
 <script type="text/javascript">
 $(document).ready(function(){
 	
@@ -151,7 +149,6 @@ a {text-decoration: none; color: #343a40;}
 				<input type="text" class="form-control mb-3" name="id" id="id" placeholder="아이디를 입력해주세요" required="required">
 				<input type="password" class="form-control" name="pw" id="pw" placeholder="비밀번호를 입력해주세요" required="required">
 				<span id="label1"></span>
-		
 			</div>
 			<button class="col-3 mr-2 btn btn-danger float-end" id="login" >로그인</button>
 		</div>
@@ -164,16 +161,10 @@ a {text-decoration: none; color: #343a40;}
 			</div>
 		</div>
 		<div id="social">
-		
 			<a id="naverIdLogin_loginButton" href="javascript:void(0)"><img id="naver" src="/resources/img/naver.png"></a>
-
-      		<a href="javascript:void(0)" onclick="kakaoLogin();"><img id="kakao" src="/resources/img/kakao.png"></a>
-		
+		    <a href="javascript:void(0)" onclick="kakaoLogin();"><img id="kakao" src="/resources/img/kakao.png"></a>
 		</div>
-			<a id="needit"class=" col-12 btn btn-danger"href = "/user/signup">회원가입</a>
-		
-		
-		
+		<a id="needit"class=" col-12 btn btn-danger"href = "/user/signup">회원가입</a>
 		
 	</div>
 </div>
@@ -249,8 +240,6 @@ function kakaoLogout() {
       Kakao.Auth.setAccessToken(undefined)
     }
   }  
-
-
 
 </script>
 

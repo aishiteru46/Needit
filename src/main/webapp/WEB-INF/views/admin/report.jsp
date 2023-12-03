@@ -47,7 +47,6 @@ $(function(){
 /* 바깥 div */
 #report{
 	margin: 0 auto;
-	border: 3px solid rgb(255,83,63);
 	width: calc(var(--button-width) + 13px);
 	height: calc(var(--button-height)*5 + 55px);
 	border-radius: 5px; 
