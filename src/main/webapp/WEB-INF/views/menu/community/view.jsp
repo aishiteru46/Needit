@@ -525,7 +525,7 @@ function sendNofiLike() {
 	          </c:if>
 	       </span>
 	    </div><!-- #Download -->
-	    <div style="clear: both;"></div>
+	    <div style="clear: both; margin-bottom: 20px;"></div>
 		<div class="viewLike">
 			<c:if test="${isLogin }">
 				<div class="btn" id="btnLike">
