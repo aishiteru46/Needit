@@ -51,26 +51,11 @@
 		<!--     <version>1.1.2</version> -->
 		<!-- </dependency> -->
 		
+		<!-- // 채팅 위한 socket -->	
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-messaging</artifactId>
 		    <version>${org.springframework-version}</version>
-		</dependency>
-		
-		<!-- // 채팅 위한 socket -->	
-		
-			<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz -->
-		<dependency>
-	    	<groupId>org.quartz-scheduler</groupId>
-	    	<artifactId>quartz</artifactId>
-	    	<version>2.3.2</version>
-		</dependency>
-		
-		<!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz-jobs -->
-		<dependency>
-	    	<groupId>org.quartz-scheduler</groupId>
-	    	<artifactId>quartz-jobs</artifactId>
-	    	<version>2.3.2</version>
 		</dependency>
 	
 		<!-- SseEmitter(알림기능구현)을 사용하기 위한 JSON DI -->

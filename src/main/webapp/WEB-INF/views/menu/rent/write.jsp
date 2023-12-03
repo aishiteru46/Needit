@@ -75,7 +75,6 @@ $(document).ready(function() {
 </script>
 
 <style type="text/css">
-
 #thumbnail_container{
     border: 1px solid #ccc;
     width: 300px;
