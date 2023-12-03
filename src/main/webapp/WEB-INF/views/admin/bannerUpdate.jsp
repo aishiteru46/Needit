@@ -6,11 +6,11 @@
 <c:import url="/WEB-INF/views/admin/admin.jsp" />
 
 <style>
-#AdminBanner{
+#adminBanner{
 	background-color: #ff8108;
 	width: 302px;
 }
-#BannerImgPre{
+#bannerImgPre{
 	width: auto;
 	height: 250px;
     white-space: nowrap;
@@ -18,7 +18,7 @@
     margin-left: 10px;
 }
 
-#BannerImg{
+#bannerImg{
 	border: 1px solid #ccc;
     width: 400px;
     height: 210px;
@@ -42,7 +42,7 @@
 
 
 <!-- 안쪽 내용 -->
-<div id="AdminContent">
+<div id="adminContent">
 
 <form action="./bannerUpdate" method="post" enctype="multipart/form-data">
 
@@ -60,14 +60,14 @@
 <br>
 
 <!-- 이미지 미리보기 -->
-<div id="BannerImgPre">
+<div id="bannerImgPre">
 	<c:forEach items="${file }" var="bannerNames">
 		<img id="BannerImg" alt="썸네일" src="/resources/banner/${bannerNames.storedName }">
 	</c:forEach>
-</div><!-- .BannerImgPre -->
+</div><!-- .bannerImgPre -->
 
 
-</div><!-- .AdminContent -->
+</div><!-- #adminContent -->
 
 
 </body>

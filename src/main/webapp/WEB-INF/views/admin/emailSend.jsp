@@ -7,11 +7,11 @@
 
 <style>
 /* 왼쪽 목록 선택시 색상 */
-#AdminEmail{
+#adminEmail{
 	background-color: #ff8108;
 	width: 302px;
 }
-#AdminContent{
+#adminContent{
 	width: 80%;
 }
 
@@ -134,7 +134,7 @@ function showCheckboxes() {
 </script>
 
 <!-- 안쪽 내용 -->
-<div id="AdminContent">
+<div id="adminContent">
 
 <!-- <label>이메일 목록</label><br> -->
 <!-- <div id="emailList"> -->
@@ -215,7 +215,7 @@ function showCheckboxes() {
     
 </div><!-- #emailSendList -->
 
-</div><!-- .AdminContent -->
+</div><!-- #adminContent -->
 
 
 </body>

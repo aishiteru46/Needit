@@ -6,7 +6,7 @@
 <c:import url="/WEB-INF/views/admin/admin.jsp" />
 
 <style>
-#AdminNotice{
+#adminNotice{
 	background-color: #ff8108;
 	width: 302px;
 }
@@ -20,7 +20,7 @@
 	position: sticky;
     top: 0px;
 }
-#AdminContent{
+#adminContent{
 	width: 80%;
 }
 
@@ -74,7 +74,7 @@ document.getElementById('content').addEventListener('keydown', function(event) {
 </script>
 
 <!-- 안쪽 내용 -->
-<div id="AdminContent">
+<div id="adminContent">
 
 <div class="col-10 ms-3">
 <form action="./noticeUpdate" method="post" enctype="multipart/form-data">
@@ -151,7 +151,7 @@ document.getElementById('content').addEventListener('keydown', function(event) {
 
 
 
-</div><!-- .AdminContent -->
+</div><!-- #adminContent -->
 
 
 </body>

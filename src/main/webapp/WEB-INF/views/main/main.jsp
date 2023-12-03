@@ -23,19 +23,19 @@
 }
 
 /* 검색 */ 
-#MainSearchDiv {
+#mainSearchDiv {
     position: absolute;
     vertical-align: top;
     margin-top: -46px;
     margin-left: 800px;
 }
-/* #MainSearchDiv1{ */
+/* #mainSearchDiv1{ */
 /*     position: absolute; */
 /*     margin-top: -57px; */
 /*     margin-left: 780px; */
 /* } */
 /* 검색input */
-#MainSearch {
+#mainSearch {
     position: inherit;
     vertical-align: top;
     width: 355px;
@@ -45,7 +45,7 @@
     border-bottom-left-radius: 5px;
 }
 /* 검색버튼 */
-#MainBtnSearch {
+#mainBtnSearch {
     position: absolute;
     vertical-align: top;
     height: 35px;
@@ -56,7 +56,7 @@
     border-bottom-right-radius: 5px;
 }
 /* 검색버튼 focus 없애기 */
-#MainSearch:focus, #MainBtnSearch:focus{
+#mainSearch:focus, #mainBtnSearch:focus{
 	outline: none;
 }
 /* 썸네일 div */
@@ -81,7 +81,7 @@
 }
 
 /* 나눔,대여,업체 div */
-#MainRent, #MainShare, #MainBusiness{
+#mainRent, #mainShare, #mainBusiness{
 	border: 1px solid #ccc;
 	width: 1200px;
 	height: 300px;
@@ -89,7 +89,7 @@
 }
 
 /* 오늘의 인기 게시글 */
-#MainCommu{
+#mainCommu{
 	border: 1px solid #ccc;
 	width: 695px;
 	height: 300px;
@@ -101,7 +101,7 @@
 
 
 /* 지도 */
-#MainMap{
+#mainMap{
 	border: 1px solid #ccc;
 	width: 505px;
 	height: 300px;
@@ -146,26 +146,26 @@
 }
 
 /* 대여, 나눔해요 썸네일 바깥 div */ 
-#MainTumbnailDiv{
+#mainTumbnailDiv{
 	display: inline-block;
 	margin: var(--imgMargin);
 }
 
 /* 대여, 나눔해요 썸네일 이미지 */
-#MainThumbnailImg{
+#mainThumbnailImg{
 	width: 289px;
 	height: 200px;
 	margin: var(--imgMargin);
 }
 /* 썸네일 사진 없을 때 */
-#MainNoITumbnail{
+#mainNoITumbnail{
 	width: 289px;
 	height: 200px;
  	margin: var(--imgMargin);
 	border: 1px solid #ccc;
 }
 /* 대여, 나눔해요 썸네일 제목 */
-#MainThumbnailTitle{
+#mainThumbnailTitle{
 	width: 289px;
 	height: 25px;
 	text-align: center;
@@ -180,16 +180,16 @@
 }
 
 /* 오늘의 인기 게시글 */
-#MainCommuHitDiv{
+#mainCommuHitDiv{
 	margin: -30px -14px 60px 7px;
 	width: 695px;
 	height: 85px;
 }
-#MainCommuHitHr{
+#mainCommuHitHr{
 	position: relative;
 	top: 100px;
 }
-#MainCommuHitTitle{
+#mainCommuHitTitle{
 	display: block;
 	font-size: 22px;
 	font-weight: bold;
@@ -197,7 +197,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-#MainCommuHitContent{
+#mainCommuHitContent{
     display: inline-block;
     width: 682px;
     height: 66px;
@@ -207,7 +207,7 @@
     white-space: nowrap;
 }
 /* 썸머노트 사진 등록시 */
-#MainCommuHitContent p{
+#mainCommuHitContent p{
 	float: left;
 	position: absolute;
 	max-width: 682px;
@@ -216,13 +216,13 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-#MainCommuHitContent img{
+#mainCommuHitContent img{
 	display :block;
 /* 	display :inline-block; */
     max-width: 120px;
 }
 /* 인기 게시글 100이상 붉은 글씨 */
-.MainCommuHit{
+.mainCommuHit{
     display: inline-block;
     float: right;
     position: inherit;
@@ -380,18 +380,18 @@ function downFunction() {
 <!-- </button> -->
 
 <!-- 검색버튼 -->
-<div id="MainSearchDiv">
+<div id="mainSearchDiv">
   <form action="/mainSearch" method="get" id="searchForm">
 <!--     <select name="selectSub" id="selectSub" required="required"> -->
 <!--     	<option value="rent">대여해요</option> -->
 <!--     	<option value="share">나눔해요</option> -->
 <!--     	<option value="please">해주세요</option> -->
 <!--     </select> -->
-	<input type="text" name="searchText" id="MainSearch" placeholder=" 필요한 것을 검색해보세요."
+	<input type="text" name="searchText" id="mainSearch" placeholder=" 필요한 것을 검색해보세요."
 		required oninvalid="this.setCustomValidity('제목을 입력해주세요')" oninput="this.setCustomValidity('')"/>
-	<button id="MainBtnSearch">검색</button>
+	<button id="mainBtnSearch">검색</button>
   </form>
-</div><!-- #MainSearchDiv -->
+</div><!-- #mainSearchDiv -->
 
 <div style="margin-bottom: 90px;"></div>
 <!-- 썸네일 -->
@@ -426,79 +426,79 @@ function downFunction() {
 <div id="textMargin"></div>
 
 <!-- 대여해요 게시글 -->
-<div id="MainRent" >
+<div id="mainRent" >
 <div id="mainTitle">최신 대여해요 게시글</div>
 	<c:forEach var="boardRentInfo" items="${boardRentInfo}">
-		<div id="MainTumbnailDiv" class="MainDiv">
+		<div id="mainTumbnailDiv" class="mainDiv">
 		<a href="/rent/view?boardNo=${boardRentInfo.BOARD_NO }&menu=1&cate=${boardRentInfo.CATE }">
 			<c:if test="${not empty boardRentInfo.THUMBNAIL_NAME }">
-				<div><img src="/upload/${boardRentInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></div>
+				<div><img src="/upload/${boardRentInfo.THUMBNAIL_NAME }" id="mainThumbnailImg"></div>
 			</c:if>
 			<c:if test="${empty boardRentInfo.THUMBNAIL_NAME }">	
-				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
+				<div><img id="mainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
 			</c:if>
 		</a>
-		<div id="MainThumbnailTitle">${boardRentInfo.TITLE}</div>
-		</div><!-- #MainTumbnailDiv -->
+		<div id="mainThumbnailTitle">${boardRentInfo.TITLE}</div>
+		</div><!-- #mainTumbnailDiv -->
 	</c:forEach>
-</div><!-- #MainRent -->
+</div><!-- #mainRent -->
 <div id="textMargin"></div>
 
 <!-- 나눔해요 게시글 -->
-<div id="MainShare">
+<div id="mainShare">
 <div id="mainTitle">최신 나눔해요 게시글</div>
 	<c:forEach var="boardShareInfo" items="${boardShareInfo}">
-		<div id="MainTumbnailDiv">
+		<div id="mainTumbnailDiv">
 		<a href="/share/view?boardNo=${boardShareInfo.BOARD_NO }&menu=2&cate=${boardShareInfo.CATE }">
 			<c:if test="${not empty boardShareInfo.THUMBNAIL_NAME }">
-				<div><img src="/upload/${boardShareInfo.THUMBNAIL_NAME }" id="MainThumbnailImg" ></div>
+				<div><img src="/upload/${boardShareInfo.THUMBNAIL_NAME }" id="mainThumbnailImg" ></div>
 			</c:if>
 			<c:if test="${empty boardShareInfo.THUMBNAIL_NAME }">
-				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
+				<div><img id="mainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
 			</c:if>
 		</a>
-		<div id="MainThumbnailTitle">${boardShareInfo.TITLE}</div>
-		</div><!-- #MainTumbnailDiv -->
+		<div id="mainThumbnailTitle">${boardShareInfo.TITLE}</div>
+		</div><!-- #mainTumbnailDiv -->
 	</c:forEach>
-</div><!-- #MainShare -->
+</div><!-- #mainShare -->
 <div id="textMargin"></div>
 
 <!-- 니딧 인증 업체 -->
-<div id="MainBusiness">
+<div id="mainBusiness">
 <div id="mainTitle">니딧 인증 업체</div>
 	<c:forEach var="businessInfo" items="${businessInfo}">
-		<div id="MainTumbnailDiv">
+		<div id="mainTumbnailDiv">
 		<a href="/business/view?boardNo=${businessInfo.BOARD_NO }&menu=5&cate=${businessInfo.CATE }">
 			<c:if test="${not empty businessInfo.THUMBNAIL_NAME }">
-				<div><img src="/upload/${businessInfo.THUMBNAIL_NAME }" id="MainThumbnailImg"></div>
+				<div><img src="/upload/${businessInfo.THUMBNAIL_NAME }" id="mainThumbnailImg"></div>
 			</c:if>
 			<c:if test="${empty businessInfo.THUMBNAIL_NAME }">			
-				<div><img id="MainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
+				<div><img id="mainNoITumbnail" alt="사진이 없습니다" src="/resources/img/noimg.png"></div>
 			</c:if>
 		</a>
-		<div id="MainThumbnailTitle">${businessInfo.TITLE}</div>
-		</div><!-- #MainTumbnailDiv -->
+		<div id="mainThumbnailTitle">${businessInfo.TITLE}</div>
+		</div><!-- #mainTumbnailDiv -->
 	</c:forEach>
-</div><!-- #MainBusiness -->
+</div><!-- #mainBusiness -->
 <div id="textMargin"></div>
 
 <!-- 인기 게시글(추천수) -->
-<div id="MainCommu">
+<div id="mainCommu">
 <div id="mainTitleHit">오늘의 인기 게시글</div>
-    <hr id="MainCommuHitHr">
+    <hr id="mainCommuHitHr">
 	<c:forEach var="commuHit" items="${commuHit}">
-		<div id="MainCommuHitDiv">
+		<div id="mainCommuHitDiv">
 			<a href="/community/view?boardNo=${commuHit.BOARD_NO }&menu=4&cate=${commuHit.CATE }">
-            <span class="MainCommuHit ${commuHit.HIT lt 100 ? 'lowCount' : 'highCount'}">조회수: ${commuHit.HIT}</span>
-			<span id="MainCommuHitTitle">${commuHit.TITLE}</span>
-			<span id="MainCommuHitContent">${commuHit.CONTENT}</span>
+            <span class="mainCommuHit ${commuHit.HIT lt 100 ? 'lowCount' : 'highCount'}">조회수: ${commuHit.HIT}</span>
+			<span id="mainCommuHitTitle">${commuHit.TITLE}</span>
+			<span id="mainCommuHitContent">${commuHit.CONTENT}</span>
 			</a>
-		</div><!-- #MainCommuHitDiv -->
+		</div><!-- #mainCommuHitDiv -->
 	</c:forEach>
-</div><!-- #MainCommu -->
+</div><!-- #mainCommu -->
 
 <!-- 주변 지도 -->
-<div id="MainMap">
+<div id="mainMap">
 <div id="mainTitleMap">내 주변 지도</div>
 <a href="/map">
 	<span id="mainMapIconSpan">M</span>
@@ -508,7 +508,7 @@ function downFunction() {
 <!-- 지도 링크 작게 -->
 <div><%@ include file="/WEB-INF/views/main/mainpageMap.jsp" %></div>
 <!-- <iframe src="/admin/mainpageMap" style="width: 300px; height: 222px;"></iframe> -->
-</div><!-- #MainMap -->
+</div><!-- #mainMap -->
 
 </div><!-- #container -->
 
