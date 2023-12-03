@@ -138,7 +138,7 @@ $(document).ready(function() {
 </div>
 
 <div class="form-group mb-3">
-	<label class="form-label" for="location">지역</label>
+	<label class="form-label" for="location">위치</label>
 	<input type="text" class="form-control" readonly="readonly" name="location" id="location" value="${user.addr1}">
 </div>
 
