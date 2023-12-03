@@ -88,6 +88,7 @@ public class MenuPleaseController {
  		model.addAttribute("paging", paging);
  		logger.info("list: {}", list);
  		
+ 		//게시글마다 댓글 몇개 달렸는지 카운트
  		for (Map<String, Object> postMap : list) {
  			String boardNo = postMap.get("BOARD_NO").toString(); 
  			int cmtCnt = menuPleaseService.getCmtCnt(boardNo);
@@ -114,6 +115,15 @@ public class MenuPleaseController {
 		//게시글 목록 조회
 		List<Map<String, Object>> list = menuPleaseService.searchList(paging);
 		model.addAttribute("paging", paging);
+		
+		
+		//게시글마다 댓글 몇개 달렸는지 카운트
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuPleaseService.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}
+		
 		model.addAttribute("list", list);
 		
 		return "menu/please/searchList";
@@ -129,6 +139,14 @@ public class MenuPleaseController {
  			//게시글 목록 조회
  			List<Map<String, Object>> list = menuPleaseService.searchList(paging);
  			model.addAttribute("paging", paging);
+ 			
+ 			//게시글마다 댓글 몇개 달렸는지 카운트
+ 	 		for (Map<String, Object> postMap : list) {
+ 	 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 	 			int cmtCnt = menuPleaseService.getCmtCnt(boardNo);
+ 	 			postMap.put("cmtCnt", cmtCnt);
+ 			}
+ 			
  			model.addAttribute("list", list);
  			
  			return "menu/please/searchType";
@@ -227,16 +245,13 @@ public class MenuPleaseController {
 		   return "redirect:./list";
 	   }
 		
-	   
 		//상세보기 페이지 아님 표시
 	 	updateParam.setHit(-1);
 	   
 	 	
-	 	
 	   //상세보기 게시글 조회
 	   	updateParam = menuPleaseService.view(updateParam);
 	   	model.addAttribute("updateBoard", updateParam);
-	   	
 	   	
 	   	//첨부파일 정보 전달
 	   	List<FileTb> fileTb = menuPleaseService.getAttachFile(updateParam);
@@ -246,8 +261,6 @@ public class MenuPleaseController {
 		return "menu/please/update";
 		   
    }
-   
-   
    
    @PostMapping("/update")
    public String updateProc(

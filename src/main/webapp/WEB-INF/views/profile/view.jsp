@@ -588,6 +588,22 @@ $(function(){
     border: 1px solid rgb(255,83,63);
     margin-left: 10px;
 }
+
+.board-link {
+    cursor: pointer; /* 커서 모양 변경 */
+}
+.board-link:hover {
+    color: orange; /* 마우스 오버 시 텍스트 색상 변경 */
+}
+
+.comment-link {
+    cursor: pointer; /* 커서 모양 변경 */
+}
+.comment-link:hover {
+    color: orange; /* 마우스 오버 시 텍스트 색상 변경 */
+}
+
+
 </style>
 
 <div class="container">

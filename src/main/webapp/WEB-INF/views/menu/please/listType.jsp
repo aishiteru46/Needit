@@ -220,6 +220,13 @@ th {
     margin-left: -20px;
     margin-top: 4px;
 }
+
+.link {
+   cursor: pointer; /* 커서 모양 변경 */
+}
+.link:hover {
+   color: orange; /* 마우스 오버 시 텍스트 색상 변경 */
+}
 </style>
 
 <div class="container">
@@ -244,7 +251,7 @@ th {
 
 <!--게시글 검색-->
 <div class="search-container">
-	<form action="/rent/search" method="get" id="searchForm">
+	<form action="/please/search" method="get" id="searchForm">
     <select name="selectSub" id="selectSub" required="required">
     	<option value="" selected disabled hidden>선택&#129047;</option>
     	<option value="title">제목</option>
@@ -322,7 +329,7 @@ th {
 				</td>
 				<td><fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</td>
 				<td><div id="locationBox">${list.LOCATION }</div></td>
-				<td>${list.WRITER_NICK }</td>
+				<td><a href="/profile/yourProfile?boardNo=${list.BOARD_NO }" class="link">${list.WRITER_NICK }</a></td>
 				<td>
 					<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
 					<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" />
