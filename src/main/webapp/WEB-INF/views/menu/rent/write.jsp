@@ -98,7 +98,13 @@ $(document).ready(function() {
 }
 .note-editor.note-airframe .note-editing-area, .note-editor.note-frame .note-editing-area {
     overflow: hidden;
-    height: 500px;
+    height: 700px;
+}
+.note-editor.note-airframe .note-editing-area .note-editable, .note-editor.note-frame .note-editing-area .note-editable {
+    padding: 10px;
+    overflow: auto;
+    word-wrap: break-word;
+    height: 700px;
 }
 </style>
 
