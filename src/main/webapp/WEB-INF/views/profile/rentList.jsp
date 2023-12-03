@@ -163,6 +163,9 @@ $(function(){
 	color: white;
 	text-align: center;
 }
+.rentTable td{
+	text-align: center;
+}
 /* 목록 테이블 둥글게 */
 .rentTable{
 	border-radius: 5px;
@@ -443,7 +446,7 @@ $(function(){
          <td><div style="color: blue;">완료</div></td>
       </c:if>
       <c:if test="${list.RENT_STATUS eq 0 }">
-         <td><div style="color: red; margin-left: 12px;">승인불가</div></td>
+         <td><div style="color: red;">승인불가</div></td>
       </c:if>
 
       <!-- 취소 여부 -->
@@ -508,8 +511,6 @@ $(function(){
       <td>${list.RENT_NO }</td>
       <td>${list.BOARD_NO }</td>
       <td>${list.MERCHANT_UID }</td>
-<%--       <td>${list.CURRENT_TIME }</td> --%>
-<%--       <td>${list.RENT_DATE }</td> --%>
       <td>${list.CURRENT_TIME }</td>
       <td>${list.RENT_DATE }</td>
 

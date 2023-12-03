@@ -104,6 +104,9 @@
    color: white;
    text-align: center;
 }
+.rentTable td{
+	text-align: center;
+}
 /* 목록 테이블 둥글게 */
 .rentTable{
    border-radius: 5px;
@@ -291,7 +294,7 @@
 <c:forEach items="${basketList }" var="basketList" begin="0" end="10">
    <tr>
       <td>${basketList.BOARD_NO }</td>
-      <td>
+      <td style="text-align: left;">
          <c:choose>
                <c:when test="${basketList.MENU eq 1}">
                    <a href="/rent/view?boardNo=${basketList.BOARD_NO}">${basketList.TITLE }</a>

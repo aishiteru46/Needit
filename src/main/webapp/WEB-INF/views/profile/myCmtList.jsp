@@ -4,6 +4,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+<style>
+.rentTable td{
+	text-align: center;
+}
+
+</style>
+
+
 <table id="commentTable" class="rentTable">
 <tr>
    <th>No.</th>
@@ -15,7 +23,7 @@
 <c:forEach items="${comment }" var="comment" begin="0" end="10">
    <tr>
       <td>${comment.CMT_NO }</td>
-      <td>
+      <td style="text-align: left;">
          <c:choose>
                <c:when test="${comment.MENU eq 1}">
                    <a href="/rent/view?boardNo=${comment.BOARD_NO}" class="comment-link">${comment.CONTENT }</a>
