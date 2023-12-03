@@ -40,38 +40,31 @@ var phone = params.get('phone');
 var socialname = params.get('name');
 var nick = params.get('nick');
 
-console.log(email);
-console.log(document.getElementById("gender"));
-
-// 얻은 값들을 출력하거나 다른 곳에 사용할 수 있습니다.
-
-
 
 //주소입력
-	var idCheck = false;
-	var pwCheck = false;
-	var nickCheck = false;
-	var email = false;
-	var nameCheck = false;
-	var phoneCheck = false;
-	var birthCheck = false;
-	var addrCheck = false;
+var idCheck = false;
+var pwCheck = false;
+var nickCheck = false;
+var email = false;
+var nameCheck = false;
+var phoneCheck = false;
+var birthCheck = false;
+var addrCheck = false;
 	
 function sample5_execDaumPostcode() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                var addr = data.address; // 최종 주소 변수
-
-                // 주소 정보를 해당 필드에 넣는다.
-                document.getElementById("sample5_address").value = addr;
-                // 주소로 상세 정보를 검색
-
-            	// 주소창에 포커스 이동
-		    	document.getElementById("sample5_address").focus();
-        	  	addrCheck = true;
-            }
-        }).open();
-    }
+	 new daum.Postcode({
+	     oncomplete: function(data) {
+	         var addr = data.address; // 최종 주소 변수
+	
+	         // 주소 정보를 해당 필드에 넣는다.
+	         document.getElementById("sample5_address").value = addr;
+	
+	     	// 주소창에 포커스 이동
+			document.getElementById("sample5_address").focus();
+	 	  	addrCheck = true;
+	     }
+	 }).open();
+}
 
 //이메일 작성
 let code = "";     //이메일 인증 저장위한 코드
@@ -104,8 +97,6 @@ function sendEmail() {
 
 $(document).ready(function() {
 	
-	
-
 	//ID 중복 확인
 	//id를 입력할 수 있는 input text 영역을 벗어나면 동작한다.
 	$("#id").on("input focusin focusout", function() {
@@ -147,6 +138,7 @@ $(document).ready(function() {
     		}
     	}); //End Ajax
 	});
+	
 	//닉네임 중복확인
 	$("#nick").on("input focusin focusout", function() {
 		
@@ -184,6 +176,7 @@ $(document).ready(function() {
     		}
     	}); //End Ajax
 	});
+	
     // 비밀번호 일치 여부 확인
     $("#pw1").on("input focusin focusout",function(){
     	var password1 = $("#pw1").val();
@@ -200,11 +193,11 @@ $(document).ready(function() {
   			pwCheck = true;
   		}
     })
+    
     $("#pw2").on("input",function() {
     	password1 = $("#pw1").val();
         var password2 = $(this).val();
       
-    	console.log(pwCheck);
 	        if (password1 === password2 && !password1 == '') {
 	            $("#label4").css("display", "block").css("color", "green").text("비밀번호가 일치합니다!");
 	 			pwCheck = true;
@@ -215,10 +208,10 @@ $(document).ready(function() {
 
         
     });
+    
     //이메일 전송
     $("#codeInput").on("input focusout focusin", function() {
     	
-    	console.log(code);
     	if(code == $("#codeInput").val()) { //인증번호 같다면
     		$("#codecheck_blank").css("color", "green");
     		$("#codecheck_blank").text("인증되었습니다.");
@@ -283,12 +276,9 @@ $(document).ready(function() {
     	}
     });   
     
-     
-    
     // 최종 확인
     $("#needit1").click(function() {
     	
-    	console.log(email,idCheck,pwCheck,nickCheck, nameCheck, phoneCheck, birthCheck, addrCheck);
         if (email && idCheck && pwCheck && nickCheck && nameCheck && phoneCheck && birthCheck && addrCheck) { // 이메일이 인증되었는지 확인
        
             alert("회원가입이 완료되었습니다!");
@@ -300,9 +290,6 @@ $(document).ready(function() {
 
     });
 });
-
-
-
 
 </script>
 <style type="text/css">
@@ -337,85 +324,85 @@ form {
 <div class="col-7 mx-auto my-5 ">
 
 <form action="./signup" method="post"  class="card shadow-lg position-absolute top-50 start-50 translate-middle form-signin" >
-<a href="/main"><img class="mb-3 mx-auto d-block" src="../resources/img/needit..png" width="300" height="70" ></a>
-<span class="float-start" style="font-size: 15px">* : 필수입력사항</span>
-<div class="clearfix"></div>
-
-<div class="form-floating">
-	<div class="row">
-  		<div class="col">
-  		
-  			<div class="position-relative">
-  			<label class="fs-3 fw-bold">*아이디</label>
-   	 		<span class="position-absolute top-50 end-0 translate-middle-y" id="label1" style="font-size: 15px;"></span>
-  			</div>
-   	 		<input type="text" class="form-control form-control-lg mb-3" name="id" id="id" placeholder="아이디를 입력해주세요" required="required">
-   	 		<span  id="idLimit" style="font-size: 13px;"></span>
-   	 		<div class="position-relative">
-  			<label class="fs-3 fw-bold">*비밀번호</label>
-  			<span class="position-absolute top-50 end-0 translate-middle-y" id="label2" style="font-size: 15px;"></span>
-   	 		</div>
-    		<input type="password" class="form-control form-control-lg mb-3" id="pw1" name="pw" placeholder="비밀번호를 입력해주세요" required="required">
-   	 		<span  id="pwLimit" style="font-size: 15px;"></span>
-    		
-    		<div class="position-relative">
-  			<label class="fs-3 fw-bold">*비밀번호 확인</label>
-    		<span class="position-absolute top-50 end-0 translate-middle-y" id="label4" style="font-size: 15px;"></span>
-    		</div>
-    		<input type="password" class="form-control form-control-lg mb-3" id="pw2" placeholder="비밀번호를 입력해주세요" required="required">
-    		
-  			<label class="fs-3 fw-bold">*생년월일</label>
-    		<input type="date" class="form-control form-control-lg mb-3" id="birth" name="birth" required="required">
-    		
-   	 		<div class="position-relative">
-  			<label class="fs-3 fw-bold">*주소</label> 
-  			<input class="btn mb-2 position-absolute top-50 end-0 translate-middle-y" id="needit"type="button" onclick="sample5_execDaumPostcode()" value="우편번호 찾기">
-  			</div>
-  			<input type="text" class="form-control form-control-lg mb-3" name="addr1" placeholder="주소을 입력해주세요" id="sample5_address" required="required">
-    		
-    		<label class="fs-3 fw-bold">상세주소</label>
-    		<input type="text" class="form-control form-control-lg mb-3" name="addr2" placeholder="상세주소 입력">
-   	 		
-  		</div>
-  		
-  		<div class="col">
-  		
-    		<label class="fs-3 fw-bold">성별</label>
-    		<select name="gender"  class="form-select form-select-lg mb-3" id="gender" >
-			    <option value="E">기타</option>
-	    		<option value="M">남자</option>
-			   	<option value="F">여자</option>
-			</select>
-  			<label class="fs-3 fw-bold">*이름</label>
-    		<input type="text" class="form-control form-control-lg mb-3" id="name" name="name" placeholder="이름을 입력해주세요" required="required">
-    		
-    		<div class="position-relative">
-  			<label class="fs-3 fw-bold">*닉네임</label>
-  			<span class="position-absolute top-50 end-0 translate-middle-y" id="label3" style="font-size: 15px;"></span>
-    		</div>
-    		<input type="text" class="form-control form-control-lg mb-3" id="nick" name="nick" placeholder="닉네임을 입력해주세요"  required="required">
-   	 		<span  id="nickLimit" style="font-size: 15px;"></span>
-  			
-  			<label class="fs-3 fw-bold">*전화번호</label>
-    		<input type="text" class="form-control form-control-lg mb-3" id="phone" name="phone" placeholder="전화번호를 입력해주세요" >
-    		
-    		<div class="position-relative">
-    		<label class="fs-3 fw-bold">*이메일</label>  <input type="checkbox" id="emailAgr" name="emailAgr" value="1">이메일 수신 동의
-    		<input id="needit" class=" position-absolute top-50 end-0 translate-middle-y btn btn-danger" type="button" value="인증코드 발송" onclick="sendEmail()">
-    		</div>
-   	 		<input type="text" class="form-control form-control-lg mb-3" name="email" id="email" placeholder="이메일을 입력해주세요" required="required">
-   	 		
-  			<div class="position-relative">
-  			<label class="fs-3 fw-bold">*인증번호</label>
-  			<span class="position-absolute top-50 end-0 translate-middle-y" id="codecheck_blank" style="font-size: 15px;"></span>
-    		</div>
-			<input  type="text" class="form-control form-control-lg mb-3" id="codeInput" placeholder="인증번호 입력"  required="required" disabled="disabled">
-  		</div>
-  		
-	</div>
-</div>
-
+	<a href="/main"><img class="mb-3 mx-auto d-block" src="../resources/img/needit..png" width="300" height="70" ></a>
+	<span class="float-start" style="font-size: 15px">* : 필수입력사항</span>
+	<div class="clearfix"></div>
 	
+	<div class="form-floating">
+		<div class="row">
+	  		<div class="col">
+	  		
+	  			<div class="position-relative">
+	  			<label class="fs-3 fw-bold">*아이디</label>
+	   	 		<span class="position-absolute top-50 end-0 translate-middle-y" id="label1" style="font-size: 15px;"></span>
+	  			</div>
+	   	 		<input type="text" class="form-control form-control-lg mb-3" name="id" id="id" placeholder="아이디를 입력해주세요" required="required">
+	   	 		<span  id="idLimit" style="font-size: 13px;"></span>
+	   	 		<div class="position-relative">
+	  			<label class="fs-3 fw-bold">*비밀번호</label>
+	  			<span class="position-absolute top-50 end-0 translate-middle-y" id="label2" style="font-size: 15px;"></span>
+	   	 		</div>
+	    		<input type="password" class="form-control form-control-lg mb-3" id="pw1" name="pw" placeholder="비밀번호를 입력해주세요" required="required">
+	   	 		<span  id="pwLimit" style="font-size: 15px;"></span>
+	    		
+	    		<div class="position-relative">
+	  			<label class="fs-3 fw-bold">*비밀번호 확인</label>
+	    		<span class="position-absolute top-50 end-0 translate-middle-y" id="label4" style="font-size: 15px;"></span>
+	    		</div>
+	    		<input type="password" class="form-control form-control-lg mb-3" id="pw2" placeholder="비밀번호를 입력해주세요" required="required">
+	    		
+	  			<label class="fs-3 fw-bold">*생년월일</label>
+	    		<input type="date" class="form-control form-control-lg mb-3" id="birth" name="birth" required="required">
+	    		
+	   	 		<div class="position-relative">
+	  			<label class="fs-3 fw-bold">*주소</label> 
+	  			<input class="btn mb-2 position-absolute top-50 end-0 translate-middle-y" id="needit"type="button" onclick="sample5_execDaumPostcode()" value="우편번호 찾기">
+	  			</div>
+	  			<input type="text" class="form-control form-control-lg mb-3" name="addr1" placeholder="주소을 입력해주세요" id="sample5_address" required="required">
+	    		
+	    		<label class="fs-3 fw-bold">상세주소</label>
+	    		<input type="text" class="form-control form-control-lg mb-3" name="addr2" placeholder="상세주소 입력">
+	   	 		
+	  		</div>
+	  		
+	  		<div class="col">
+	  		
+	    		<label class="fs-3 fw-bold">성별</label>
+	    		<select name="gender"  class="form-select form-select-lg mb-3" id="gender" >
+				    <option value="E">기타</option>
+		    		<option value="M">남자</option>
+				   	<option value="F">여자</option>
+				</select>
+	  			<label class="fs-3 fw-bold">*이름</label>
+	    		<input type="text" class="form-control form-control-lg mb-3" id="name" name="name" placeholder="이름을 입력해주세요" required="required">
+	    		
+	    		<div class="position-relative">
+	  			<label class="fs-3 fw-bold">*닉네임</label>
+	  			<span class="position-absolute top-50 end-0 translate-middle-y" id="label3" style="font-size: 15px;"></span>
+	    		</div>
+	    		<input type="text" class="form-control form-control-lg mb-3" id="nick" name="nick" placeholder="닉네임을 입력해주세요"  required="required">
+	   	 		<span  id="nickLimit" style="font-size: 15px;"></span>
+	  			
+	  			<label class="fs-3 fw-bold">*전화번호</label>
+	    		<input type="text" class="form-control form-control-lg mb-3" id="phone" name="phone" placeholder="전화번호를 입력해주세요" >
+	    		
+	    		<div class="position-relative">
+	    		<label class="fs-3 fw-bold">*이메일</label>  <input type="checkbox" id="emailAgr" name="emailAgr" value="1">이메일 수신 동의
+	    		<input id="needit" class=" position-absolute top-50 end-0 translate-middle-y btn btn-danger" type="button" value="인증코드 발송" onclick="sendEmail()">
+	    		</div>
+	   	 		<input type="text" class="form-control form-control-lg mb-3" name="email" id="email" placeholder="이메일을 입력해주세요" required="required">
+	   	 		
+	  			<div class="position-relative">
+	  			<label class="fs-3 fw-bold">*인증번호</label>
+	  			<span class="position-absolute top-50 end-0 translate-middle-y" id="codecheck_blank" style="font-size: 15px;"></span>
+	    		</div>
+				<input  type="text" class="form-control form-control-lg mb-3" id="codeInput" placeholder="인증번호 입력"  required="required" disabled="disabled">
+	  		</div>
+	  		
+		</div>
+	</div>
+	
+		
 	<div>
 	<button id="needit"class=" col-12 btn btn-danger btn-lg" >회원가입</button>
 	

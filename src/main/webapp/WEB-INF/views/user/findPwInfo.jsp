@@ -57,7 +57,6 @@ $(document).ready(function() {
 </script>
 <style type="text/css">
 html {
-/* 	background-color: #ff533f; */
  	background-size : cover; 
 	background-image: url('../resources/img/3.jpg') ;  
 }
@@ -103,15 +102,14 @@ html {
 </head>
 <body>
 
-
 <img class="logo top-50 start-50" src="/resources/img/needit01.png" width="300" height="60" >
 <div class="card shadow-lg position-absolute top-50 start-50">
 
- <h2>비밀번호 변경</h2>
-    <c:if test="${empty id}">
-        <p>일치하는 아이디가 없습니다.</p>
-        <a href="/main" id="needit"class="col-4 btn btn-danger" style="margin-right: 10px">메인으로</a>
-    </c:if>
+<h2>비밀번호 변경</h2>
+	<c:if test="${empty id}">
+		<p>일치하는 아이디가 없습니다.</p>
+		<a href="/main" id="needit"class="col-4 btn btn-danger" style="margin-right: 10px">메인으로</a>
+	</c:if>
 
 <form action="/user/findPwInfo"  method="post" >
     <c:if test="${not empty id}">
