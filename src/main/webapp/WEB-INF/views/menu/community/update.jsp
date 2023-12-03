@@ -41,13 +41,20 @@
 }
 
 .note-editor .note-toolbar .note-dropdown-menu, .note-popover .popover-content .note-dropdown-menu {
-    font-size: 16px;
+    font-size: 16px; 
     text-align: left;
     min-width: 160px;
 }
 .note-editor.note-airframe .note-editing-area, .note-editor.note-frame .note-editing-area {
     overflow: hidden;
-    height: 500px;
+    height: 700px;
+}
+
+.note-editor.note-airframe .note-editing-area .note-editable, .note-editor.note-frame .note-editing-area .note-editable {
+    padding: 10px;
+    overflow: auto;
+    word-wrap: break-word;
+    height: 700px;
 }
 
 #btnWrite {

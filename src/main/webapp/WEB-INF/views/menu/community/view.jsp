@@ -160,6 +160,8 @@ a:hover {
 	text-decoration: none;
 	color: #ff533f;
 }
+
+.viewFile { width: 100%; height: 35px; margin: 0 auto;border: 1px solid #ccc; border-radius: 10px;}
 </style>
 
 <%-- 추천, 댓글 --%>
@@ -510,6 +512,20 @@ function sendNofiLike() {
 			</c:if>
 		</div><!-- .viewNick -->
 		<div class="viewContent">${board.content }</div><!-- .viewContent  -->
+		   <div class="viewFile">
+       <div id="Download" style="float: left; margin: 1px 0 1px 10px;"> Downloads :</div>
+	       <span style="margin: 0; float: left;">
+	          <c:if test="${not empty fileTb }">
+	          <c:forEach var="file" items="${fileTb }">
+	             <a class="file bi bi-paperclip" href="./download?fileNo=${file.fileNo }">${file.originName }</a><br>
+	          </c:forEach>
+	          </c:if>
+	          <c:if test="${empty fileTb }">
+	             <span>첨부된 파일이 없습니다.</span>
+	          </c:if>
+	       </span>
+	    </div><!-- #Download -->
+	    <div style="clear: both;"></div>
 		<div class="viewLike">
 			<c:if test="${isLogin }">
 				<div class="btn" id="btnLike">
