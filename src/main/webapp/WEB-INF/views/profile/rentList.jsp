@@ -329,6 +329,21 @@ $(function(){
     font-weight: bold;
 }
 
+.cancelBtn{
+	border: none;
+	border-radius: 5px;
+    margin-left: 4px;
+
+}
+#confirmBtn{
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: normal;
+    width: 77px;
+    height: 37px;
+	margin-left: 6px;
+}
 </style>
 
 <!-- 마이프로필 버튼 -->
@@ -428,7 +443,7 @@ $(function(){
          <td><div style="color: blue;">완료</div></td>
       </c:if>
       <c:if test="${list.RENT_STATUS eq 0 }">
-         <td><div style="color: red;">승인 불가</div></td>
+         <td><div style="color: red; margin-left: 12px;">승인불가</div></td>
       </c:if>
 
       <!-- 취소 여부 -->

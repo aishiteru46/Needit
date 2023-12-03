@@ -648,7 +648,6 @@ $(document).ready(function(){
               <div class="paymentContainer">
                   <select name="paymentType" id="paymentType">
                      <option value="" selected disabled hidden>결제 방법을 선택하세요</option>
-                     <option value="1">온라인결제</option>
                      <option value="0">직접결제</option>
                   </select>
             </div><!-- .paymentContainer -->
