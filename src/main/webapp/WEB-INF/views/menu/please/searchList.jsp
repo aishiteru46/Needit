@@ -353,7 +353,7 @@ $(()=>{
 
 <%-- 게시글 검색 --%>
 <div class="search-container">
-	<form id="searchForm" action="/rent/search" method="get">
+	<form id="searchForm" action="/please/search" method="get">
     <select name="selectSub" id="selectSub" required="required">
     	<option value="" selected disabled hidden>선택&#9660;</option>
     	<option value="title">제목</option>
@@ -417,7 +417,7 @@ $(()=>{
             </c:if>
 	        
 	        <div class="no">Title.</div>
-	        <a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE }</div></a>
+	        <a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE } <span style="color: black; font-size: 0.8em;">[${list.cmtCnt}]</span></div></a>
         <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>
         <div id="write-conatiner-hit">👀  ${list.HIT}</div>
         </div><!-- .write-container-head -->
