@@ -50,35 +50,6 @@
     height: 500px;
 }
 
-#thumbnailBox{
-    outline: 1px solid #ccc;
-    width: 300px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-}
-#thumbnailBox img {
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-}
-#thumbnail_container{
-    margin-top: 42px;
-    position: absolute;
-    outline: 1px solid #ccc;
-    width: 300px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center center;
-}
 #btnWrite {
 	border: none;
 	border-radius: 5px;
@@ -138,20 +109,6 @@ $(() => {
    })
 })
 
-//썸네일 미리보기
-function setThumbnail(event) {
-	
-	$("#defaultImg").css("display", "none")
-    var reader = new FileReader();
-
-    reader.onload = function (event) {
-        var thumbnailContainer = document.querySelector("#thumbnail_container");
-        thumbnailContainer.style.backgroundImage = "url('" + event.target.result + "')";
-    };
-
-    reader.readAsDataURL(event.target.files[0]);
-}// .setThumbnail() End
-
 </script>
 
 <div class="container">
@@ -169,23 +126,6 @@ function setThumbnail(event) {
    <label class="form-label" for="title">제목 수정</label>
    <input type="text" class="form-control" name="title" id="title" value="${updateBoard.title }">
 </div>
-
-<div style="margin-top:15px;"></div>
-<div id="thumbnail_container"></div>
-<div class="form-group mb-1">
-   <label class="form-label" for="thumbnailFile">썸네일 수정</label>
-   <input type="file" class="form-control form-control-user" name="file" id="thumbnailFile" onchange="setThumbnail(event);" 
-   	style="width:500px; margin-top:-38px; margin-left:310px; width:500px;position: absolute;margin-top: 267px;">
-</div>
-<div id="thumbnailBox">
-    <c:if test="${not empty boardfile and not empty boardfile[0]}">
-        <img id="defaultImg" src="/upload/${boardfile[0].thumbnailName}"/>
-    </c:if>
-    <c:if test="${empty boardfile[0]}">
-        <img id="defaultImg" src="/resources/img/noimg.png"/>
-    </c:if>
-</div>
-<div style="margin-top:15px;"></div>
 
 <div id="newFile">
 	<div class="form-group mb-3">
