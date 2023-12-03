@@ -10,9 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import web.dto.Board;
 import web.service.face.MapService;
+import web.util.Paging;
 
 @Controller
 public class MapController {
@@ -37,6 +39,15 @@ public class MapController {
 		
 		String thumbNail = mapService.getThumb( boardNo );
 		model.addAttribute( "thumbNail", thumbNail );
+		return "jsonView";
+	}
+	
+	@PostMapping("/map/search")
+	public String search( Paging search, Model model) {
+		logger.info("search : {}", search);
+		List<List<Board>> board = mapService.search( search );
+		model.addAttribute("board", board);
+		
 		return "jsonView";
 	}
 }

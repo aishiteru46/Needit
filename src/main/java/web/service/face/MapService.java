@@ -3,6 +3,7 @@ package web.service.face;
 import java.util.List;
 
 import web.dto.Board;
+import web.util.Paging;
 
 public interface MapService {
 	
@@ -17,5 +18,7 @@ public interface MapService {
 	public List<List<Board>> list();
 
 	public String getThumb(int boardNo);
+
+	public List<List<Board>> search( Paging search );
 
 }

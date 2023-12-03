@@ -20,4 +20,18 @@
 		</where>
 	</select>
 	
+<select id="selectBySearch" parameterType="web.util.Paging" resultType="Board" >
+    SELECT board_no, menu, cate, title, price, location
+    FROM board 
+    <where>
+        <if test='selectSub =="title"'>
+            AND title LIKE '%' || #{searchText} || '%'
+        </if>
+        <if test='selectSub =="location"'> 
+            AND location LIKE '%' || #{searchText} || '%'
+        </if>
+    </where>
+</select>
+	
+	
 </mapper>
