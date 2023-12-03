@@ -214,6 +214,17 @@ public interface MenuPleaseService {
 	public User writeAddrSelect(User user);
 
 
+
+
+
+	/**
+	 * 게시글마다 댓글수카운트
+	 * @param boardNo
+	 * @return
+	 */
+	public int getCmtCnt(String boardNo);
+
+
 //	/** 
 //	 * 대여상태 조회
 //	 * @param board

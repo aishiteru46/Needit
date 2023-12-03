@@ -11,8 +11,6 @@
 <%-- 검색버튼 동적CSS --%>
 <script type="text/javascript">
 $(()=>{
-	
-    <%-- 검색버튼 CSS적용 --%>
 	$("#searchBtn").mouseover(function(){
 		$("#searchBtn")	
 			.css("color", "white")
@@ -24,6 +22,7 @@ $(()=>{
         .css("background-color", "")
         .text("Search");
 	});
+	
 	
 	$(".star").click(function(){
 		console.log("찜 클릭됨!");
@@ -43,9 +42,9 @@ $(()=>{
               type: "post"
               , url: "/please/basket"
               , data: {
-	              boardNo : boardNo
-	              , menu : menu
-	              , cate : cate
+					boardNo : boardNo
+					, menu : menu
+					, cate : cate
               }
               , dataType: "json"
               , success: function( res ) {
@@ -71,7 +70,6 @@ $(()=>{
               
            })
        });
-	
 
 });
 </script>
@@ -222,7 +220,6 @@ $(()=>{
 
 .pagination {
 	margin-bottom: 50px;
-   	margin-left: 100px; 
     --bs-pagination-active-bg: #ff533f;
     --bs-pagination-color: #373b3e;
 	--bs-pagination-active-border-color: #ff533f;  
@@ -245,10 +242,10 @@ $(()=>{
 	font-size: 13px;
 	margin: 2px;
 }
-/* #searchBtn:hover { */
-/* 	color: white; */
-/* 	background-color: rgb(255,83,63); */
-/* } */
+#searchBtn:hover {
+	color: white;
+	background-color: rgb(255,83,63);
+}
 #searchBtn {
 	float: right;
     height: 20px;
@@ -273,8 +270,8 @@ $(()=>{
     position: relative;
     margin-right: -8.5px;
     appearance: none;
-	-webkit-appearance: none;
- 	-moz-appearance: none;
+	-webkit-appearance: none; 
+ 	-moz-appearance: none; 
 }
 #selectSub:focus
 ,#searchText:focus {
@@ -298,48 +295,65 @@ $(()=>{
 }
 
 .heart {
-	float: right;
-	position: absolute;
-	display: inline-block;
-	margin-top: 333px;
-	margin-left: 135px;
+   float: right;
+    position: absolute;
+    display: inline-block;
+    margin-top: 333px;
+    margin-left: 135px;
    
 }
 .star {
-	width: 30px;
-	height: 30px;
-	margin-left: 106px;
-	margin-bottom: 8px;
-	cursor: pointer;
+   width: 30px;
+   height: 30px;
+   margin-left: 106px;
+   margin-bottom: 8px;
+   cursor: pointer;
 }
 </style>
 
 <div class="container">
 
+<%-- 검색전 메뉴표시 --%>
 <c:forEach  var="list" items="${list }" begin="0" end="0">
 	<c:if test="${list.MENU eq '3' && list.CATE eq '1' }">
-		<div id="rentText1"> 해주세요
-			<div id="rentText2">[물품]</div> 
-<!-- 			<img src="/resources/img/borrowIcon.png" style="width: 45px; height: 45px; margin-top: -28px;"></div> -->
+		<div id="rentText1"> 해주세요 
+			<div id="rentText2">[물품]</div>
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '3' && list.CATE eq '2' }">
 		<div id="rentText1"> 해주세요
 			<div id="rentText2">[인력]</div>
-<!-- 			<img src="/resources/img/humanpower.png" style="width: 45px; height: 45px; margin-top: -28px;"></div> -->
 		</div>
 	</c:if>
 	<c:if test="${list.MENU eq '3' && list.CATE eq '3' }">
 		<div id="rentText1"> 해주세요
-			<div id="rentText2">[공간]</div> 
-<!-- 			<img src="/resources/img/place.png" style="width: 45px; height: 45px; margin-top: -26px;"></div> -->
+			<div id="rentText2">[공간]</div>
 		</div>
 	</c:if>
 </c:forEach>
 
-<!--게시글 검색-->
+<%-- 검색후 메뉴표시 --%>
+<c:if test="${empty list }">
+	<c:if test="${param.menu eq '3' && param.cate eq '1' }">
+		<div id="rentText1"> 해주세요
+			<div id="rentText2">[물품]</div>
+		</div>
+	</c:if>
+	<c:if test="${param.menu eq '3' && param.cate eq '2' }">
+		<div id="rentText1"> 해주세요
+			<div id="rentText2">[인력]</div>
+		</div>
+	</c:if>
+	<c:if test="${param.menu eq '3' && param.cate eq '3' }">
+		<div id="rentText1"> 해주세요
+			<div id="rentText2">[공간]</div>
+		</div>
+	</c:if>
+</c:if>
+
+<%-- 게시글 검색 --%>
 <div class="search-container">
-	<form action="/please/search" method="get" id="searchForm">
+	<form id="searchForm" action="/rent/search" method="get">
     <select name="selectSub" id="selectSub" required="required">
     	<option value="" selected disabled hidden>선택&#9660;</option>
     	<option value="title">제목</option>
@@ -353,27 +367,38 @@ $(()=>{
     	oninput="this.setCustomValidity('')">
     <input type="hidden" name="menu" value="${param.menu }">
     <input type="hidden" name="cate" value="${param.cate }">
-    <button type="submit" id="searchBtn">Search</button>
+    <button id="searchBtn">Search</button>
     </form>
 </div>
 
 <div class="write">
 
-	<!-- 그리드타입,리스트타입 선택 -->
+	<%-- 그리드타입,리스트타입 선택 --%>
 	<div id="viewType">
-		<a type="button" href="/please/list?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
-		<a type="button" href="/please/listType?menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
+		<a type="button" href="/please/search?selectSub=${param.selectSub}&searchText=${param.searchText}&menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/girdtype.png" style="width: 40px; height: 40px;"></a>
+		<a type="button" href="/please/searchType?selectSub=${param.selectSub}&searchText=${param.searchText}&menu=${param.menu}&cate=${param.cate}"><img src="/resources/img/listtype2.png" style="width: 32px; height: 40px;"></a>
 	</div>
-	
+
 	<c:if test="${not empty isLogin and isLogin }">
 		<a class="btn" href="/please/write?menu=${param.menu }&cate=${param.cate }">✍️글쓰기</a>
 	</c:if>
 	<c:if test="${empty isLogin and not isLogin }">
 		<a class="btn" href=""  data-bs-toggle="modal" data-bs-target="#exampleModal">✍️글쓰기</a>
 	</c:if>
-	
+
 </div>
 
+<%-- 검색 결과 없음표시 --%>
+<c:if test="${empty list }">
+<div class="gridContainer">
+	<div style="text-align: center; font-size: 20px; margin: 125px 0;">
+		검색된 내용이 없습니다.
+	</div>
+</div>
+</c:if>
+
+<%-- 검색 결과 --%>
+<c:if test="${not empty list }">
 <div class="gridContainer">
 
 <c:forEach items="${list}" var="list" varStatus="loop">
@@ -382,22 +407,21 @@ $(()=>{
   </c:if>
   	
     <div class="write-container">
-    	<div class="write-container-head">
-    	
-    		<c:if test="${list.BASKET_STATUS eq 1}">
+ 		<div class="write-container-head">
+<%-- 	        <div class="no">no.${list.BOARD_NO}</div> --%>
+	        <c:if test="${list.BASKET_STATUS eq 1}">
                 <span class="heart"><img class="star a" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/star.png"></span>
             </c:if>
             <c:if test="${list.BASKET_STATUS eq 0}">
                 <span class="heart"><img class="star b" id="star${list.BOARD_NO}+${list.MENU}+${list.CATE}"src="/resources/img/emptyStar.png"></span>
             </c:if>
-    	
-    	
-        	<div class="no">Title.</div>
-        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><h6 class="title">${list.TITLE } <span style="color: black; font-size: 0.8em;">[${list.cmtCnt}]</span></h6></a>
+	        
+	        <div class="no">Title.</div>
+	        <a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE }</div></a>
         <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>
-        <div id="write-conatiner-hit">👀  ${list.HIT}</div> 
+        <div id="write-conatiner-hit">👀  ${list.HIT}</div>
         </div><!-- .write-container-head -->
-        <hr id="pleaseListHr">
+        <hr id="rentListHr">
         <c:if test="${ not empty list.THUMBNAIL_NAME  }">
 	        <div>
 	        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/upload/${list.THUMBNAIL_NAME}"/></a>
@@ -408,10 +432,10 @@ $(()=>{
 	        	<a href="/please/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><img class="preview" src="/resources/img/noimg.png"/></a>
 	        </div>
         </c:if>
-        <hr id="pleaseListHr">
+        <hr id="rentListHr">
         <div id="write-conatiner-nick"><div id="nickIcon">✍️</div>${list.WRITER_NICK }</div>
         <div id="write-conatiner-time">🕟
-            <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
+            <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" /> 
             <fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" /> 
             <c:choose> 
                 <c:when test="${writeDate lt curDate }"> 
@@ -420,11 +444,11 @@ $(()=>{
                 <c:otherwise> 
                     <fmt:formatDate value="${list.WRITE_DATE }" pattern="HH:mm" /> 
                 </c:otherwise> 
-            </c:choose>
-        </div><!-- #write-conatiner-time -->                    
-       	<div id="write-conatiner-price">💸<fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</div>
-      	
-   	    <div id="write-conatiner-loc" ><i style="color: rgb(255,83,63)" class="bi bi-geo-alt-fill"></i>${list.LOCATION } </div>
+            </c:choose>                    
+        </div><!-- #write-conatiner-time -->
+        <div id="write-conatiner-price">💸<fmt:formatNumber value="${list.PRICE}" pattern="#,###" />원</div>
+        
+        <div id="write-conatiner-loc" ><i style="color: rgb(255,83,63)" class="bi bi-geo-alt-fill"></i>${list.LOCATION } </div>
     </div><!-- .write-container -->
     
   <c:if test="${loop.index % 3 == 2 || loop.index + 1 == yourList.size()}">
@@ -432,15 +456,15 @@ $(()=>{
   </c:if>
 </c:forEach>
 
-<small class="float-end" style=" margin-right: 8px; margin-top: -10px; margin-bottom: 20px;">total : ${paging.totalCount }</small>
-
-
-</div> <!-- .container -->
+<small class="float-end" style="margin-right: 8px; margin-top: -10px;">total : ${paging.totalCount }</small>
 
 </div><!-- .gridContainer -->
+</c:if>
+
+</div> <!-- .container -->
 <br>
 
-<c:import url="/WEB-INF/views/layout/pagination.jsp" />
+<c:import url="/WEB-INF/views/layout/paginationSearch.jsp" />
 
 <!-- FOOTER -->
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

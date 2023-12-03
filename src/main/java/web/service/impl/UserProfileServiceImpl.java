@@ -410,12 +410,41 @@ public class UserProfileServiceImpl implements UserProfileService {
 		return userProfileDao.yourBoardList(board);
 	}
 
+	//-------------------------------------------------------------
+	
+	@Override
+	public String yourCmtIdSelect(String cmtNo) {
+		
+		return userProfileDao.selectYourCmtId(cmtNo);
+	}
 
-//	@Override
-//	public String selectYourCmtId(String cmtNo) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+
+	@Override
+	public User yourCmtProfileSelect(String id) {
+		
+		return userProfileDao.selectYourCmtProfile(id);
+	}
+
+
+	@Override
+	public Map<String, Object> yourCmtUrlSelect(User user) {
+		return userProfileDao.selectYourCmtUrl(user);
+	}
+
+
+	@Override
+	public UserFile yourCmtImgSelect(String id) {
+		return userProfileDao.selectYourCmtImg(id);
+	}
+
+
+	@Override
+	public List<Map<String, Object>> yourCmtBoardSelect(Board board) {
+		return userProfileDao.selectYourCmtBoard(board);
+	}
+
+
+
 
 	
 

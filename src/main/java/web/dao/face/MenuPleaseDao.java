@@ -232,18 +232,24 @@ public interface MenuPleaseDao {
 
 
 	/**
-	 * 
+	 * 세션이 회원정보수정전 주소 가져오는것 때문에 추가함
 	 * @param user
 	 * @return
 	 */
 	public User selectWriteAddr(User user);
 
 
+
+
 	/**
-	 * 세션이 회원정보수정전 주소 가져오는것 때문에 추가함
-	 * @param user
+	 * 게시글별 댓글수 카운트
+	 * @param boardNo
 	 * @return
 	 */
+	public int getCntCmt(String boardNo);
+
+
+	
 
 
 	

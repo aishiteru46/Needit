@@ -77,10 +77,36 @@ h6 {
 .table td {
 	vertical-align: middle;
 }
+.comment-nickname {
+    cursor: pointer; /* 커서 모양 변경 */
+}
+.comment-nickname:hover {
+    color: orange; /* 마우스 오버 시 텍스트 색상 변경 */
+}
 </style>
 
 <%-- 추천, 댓글, 대여상태 --%>
 <script type="text/javascript">
+//댓글 신고
+function cmtReport(cmtNo) {
+    var reportOptions = document.getElementById('reportSelect_' + cmtNo);
+    if (reportOptions.style.display === 'none') {
+        reportOptions.style.display = 'block';
+    } else {
+        reportOptions.style.display = 'none';
+    }
+}
+
+//클릭 이벤트 바인딩을 loadComments 함수 밖으로 이동
+$(document).on("click", ".comment-nickname", function () {
+    // 현재 클릭된 댓글의 번호를 가져옴
+    var cmtNo = $(this).closest('.media').find('.cmt-no').text();
+
+    console.log("작동");
+    // 새 창에서 댓글 프로필 페이지로 이동
+    window.open('/profile/yourProfileCmt?cmtNo=' + cmtNo, '_blank');
+});
+
 // 댓글목록 불러오기
 function loadComments() {
 	$.ajax({
@@ -113,6 +139,7 @@ function loadComments() {
 		            
 		            commentListHtml += '<hr>'; 
 		            commentListHtml += '<div class="media mb-4">';
+                    commentListHtml += '  <span class="cmt-no" style="display: none;">' + res.commentList[i].CMT_NO + '</span>'; // 추가 부분
 		            //프로필사진 유무 처리
 		            if( res.commentList[i].THUMBNAIL_NAME != null || res.commentList[i].THUMBNAIL_NAME > 0 ){
 		            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
@@ -122,13 +149,13 @@ function loadComments() {
 		            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
 		            //댓글 작성자 구분 처리                                                                                    
 		            if (commentWriter === boardMaster && commentWriter === nick) { 
-		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+		                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
 		            } else if (commentWriter === nick) {
-		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+		                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
 		            } else if (commentWriter === boardMaster) {
-		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter">작성자</div>' + '</h6>';
+		                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter">작성자</div>' + '</h6>';
 		            } else {
-		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '</h6>';
+		                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '</h6>';
 		            }
 		            //댓글내용
 		            commentListHtml += '    <h5 class="text-start">' + res.commentList[i].CONTENT + '</h5>';
@@ -404,6 +431,10 @@ $(()=>{
 
 <%-- Body --%>
 <div class="container">
+
+<button type="button" style="width: 30px; height: 30px; float: right;" id="report" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#reportModal">
+<div style="width: 25px; height: 25px; margin: -13px -9px;">⚠</div>
+</button>
 
 <c:if test="${isLogin }">
 	<a class="btn btn-primary" href="/message/list?boardNo=${param.boardNo }&menu=${view.menu}&cate=${view.cate}&receiverId=${view.writerId}">채팅하기</a>

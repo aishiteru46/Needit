@@ -376,15 +376,17 @@ $(()=>{
 	         }
 	
 		})
+		var writer = "${board.writerId}";
+		var sender = "${id}";
 		
 		<%-- 본인글에 댓글 입력시 알림x --%>
-		if( ${board.writerId} != ${id} ){
+		if( writer != sender ){
 			$.post( "/alert/sendnotification", { 
 					id: "${board.writerId}"
 			        , sender: "${id }"
 			        , content: 4
-			        , menu: ${param.menu}
-					, boardNo: ${board.boardNo}
+			        , menu: "${param.menu}"
+					, boardNo: "${board.boardNo}"
 			}); // $.post 끝
 		}
 		

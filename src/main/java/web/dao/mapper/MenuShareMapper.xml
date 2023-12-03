@@ -301,9 +301,10 @@
 		</where>
 	</delete>
 	
-	
-	
-	
-	
+	<select id="getCntCmt" resultType="int" parameterType="String" >
+        SELECT count(*)
+        FROM commenttb
+        WHERE board_no = #{boardNo}
+    </select>
 	
 </mapper>

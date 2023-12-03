@@ -304,6 +304,10 @@ public class MenuShareServiceImpl implements MenuShareService{
 		return false; 
 		}
 	}
+	@Override
+	   public int getCmtCnt(String boardNo) {
+	      return menuShareDao.getCntCmt(boardNo);
+	}
 
 	
 

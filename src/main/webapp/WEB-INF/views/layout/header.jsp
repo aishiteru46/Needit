@@ -274,18 +274,9 @@ $(document).ready(function(){
 		        type: "POST",
 		        url: "/user/logout",
 		        success: function(data){
-		            // 현재 페이지 URL을 가져옴
-		            var currentPageUrl = window.location.href;
-		            console.log(currentPageUrl.indexOf("/profile/view"))
-// 		            만약 현재 페이지가 마이페이지라면 메인 페이지로 리다이렉트
-		            if (currentPageUrl.indexOf("/profile/view") !== -1 ||
-		            		currentPageUrl.indexOf("/message/list") !== -1 ||
-		            		currentPageUrl.indexOf("/profile/rentList") !== -1 ||
-		            		currentPageUrl.indexOf("/profile/basket") !== -1) {
-		                window.location.href = "/main";
-		            } else {
-		            	document.location.reload();
-		            }
+		       
+		        	window.location.href = "/main";
+		           
 		        } 
 		    }); // ajax 
 		});
@@ -345,7 +336,7 @@ $(document).ready(function(){
 
 a {
 	text-decoration: none;
-	color: #343a40;
+	color: black;
 }
 
 li {
@@ -409,6 +400,9 @@ nav li {
 	transition: .8s ease;
 	text-transform: uppercase;
 }
+#header .nav ul.gnb li a:hover {
+	color: blue;
+}
 
 #header .nav ul.gnb li ul.sub {
 	position: absolute;
@@ -430,12 +424,13 @@ nav li {
 
 #header .nav ul.gnb:hover li ul.sub {
 	display: block;
-	transform: translateY(0px);
+	color: blue;
 }
 
 #header .nav ul.gnb li{
 	display: inline-block;
 	margin-bottom: 0px;
+
 }
 
 
@@ -713,7 +708,7 @@ nav li {
 					<a href="/profile">마이페이지</a>
 					<a href="/message/list">내 채팅</a>
 					<a href="/profile/rentList ">빌린거/빌려준거</a>
-					<a href="/profile/basket">장바구니</a>
+					<a href="/profile/basket">찜 목록</a>
 					<a href=""id="logout_button">로그아웃</a>
 				</div>
 			</div>
@@ -759,7 +754,7 @@ nav li {
                 
                 <li><label id="needitFont" style="font-size: 28px;">커뮤니티</label>
                      <ul class="sub">
-               			<li><a href="/community/list?menu=4&cate=1">공지사항</a>
+               			<li><a href="/admin/noticeList">공지사항</a>
 						<li><a href="/community/list?menu=4&cate=2">우리동네 소식</a>
 						<li><a href="/community/list?menu=4&cate=3">자유 게시판</a>
 						<li><a href="/community/list?menu=4&cate=4">팁 게시판</a>

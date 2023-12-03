@@ -156,6 +156,100 @@
 .floating{
 	display: none;
 }
+
+.searchMap {
+	width: 400px;
+    padding: 6px;
+    background: #ff533f;
+    position: relative;
+    z-index: 2;
+    top: 45px;
+    left: 5px;
+    border-radius: 9px;
+}
+
+#selectSub {
+    width: 15%;
+    margin-left: 3px;
+    border: none;
+    border-radius: 7px;
+}
+
+#searchText {
+    border: none;
+    border-radius: 10px;
+    height: 25px;
+    width: 65%;
+    padding-left: 10px;
+}
+
+
+#selectBtn {
+	border: none;
+    background: white;
+    color: #ff533f;
+    font-weight: bold;
+    border-radius: 7px;
+    width: 15%;
+}
+
+#selectBtn:hover {
+	transform: scale(1.1);
+	transition: transform 0.3s ease;
+}
+
+#loadingOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.droplet_spinner {
+  display: flex;
+  justify-content: center;
+  margin: 450px;
+}
+
+.droplet_spinner .droplet {
+  width: 15px;
+  height: 15px;
+  margin: 0 5px;
+  
+  background-color: #e14242;
+  border-radius: 50%;
+  transform-origin: center bottom;
+  
+  animation: bounce 1.2s cubic-bezier(0.3, 0.01, 0.4, 1) infinite;
+}
+
+.droplet_spinner .droplet:nth-child(1) {
+  animation-delay: -0.4s;
+}
+
+.droplet_spinner .droplet:nth-child(2) {
+  animation-delay: -0.2s;
+}
+
+.droplet_spinner .droplet:nth-child(3) {
+  animation-delay: 0s;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
 </style>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=1b5f231240cb73d46a6f0aa5b0d4c5e1&libraries=services"></script>
@@ -234,12 +328,21 @@ $(function () {
 	
 	$("#myLoc").on( 'click', function() { moveCenter() }); // #mtLoc 클릭 이벤트 - 내 위치로 이동 펑션
 	
-	
+	// Enter 키를 눌렀을 때 searchText에 입력값이 있으면 searchMap 함수 호출
+	$("#searchText").on('keypress', function(event) {
+	    if (event.which === 13) {
+	        var searchTextValue = $(this).val().trim();
+	        if (searchTextValue !== "") {
+	            searchMap();
+	        }
+	    }
+	});
 	
 }); // jQuery펑션 끝
 
 // ajax로 DB에서 객체(Json) 불러오기
 function loadInfo( circle ) {		
+   showLoading(); // 로딩 화면 표시
 	$.ajax({
 		type: "get" // 보내는 데이터가 없기 때문에 get으로 불러오기만 해도됨
 		, url: "/map/list" // 맵에 띄울 정보 받아올 mapping
@@ -278,9 +381,6 @@ function loadInfo( circle ) {
                         );
 						
 						if ( distance <= circle.getRadius()/1000 ) {
-// 							console.log( '거리', distance )
-// 							console.log( '반지름', circle.getRadius() )
-							
 							var marker = new kakao.maps.Marker({ // KAKAO 마커 생성 객체
 								map: map,
 								position: markerPosition,
@@ -420,6 +520,9 @@ function loadInfo( circle ) {
 			alert('오류가 발생했습니다')
 // 			console.log("AJAX 실패")
 		}
+		, complete: function() {
+			hideLoading(); // AJAX 완료 후 로딩 화면 숨김
+		}
 	})// ajax끝
 	
     // Add mousewheel event handler for the overlay content
@@ -519,11 +622,268 @@ function clearMarkers() {
     markers = [];
 } // clearMarkers() 끝
 
+function searchMap() {
+    clearMarkers(); // 이전 마커를 모두 제거
+	var selectSub = $("#selectSub").val();
+    var searchText = $("#searchText").val();
+    
+    console.log( selectSub )
+    console.log( searchText )
+    
+    latlng = map.getCenter(); 
+    center = new kakao.maps.LatLng( latlng.getLat(), latlng.getLng() )
+    
+	var mapLv = map.getLevel();
+	if( mapLv <= 3 ){ // 현재 지도 레벨에 따른 마커 생성 범위
+		var mapRadius = 2000 // 2km
+	} else if( mapLv == 4 ) {
+		var mapRadius = 3000 // 3km
+	} else if( mapLv == 5 ) {
+		var mapRadius = 4000 // 4km
+	} else if( mapLv == 6) {
+		var mapRadius = 5000 // 5km
+	} else { // mapLv이 7일 때
+		var mapRadius = 6000 // 5km
+	}
+	
+    var circle = new kakao.maps.Circle({
+        center: center,
+        radius: mapRadius, // 반경 2km
+        strokeWeight: 1, // 선 두께
+        strokeColor: '#75B8FA', // 선 색상
+        strokeOpacity: 0,
+        fillColor: '#CFE7FF', // 채우기 색상
+        fillOpacity: 0
+    });
+    
+    circle.setMap(map); // 지도에 원 표시
+    
+    showLoading()
+    
+    $.ajax({
+        type: "POST"
+        ,url: "/map/search"
+        ,data: {
+        	selectSub: selectSub,
+        	searchText: searchText
+        }
+		, success: function( res ){
+			if( res.board.length != 0 ) {
+				$.each(res.board, (idx, val) => {
+					geocoder.addressSearch( val[0].location, ( result, status ) => { // 주소-좌표 변환 객체
+						// 정상적으로 검색이 완료됐으면
+						if (status === kakao.maps.services.Status.OK) {
+							var imageSrc = '/resources/img/marker.png', // 마커이미지의 주소입니다    
+						    imageSize = new kakao.maps.Size(45, 45), // 마커이미지의 크기입니다
+						    imageOption = {offset: new kakao.maps.Point(22, 40)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+							// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+							var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
+							
+							var markerPosition = new kakao.maps.LatLng(result[0].y, result[0].x) // 마커 생성 위치
+								
+							var circleCenter = circle.getPosition();
+		                    // 중심 좌표와 마커 좌표 간의 거리 계산
+		                    var distance = haversineDistance(
+		                   		circleCenter.getLat(),
+		                   		circleCenter.getLng(),
+		                        markerPosition.getLat(),
+		                        markerPosition.getLng()
+		                    );
+							
+							if ( distance <= circle.getRadius()/1000 ) {
+		//							console.log( '거리', distance )
+		//							console.log( '반지름', circle.getRadius() )
+								
+								var marker = new kakao.maps.Marker({ // KAKAO 마커 생성 객체
+									map: map,
+									position: markerPosition,
+									image: markerImage
+								}) // 마커 생성 끝
+								
+						        // 마커 배열에 추가
+						        markers.push(marker);
+								
+								// 오버레이 DIV 설정
+								var $wrap = $('<div class="wrapMap">')
+								
+								// 모든 정보를 감싸는 DIV
+								var $info = $('<div class="info">')
+								
+								var addrLink = 'https://map.kakao.com/link/map/' + val[0].location + ',' + result[0].y  + ',' + result[0].x;
+								// 마커의 위치가 들어갈 부분
+								var $address = $('<div class="address">').text(val[0].location);							
+								// 'X' 닫기 버튼 들어갈 부분 + click fucntion 들어감
+								var $close = $('<div class="close" title="닫기" />').click(closeOverlay)
+								
+								// content에 클릭 이벤트를 추가
+								$address.on('click', function() {
+								    // 링크 이동
+								    window.open(addrLink, '_blank');
+								});
+								
+								// .img와 .desc를 감싸는 DIV
+								var $body = $('<div class="body">')
+							
+								$wrap.append($info);
+								$info.append($address).append($body);
+								$address.append($close);
+								
+							    $info.on('mouseover', function() { // 오버레이에 마우스를 올렸을 때
+							    	map.setZoomable(false); // 맵 확대-축소 기능 끄기
+									$(this).on('wheel', function (e) {  // 오버레이에서 스크롤 할 때
+						                e.preventDefault(); // 기본 스크롤 이벤트 제거
+						                var delta = e.originalEvent.deltaY || e.originalEvent.wheelDelta;
+						                var direction = delta > 0 ? 1 : -1;
+						                var scrollTop = $(this).scrollTop(); // 스크롤 이벤트에 따라 스크롤 위치 변경
+						                $(this).scrollTop(scrollTop + direction * 30); // 몰라잉
+						            }); // 'wheel' 끝
+							    }); // 'mouseover' 끝
+							    
+						        // info 클래스를 가진 div에 마우스 아웃 이벤트 추가
+						        $info.on('mouseout', function () {
+						        	map.setZoomable(true);
+						            $(this).off('wheel');
+						        });
+								
+						$.each(val, (i, v) => { // 같은 주소를 가지는 데이터들의 반복문
+								
+								var number = Number(v.price); // 가격 저장 변수
+								var formattedNumber = number.toLocaleString(); // 가격 format 변수
+								
+								if( v.menu == '1' ) {
+									var link = 'http://localhost:8088/rent/view?boardNo=' + v.boardNo + '&menu=' + v.menu + '&cate=' + v.cate;
+								} else if( v.menu == '2' ) {
+									var link = 'http://localhost:8088/share/view?boardNo=' + v.boardNo + '&menu=' + v.menu + '&cate=' + v.cate;
+								} else if( v.menu == '3' ) {
+									var link = 'http://localhost:8088/please/view?boardNo=' + v.boardNo + '&menu=' + v.menu + '&cate=' + v.cate;
+								} else {
+									var link = 'http://localhost:8088/'; 
+								}
+							
+								var $content = $('<div class="content"><hr>'); // 제목을 제외한 컨텐츠 들어가는 부분
+								var $img = $('<div class="img">'); // 썸네일 들어가는 DIV 부분
+								
+								// content에 클릭 이벤트를 추가
+								$content.on('click', function() {
+								    // 링크 이동
+								    window.open(link, '_blank');
+								});
+								
+							      $.ajax({
+							         type: "POST"
+							         , url: "/map/thumb"
+							         , data: { boardNo : v.boardNo }
+							         , dataType: ""
+							         , success: function( res ){
+							            var $thumbNail = res.thumbNail;
+							            if( $thumbNail != null ){
+											// 이미지 넣는 부분
+											var $imgContent = $('<img src="/upload/' + $thumbNail + '" width="73" height="70">');
+							            } else {
+											var $imgContent = $('<img src="/resources/img/noimg.png" width="73" height="70">');
+							            }
+										var $desc = $('<div class="desc">'); // 글제목, 가격, 링크 들어가는 부분을 감싸는 DIV 
+										var $title = $('<div class="title">').text(v.title); // 글 제목이 들어갈 부분
+										var $price = $('<div class="price">').text(formattedNumber); // 가격이 들어갈 부분
+										
+										
+										$body.append($content)
+										$content.append($img).append($desc)
+										$img.append($imgContent)
+										$desc.append($title).append($price)
+			
+							         }
+							         , error: function(){
+							        	alert('오류가 발생했습니다')
+							         }
+							      })
+		
+						});// veach펑션 끝
+						
+								var overlay = new kakao.maps.CustomOverlay({ // KAKAO 커스텀 오버레이 생성 객체
+									content: $wrap[0], 
+									map: map,
+									position: marker.getPosition()
+								}); // overlay 생성 끝
+								overlay.setMap(null) // 지도에 오버레이 안뜨게 설정
+								
+								function closeOverlay(content) { // 오버레이를 닫는 함수
+									event.stopPropagation(); // 이벤트 버블링 막기
+									overlay.setMap(null); 
+						        	map.setZoomable(true);
+								} // closeOverlay 끝
+								
+								kakao.maps.event.addListener(marker, 'click', function(e) { // 마커를 눌렀을 때 지도가 뜨는 펑션
+									overlay.setMap(map) 
+								}) // click 이벤트 끝
+								
+							} //if ( distance <= circle.getRadius()/1000 )
+						} // 검색 if문 끝
+					}) // geocoder 끝
+				})// $.each() 끝
+			} else {
+				alert('검색 결과가 없습니다.')
+			}// if 문 끝
+	
+		}// success 끝
+		, error: function(){
+			alert('오류가 발생했습니다')
+	//			console.log("AJAX 실패")
+		}
+		, complete: function() {
+			hideLoading(); // AJAX 완료 후 로딩 화면 숨김
+		}
+	})// ajax끝
+	
+	// Add mousewheel event handler for the overlay content
+	$('.info').on('mousewheel', function (event) {
+	    // Calculate the new scroll position
+	    var scrollTop = $(this).scrollTop() - (event.deltaY * 30);
+	
+	    // Set the new scroll position
+	    $(this).scrollTop(scrollTop);
+	
+	    // Prevent the default scrolling behavior
+	    event.preventDefault();
+	});
+    
+    $("#searchText").val('')
+    $("#searchText").attr("placeholder", "검색할 내용을 입력해주세요");
+}// search끝
+
+function showLoading() {
+	console.log('로딩중')
+    $("#loadingOverlay").show();
+}
+
+function hideLoading() {
+	console.log('로딩완료')
+    $("#loadingOverlay").hide();
+}
+
 </script>	
 
+<div id="loadingOverlay">
+  <div class="droplet_spinner">
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+  </div>
+</div>
+
 <!-- 지도를 담을 DIV  -->
-<div id="mapArea" style="position: relative;">
+<div id="mapArea" style="position: relative; top: -35px; height: 500px">
+	<div class="searchMap">
+	    <select id="selectSub">
+	        <option value="title">제목</option>
+	        <option value="location">지역</option>
+	    </select>
+	    <input type="text" id="searchText" placeholder="검색할 내용을 입력해주세요">
+	    <button id="selectBtn" onclick="searchMap()">입력</button>
+	</div>
 	<div id="map" style="width:100%;height:500px;"></div>
 	<img id="myLoc" src="/resources/img/myLocation.png" alt="내위치" style="width: 25px; height:25px; z-index:1; position: absolute; right: 12.5px; bottom: 12.5px">
 </div>
+
+
 <c:import url="/WEB-INF/views/layout/footer.jsp" />

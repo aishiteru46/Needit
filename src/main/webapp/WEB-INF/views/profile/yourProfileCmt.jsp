@@ -215,7 +215,7 @@ function toggleSection(sectionId) {
 /* 업체 링크 */
 #businessUrl{
    position: absolute;
-    margin-top:-114px;
+    margin-top: -50px;
     margin-left: 415px;
     margin-bottom: 24px;
     font-size: 18px;
@@ -262,10 +262,10 @@ function toggleSection(sectionId) {
 	font-size: 16px;
 }
 
-/* Webkit 브라우저를 위한 스타일 */
-.tableScroll::-webkit-scrollbar { width: 12px; }
-.tableScroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
-.tableScroll::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 10px;background: #ff533f; }
+/* hover 시 색상 변경 */
+.board-link:hover {
+	color: orange; /* hover 시 변경할 색상 */
+}
 
 </style>
 
@@ -350,7 +350,7 @@ function toggleSection(sectionId) {
 <!-- 업체 링크 -->
 <c:if test="${your.businessStatus eq 2 }">
 <div id="businessUrl">
-<%-- 	<span style="vertical-align: -webkit-baseline-middle; color: black;">업체주소 : </span><a href="http://${link.BUSINESS_URL}" target="_blank">${link.BUSINESS_URL}</a> --%>
+	<span style="vertical-align: -webkit-baseline-middle; color: black;">업체주소 : </span><a href="http://${link.BUSINESS_URL}" target="_blank">${link.BUSINESS_URL}</a>
 </div>
 </c:if>
 
@@ -381,19 +381,19 @@ function toggleSection(sectionId) {
                <td>
                 <c:choose>
                     <c:when test="${yourList.MENU eq 1}">
-                        <a href="/rent/view?boardNo=${yourList.BOARD_NO}">${yourList.TITLE}</a>
+                        <a href="/rent/view?boardNo=${yourList.BOARD_NO}" class="board-link">${yourList.TITLE}</a>
                     </c:when>
                     <c:when test="${yourList.MENU eq 2}">
-                        <a href="/share/view?boardNo=${yourList.BOARD_NO}">${yourList.TITLE}</a>
+                        <a href="/share/view?boardNo=${yourList.BOARD_NO}" class="board-link">${yourList.TITLE}</a>
                     </c:when>
                     <c:when test="${yourList.MENU eq 3}">
-                        <a href="/please/view?boardNo=${yourList.BOARD_NO}">${yourList.TITLE}</a>
+                        <a href="/please/view?boardNo=${yourList.BOARD_NO}" class="board-link">${yourList.TITLE}</a>
                     </c:when>
                     <c:when test="${yourList.MENU eq 4}">
-                        <a href="/community/view?boardNo=${yourList.BOARD_NO}">${yourList.TITLE}</a>
+                        <a href="/community/view?boardNo=${yourList.BOARD_NO}" class="board-link">${yourList.TITLE}</a>
                     </c:when>
                     <c:when test="${yourList.MENU eq 5}">
-                        <a href="/business/view?boardNo=${yourList.BOARD_NO}">${yourList.TITLE}</a>
+                        <a href="/business/view?boardNo=${yourList.BOARD_NO}" class="board-link">${yourList.TITLE}</a>
                     </c:when>
                 </c:choose>
             </td>

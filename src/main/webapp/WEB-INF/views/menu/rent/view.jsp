@@ -45,8 +45,8 @@
     margin-top: 5px;
 }
 #map {
-	width:389px; 
-	height:236px;
+	width: 397px;
+    height: 238px;
 }
 
 #del {
@@ -59,6 +59,7 @@
     font-size: 13px;
     float: right;
     margin-top: 15px;
+    color: red;
 }
 .file {
     color: blue;
@@ -113,10 +114,11 @@ a:hover { text-decoration: none; }
 	width: 900px;
     height: auto;
     margin: 0 auto;
-    border: 1px solid;
+    outline: 3px solid #ccc;
     border-radius: 10px;
+    margin-top: 55px;
 }
-.viewHeader { width: 900px; height: 500px; margin: 0 auto; margin-top: -30px; }
+.viewHeader { width: 900px; }
 .viewheader > div { float: left;}
 .thumb {
 	width: 500px; /* 원하는 너비로 설정 */
@@ -124,10 +126,20 @@ a:hover { text-decoration: none; }
 	overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
 	
 }
+
+.thumb {
+ 	display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
 #thumbImg img {
     width: 100%; /* 부모 요소의 100% 너비로 이미지 크기 조절 */
     height: auto; /* 가로 비율에 맞게 높이 자동 조절 */
     background-size: cover;
+   
 }
 .viewInfo { width: 400px; height: 500px; }
 .viewInfo > div { border: 1px solid #ccc; font-weight: bold;  }
@@ -160,11 +172,22 @@ a:hover { text-decoration: none; }
 #btnPrice button { width: 100%; height: 100%; border: none; background: #ff533f; color: white; font-weight: bold; border-radius: 10px 10px 10px 10px;}
 #btnList button { width: 60px; height: 40px; margin-top: 10px; border: none; background: #ff533f; color: white; font-weight: bold; border-radius: 10px 10px 10px 10px;}
 .infoMap { height: 239px }
-.viewFile { width: 900px; margin: 0 auto;border: 1px solid #ccc; }
-.viewContent { width: 900px; min-height: 400px; margin: 0 auto; border: 1px solid #ccc; border-radius: 0 0 10px 10px; }
+.viewFile { width: 900px; margin: 0 auto;border: 1px solid #ccc; border-radius: 0px 0px 10px 10px;}
+.viewContent { width: 900px; min-height: 400px; margin: 0 auto; border: 1px solid #ccc; }
 #viewContent { margin: 20px 50px; }
 #viewContent p img { max-width: 750px; }
 
+.card {
+    width: 450px;
+    margin-left: 110px;
+    padding: 20px;
+}
+
+#download{
+	float: left;
+	margin-left: 8px;
+	position: absolute;
+}
 </style>
 
 <%-- 추천, 댓글, 대여상태 --%>
@@ -237,7 +260,7 @@ function loadComments() {
 		            //댓글신고 버튼
 		            if (id != null) {
 		            commentListHtml += '	<button id="cmtReportBtn" onclick="cmtReport(' + res.commentList[i].CMT_NO + ');">'; 
-		            commentListHtml += '신고하기';
+		            commentListHtml += '댓글신고';
 		            commentListHtml += '	</button>';
 		            commentListHtml += '<div id="reportSelect_' + res.commentList[i].CMT_NO + '" class="report-options" style="display:none;">';
 		            commentListHtml += '  <input type="radio" name="reportType" value="광고">광고</input>';
@@ -398,14 +421,21 @@ $(()=>{
 	
 		})
 		
+		var writer = "${board.writerId}";
+		var sender = "${id}";
+		
+		console.log("글작성자", writer)
+		console.log("댓글작성자", sender)
+		console.log( writer != sender)
+		
 		<%-- 본인글에 댓글 입력시 알림x --%>
-		if( ${board.writerId} != ${id} ){
+		if( writer != sender ){
 			$.post( "/alert/sendnotification", { 
 					id: "${board.writerId}"
 			        , sender: "${id }"
 			        , content: 4
-			        , menu: ${param.menu}
-					, boardNo: ${board.boardNo}
+			        , menu: "${param.menu}"
+					, boardNo: "${board.boardNo}"
 			}); // $.post 끝
 		}
 		
@@ -543,25 +573,25 @@ $(()=>{
 </script>
 
 <%-- Body --%>
-<div class="container">
-<div class="viewWrap">
 	<div id="upAndDel">
 		<c:if test="${id eq board.writerId }">
 			<a href="/rent/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>수정</button></a>
 			<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">삭제</button>
 		</c:if>
 	</div>	
+<div class="container">
+<div class="viewWrap">
 <div id="borderContainer">
 	
 	<div class="viewHeader">
 		<div style="clear: both;"></div>
 		<div class="thumb">
-		    <div id="thumbImg" style="border-radius: 0px 10px 0px 0px">
+		    <div id="thumbImg" >
 		        <c:if test="${not empty fileTb and not empty fileTb[0]}">
-		            <img style="border-radius: 10px 0px 0px 0px" src="/upload/${fileTb[0].thumbnailName}"/>
+		            <img src="/upload/${fileTb[0].thumbnailName}"/>
 		        </c:if>
 		        <c:if test="${empty fileTb[0]}">
-		            <img style="border-radius: 10px 0px 0px 0px" src="/resources/img/noimg.png"/>
+		            <img src="/resources/img/noimg.png"/>
 		        </c:if>
 		    </div><!-- .thumbImg -->
 		</div><!-- .thumb-->
@@ -661,9 +691,10 @@ $(()=>{
 	</div>
 
 	<div class="viewFile">
-		<p style="margin: 0">첨부파일 :
+		<div id="Download"> Downloads :</div>
+		<p style="margin: 0">
 			<c:forEach var="file" items="${fileTb }">
-				<a class="file bi bi-paperclip" href="./download?fileNo=${file.fileNo }">${file.originName }</a>
+				<a class="file bi bi-paperclip" href="./download?fileNo=${file.fileNo }">${file.originName }</a><br>
 			</c:forEach>
 		</p>
 	</div>
@@ -692,7 +723,7 @@ $(()=>{
 			<div class="col col-9">
 				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;"></textarea>
 			</div>
-			<button id="btnCommInsert" class="btn btn-primary col-1">작성</button>
+			<button id="btnCommInsert" class="btn btn-secondary col-1">작성</button>
 		</div>
 	</c:if><br>
 
