@@ -342,6 +342,44 @@ public interface UserProfileDao {
 	
 	public List<Map<String, Object>> yourBoardList(Board board);
 
+	//----------------------------------------------------------
+	
+	/**
+	 * 댓글로 아이디찾기
+	 * @param cmtNo
+	 * @return
+	 */
+	public String selectYourCmtId(String cmtNo);
+
+	/**
+	 * 댓글로 프로필찾기
+	 * @param id
+	 * @return
+	 */
+	public User selectYourCmtProfile(String id);
+
+	/**
+	 * 댓글로 업체링크찾기
+	 * @param user
+	 * @return
+	 */
+	public Map<String, Object> selectYourCmtUrl(User user);
+
+	/**
+	 * 댓글로 이미지
+	 * @param id
+	 * @return
+	 */
+	public UserFile selectYourCmtImg(String id);
+
+
+	/**
+	 * 댓글로 내가쓴글불러오기
+	 * @param comment
+	 * @return
+	 */
+	public List<Map<String, Object>> selectYourCmtBoard(Board board);
+
 
 	
 
