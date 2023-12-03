@@ -157,8 +157,16 @@ public interface AdminDao {
 	 * 업체요청을 취소한다
 	 * 
 	 * @param business - 업체
+	 * @return 
 	 */
-	public void cancelBusiness(Business business);
+	public int cancelBusiness(Business business);
+	
+	/**
+	 * 업체 승인 취소 요청시 삭제
+	 * 
+	 * @param business 삭제
+	 */
+	public void deleteBusiness(Business business);
 
 
 

@@ -215,7 +215,7 @@ function toggleSection(sectionId) {
 /* 업체 링크 */
 #businessUrl{
    position: absolute;
-    margin-top: -50px;
+    margin-top:-114px;
     margin-left: 415px;
     margin-bottom: 24px;
     font-size: 18px;
@@ -261,6 +261,12 @@ function toggleSection(sectionId) {
 #boardSection tr td{
 	font-size: 16px;
 }
+
+/* Webkit 브라우저를 위한 스타일 */
+.tableScroll::-webkit-scrollbar { width: 12px; }
+.tableScroll::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+.tableScroll::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 10px;background: #ff533f; }
+
 </style>
 
 <div class="container">
@@ -354,7 +360,7 @@ function toggleSection(sectionId) {
     
     <!-- 자기소개글을 입력하는 텍스트박스 -->
     <div>
-        <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100">${your.intro }</textarea>
+        <textarea class="form-control" id="introText" name="intro" rows="5" maxlength="100" readonly="readonly">${your.intro }</textarea>
     </div>
 </div><!-- #introduce -->
 

@@ -102,6 +102,7 @@
 .rentTable th{
    background-color: rgb(255,83,63);
    color: white;
+   text-align: center;
 }
 /* 목록 테이블 둥글게 */
 .rentTable{
@@ -257,7 +258,21 @@
     color: white;
     border: none;
 }
+#gotoMainBtn{
+	float: right;
+    margin-right: 42px;
+    border-radius: 5px;
+    background-color: rgb(255,83,63);
+    color: white;
+    border: none;
+    width: 87px;
+    height: 34px;
+    font-weight: bold;
+}
 </style>
+
+<!-- 마이프로필 버튼 -->
+<a href="/profile/view"><button id="gotoMainBtn">BACK &#11148;</button></a>
 
 <!-- 찜목록 -->
 <c:if test="${not empty isLogin }">

@@ -161,6 +161,7 @@ $(function(){
 .rentTable th{
    background-color: rgb(255,83,63);
    color: white;
+   text-align: center;
 }
 /* 목록 테이블 둥글게 */
 .rentTable{
@@ -226,7 +227,7 @@ $(function(){
 }
 /* 등급 크기 */
 #userContent tbody tr td img{
-   width: 25px;
+	width: 25px;
     height: 28px;
     vertical-align: top;
 }
@@ -316,22 +317,56 @@ $(function(){
     color: white;
     border: none;
 }
+#gotoMainBtn{
+	float: right;
+    margin-right: 42px;
+    border-radius: 5px;
+    background-color: rgb(255,83,63);
+    color: white;
+    border: none;
+    width: 87px;
+    height: 34px;
+    font-weight: bold;
+}
+
 </style>
+
+<!-- 마이프로필 버튼 -->
+<a href="/profile/view"><button id="gotoMainBtn">BACK &#11148;</button></a>
 
 <h1 class="listH1">빌려준거 목록</h1>
 <div class="tableScroll">
 <table class="rentTable">
+	<colgroup>
+		<col style="width: 7%;">
+		<col style="width: 9%;">
+		<col style="width: 19%;">
+		<col style="width: 7%;">
+		<!-- 신청일자 -->
+		<col style="width: 10%;">
+		<!-- 사용날짜 -->		
+		<col style="width: 9%;">
+		<!-- 사용 시작 시간 -->
+		<col style="width: 10%;">
+		<col style="width: 9%;">
+		<col style="width: 7%;">
+		<col style="width: 8%;">
+
+		<col style="width: 5%;">
+	</colgroup>
    <tr>
       <th>예약 번호</th>
       <th>게시글 번호</th>
       <th>주문번호</th>
       <th>예약자</th>
       <th>신청 일자</th>
+      
       <th>사용 날짜</th>
       <th>사용 시작 시간</th>
       <th>사용 끝 시간</th>
       <th>결제 상태</th>
       <th>승인 여부</th>
+      
       <th>취소</th>
       
    </tr>
@@ -423,6 +458,24 @@ $(function(){
 <h1 class="listH1">빌린거 목록</h1>
 <div class="tableScroll">
 <table class="rentTable">
+
+	<colgroup>
+		<col style="width: 8%;">
+		<col style="width: 10%;">
+		<col style="width: 20%;">
+		<col style="width: 8%;">
+		<!-- 사용날짜 -->		
+		<col style="width: 10%;">
+		<!-- 사용 시작 시간 -->
+		<col style="width: 11%;">
+		<col style="width: 10%;">
+		<col style="width: 8%;">
+		<col style="width: 9%;">
+
+		<col style="width: 6%;">
+	</colgroup>
+
+
    <tr>
       <th>예약 번호</th>
       <th>게시글 번호</th>
@@ -440,8 +493,10 @@ $(function(){
       <td>${list.RENT_NO }</td>
       <td>${list.BOARD_NO }</td>
       <td>${list.MERCHANT_UID }</td>
-      <td>${list.CURRENT_TIME }</td>
-      <td>${list.RENT_DATE }</td>
+<%--       <td>${list.CURRENT_TIME }</td> --%>
+<%--       <td>${list.RENT_DATE }</td> --%>
+      <td><fmt:formatDate value="${list.CURRENT_TIME }" pattern="yyyy-MM-dd" /></td>
+      <td><fmt:formatDate value="${list.RENT_DATE }" pattern="yyyy-MM-dd" /></td>
 
       <c:choose>
        <c:when test="${list.START_TIME % 2 == 1}">

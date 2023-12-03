@@ -128,6 +128,9 @@ function deleteComment(cmtNo) {
 		<td>${list.CATE }</td>
 		
 		<td>${list.WRITER_ID }</td>
+		<c:if test="${empty list.REPORT_TYPE }">
+		<td></td>
+		</c:if>
 		<td>${list.REPORT_TYPE }</td>
 		<td>${list.REPORT_DATE }</td>
         <td><button class="delete_btn" onclick="deleteBoard(${list.BOARD_NO})">삭제</button></td>

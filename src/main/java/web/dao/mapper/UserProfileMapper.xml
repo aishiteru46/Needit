@@ -75,9 +75,11 @@
  	
  	<!-- 예약 받은 목록 -->
  	<select id="selectMyRentList" resultType="Map" parameterType="Board">
-	 	SELECT B.board_no, A.renter_id, A.rent_no, A.rent_date, A.start_time
+	 	SELECT B.board_no, A.renter_id, A.rent_no,
+	 		TO_CHAR(A.rent_date, 'YYYY-MM-DD') AS RENT_DATE,
+	 		A.start_time
 	 	, A.end_time, A.rent_status, A.payment_type, A.merchant_uid
-	 	, CAST(CURRENT_TIME AS DATE) AS CURRENT_TIME 
+	 	, TO_CHAR(CURRENT_TIME, 'YYYY-MM-DD') AS CURRENT_TIME 
 		FROM rent A
 		INNER JOIN board B ON B.board_no = A.board_no
 		WHERE B.writer_id = #{writerId}
