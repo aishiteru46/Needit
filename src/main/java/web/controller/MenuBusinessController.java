@@ -23,6 +23,7 @@ import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
 import web.dto.Rent;
+import web.dto.User;
 import web.service.face.MenuBusinessService;
 import web.util.Paging;
 
@@ -46,6 +47,13 @@ public class MenuBusinessController {
 		List<Map<String, Object>> list = menuBusinessService.list(paging);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
+
+ 		//게시글마다 댓글 몇개 달렸는지 카운트
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuBusinessService.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}		
 		
 		return "menu/business/list";
 	}
@@ -61,7 +69,14 @@ public class MenuBusinessController {
 		List<Map<String, Object>> list = menuBusinessService.list(paging); 
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
-		
+
+ 		//게시글마다 댓글 몇개 달렸는지 카운트
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuBusinessService.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}	
+ 		
 		return "menu/business/listType";
 	}
 
@@ -78,6 +93,13 @@ public class MenuBusinessController {
 		List<Map<String, Object>> list = menuBusinessService.searchList(paging);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
+
+ 		//게시글마다 댓글 몇개 달렸는지 카운트
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuBusinessService.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}			
 		
 		return "menu/business/searchList";
 	}
@@ -93,7 +115,14 @@ public class MenuBusinessController {
 		List<Map<String, Object>> list = menuBusinessService.searchList(paging);
 		model.addAttribute("paging", paging);
 		model.addAttribute("list", list);
-		
+
+ 		//게시글마다 댓글 몇개 달렸는지 카운트
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuBusinessService.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}	
+ 		
 		return "menu/business/searchType";
 	}
 	
@@ -157,7 +186,13 @@ public class MenuBusinessController {
 	
 	//게시글 작성 폼
 	@GetMapping("/write")
-	public String write() {
+	public String write( User user, Model model, HttpSession session ) {
+		
+ 		user.setId((String)session.getAttribute("id"));
+ 		User writeUser = menuBusinessService.writeAddrSelect(user);
+ 		model.addAttribute("user", writeUser);
+ 		logger.info("바뀐주소 : {}", writeUser);
+ 		
 		return "menu/business/write";
 	}
 	

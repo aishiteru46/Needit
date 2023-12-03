@@ -18,5 +18,6 @@ public class Board {
 	private int price;
 	private String content;
 	private String location;
+	private String businessUrl;
 
 }

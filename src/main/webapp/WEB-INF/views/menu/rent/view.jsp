@@ -177,6 +177,13 @@ a:hover { text-decoration: none; }
 #viewContent { margin: 20px 50px;  text-align: left;}
 #viewContent p img { max-width: 750px; }
 
+.comment-nickname {
+    cursor: pointer; /* 커서 모양 변경 */
+}
+.comment-nickname:hover {
+    color: orange; /* 마우스 오버 시 텍스트 색상 변경 */
+}
+
 .card {
     width: 450px;
     margin-left: 110px;
@@ -187,6 +194,15 @@ a:hover { text-decoration: none; }
 	float: left;
 	margin-left: 8px;
 	position: absolute;
+}
+#reportBoard {
+	font-weight: bold;
+    width: 87px;
+    height: 30px;
+    float: left;
+    margin-left: 170px;
+    background-color: rgb(255,83,63);
+    color: white;
 }
 </style>
 
@@ -201,6 +217,16 @@ function cmtReport(cmtNo) {
         reportOptions.style.display = 'none';
     }
 }
+
+//클릭 이벤트 바인딩을 loadComments 함수 밖으로 이동
+$(document).on("click", ".comment-nickname", function () {
+    // 현재 클릭된 댓글의 번호를 가져옴
+    var cmtNo = $(this).closest('.media').find('.cmt-no').text();
+
+    console.log("작동");
+ 	// 새 창에서 댓글 프로필 페이지로 이동
+    window.open('/profile/yourProfileCmt?cmtNo=' + cmtNo, '_blank');
+});
 
 // 댓글목록 불러오기
 function loadComments() {
@@ -228,6 +254,7 @@ function loadComments() {
 		            
 		            commentListHtml += '<hr>'; 
 		            commentListHtml += '<div class="media mb-4">';
+		            commentListHtml += '  <span class="cmt-no" style="display: none;">' + res.commentList[i].CMT_NO + '</span>';
 		            //프로필사진 유무 처리
 		            if( res.commentList[i].THUMBNAIL_NAME != null || res.commentList[i].THUMBNAIL_NAME > 0 ){
 		            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
@@ -237,13 +264,13 @@ function loadComments() {
 		            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
 		            //댓글 작성자 구분 처리                                                                                    
 		            if (commentWriter === boardMaster && commentWriter === nick) { 
-		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+		                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
 		            } else if (commentWriter === nick) {
-		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+		                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
 		            } else if (commentWriter === boardMaster) {
-		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter">작성자</div>' + '</h6>';
+		                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter">작성자</div>' + '</h6>';
 		            } else {
-		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '</h6>';
+		                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '</h6>';
 		            }
 		            //댓글내용
 		            commentListHtml += '    <h5 class="text-start">' + res.commentList[i].CONTENT + '</h5>';
@@ -573,12 +600,22 @@ $(()=>{
 </script>
 
 <%-- Body --%>
-	<div id="upAndDel">
-		<c:if test="${id eq board.writerId }">
-			<a href="/rent/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>수정</button></a>
-			<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">삭제</button>
-		</c:if>
-	</div>	
+<div id="upAndDel">
+	<c:if test="${id eq board.writerId }">
+		<a href="/rent/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>수정</button></a>
+		<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">삭제</button>
+	</c:if>
+</div>	
+
+<!-- view페이지에서 신고버튼 -->
+<c:if test="${not empty isLogin && isLogin}">
+	<button type="button" id="reportBoard" class="btn" data-bs-toggle="modal" data-bs-target="#reportModal">
+		<div style="width: 25px; height: 25px; margin: -13px -10px;">게시글신고</div>
+	</button>	
+</c:if>
+<c:if test="${empty isLogin}">
+</c:if>
+
 <div class="container">
 <div class="viewWrap">
 <div id="borderContainer">
@@ -612,7 +649,7 @@ $(()=>{
 			<div class="infoTitle">
 				<div class="titleWrap">
 					<div id="infoTitle">${board.title }</div>
-					<div style="margin-bottom: 5px">${board.writerNick }</div>
+					<div style="margin-bottom: 5px"><a href="/profile/yourProfile?boardNo=${board.boardNo }">${board.writerNick }</a></div>
 					<div>
 						<p style="margin: 0; font-size: 0.8em; color: #ccc; ">
 							<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
@@ -678,10 +715,7 @@ $(()=>{
 			</div><!-- .infoMap -->
 			<div class="infoBtn">
 			</div><!-- .infoBtn -->
-			
-			
 		</div><!-- .viewInfo -->
-		
 	
 	</div><!-- .viewHeader -->
 	<div style="clear: both;"></div>
@@ -704,7 +738,7 @@ $(()=>{
 	<div id="btnList">
 		<a href="/rent/list?menu=${param.menu }&cate=${param.cate }"><button>목록</button></a>
 	</div>
-
+		
 </div> <!-- .viewWrap -->
 </div> <!-- .container -->
 

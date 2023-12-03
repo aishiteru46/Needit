@@ -45,9 +45,8 @@
     margin-top: 5px;
 }
 #map {
-	margin: 0 auto;
-	width:400px; 
-	height:238px;
+	width: 397px;
+    height: 238px;
 }
 
 #del {
@@ -60,6 +59,7 @@
     font-size: 13px;
     float: right;
     margin-top: 15px;
+    color: red;
 }
 .file {
     color: blue;
@@ -94,8 +94,31 @@ h6 {
 	color: blue;
 }
 
+button:hover { scale: 1.1;}
+#upAndDel {
+    float: right;
+    margin-right: 151px;
+    margin-bottom: 13px;
+}
+#upAndDel button {     
+	color: white;
+    border: none;
+    width: 50px;
+    border-radius: 5px;
+    background: #ff533f;
+    font-weight: bold;
+}
+
 a:hover { text-decoration: none; }
-.viewHeader { width: 900px; height: 500px; margin: 0 auto; margin-top: 70px }
+#borderContainer {
+	width: 900px;
+    height: auto;
+    margin: 0 auto;
+    outline: 3px solid #ccc;
+    border-radius: 10px;
+    margin-top: 55px;
+}
+.viewHeader { width: 900px; }
 .viewheader > div { float: left;}
 .thumb {
 	width: 500px; /* 원하는 너비로 설정 */
@@ -103,10 +126,20 @@ a:hover { text-decoration: none; }
 	overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
 	
 }
+
+.thumb {
+ 	display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
 #thumbImg img {
     width: 100%; /* 부모 요소의 100% 너비로 이미지 크기 조절 */
     height: auto; /* 가로 비율에 맞게 높이 자동 조절 */
     background-size: cover;
+   
 }
 .viewInfo { width: 400px; height: 500px; }
 .viewInfo > div { border: 1px solid #ccc; font-weight: bold;  }
@@ -139,10 +172,58 @@ a:hover { text-decoration: none; }
 #btnPrice button { width: 100%; height: 100%; border: none; background: #ff533f; color: white; font-weight: bold; border-radius: 10px 10px 10px 10px;}
 #btnList button { width: 60px; height: 40px; margin-top: 10px; border: none; background: #ff533f; color: white; font-weight: bold; border-radius: 10px 10px 10px 10px;}
 .infoMap { height: 239px }
-.viewFile { width: 900px; margin: 0 auto;border: 1px solid #ccc; }
-.viewContent { width: 900px; min-height: 400px; margin: 0 auto; border: 1px solid #ccc; border-radius: 0 0 10px 10px; }
-#viewContent { margin: 20px 50px; }
+.viewFile { width: 900px; margin: 0 auto;border: 1px solid #ccc; border-radius: 0px 0px 10px 10px;}
+.viewContent { width: 900px; min-height: 400px; margin: 0 auto; border: 1px solid #ccc;}
+#viewContent { margin: 20px 50px;  text-align: left;}
 #viewContent p img { max-width: 750px; }
+
+.comment-nickname {
+    cursor: pointer; /* 커서 모양 변경 */
+}
+.comment-nickname:hover {
+    color: orange; /* 마우스 오버 시 텍스트 색상 변경 */
+}
+
+.card {
+    width: 450px;
+    margin-left: 110px;
+    padding: 20px;
+}
+
+#download{
+	float: left;
+	margin-left: 8px;
+	position: absolute;
+}
+#reportBoard {
+	font-weight: bold;
+    width: 87px;
+    height: 30px;
+    float: left;
+    margin-left: 170px;
+    background-color: rgb(255,83,63);
+    color: white;
+}
+/* 업체 마크 */
+.titleWrap svg {
+	display: inline-block;
+    width: 20px;
+    margin-left: -5px;
+    margin-top: -10px;
+    margin-bottom: -5px;
+    color: rgb(255,83,63);
+}
+#businessUrl {
+	background-color: rgb(255 83 63 / 4%);
+	text-align: center;
+    height: 22px;
+    margin-left: -40px;
+    margin-bottom: -22px;
+}
+#businessUrl a {
+	color: blue;
+	text-decoration: underline;
+}
 
 </style>
 
@@ -157,6 +238,16 @@ function cmtReport(cmtNo) {
         reportOptions.style.display = 'none';
     }
 }
+
+//클릭 이벤트 바인딩을 loadComments 함수 밖으로 이동
+$(document).on("click", ".comment-nickname", function () {
+    // 현재 클릭된 댓글의 번호를 가져옴
+    var cmtNo = $(this).closest('.media').find('.cmt-no').text();
+
+    console.log("작동");
+ 	// 새 창에서 댓글 프로필 페이지로 이동
+    window.open('/profile/yourProfileCmt?cmtNo=' + cmtNo, '_blank');
+});
 
 // 댓글목록 불러오기
 function loadComments() {
@@ -184,6 +275,7 @@ function loadComments() {
 		            
 		            commentListHtml += '<hr>'; 
 		            commentListHtml += '<div class="media mb-4">';
+		            commentListHtml += '  <span class="cmt-no" style="display: none;">' + res.commentList[i].CMT_NO + '</span>';
 		            //프로필사진 유무 처리
 		            if( res.commentList[i].THUMBNAIL_NAME != null || res.commentList[i].THUMBNAIL_NAME > 0 ){
 		            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
@@ -193,13 +285,13 @@ function loadComments() {
 		            commentListHtml += '  <div class="media-body" style="margin-bottom: -30px;">';
 		            //댓글 작성자 구분 처리                                                                                    
 		            if (commentWriter === boardMaster && commentWriter === nick) { 
-		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+		                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
 		            } else if (commentWriter === nick) {
-		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
+		                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter" style="color: white; background-color: #52C728;">내댓글</div>' + '</h6>';
 		            } else if (commentWriter === boardMaster) {
-		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter">작성자</div>' + '</h6>';
+		                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '<div class="cmtWriter">작성자</div>' + '</h6>';
 		            } else {
-		                commentListHtml += '    <h6>' + res.commentList[i].WRITER_NICK + '</h6>';
+		                commentListHtml += '    <h6 class="comment-nickname">' + res.commentList[i].WRITER_NICK + '</h6>';
 		            }
 		            //댓글내용
 		            commentListHtml += '    <h5 class="text-start">' + res.commentList[i].CONTENT + '</h5>';
@@ -524,17 +616,33 @@ $(()=>{
 </script>
 
 <%-- Body --%>
+<div id="upAndDel">
+	<c:if test="${id eq board.writerId }">
+		<a href="/business/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>수정</button></a>
+		<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">삭제</button>
+	</c:if>
+</div>	
+
+<!-- view페이지에서 신고버튼 -->
+<c:if test="${not empty isLogin && isLogin}">
+	<button type="button" id="reportBoard" class="btn" data-bs-toggle="modal" data-bs-target="#reportModal">
+		<div style="width: 25px; height: 25px; margin: -13px -10px;">게시글신고</div>
+	</button>	
+</c:if>
+<c:if test="${empty isLogin}">
+</c:if>
+
 <div class="container">
 <div class="viewWrap">
 <div id="borderContainer">
 	<div class="viewHeader">
 		<div class="thumb">
-		    <div id="thumbImg" style="border-radius: 0px 10px 0px 0px">
+		    <div id="thumbImg">
 		        <c:if test="${not empty fileTb and not empty fileTb[0]}">
-		            <img style="border-radius: 10px 0px 0px 0px" src="/upload/${fileTb[0].thumbnailName}"/>
+		            <img src="/upload/${fileTb[0].thumbnailName}"/>
 		        </c:if>
 		        <c:if test="${empty fileTb[0]}">
-		            <img style="border-radius: 10px 0px 0px 0px" src="/resources/img/noimg.png"/>
+		            <img src="/resources/img/noimg.png"/>
 		        </c:if>
 		    </div><!-- .thumbImg -->
 		</div><!-- .thumb-->
@@ -555,8 +663,17 @@ $(()=>{
 			
 			<div class="infoTitle">
 				<div class="titleWrap">
+				<div id="businessUrl">업체URL: <a href="http://${board.businessUrl}" target="_blank">${board.businessUrl}</a></div>
+				
 					<div id="infoTitle">${board.title }</div>
-					<div style="margin-bottom: 5px">${board.writerNick }</div>
+					<div style="margin-bottom: 5px"><a href="/profile/yourProfile?boardNo=${board.boardNo }">${board.writerNick }</a>
+						<!-- 업체 마크 -->
+						<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-award" viewBox="0 0 16 16">
+							<path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z"/>
+							<path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z"/>
+						</svg>
+					
+					</div>
 					<div>
 						<p style="margin: 0; font-size: 0.8em; color: #ccc; ">
 							<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
@@ -630,16 +747,17 @@ $(()=>{
 	</div><!-- .viewHeader -->
 	<div style="clear: both;"></div>
 	
-	<div class="viewFile">
-		<p style="margin: 0">첨부파일 :
-			<c:forEach var="file" items="${fileTb }">
-				<a class="file bi bi-paperclip" href="./download?fileNo=${file.fileNo }">${file.originName }</a>
-			</c:forEach>
-		</p>
-	</div>
-	
 	<div class="viewContent">
 		<div id="viewContent">${board.content }</div>
+	</div>
+
+	<div class="viewFile">
+		<div id="Download"> Downloads :</div>
+		<p style="margin: 0">
+			<c:forEach var="file" items="${fileTb }">
+				<a class="file bi bi-paperclip" href="./download?fileNo=${file.fileNo }">${file.originName }</a><br>
+			</c:forEach>
+		</p>
 	</div>
 	
 	</div><!-- #borderContainer -->
@@ -647,14 +765,6 @@ $(()=>{
 	<div id="btnList">
 		<a href="/business/list?menu=${param.menu }&cate=${param.cate }"><button>목록</button></a>
 	</div>
-
-<%-- 수정,삭제 --%>
-<div>
-	<c:if test="${id eq board.writerId }">
-		<a href="/business/update?boardNo=${board.boardNo }&menu=${param.menu }&cate=${param.cate }"><button>게시글 수정</button></a>
-		<button data-bs-toggle="modal" data-bs-target="#deleteOBoardModal">게시글 삭제</button>
-	</c:if>
-</div>	
 
 </div> <!-- .viewWrap -->
 </div> <!-- .container -->
@@ -674,7 +784,7 @@ $(()=>{
 			<div class="col col-9">
 				<textarea class="form-control" id="commentContent" style="resize: none; height: 15px;"></textarea>
 			</div>
-			<button id="btnCommInsert" class="btn btn-primary col-1">작성</button>
+			<button id="btnCommInsert" class="btn btn-secondary col-1">작성</button>
 		</div>
 	</c:if><br>
 

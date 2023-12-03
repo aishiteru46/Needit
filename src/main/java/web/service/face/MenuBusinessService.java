@@ -11,6 +11,7 @@ import web.dto.Comment;
 import web.dto.FileTb;
 import web.dto.Like;
 import web.dto.Rent;
+import web.dto.User;
 import web.util.Paging;
 
 public interface MenuBusinessService {
@@ -161,6 +162,20 @@ public interface MenuBusinessService {
 	 * @param delFileno
 	 */
 	public void updateBoard(Board updateParam, List<MultipartFile> file, int[] delFileno);
+	
+	/**
+	 * 
+	 * @param boardNo
+	 * @return
+	 */
+	public int getCmtCnt(String boardNo);
+
+	/**
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public User writeAddrSelect(User user);
 
 
 

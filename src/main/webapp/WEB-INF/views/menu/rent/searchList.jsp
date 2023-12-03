@@ -76,6 +76,12 @@ $(()=>{
 
 <%-- CSS --%>
 <style type="text/css">
+.link {
+   cursor: pointer; /* 커서 모양 변경 */
+}
+.link:hover {
+   color: orange; /* 마우스 오버 시 텍스트 색상 변경 */
+}
 .write {
 	float: right;
     padding-top: 18px;
@@ -417,7 +423,7 @@ $(()=>{
             </c:if>
 	        
 	        <div class="no">Title.</div>
-	        <a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE }</div></a>
+	        <a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div class="title">${list.TITLE }<span style="color: black; font-size: 0.8em;">[${list.cmtCnt}]</span></div></a>
         <div id="write-conatiner-like">❤️  ${list.LIKE_CNT }</div>
         <div id="write-conatiner-hit">👀  ${list.HIT}</div>
         </div><!-- .write-container-head -->
@@ -433,7 +439,7 @@ $(()=>{
 	        </div>
         </c:if>
         <hr id="rentListHr">
-        <div id="write-conatiner-nick"><div id="nickIcon">✍️</div>${list.WRITER_NICK }</div>
+        <div id="write-conatiner-nick"><div id="nickIcon">✍️</div><a href="/profile/yourProfile?boardNo=${list.BOARD_NO }" class="link">${list.WRITER_NICK }</a></div>
         <div id="write-conatiner-time">🕟
             <fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" /> 
             <fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" /> 

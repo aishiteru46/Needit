@@ -12,9 +12,9 @@
 		    board_no, writer_id, writer_nick, 
 		    hit, menu, cate, title, price, content, location,
 		    CAST(write_date AS DATE) AS write_date, 
-		    (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
+		    (SELECT COUNT(like_no) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
 		    (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name,
-		    (SELECT COUNT(*) FROM basket WHERE basket.board_no = B.board_no AND basket.basket_id = #{userId} ) AS basket_status
+		    (SELECT COUNT(basket_no) FROM basket WHERE basket.board_no = B.board_no AND basket.basket_id = #{userId} ) AS basket_status
 		FROM board B
 		<where>
 			AND menu = #{menu }
@@ -64,9 +64,9 @@
 	                board_no, writer_id, writer_nick, 
 	                hit, menu, cate, title, price, content, location,
 	                CAST(write_date AS DATE) AS write_date, 
-	                (SELECT COUNT(*) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
+	                (SELECT COUNT(like_no) FROM liketb R WHERE R.board_no = B.board_no) AS like_cnt,
 	                (SELECT thumbnail_name FROM fileTB WHERE fileTB.board_no = B.board_no AND rownum = 1) AS thumbnail_name,
-	                (SELECT count(*) FROM basket WHERE basket.board_no = B.board_no AND basket.basket_id=#{userId} ) AS basket_status
+	                (SELECT COUNT(basket_no) FROM basket WHERE basket.board_no = B.board_no AND basket.basket_id=#{userId} ) AS basket_status
 	            FROM board B
 	            WHERE
 	                menu = #{menu}
@@ -151,7 +151,7 @@
 	
 	<!-- 사용자 추천수 유무 조회 -->
 	<select id="selectCntLike" resultType="int" parameterType="Like">
-		SELECT count(*) FROM liketb
+		SELECT count(like_no) FROM liketb
 		<where>
 			AND like_id = #{likeId}
 			AND board_no = #{boardNo}
@@ -175,7 +175,7 @@
 	
 	<!-- 총 추천수 조회 -->
 	<select id="selectTotalCntLike" resultType="int" parameterType="Like">
-		SELECT COUNT(*) FROM liketb
+		SELECT COUNT(like_no) FROM liketb
 		<where>
 			AND board_no = #{boardNo}
 		</where>
@@ -233,7 +233,7 @@
 	
 	<!-- 찜 상태 조회 -->
 	<select id="basketInfo" resultType="int" parameterType="Basket">
-		SELECT count(*) FROM basket
+		SELECT count(basket_no) FROM basket
 		<where>
 			AND basket_id = #{basketId}
 			AND board_no = #{boardNo}
@@ -283,5 +283,19 @@
 		<foreach collection="array" item="no" open="(" close=")" separator=","> #{no } </foreach>
 		</where>
 	</delete>
+
+	<!-- 작성자 위치 조회 -->
+  	<select id="selectWriteAddr" resultType="User" parameterType="User">
+  		SELECT addr1
+  		FROM usertb
+  		where id = #{id}
+  	</select>
+  
+  	<!-- 게시글 댓글 개수 조회 -->
+  	<select id="getCntCmt" resultType="int" parameterType="String" >
+  		SELECT count(cmt_no) 
+  		FROM commenttb
+  		WHERE board_no = #{boardNo}
+  	</select>
 
 </mapper>
