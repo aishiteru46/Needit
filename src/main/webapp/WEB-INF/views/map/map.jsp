@@ -163,8 +163,8 @@
     background: #ff533f;
     position: relative;
     z-index: 2;
-    top: 60px;
-    left: 10px;
+    top: 45px;
+    left: 5px;
     border-radius: 9px;
 }
 
@@ -196,6 +196,58 @@
 #selectBtn:hover {
 	transform: scale(1.1);
 	transition: transform 0.3s ease;
+}
+
+#loadingOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.droplet_spinner {
+  display: flex;
+  justify-content: center;
+  margin: 450px;
+}
+
+.droplet_spinner .droplet {
+  width: 15px;
+  height: 15px;
+  margin: 0 5px;
+  
+  background-color: #e14242;
+  border-radius: 50%;
+  transform-origin: center bottom;
+  
+  animation: bounce 1.2s cubic-bezier(0.3, 0.01, 0.4, 1) infinite;
+}
+
+.droplet_spinner .droplet:nth-child(1) {
+  animation-delay: -0.4s;
+}
+
+.droplet_spinner .droplet:nth-child(2) {
+  animation-delay: -0.2s;
+}
+
+.droplet_spinner .droplet:nth-child(3) {
+  animation-delay: 0s;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 </style>
@@ -290,6 +342,7 @@ $(function () {
 
 // ajax로 DB에서 객체(Json) 불러오기
 function loadInfo( circle ) {		
+   showLoading(); // 로딩 화면 표시
 	$.ajax({
 		type: "get" // 보내는 데이터가 없기 때문에 get으로 불러오기만 해도됨
 		, url: "/map/list" // 맵에 띄울 정보 받아올 mapping
@@ -467,6 +520,9 @@ function loadInfo( circle ) {
 			alert('오류가 발생했습니다')
 // 			console.log("AJAX 실패")
 		}
+		, complete: function() {
+			hideLoading(); // AJAX 완료 후 로딩 화면 숨김
+		}
 	})// ajax끝
 	
     // Add mousewheel event handler for the overlay content
@@ -601,6 +657,8 @@ function searchMap() {
     });
     
     circle.setMap(map); // 지도에 원 표시
+    
+    showLoading()
     
     $.ajax({
         type: "POST"
@@ -772,6 +830,9 @@ function searchMap() {
 			alert('오류가 발생했습니다')
 	//			console.log("AJAX 실패")
 		}
+		, complete: function() {
+			hideLoading(); // AJAX 완료 후 로딩 화면 숨김
+		}
 	})// ajax끝
 	
 	// Add mousewheel event handler for the overlay content
@@ -790,10 +851,28 @@ function searchMap() {
     $("#searchText").attr("placeholder", "검색할 내용을 입력해주세요");
 }// search끝
 
+function showLoading() {
+	console.log('로딩중')
+    $("#loadingOverlay").show();
+}
+
+function hideLoading() {
+	console.log('로딩완료')
+    $("#loadingOverlay").hide();
+}
+
 </script>	
 
+<div id="loadingOverlay">
+  <div class="droplet_spinner">
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+    <div class="droplet"></div>
+  </div>
+</div>
+
 <!-- 지도를 담을 DIV  -->
-<div id="mapArea" style="position: relative; top: -20px;">
+<div id="mapArea" style="position: relative; top: -35px; height: 500px">
 	<div class="searchMap">
 	    <select id="selectSub">
 	        <option value="title">제목</option>

@@ -36,7 +36,6 @@ public class MapController {
 	
 	@PostMapping("/map/thumb")
 	public String thumb( int boardNo, Model model ) {
-		
 		String thumbNail = mapService.getThumb( boardNo );
 		model.addAttribute( "thumbNail", thumbNail );
 		return "jsonView";
@@ -44,7 +43,6 @@ public class MapController {
 	
 	@PostMapping("/map/search")
 	public String search( Paging search, Model model) {
-		logger.info("search : {}", search);
 		List<List<Board>> board = mapService.search( search );
 		model.addAttribute("board", board);
 		
