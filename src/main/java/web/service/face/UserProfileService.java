@@ -291,12 +291,51 @@ public interface UserProfileService {
 	 */
 	public List<Map<String, Object>> yourBoard(Board board);
 
-//	/**
-//	 * 
-//	 * @param cmtNo
-//	 * @return
-//	 */
-//	public String selectYourCmtId(String cmtNo);
+	//-----------------------------------------------------------
+	
+	/**
+	 * 댓글에서 불러온 다른사람 프로필아이디
+	 * 
+	 * @param cmtNo
+	 * @return
+	 */
+	public String yourCmtIdSelect(String cmtNo);
+
+	/**
+	 * 댓글에서 불러온 다른사람 프로필정보
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public User yourCmtProfileSelect(String id);
+	
+	
+	/**
+	 * 댓글에서 불러온 업체링크
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public Map<String, Object> yourCmtUrlSelect(User user);
+
+	/**
+	 * 댓글에서 불러온 프로필이미지
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public UserFile yourCmtImgSelect(String id);
+
+	/**
+	 * 댓글에서 불러온 내가쓴글목록
+	 * 
+	 * @param comment
+	 * @return
+	 */
+	public List<Map<String, Object>> yourCmtBoardSelect(Board board);
+
+
+
 
 
 	

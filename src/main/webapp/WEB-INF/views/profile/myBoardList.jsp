@@ -204,6 +204,11 @@
 	border-bottom: 1px solid #ccc;
 	font-weight: normal;
 }
+
+/* hover 시 색상 변경 */
+.board-link:hover {
+	color: orange; /* hover 시 변경할 색상 */
+}
 </style>
 
 </head>
@@ -224,19 +229,19 @@
                <td>
 				    <c:choose>
 				        <c:when test="${board.menu eq 1}">
-				            <a href="/rent/view?boardNo=${board.boardNo}">${board.title}</a>
+				            <a href="/rent/view?boardNo=${board.boardNo}" class="board-link">${board.title}</a>
 				        </c:when>
 				        <c:when test="${board.menu eq 2}">
-				            <a href="/share/view?boardNo=${board.boardNo}">${board.title}</a>
+				            <a href="/share/view?boardNo=${board.boardNo}" class="board-link">${board.title}</a>
 				        </c:when>
 				        <c:when test="${board.menu eq 3}">
-				            <a href="/please/view?boardNo=${board.boardNo}">${board.title}</a>
+				            <a href="/please/view?boardNo=${board.boardNo}" class="board-link">${board.title}</a>
 				        </c:when>
 				        <c:when test="${board.menu eq 4}">
-				            <a href="/community/view?boardNo=${board.boardNo}">${board.title}</a>
+				            <a href="/community/view?boardNo=${board.boardNo}" class="board-link">${board.title}</a>
 				        </c:when>
 				        <c:when test="${board.menu eq 5}">
-				            <a href="/business/view?boardNo=${board.boardNo}">${board.title}</a>
+				            <a href="/business/view?boardNo=${board.boardNo}" class="board-link">${board.title}</a>
 				        </c:when>
 				    </c:choose>
 				</td>

@@ -321,6 +321,13 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 		return menuPleaseDao.selectWriteAddr(user);
 	}
 
+	@Override
+	public int getCmtCnt(String boardNo) {
+		return menuPleaseDao.getCntCmt(boardNo);
+	}
+
+	
+
 
 //	@Override
 //	public List<Map<String, Object>> getStatus(Board board) {

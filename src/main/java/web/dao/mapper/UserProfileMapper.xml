@@ -423,7 +423,54 @@
 		WHERE writer_id = #{writerId}
 		ORDER BY board_no DESC
 	</select>
+	
+	
+	
+	
+	
+	<select id="selectYourCmtId" parameterType="String" resultType="String">
+		SELECT writer_id
+		FROM commenttb
+		<where>
+			cmt_no = #{cmtNo}
+		</where>
+	</select>
+	
 
+	<select id="selectYourCmtProfile" resultType="User" parameterType="String">
+		SELECT *
+		FROM usertb
+		<where>
+			id = #{id}
+		</where>
+	</select>
+
+	<select id="selectYourCmtUrl" parameterType="User" resultType="Map">
+		SELECT business.BUSINESS_URL
+		FROM usertb
+		JOIN business ON usertb.id = business.id
+		WHERE usertb.business_status = '2'
+		AND usertb.id = #{id}
+	</select>
+
+
+	<select id="selectYourCmtImg" resultType="UserFile" parameterType="String">
+		SELECT id, profile_imgno, origin_name, stored_name, thumbnail_name, file_type
+		FROM user_file
+        WHERE id = #{id}
+	</select>
+
+
+	<select id="selectYourCmtBoard" resultType="Map" parameterType="Board">
+		SELECT board_no, menu, cate, title,
+		CAST(write_date AS DATE) AS "write_date",
+		hit
+		FROM board
+		WHERE writer_id = #{writerId}
+		ORDER BY board_no DESC
+	</select>
+	
+	
  </mapper>
  
  

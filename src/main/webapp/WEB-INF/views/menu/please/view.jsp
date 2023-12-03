@@ -166,6 +166,12 @@ a:hover { text-decoration: none; }
 #viewContent { margin: 20px 50px; }
 #viewContent p img { max-width: 750px; }
 
+.comment-nickname {
+    cursor: pointer; /* 커서 모양 변경 */
+}
+.comment-nickname:hover {
+    color: orange; /* 마우스 오버 시 텍스트 색상 변경 */
+}
 </style>
 
 <%-- 추천, 댓글, 대여상태 --%>
@@ -179,6 +185,16 @@ function cmtReport(cmtNo) {
         reportOptions.style.display = 'none';
     }
 }
+
+//클릭 이벤트 바인딩을 loadComments 함수 밖으로 이동
+$(document).on("click", ".comment-nickname", function () {
+    // 현재 클릭된 댓글의 번호를 가져옴
+    var cmtNo = $(this).closest('.media').find('.cmt-no').text();
+
+    console.log("작동");
+ 	// 새 창에서 댓글 프로필 페이지로 이동
+    window.open('/profile/yourProfileCmt?cmtNo=' + cmtNo, '_blank');
+});
 
 //댓글목록 불러오기
 function loadComments() {
@@ -207,6 +223,7 @@ function loadComments() {
         			            
         			            commentListHtml += '<hr>'; 
         			            commentListHtml += '<div class="media mb-4">';
+        			            commentListHtml += '  <span class="cmt-no" style="display: none;">' + res.commentList[i].CMT_NO + '</span>'; // 추가 부분
         			            //프로필사진 유무 처리
         			            if( res.commentList[i].THUMBNAIL_NAME != null || res.commentList[i].THUMBNAIL_NAME > 0 ){
         			            commentListHtml += '  <img style="border: 0.5px solid #ccc; width: 70px; height: 70px;" class="d-flex mr-3 rounded-circle" src="/upload/' + encodeURIComponent(res.commentList[i].THUMBNAIL_NAME) + '">';
@@ -257,11 +274,7 @@ function loadComments() {
         			        // 렌더링된 HTML을 추가
         			        $("#commentList").html(commentListHtml);
         			        
-//         			     	// 닉네임 클릭 이벤트 바인딩
-//         	                $(".comment-nickname").on("click", function () {
-//         	                    console.log("작동")
-//         	                    window.location.href = '/yourProfileCmt?cmtNo=' + res.commentList[i].CMT_NO;
-//         	                });
+
 
         		        } else {
         		        	console.log("댓글 없음")
@@ -634,17 +647,17 @@ $(()=>{
 					</c:if>
 				</div><!-- .chat-container End -->
 				<div id="btnPrice">
-					<c:if test="${isLogin and (id ne board.writerId) }">
-						<button data-bs-toggle="modal" data-bs-target="#rentModal">대여</button>
-					</c:if>
-					<c:if test="${not isLogin }">
-						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><button>대여</button></a>
-					</c:if>
-					<c:if test="${id eq board.writerId }">
-					<button id="selfRent">대여</button>
-					</c:if>
+<%-- 					<c:if test="${isLogin and (id ne board.writerId) }"> --%>
+<!-- 						<button data-bs-toggle="modal" data-bs-target="#rentModal">대여</button> -->
+<%-- 					</c:if> --%>
+<%-- 					<c:if test="${not isLogin }"> --%>
+<!-- 						<a href=""  data-bs-toggle="modal" data-bs-target="#exampleModal"><button>대여</button></a> -->
+<%-- 					</c:if> --%>
+<%-- 					<c:if test="${id eq board.writerId }"> --%>
+<!-- 					<button id="selfRent">대여</button> -->
+<%-- 					</c:if> --%>
 				</div>
-				<div>Modal.대여
+				<div>
 <%-- 					<c:import url="./rent.jsp"/> --%>
 				</div>
 			</div><!-- .infoPrice -->

@@ -205,6 +205,12 @@
 	border-bottom: 1px solid #ccc;
 	font-weight: normal;
 }
+
+/* hover 시 색상 변경 */
+.comment-link:hover {
+	color: orange; /* hover 시 변경할 색상 */
+}
+
 </style>
 
 </head>
@@ -225,19 +231,19 @@
       <td>
          <c:choose>
                <c:when test="${comment.MENU eq 1}">
-                   <a href="/rent/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+                   <a href="/rent/view?boardNo=${comment.BOARD_NO}" class="comment-link">${comment.CONTENT }</a>
                </c:when>
                <c:when test="${comment.MENU eq 2}">
-                   <a href="/share/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+                   <a href="/share/view?boardNo=${comment.BOARD_NO}" class="comment-link">${comment.CONTENT }</a>
                </c:when>
                <c:when test="${comment.MENU eq 3}">
-                   <a href="/please/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+                   <a href="/please/view?boardNo=${comment.BOARD_NO}" class="comment-link">${comment.CONTENT }</a>
                </c:when>
                <c:when test="${comment.MENU eq 4}">
-                   <a href="/community/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+                   <a href="/community/view?boardNo=${comment.BOARD_NO}" class="comment-link">${comment.CONTENT }</a>
                </c:when>
                <c:when test="${comment.MENU eq 5}">
-                   <a href="/business/view?boardNo=${comment.BOARD_NO}">${comment.CONTENT }</a>
+                   <a href="/business/view?boardNo=${comment.BOARD_NO}" class="comment-link">${comment.CONTENT }</a>
                </c:when>
                
            </c:choose>

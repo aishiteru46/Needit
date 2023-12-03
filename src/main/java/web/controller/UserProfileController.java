@@ -460,18 +460,40 @@ public class UserProfileController {
 		}
 		
 		
-//		@GetMapping("/yourProfileCmt")
-//		public void yourProfileCmt(
-//				User user, Model model
-//				, Business busi, Comment comment
-//				, @RequestParam("cmtNo") String cmtNo
-//				) {
-//			
-//			
-//			String id = userProfileService.selectYourCmtId(cmtNo);
-//			logger.info("댓글번호 리퀘스트파람: {}",cmtNo);
-//		}
-//		
+		@GetMapping("/yourProfileCmt")
+		public void yourProfileCmt(
+				User user
+				, Model model
+				, Business busi
+				, Comment comment
+				, Board board
+				, @RequestParam("cmtNo") String cmtNo
+				) {
+			
+			String id = userProfileService.yourCmtIdSelect(cmtNo);
+			user.setId(id);
+			logger.info("댓글에서 불러온 다른사람 프로필아이디{}", id);
+			
+			User your = userProfileService.yourCmtProfileSelect(id);
+			logger.info("댓글에서 불러온 다른사람 프로필정보{}", your);
+			model.addAttribute("your",your);
+			
+			//업체 링크
+			Map<String, Object>  link = userProfileService.yourCmtUrlSelect(user);
+			logger.info("댓글에서 불러온 업체링크{}",link);
+			model.addAttribute("link",link);
+			
+			UserFile img = userProfileService.yourCmtImgSelect(id);
+			logger.info("댓글에서 불러온 프로필이미지ajax {} : ", img);
+			model.addAttribute("img", img);
+			
+			board.setWriterId(id);
+		 	List<Map<String, Object>> yourList = userProfileService.yourCmtBoardSelect(board);
+			logger.info("댓글에서 불러온 내가쓴 댓글목록: {}", yourList);
+			// 모델에 페이징 정보와 글 목록 추가 board_no, menu, title, write_date, hit
+			model.addAttribute("yourList", yourList);
+		}
+		
 
 	
 	

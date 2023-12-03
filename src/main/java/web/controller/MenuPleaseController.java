@@ -2,6 +2,7 @@ package web.controller;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -51,12 +52,19 @@ public class MenuPleaseController {
  		List<Map<String, Object>> list = menuPleaseService.list(paging); 
  		model.addAttribute("paging", paging);
  		logger.info("list: {}", list);
+ 		
+ 		
+ 		//게시글마다 댓글 몇개 달렸는지 카운트
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuPleaseService.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}
+ 		
  		model.addAttribute("list", list);
- 		
- 		for (Map<String, Object> map : list) {
- 		    logger.info("CATE value in list: {}", map.get("CATE"));
- 		}
- 		
+// 		for (Map<String, Object> map : list) {
+// 		    logger.info("CATE value in list: {}", map.get("CATE"));
+// 		}
  		
  		//게시글 추천수 조회
 // 		int cntLike = menuPleaseService.getCntLike(paging);
@@ -79,11 +87,17 @@ public class MenuPleaseController {
  		List<Map<String, Object>> list = menuPleaseService.list(paging); 
  		model.addAttribute("paging", paging);
  		logger.info("list: {}", list);
- 		model.addAttribute("list", list);
  		
- 		for (Map<String, Object> map : list) {
- 		    logger.info("CATE value in list: {}", map.get("CATE"));
- 		}
+ 		for (Map<String, Object> postMap : list) {
+ 			String boardNo = postMap.get("BOARD_NO").toString(); 
+ 			int cmtCnt = menuPleaseService.getCmtCnt(boardNo);
+ 			postMap.put("cmtCnt", cmtCnt);
+		}
+ 		
+ 		model.addAttribute("list", list);
+// 		for (Map<String, Object> map : list) {
+// 		    logger.info("CATE value in list: {}", map.get("CATE"));
+// 		}
  		
  		return "menu/please/listType";
  	}
