@@ -1,7 +1,5 @@
 package web.controller;
 
-import java.security.SecureRandom;
-import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 
@@ -23,11 +21,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import web.dto.User;
-import web.dto.UserFile;
 import web.service.face.UserProfileService;
 import web.service.face.UserService;
 
@@ -47,7 +43,6 @@ public class LoginController {
 	
 	@PostMapping("/signup")
 	public String signUpProc( User user) {
-		logger.info("회원가입 : {}",user);
 		
 		userService.join(user);
 		
@@ -87,19 +82,17 @@ public class LoginController {
 		user = userService.infoNick(user);
 		session.setAttribute("isLogin", islogin);
 		
-		
 		if(islogin) {
-			logger.info("로그인 성공 {}",user);
 			session.setAttribute("id", user.getId());
 			session.setAttribute("nick", user.getNick());
 			session.setAttribute("addr1", user.getAddr1());
 			session.setAttribute("email", user.getEmail());
 			session.setAttribute("name", user.getName());
 			session.setAttribute("phone", user.getPhone());
-	
+			session.setAttribute("business", user.getBusinessStatus());
+			
 			return ResponseEntity.ok("success");
 		} else {
-			logger.info("로그인 실패");
 			
 			return ResponseEntity.ok("fail"); // 로그인 페이지로 리다이렉트
 		}
@@ -158,18 +151,15 @@ public class LoginController {
 		
 		
 		if(socialId) {
-			logger.info("로그인 성공 {}",user);
 			session.setAttribute("id", user.getId());
 			session.setAttribute("nick", user.getNick());
 			session.setAttribute("addr1", user.getAddr1());
 			session.setAttribute("email", user.getEmail());
 			session.setAttribute("name", user.getName());
-			
+			session.setAttribute("business", user.getBusinessStatus());
 		
 			return ResponseEntity.ok("success");
 		} else {
-			logger.info("회원가입");
-			
 			return ResponseEntity.ok("signup"); // 로그인 페이지로 리다이렉트
 		}
 	
@@ -186,17 +176,15 @@ public class LoginController {
 		session.setAttribute("isLogin", socialId);
 		
 		if(socialId) {
-			logger.info("로그인 성공 {}",user);
 			session.setAttribute("id", user.getId());
 			session.setAttribute("nick", user.getNick());
 			session.setAttribute("addr1", user.getAddr1());
 			session.setAttribute("email", user.getEmail());
 			session.setAttribute("name", user.getName());
+			session.setAttribute("business", user.getBusinessStatus());
 			
 			return ResponseEntity.ok("success");
 		} else {
-			logger.info("회원가입");
-			
 			return ResponseEntity.ok("signup"); // 로그인 페이지로 리다이렉트
 		}
 		
@@ -227,13 +215,10 @@ public class LoginController {
 	@ResponseBody
 	public String mailSending(String m_email) {
 
-		//뷰에서 넘어왔는지 확인
-		//System.out.println("이메일 전송");
 		
 		//난수 생성(인증번호)
 		Random r = new Random();
 		int num = r.nextInt(888888) + 111111;  //111111 ~ 999999
-		System.out.println("인증번호:" + num);
 		
 		/* 이메일 보내기 */
         String setFrom = "Needit@gmail.com"; //보내는 이메일

@@ -7,17 +7,11 @@
 <title>Insert title here</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-
 <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
-
 
 </head>
 <body>
 <script type="text/javascript">
-
-
-
-
 var naverLogin = new naver.LoginWithNaverId(
 		{
 			clientId: "If3wwgFKrS1NdGdbpSB4", //내 애플리케이션 정보에 cliendId를 입력해줍니다.
