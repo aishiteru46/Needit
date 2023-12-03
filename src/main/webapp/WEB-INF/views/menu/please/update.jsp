@@ -105,6 +105,17 @@
     margin-bottom: 40px;
     text-align: center;
 }
+
+.note-editor.note-airframe .note-editing-area, .note-editor.note-frame .note-editing-area {
+    overflow: hidden;
+    height: 700px;
+}
+.note-editor.note-airframe .note-editing-area .note-editable, .note-editor.note-frame .note-editing-area .note-editable {
+    padding: 10px;
+    overflow: auto;
+    word-wrap: break-word;
+    height: 700px;
+}
 </style>
 
 <script type="text/javascript">
