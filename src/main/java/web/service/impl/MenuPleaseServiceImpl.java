@@ -326,16 +326,6 @@ public class MenuPleaseServiceImpl implements MenuPleaseService{
 		return menuPleaseDao.getCntCmt(boardNo);
 	}
 
-	
-
-
-//	@Override
-//	public List<Map<String, Object>> getStatus(Board board) {
-//		return menuPleaseDao.chkRentStatus(board);
-//	}
-
-	
-
 
 
 }
