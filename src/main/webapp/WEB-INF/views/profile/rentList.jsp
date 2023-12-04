@@ -19,7 +19,6 @@ $(function(){
             }
             , dataType: "json"
             , success: function( res ) {
-               console.log("AJAX 왜 이새끼로 들어와?")
                location.reload()
             }
             , error: function() {
@@ -560,7 +559,7 @@ $(function(){
          <td><span style="color: green;">대기중</span></td>
       </c:if>
       <c:if test="${list.RENT_STATUS eq 2 }">
-         <td><span style="color: blue;">승인됨</span>< /td>
+         <td><span style="color: blue;">승인됨</span></td>
       </c:if>
 
       <!-- 취소 여부 -->

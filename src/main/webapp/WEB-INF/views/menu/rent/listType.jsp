@@ -328,7 +328,7 @@ th {
 					        </div>
 				        </c:if>
 				        <div class="titlebox">					
-							<a href="/rent/view?boardNo=${list.BOARD_NO }"><div style="text-align: left;" id="title">${list.TITLE }<span style="color: #ff533f ; font-size: 0.8em;">[${list.cmtCnt }]</span></div></a>
+							<a href="/rent/view?boardNo=${list.BOARD_NO }&menu=${list.MENU}&cate=${list.CATE}"><div style="text-align: left;" id="title">${list.TITLE }<span style="color: #ff533f ; font-size: 0.8em;">[${list.cmtCnt }]</span></div></a>
 						</div>
 					</div>
 				</td>
