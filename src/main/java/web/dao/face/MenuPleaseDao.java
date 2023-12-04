@@ -200,14 +200,6 @@ public interface MenuPleaseDao {
 	public void insertCommentReply(Comment commentReply);
 
 	
-//	/**
-//	 * 대여신청 상태 조회
-//	 * 
-//	 * @param board
-//	 * @return
-//	 */
-//	public List<Map<String, Object>> chkRentStatus(Board board);
-	
 
 	/**
 	 * 찜 여부 조회

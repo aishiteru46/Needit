@@ -104,42 +104,6 @@ public class UserProfileController {
         
 		//--------------------------------------------------------------
 		
-		//내가 쓴 글 보기
-		
-		//페이징 계산
-//		logger.info("내가쓴게시글용 파람 전:{}",param);
-//		param.setUserId((String)session.getAttribute("id"));
-//		logger.info("내가쓴게시글용 파람 후:{}",param);
-//		
-//		Paging myBoardPaging = userProfileService.getBoardPaging(param);
-//		logger.info("내가 쓴 글 개수!!!!:{}",myBoardPaging );
-//		
-//		//내가 쓴 게시글 목록 조회
-//		myBoardPaging.setUserId((String)session.getAttribute("id"));
-//		List<Map<String, Object>> myBoardList = userProfileService.myBoardList(myBoardPaging);
-//		logger.info("내가쓴글 list: {}", myBoardList);
-//
-//		model.addAttribute("paging", myBoardPaging);
-//		model.addAttribute("myBoardList", myBoardList);
-		
-		
-		//------------------------------------------------------------------------------------
-//		List<Board> boardList = userProfileService.boardSelectById(board);
-//		logger.info("내가쓴글목록: {}", boardList);
-//		
-//		// 모델에 페이징 정보와 글 목록 추가 board_no, menu, title, write_date, hit
-//		model.addAttribute("board", boardList);
-		//--------------------------------------------------------------
-
-		//내가 쓴 댓글 보기
-		
-//		comment.setWriterId((String) session.getAttribute("id"));
-//		
-//		List<Map<String, Object>> commentList = userProfileService.commentSelectById(comment);
-//		logger.info("내가쓴댓글목록: {}", commentList);
-//		model.addAttribute("comment", commentList);
-		
-		//---------------------------------------------------------------
 		
 		//업체 링크
 		Map<String, Object> busy = userProfileService.selectBusiness(user);

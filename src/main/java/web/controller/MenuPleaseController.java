@@ -62,13 +62,7 @@ public class MenuPleaseController {
 		}
  		
  		model.addAttribute("list", list);
-// 		for (Map<String, Object> map : list) {
-// 		    logger.info("CATE value in list: {}", map.get("CATE"));
-// 		}
- 		
- 		//게시글 추천수 조회
-// 		int cntLike = menuPleaseService.getCntLike(paging);
-// 		model.addAttribute("cntLike", cntLike);
+
  		
  		return "menu/please/list";
  	}
@@ -96,9 +90,6 @@ public class MenuPleaseController {
 		}
  		
  		model.addAttribute("list", list);
-// 		for (Map<String, Object> map : list) {
-// 		    logger.info("CATE value in list: {}", map.get("CATE"));
-// 		}
  		
  		return "menu/please/listType";
  	}
@@ -179,10 +170,6 @@ public class MenuPleaseController {
 		model.addAttribute("isLike", isLike);
 		model.addAttribute("cntLike", menuPleaseService.getTotalCntLike(like));		
 		
-//		//대여상태 조회
-//		List<Map<String, Object>> status = menuPleaseService.getStatus(board);
-//		logger.info("status : {}", status);
-//		model.addAttribute("status", status);
 		
 		return "menu/please/view";
 	}
@@ -364,27 +351,6 @@ public class MenuPleaseController {
 		
 	}
 
-// 	@PostMapping("/book")
-//	@ResponseBody
-//	public boolean book(
-//			Booking book, HttpSession session
-//			, Model model) {
-//		book.setBookerId((String)session.getAttribute("id"));
-//		logger.info("예약정보{}", book);
-//		logger.info("나와라잇{}", book.getStartTime());
-//		logger.info("나와라잇2{}", book.getEndTime());
-//		
-//		model.addAttribute("currentDate", new Date());
-//		model.addAttribute("today", new Date());
-//		
-//		//예약 확인
-//		boolean check = menuPleaseService.checkBook(book);
-//		logger.info("예약 확인{}",check);
-//		model.addAttribute("check",check);
-//		
-//		return check;
-//		
-//	}
  	
  	@RequestMapping("/basket")
 	public String basket(

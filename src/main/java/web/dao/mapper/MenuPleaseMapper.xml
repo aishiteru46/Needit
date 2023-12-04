@@ -280,17 +280,6 @@
  	</delete>
  	
  	
- 	<!-- 대여 상태 확인 -->
-<!-- 	<select id="chkRentStatus" resultType="map" parameterType="Board"> -->
-<!-- 		SELECT  -->
-<!-- 			rent_no, board_no, renter_id, rent_status -->
-<!-- 			, CAST(rent_date AS DATE) AS rent_date -->
-<!-- 			, start_time, end_time -->
-<!-- 		FROM rent -->
-<!-- 		<where> -->
-<!-- 			board_no = #{boardNo} -->
-<!-- 		</where> -->
-<!-- 	</select> -->
  	
 	<!--  찜여부 확인 -->
  	<select id="basketInfo" resultType="int" parameterType="Basket">
