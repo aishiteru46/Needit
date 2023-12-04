@@ -126,6 +126,7 @@ h6 {
 .viewContent {
     width: 1100px;
     margin: 10px auto;
+    min-height: 300px;
 }
 .viewLike {
 	margin: 0 auto;
