@@ -380,7 +380,7 @@ tr { height: 40px; }
 						</div>
 					</div>
 				</td>
-				<td>${list.WRITER_NICK }</td>
+				<td><a href="/profile/yourProfile?boardNo=${list.BOARD_NO }" class="link">${list.WRITER_NICK }</a></td>
 				<td>
 					<fmt:formatDate var="curDate" value="<%=new Date() %>" pattern="yyyyMMdd" />
 					<fmt:formatDate var="writeDate" value="${list.WRITE_DATE }" pattern="yyyyMMdd" />

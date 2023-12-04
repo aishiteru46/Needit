@@ -132,7 +132,7 @@ public class MenuCommunityController {
 		//게시글 저장
 		menuCommunityService.write( writeParam, file );
 		
-		return "redirect:/community/view?boardNo=" + writeParam.getBoardNo();
+		return "redirect:/community/view?boardNo=" + writeParam.getBoardNo() + "&menu=" + writeParam.getMenu() + "&cate=" + writeParam.getCate();
 	}
 
 	//게시글 수정 폼
