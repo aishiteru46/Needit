@@ -23,6 +23,15 @@
 #adminContent{
 	width: 80%;
 }
+#deleteNoticeTBtn{
+    width: 50px;
+    height: 26px;
+    vertical-align: middle;
+    background-color: inherit;
+    border: 1px solid rgb(255,83,63);
+    border-radius: 5px;
+    font-weight: bold;
+}
 
 /* Webkit 브라우저를 위한 스타일 */
 #tableWrapper::-webkit-scrollbar { width: 12px; }
@@ -137,7 +146,7 @@ document.getElementById('content').addEventListener('keydown', function(event) {
 		<td id="longText">${list.TITLE }</td>
 		<td id="longText">${list.CONTENT }</td>
 		<td>${list.WRITE_DATE}</td>
-        <td><button class="delete_btn" onclick="deleteBoard(${list.BOARD_NO})">삭제</button></td>
+        <td><button id="deleteNoticeTBtn" class="delete_btn" onclick="deleteBoard(${list.BOARD_NO})">삭제</button></td>
 	</tr>
 </c:forEach>
 </tbody>

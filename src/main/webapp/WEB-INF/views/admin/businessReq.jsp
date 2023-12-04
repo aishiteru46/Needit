@@ -24,6 +24,24 @@
 #adminContent{
 	width: 80%;
 }
+.approveButton{
+    width: 82px;
+    height: 26px;
+    vertical-align: middle;
+    background-color: inherit;
+    border: 2px solid blue;
+    border-radius: 5px;
+    font-weight: bold;
+}
+.cancelButton{
+    width: 106px;
+    height: 26px;
+    vertical-align: middle;
+    background-color: inherit;
+    border: 2px solid red;
+    border-radius: 5px;
+    font-weight: bold;
+}
 
 /* Webkit 브라우저를 위한 스타일 */
 #tableWrapper::-webkit-scrollbar { width: 12px; }

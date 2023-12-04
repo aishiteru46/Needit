@@ -27,6 +27,15 @@
 	position: sticky;
     top: 0px;
 }
+.delete_btn{
+    width: 55px;
+    height: 28px;
+    vertical-align: middle;
+    background-color: inherit;
+    border: 2px solid red;
+    border-radius: 5px;
+    font-weight: bold;
+}
 
 /* Webkit 브라우저를 위한 스타일 */
 #reportBoard::-webkit-scrollbar { width: 12px; }
@@ -195,7 +204,7 @@ function deleteComment(cmtNo) {
 		<td>${list.CATE }</td>
 		<td>${list.WRITER_ID }</td>
 		<td>${list.REPORT_TYPE }</td>
-		<td>${list.REPORT_DATE }</td>
+		<td id="">${list.REPORT_DATE }</td>
         <td><button class="delete_btn" onclick="deleteComment(${list.CMT_NO})">삭제</button></td>
 	</tr>
 </c:forEach>
