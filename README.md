@@ -1,13 +1,20 @@
 # Needit
-Spring MVC 프로젝트
+KH 정보교육원 Spring MVC 프로젝트
 
 # 프로젝트 소개
-지역 기반 커뮤니티 기능을 수행하는 물품, 인력, 공간 대여 사이트
+결제 시스템을 갖춘 지역 기반 물품, 인력, 공간 대여 사이트
 
 # 프로젝트 기간
 * 2023.10.10 ~ 2023.12.05
 
 # 개발환경
-JAVA 11
-JDK 11.0.2
+* Version : Java 11
+
+* IDE : STS 3.9.18
+
+* Framework : Spring 5.3.30
+
+* ORM : MyBatis
+
+
 
