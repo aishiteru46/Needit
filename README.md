@@ -38,6 +38,6 @@ Spring MVC 프로젝트
 # ERD
 ![DB](https://github.com/KeeHeung/Needit/assets/149993953/f3d2c588-1608-4d5f-bdf1-d62b4c18169a)
 
-
-
+# 기능시연PPT
+https://www.canva.com/design/DAF2mDJnlB8/vaB96rBy4MMxlJqbydOA9A/edit?utm_content=DAF2mDJnlB8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
