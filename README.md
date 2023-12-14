@@ -22,6 +22,8 @@ KH 정보교육원 Spring MVC 프로젝트
 * 이주현: 게시판, 예약, 찜
 
 # 개발환경
+![개발환경](https://github.com/KeeHeung/Needit/assets/149993953/ce8c38a9-6876-412d-b72a-36319c54c299)
+
 * Version : Java 11
 
 * IDE : STS 3.9.18
@@ -29,6 +31,13 @@ KH 정보교육원 Spring MVC 프로젝트
 * Framework : Spring 5.3.30
 
 * ORM : MyBatis
+
+# 유스케이스
+![UsecaseDiagram](https://github.com/KeeHeung/Needit/assets/149993953/a4a1c6f3-d822-4e0d-a26e-b3c3140d53c7)
+
+# ERD
+![DB](https://github.com/KeeHeung/Needit/assets/149993953/f3d2c588-1608-4d5f-bdf1-d62b4c18169a)
+
 
 
 
