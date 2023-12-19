@@ -21,16 +21,24 @@ Spring MVC 프로젝트
 
 * 이주현: 게시판, 예약, 찜
 
-# 개발환경
+# 사용기술 및 개발환경
 ![개발환경](https://github.com/KeeHeung/Needit/assets/149993953/ce8c38a9-6876-412d-b72a-36319c54c299)
 
-* Version : Java 11
+운영체제	: Window OS
 
-* IDE : STS 3.9.18
+사용언어	: Front – javascript, jQuery, HTML5, CSS3, AJAX
 
-* Framework : Spring 5.3.30
+        : Back – JAVA, JSP&Servlet, Mybatis
+        
+FrameWork/Library	: Spring Framework / JSTL, Web Socket
 
-* ORM : MyBatis
+DB	: Oracle
+
+Tool	: Eclipse
+
+WAS	: Apache Tomcat 9.0
+
+Collaboration	: Github
 
 # 유스케이스
 ![UsecaseDiagram](https://github.com/KeeHeung/Needit/assets/149993953/a4a1c6f3-d822-4e0d-a26e-b3c3140d53c7)
