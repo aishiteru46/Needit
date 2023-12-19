@@ -82,7 +82,7 @@ Collaboration	: Github
 
 ○결제
 
--환불
+- 환불
 
 ○다른 회원 프로필 페이지 조회
 
