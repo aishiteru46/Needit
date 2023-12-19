@@ -44,6 +44,53 @@ Collaboration	: Github
 # ERD
 ![DB](https://github.com/KeeHeung/Needit/assets/149993953/f3d2c588-1608-4d5f-bdf1-d62b4c18169a)
 
+# 구현기능
+
+○메인화면 설계
+
+- 회원가입 및 로그인 기능
+  
+○관리자페이지
+
+- 신고 처리
+  
+- 이메일 발송
+  
+○마이페이지
+
+- 프로필 사진 등록/수정/삭제
+  
+- 회원정보 수정, 회원 탈퇴
+  
+- 내가 쓴 글/댓글 조회
+  
+○게시판 (대여해요/나눔해요/해주세요)
+
+- 게시판 글쓰기/좋아요/댓글 기능 구현
+  
+- 작성자, 제목, 지역 검색 기능 구현
+  
+- 사진 업로드 기능, 카카오맵 API 활용
+  
+○예약
+
+○채팅
+
+○신고
+
+○찜하기
+
+○결제
+
+-환불
+
+○다른 회원 프로필 페이지 조회
+
+- 해당 회원 프로필 조회
+  
+- 해당 회원이 쓴 글 조회
+
+
 # 기능시연PPT
 https://www.canva.com/design/DAF2mDJnlB8/vaB96rBy4MMxlJqbydOA9A/edit?utm_content=DAF2mDJnlB8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
