@@ -26,9 +26,7 @@ Spring MVC 프로젝트
 
 운영체제	: Window OS
 
-사용언어	: Front – javascript, jQuery, HTML5, CSS3, AJAX
-
-          Back – JAVA, JSP&Servlet, Mybatis
+사용언어	: Front – javascript, jQuery, HTML5, CSS3, AJAX / Back – JAVA, JSP&Servlet, Mybatis
         
 FrameWork/Library	: Spring Framework / JSTL, Web Socket
 
