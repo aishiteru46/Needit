@@ -28,7 +28,7 @@ Spring MVC 프로젝트
 
 사용언어	: Front – javascript, jQuery, HTML5, CSS3, AJAX
 
-        : Back – JAVA, JSP&Servlet, Mybatis
+          Back – JAVA, JSP&Servlet, Mybatis
         
 FrameWork/Library	: Spring Framework / JSTL, Web Socket
 
