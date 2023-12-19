@@ -7,8 +7,17 @@ Spring MVC 프로젝트
 
 ## 1. 프로젝트 기간
 * 2023.10.10 ~ 2023.12.05
+* 
+## 2. 개발 목표
+결제 시스템이 포함된 지역 커뮤니티 사이트 구축
 
-## 2. 개발 인원
+화면 구현부터 백엔드까지 전반적인 구현 경험
+
+게시판 CRUD 구현 및 JAVA 활용하여 다양한 API 활용
+
+AJAX의 비동기 처리방식으로 페이지 새로고침 없이 데이터 갱신
+
+## 3. 개발 인원
 * 장기흥: 게시판, 예약, 결제
 
 * 이중배: 회원가입, 소셜로그인
@@ -37,12 +46,6 @@ Tool	: Eclipse
 WAS	: Apache Tomcat 9.0
 
 Collaboration	: Github
-
-# 유스케이스
-![UsecaseDiagram](https://github.com/KeeHeung/Needit/assets/149993953/a4a1c6f3-d822-4e0d-a26e-b3c3140d53c7)
-
-# ERD
-![DB](https://github.com/KeeHeung/Needit/assets/149993953/f3d2c588-1608-4d5f-bdf1-d62b4c18169a)
 
 # 구현기능
 
@@ -90,6 +93,12 @@ Collaboration	: Github
   
 - 해당 회원이 쓴 글 조회
 
+  
+# 유스케이스
+![UsecaseDiagram](https://github.com/KeeHeung/Needit/assets/149993953/a4a1c6f3-d822-4e0d-a26e-b3c3140d53c7)
+
+# ERD
+![DB](https://github.com/KeeHeung/Needit/assets/149993953/f3d2c588-1608-4d5f-bdf1-d62b4c18169a)
 
 # 기능시연PPT
 https://www.canva.com/design/DAF2mDJnlB8/vaB96rBy4MMxlJqbydOA9A/edit?utm_content=DAF2mDJnlB8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
