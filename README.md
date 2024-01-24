@@ -37,7 +37,7 @@ AJAX의 비동기 처리방식으로 페이지 새로고침 없이 데이터 갱
 
 운영체제	: Window OS
 
-사용언어	: Front – javascript, jQuery, HTML5, CSS3, AJAX / Back – JAVA, JSP, JSTL, Mybatis
+사용언어	: Front – javascript, jQuery, HTML5, CSS3, AJAX / Back – JAVA, JSP, Mybatis
         
 FrameWork/Library	: Spring Framework 5.3.30 / JSTL, Web Socket
 
